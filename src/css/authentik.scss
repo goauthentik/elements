@@ -1,0 +1,20 @@
+/* The specific parts of Patternfly we need to support our base.
+ * This compiles to about 700 lines:
+ *
+ * - global CSS Custom properties (237 lines)
+ * - Alternate properties names when dark mode is active (90 lines)
+ * - Font declarations (115 lines)
+ * - The CSS Reset (119 lines)
+ */
+@import "pkg:@patternfly/patternfly/sass-utilities/div";
+@import "pkg:@patternfly/patternfly/sass-utilities/functions";
+@import "pkg:@patternfly/patternfly/sass-utilities/colors";
+@import "pkg:@patternfly/patternfly/sass-utilities/scss-variables";
+@import "pkg:@patternfly/patternfly/sass-utilities/mixins";
+@import "pkg:@patternfly/patternfly/sass-utilities/component-namespaces";
+@import "pkg:@patternfly/patternfly/sass-utilities/layout-namespaces";
+@import "pkg:@patternfly/patternfly/sass-utilities/placeholders";
+@import "pkg:@patternfly/patternfly/base/variables";
+@import "./fonts";
+@import "pkg:@patternfly/patternfly/base/base";
+@import "pkg:@patternfly/patternfly/base/themes";

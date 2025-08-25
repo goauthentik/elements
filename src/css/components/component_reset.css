@@ -1,0 +1,124 @@
+/* The rules for what's inherited, and what we *want* to be inherited, are different from those of
+ * the global reset. */
+
+:where(
+    html,
+    body,
+    p,
+    ol,
+    ul,
+    li,
+    dl,
+    dt,
+    dd,
+    blockquote,
+    figure,
+    fieldset,
+    legend,
+    textarea,
+    pre,
+    iframe,
+    hr,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6
+) {
+    padding: 0;
+    margin: 0;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    text-wrap: balance;
+}
+
+:where(ul) {
+    list-style: none;
+}
+
+:where(button, input, optgroup, select, textarea) {
+    margin: 0;
+    font-family: inherit;
+    font-size: 100%;
+    line-height: var(--pf-v5-global--LineHeight--md);
+    color: var(--pf-v5-global--Color--100);
+}
+
+:where(table) {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+:where(td, th) {
+    padding: 0;
+    text-align: start;
+}
+
+:where(code, pre) {
+    font-family: var(--pf-v5-global--FontFamily--monospace);
+}
+
+:where(a) {
+    font-weight: var(--pf-v5-global--link--FontWeight);
+    color: var(--pf-v5-global--link--Color);
+    text-decoration: var(--pf-v5-global--link--TextDecoration);
+}
+
+:where(a:hover) {
+    --pf-v5-global--link--Color: var(--pf-v5-global--link--Color--hover);
+    --pf-v5-global--link--TextDecoration: var(--pf-v5-global--link--TextDecoration--hover);
+}
+
+:where(a, button) {
+    cursor: pointer;
+}
+
+:where(.pf-v5-theme-dark) {
+    color-scheme: dark;
+}
+
+:where(a:not([class])) {
+    text-decoration-skip-ink: auto;
+}
+
+:where(img, picture) {
+    max-inline-size: 100%;
+    max-block-size: 100%;
+    display: block;
+}
+
+/* An estimate of "5 lines or so" */
+:where(textarea:not([rows])) {
+    min-height: 10ex;
+    min-height: 5lh;
+}
+
+:target {
+    scroll-margin-block: 5ex;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+    background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background-color: var(--ak-accent);
+}
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
