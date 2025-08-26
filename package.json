@@ -18,7 +18,7 @@
         "storybook": "run-s build storybook:main",
         "storybook:main": "storybook dev -p 6006",
         "test": "run-s build test:unit",
-        "test:unit": "wdio run ./config/wdio.conf.mts --logLevel=warn"
+        "test:unit": "wdio run ./config/wdio.conf.mjs --logLevel=warn"
     },
     "type": "module",
     "dependencies": {
