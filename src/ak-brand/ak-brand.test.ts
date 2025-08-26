@@ -10,11 +10,11 @@ import { html, render } from "lit";
 describe("ak-brand component", () => {
     afterEach(async () => {
         await browser.execute(async () => {
-            await document.body.querySelector("ak-brand")?.remove();
+            document.body.querySelector("ak-brand")?.remove();
             // @ts-expect-error expression of type '"_$litPart$"' is added by Lit
             if (document.body._$litPart$) {
                 // @ts-expect-error expression of type '"_$litPart$"' is added by Lit
-                await delete document.body._$litPart$;
+                delete document.body._$litPart$;
             }
         });
     });
@@ -31,8 +31,8 @@ describe("ak-brand component", () => {
             alt: "Test Logo",
         });
 
-        const brandEl = await $("ak-brand");
-        const img = await brandEl.$(">>>img");
+        const brandEl = $("ak-brand");
+        const img = brandEl.$(">>>img");
 
         await expect(brandEl).toExist();
         await expect(img).toExist();
@@ -46,7 +46,7 @@ describe("ak-brand component", () => {
             alt: "Test Logo",
         });
 
-        const img = await $("ak-brand").$(">>>img");
+        const img = $("ak-brand").$(">>>img");
         await expect(img).toHaveAttribute("loading", "lazy");
     });
 
@@ -56,7 +56,7 @@ describe("ak-brand component", () => {
             alt: "Reflected Logo",
         });
 
-        const brandEl = await $("ak-brand");
+        const brandEl = $("ak-brand");
         await expect(brandEl).toHaveAttribute("src", "/reflected-logo.svg");
         await expect(brandEl).toHaveAttribute("alt", "Reflected Logo");
     });
@@ -66,7 +66,7 @@ describe("ak-brand component", () => {
             alt: "Logo without source",
         });
 
-        const img = await $("ak-brand").$(">>>img");
+        const img = $("ak-brand").$(">>>img");
         await expect(img).toExist();
         await expect(img).toHaveAttribute("alt", "Logo without source");
         // src attribute should not be present when not provided
@@ -79,7 +79,7 @@ describe("ak-brand component", () => {
             src: "/logo-no-alt.svg",
         });
 
-        const img = await $("ak-brand").$(">>>img");
+        const img = $("ak-brand").$(">>>img");
         await expect(img).toExist();
         await expect(img).toHaveAttribute("src", "/logo-no-alt.svg");
         // alt attribute should not be present when not provided
@@ -93,7 +93,7 @@ describe("ak-brand component", () => {
             alt: "Test Logo",
         });
 
-        const brandPart = await $("ak-brand").$('>>>[part="brand"]');
+        const brandPart = $("ak-brand").$('>>>[part="brand"]');
         await expect(brandPart).toExist();
         await expect((await brandPart.getTagName()).toLowerCase()).toBe("img");
     });
@@ -104,8 +104,8 @@ describe("ak-brand component", () => {
             alt: "Initial Logo",
         });
 
-        const brandEl = await $("ak-brand");
-        const img = await brandEl.$(">>>img");
+        const brandEl = $("ak-brand");
+        const img = brandEl.$(">>>img");
 
         // Verify initial state
         await expect(img).toHaveAttribute("src", "/initial-logo.svg");
@@ -142,7 +142,7 @@ describe("ak-brand component", () => {
             class: "responsive-test",
         });
 
-        const brandEl = await $("ak-brand");
+        const brandEl = $("ak-brand");
         const computedStyle = await brandEl.getCSSProperty("width");
         const heightStyle = await brandEl.getCSSProperty("height");
 
@@ -157,7 +157,7 @@ describe("ak-brand component", () => {
             alt: "Aspect Ratio Test",
         });
 
-        const img = await $("ak-brand").$(">>>img");
+        const img = $("ak-brand").$(">>>img");
         const objectFit = await img.getCSSProperty("object-fit");
 
         expect(objectFit.value).toBe("contain");
@@ -167,11 +167,11 @@ describe("ak-brand component", () => {
 describe("akBrand helper function", () => {
     afterEach(async () => {
         await browser.execute(async () => {
-            await document.body.querySelector("ak-brand")?.remove();
+            document.body.querySelector("ak-brand")?.remove();
             // @ts-expect-error expression of type '"_$litPart$"' is added by Lit
             if (document.body._$litPart$) {
                 // @ts-expect-error expression of type '"_$litPart$"' is added by Lit
-                await delete document.body._$litPart$;
+                delete document.body._$litPart$;
             }
         });
     });
@@ -182,11 +182,11 @@ describe("akBrand helper function", () => {
                 src: "/builder-logo.svg",
                 alt: "Builder Logo",
             }),
-            document.body
+            document.body,
         );
 
-        const brandEl = await $("ak-brand");
-        const img = await brandEl.$(">>>img");
+        const brandEl = $("ak-brand");
+        const img = brandEl.$(">>>img");
 
         await expect(brandEl).toExist();
         await expect(img).toHaveAttribute("src", "/builder-logo.svg");
@@ -198,11 +198,11 @@ describe("akBrand helper function", () => {
             akBrand({
                 src: "/logo-only.svg",
             }),
-            document.body
+            document.body,
         );
 
-        const brandEl = await $("ak-brand");
-        const img = await brandEl.$(">>>img");
+        const brandEl = $("ak-brand");
+        const img = brandEl.$(">>>img");
 
         await expect(brandEl).toExist();
         await expect(img).toHaveAttribute("src", "/logo-only.svg");
@@ -217,11 +217,11 @@ describe("akBrand helper function", () => {
             akBrand({
                 alt: "Logo description only",
             }),
-            document.body
+            document.body,
         );
 
-        const brandEl = await $("ak-brand");
-        const img = await brandEl.$(">>>img");
+        const brandEl = $("ak-brand");
+        const img = brandEl.$(">>>img");
 
         await expect(brandEl).toExist();
         await expect(img).toHaveAttribute("alt", "Logo description only");
@@ -234,8 +234,8 @@ describe("akBrand helper function", () => {
     it("should create empty brand when no options provided", async () => {
         render(akBrand({}), document.body);
 
-        const brandEl = await $("ak-brand");
-        const img = await brandEl.$(">>>img");
+        const brandEl = $("ak-brand");
+        const img = brandEl.$(">>>img");
 
         await expect(brandEl).toExist();
         await expect(img).toExist();
@@ -250,8 +250,8 @@ describe("akBrand helper function", () => {
     it("should create brand with undefined options", async () => {
         render(akBrand(), document.body);
 
-        const brandEl = await $("ak-brand");
-        const img = await brandEl.$(">>>img");
+        const brandEl = $("ak-brand");
+        const img = brandEl.$(">>>img");
 
         await expect(brandEl).toExist();
         await expect(img).toExist();
@@ -263,10 +263,10 @@ describe("akBrand helper function", () => {
                 src: "/reflected-test.svg",
                 alt: "Reflection Test",
             }),
-            document.body
+            document.body,
         );
 
-        const brandEl = await $("ak-brand");
+        const brandEl = $("ak-brand");
 
         // Check that attributes are reflected on the component
         await expect(brandEl).toHaveAttribute("src", "/reflected-test.svg");
@@ -281,10 +281,10 @@ describe("akBrand helper function", () => {
                 src: "/special-chars.svg",
                 alt: specialAlt,
             }),
-            document.body
+            document.body,
         );
 
-        const img = await $("ak-brand").$(">>>img");
+        const img = $("ak-brand").$(">>>img");
 
         await expect(img).toHaveAttribute("src", "/special-chars.svg");
         await expect(img).toHaveAttribute("alt", specialAlt);
@@ -296,12 +296,12 @@ describe("akBrand helper function", () => {
                 src: "/functional-test.svg",
                 alt: "Functional Test Logo",
             }),
-            document.body
+            document.body,
         );
 
-        const brandEl = await $("ak-brand");
-        const img = await brandEl.$(">>>img");
-        const brandPart = await brandEl.$(">>>[part='brand']");
+        const brandEl = $("ak-brand");
+        const img = brandEl.$(">>>img");
+        const brandPart = brandEl.$(">>>[part='brand']");
 
         // Verify all expected functionality
         await expect(img).toHaveAttribute("loading", "lazy");
