@@ -63,6 +63,7 @@ async function build() {
     const compCssSources = [
         ...globSrc("**/ak-*/ak-*.css").filter(scssForIncludeOnly),
         "./css/base/fa-icons.css",
+        "./css/base/pf-icons.css",
         "./css/components/component_reset.css",
     ];
 
