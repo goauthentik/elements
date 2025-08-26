@@ -11,9 +11,7 @@ describe("ak-brand component", () => {
     afterEach(async () => {
         await browser.execute(async () => {
             document.body.querySelector("ak-brand")?.remove();
-            // @ts-expect-error expression of type '"_$litPart$"' is added by Lit
-            if (document.body._$litPart$) {
-                // @ts-expect-error expression of type '"_$litPart$"' is added by Lit
+            if ("_$litPart$" in document.body) {
                 delete document.body._$litPart$;
             }
         });
@@ -168,9 +166,7 @@ describe("akBrand helper function", () => {
     afterEach(async () => {
         await browser.execute(async () => {
             document.body.querySelector("ak-brand")?.remove();
-            // @ts-expect-error expression of type '"_$litPart$"' is added by Lit
-            if (document.body._$litPart$) {
-                // @ts-expect-error expression of type '"_$litPart$"' is added by Lit
+            if ("_$litPart$" in document.body) {
                 delete document.body._$litPart$;
             }
         });
