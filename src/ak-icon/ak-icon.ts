@@ -1,7 +1,7 @@
 import { akIcon, type AkIconProps } from "./ak-icon.builder.js";
-import { Icon } from "./ak-icon.component.js";
+import { Icon, type IIcon } from "./ak-icon.component.js";
 
-export { akIcon, AkIconProps, Icon };
+export { akIcon, type AkIconProps, Icon, type IIcon };
 
 window.customElements.define("ak-icon", Icon);
 
