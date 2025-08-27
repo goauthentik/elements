@@ -17,7 +17,7 @@ export type EmptyStateSize = (typeof emptyStateSize)[number];
 const isEmptyStateSize = (s?: string): s is EmptyStateSize =>
     typeof s === "string" && s.trim() !== "" && emptyStateSize.includes(s as EmptyStateSize);
 
-const spinnerSizes = ["sm", "md", "lg", "xl"];
+const spinnerSizes = ["md", "lg", "xl", "xl"];
 const iconSizes = ["sm", "lg", "2x", "3x"];
 
 export interface IEmptyState {
@@ -102,9 +102,7 @@ export class EmptyState extends AkLitElement implements IEmptyState {
                 <div part="content">
                     ${showIcon
                         ? html` <div part="icon">
-                              ${hasIcon
-                                  ? html`<slot name="icon"></slot>`
-                                  : this.renderDefaultIcon()}
+                              ${hasIcon ? html`<slot name="icon"></slot>` : this.renderDefaultIcon()}
                           </div>`
                         : nothing}
                     ${this.hasSlotted("title")
@@ -114,14 +112,10 @@ export class EmptyState extends AkLitElement implements IEmptyState {
                         : nothing}
                     ${showBody
                         ? html`<div part="body">
-                              ${this.hasSlotted("body")
-                                  ? html`<slot name="body"></slot></div>`
-                                  : msg("Loading...")}
+                              ${this.hasSlotted("body") ? html`<slot name="body"></slot></div>` : msg("Loading...")}
                           </div>`
                         : nothing}
-                    ${this.hasSlotted("footer") ||
-                    this.hasSlotted("actions") ||
-                    this.hasSlotted("secondary-actions")
+                    ${this.hasSlotted("footer") || this.hasSlotted("actions") || this.hasSlotted("secondary-actions")
                         ? html` <div part="footer">
                               ${this.hasSlotted("actions")
                                   ? html`<div part="actions">
@@ -133,9 +127,7 @@ export class EmptyState extends AkLitElement implements IEmptyState {
                                         <slot name="secondary-actions"></slot>
                                     </div>`
                                   : nothing}
-                              ${this.hasSlotted("footer")
-                                  ? html`<slot name="footer"></slot>`
-                                  : nothing}
+                              ${this.hasSlotted("footer") ? html`<slot name="footer"></slot>` : nothing}
                           </div>`
                         : nothing}
                 </div>

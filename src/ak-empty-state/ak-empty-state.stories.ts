@@ -44,8 +44,7 @@ that no content will be available.
         },
         noIcon: {
             control: "boolean",
-            description:
-                "When true, prevents the default icon from showing when no icon is provided",
+            description: "When true, prevents the default icon from showing when no icon is provided",
             table: {
                 type: { summary: "boolean" },
             },
@@ -66,12 +65,22 @@ export const Basic: Story = {
         noIcon: false,
     },
     render: (args: StoryProps) => html`
-        <ak-empty-state
-            size=${ifDefined(args.size)}
-            ?full-height=${args.fullHeight}
-            ?no-icon=${args.noIcon}
-        >
+        <ak-empty-state size=${ifDefined(args.size)} ?full-height=${args.fullHeight} ?no-icon=${args.noIcon}>
             <h2 slot="title">No results found</h2>
+        </ak-empty-state>
+    `,
+};
+
+// Basic Empty State with title only and default icon
+export const Loading: Story = {
+    args: {
+        size: "",
+        fullHeight: false,
+        noIcon: false,
+    },
+    render: (args: StoryProps) => html`
+        <ak-empty-state loading size=${ifDefined(args.size)} ?full-height=${args.fullHeight}>
+            <h2 slot="title">Searching for trouble...</h2>
         </ak-empty-state>
     `,
 };
@@ -84,13 +93,9 @@ export const WithCustomIcon: Story = {
         noIcon: false,
     },
     render: (args: StoryProps) => html`
-        <ak-empty-state
-            size=${ifDefined(args.size)}
-            ?full-height=${args.fullHeight}
-            ?no-icon=${args.noIcon}
-        >
+        <ak-empty-state size=${ifDefined(args.size)} ?full-height=${args.fullHeight} ?no-icon=${args.noIcon}>
             <div slot="icon">
-                <ak-icon icon="triangle-exclamation" variant="warning" size="xl"></ak-icon>
+                <ak-icon icon="triangle-exclamation" effect="fade" variant="danger" size="xl"></ak-icon>
             </div>
             <h2 slot="title">No results found</h2>
         </ak-empty-state>
@@ -110,11 +115,7 @@ export const NoIcon: Story = {
         },
     },
     render: (args: StoryProps) => html`
-        <ak-empty-state
-            size=${ifDefined(args.size)}
-            ?full-height=${args.fullHeight}
-            ?no-icon=${args.noIcon}
-        >
+        <ak-empty-state size=${ifDefined(args.size)} ?full-height=${args.fullHeight} ?no-icon=${args.noIcon}>
             <h2 slot="title">No results found</h2>
             <p slot="body">No results match the filter criteria.</p>
             <div slot="actions">
@@ -132,18 +133,12 @@ export const Complete: Story = {
         noIcon: false,
     },
     render: (args: StoryProps) => html`
-        <ak-empty-state
-            size=${ifDefined(args.size)}
-            ?full-height=${args.fullHeight}
-            ?no-icon=${args.noIcon}
-        >
+        <ak-empty-state size=${ifDefined(args.size)} ?full-height=${args.fullHeight} ?no-icon=${args.noIcon}>
             <div slot="icon">
-                <ak-icon icon="triangle-exclamation" variant="danger" size="xl"></ak-icon>
+                <ak-icon icon="triangle-exclamation" variant="warning" size="xl"></ak-icon>
             </div>
             <h2 slot="title">No results found</h2>
-            <p slot="body">
-                No results match the filter criteria. Clear all filters and try again.
-            </p>
+            <p slot="body">No results match the filter criteria. Clear all filters and try again.</p>
             <div slot="actions">
                 <button>Clear all filters</button>
             </div>
@@ -178,9 +173,7 @@ export const SizeVariants: Story = {
                 <h3>Small</h3>
                 <ak-empty-state size="sm">
                     <h3 slot="title">No results found</h3>
-                    <p slot="body">
-                        No results match the filter criteria. Clear all filters and try again.
-                    </p>
+                    <p slot="body">No results match the filter criteria. Clear all filters and try again.</p>
                     <div slot="actions">
                         <button>Clear all filters</button>
                     </div>
@@ -191,9 +184,7 @@ export const SizeVariants: Story = {
                 <h3>Default (medium)</h3>
                 <ak-empty-state>
                     <h2 slot="title">No results found</h2>
-                    <p slot="body">
-                        No results match the filter criteria. Clear all filters and try again.
-                    </p>
+                    <p slot="body">No results match the filter criteria. Clear all filters and try again.</p>
                     <div slot="actions">
                         <button>Clear all filters</button>
                     </div>
@@ -204,9 +195,7 @@ export const SizeVariants: Story = {
                 <h3>Large</h3>
                 <ak-empty-state size="lg">
                     <h2 slot="title">No results found</h2>
-                    <p slot="body">
-                        No results match the filter criteria. Clear all filters and try again.
-                    </p>
+                    <p slot="body">No results match the filter criteria. Clear all filters and try again.</p>
                     <div slot="actions">
                         <button>Clear all filters</button>
                     </div>
@@ -217,9 +206,7 @@ export const SizeVariants: Story = {
                 <h3>Extra Large</h3>
                 <ak-empty-state size="xl">
                     <h1 slot="title">No results found</h1>
-                    <p slot="body">
-                        No results match the filter criteria. Clear all filters and try again.
-                    </p>
+                    <p slot="body">No results match the filter criteria. Clear all filters and try again.</p>
                     <div slot="actions">
                         <button>Clear all filters</button>
                     </div>
