@@ -18,10 +18,6 @@ $config {
     $from: /__content\.pf-m-(danger|warning|success|info|custom)/;
 }
 
-:host([variant="\1"]) {
-    $from: /__content\.pf-m-(danger|warning|success|info|custom)/;
-}
-
 [part="content"] {
     $from: /__content/;
 }
