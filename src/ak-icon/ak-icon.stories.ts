@@ -1,13 +1,33 @@
+import "./ak-icon.js";
+
+import { IIcon } from "./ak-icon.js";
+
 import { Meta, StoryObj } from "@storybook/web-components";
 
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
-import { Icon, IIcon } from "./ak-icon.js";
-import "./ak-icon.js";
-
 type IconFamily = "fa" | "fas" | "fab" | "pf";
-type IconSize = "sm" | "md" | "lg" | "xl";
+
+const iconSizes = [
+    "sm",
+    "md",
+    "lg",
+    "xl",
+    "1x",
+    "2x",
+    "3x",
+    "4x",
+    "5x",
+    "6x",
+    "7x",
+    "8x",
+    "9x",
+    "10x",
+] as const;
+
+type IconSize = (typeof iconSizes)[number];
+
 type IconVariant = "danger" | "warning" | "success" | "info" | "custom";
 type IconEffect =
     | "beat"
@@ -74,7 +94,7 @@ will find and display <ak-icon icon="birthday-cake"></ak-icon>`,
         size: {
             control: "select",
             description: "Size variant affecting width, height, and font-size",
-            options: ["", "sm", "md", "lg", "xl"],
+            options: ["", ...iconSizes],
             table: {
                 type: { summary: "IconSize" },
             },
@@ -128,10 +148,6 @@ type Story = StoryObj<StoryProps>;
 export const Basic: Story = {
     args: {
         icon: "user",
-        family: "",
-        size: "",
-        variant: "",
-        effect: "",
     },
     render: (args: StoryProps) => html`
         <ak-icon
@@ -173,22 +189,47 @@ export const SizeVariants: Story = {
         },
     },
     render: () => html`
-        <div style="display: flex; align-items: center; gap: 1rem;">
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
-                <ak-icon icon="user" size="sm"></ak-icon>
-                <span>Small</span>
+        <div style="display: block; clear: both">
+            <h3 style="font-size: 1.25rem; font-weight: 900">Patternfly Icon Sizes</h3>
+            <div style="display: flex; align-items: center; gap: 1rem; padding-bottom: 2rem;">
+                <div
+                    style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;"
+                >
+                    <ak-icon icon="user" size="sm"></ak-icon>
+                    <span>Small</span>
+                </div>
+                <div
+                    style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;"
+                >
+                    <ak-icon icon="user" size="md"></ak-icon>
+                    <span>Medium</span>
+                </div>
+                <div
+                    style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;"
+                >
+                    <ak-icon icon="user" size="lg"></ak-icon>
+                    <span>Large</span>
+                </div>
+                <div
+                    style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;"
+                >
+                    <ak-icon icon="user" size="xl"></ak-icon>
+                    <span>Extra Large</span>
+                </div>
             </div>
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
-                <ak-icon icon="user" size="md"></ak-icon>
-                <span>Medium</span>
-            </div>
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
-                <ak-icon icon="user" size="lg"></ak-icon>
-                <span>Large</span>
-            </div>
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
-                <ak-icon icon="user" size="xl"></ak-icon>
-                <span>Extra Large</span>
+            <h3 style="font-size: 1.25rem; font-weight: 900">FontAwesome Icon Sizes</h3>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                ${iconSizes
+                    .filter((sz) => /x$/.test(sz))
+                    .map(
+                        (sz) =>
+                            html` <div
+                                style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;"
+                            >
+                                <ak-icon icon="user" size="${sz}"></ak-icon>
+                                <span>${sz.toUpperCase()}</span>
+                            </div>`,
+                    )}
             </div>
         </div>
     `,

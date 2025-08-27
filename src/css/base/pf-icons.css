@@ -1,527 +1,529 @@
 .pf-icon {
-  font-family: "pficon";
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: normal;
-  text-decoration: none;
-  text-transform: none;
+    font-family: "pficon";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    text-decoration: none;
+    text-transform: none;
 }
 
 .pf-icon-add-circle-o:before {
-  content: "\e61b";
+    content: "\e61b";
 }
 
 .pf-icon-ansible-tower:before {
-  content: "\e950";
+    content: "\e950";
 }
 
 .pf-icon-applications:before {
-  content: "\e936";
+    content: "\e936";
 }
 
 .pf-icon-arrow:before {
-  content: "\e929";
+    content: "\e929";
 }
 
 .pf-icon-asleep:before {
-  content: "\e92e";
+    content: "\e92e";
 }
 
 .pf-icon-attention-bell:before {
-  content: "\e951";
+    content: "\e951";
 }
 
 .pf-icon-automation:before {
-  content: "\e937";
+    content: "\e937";
 }
 
 .pf-icon-bell:before {
-  content: "\e952";
+    content: "\e952";
 }
 
 .pf-icon-blueprint:before {
-  content: "\e915";
+    content: "\e915";
 }
 
 .pf-icon-build:before {
-  content: "\e902";
+    content: "\e902";
 }
 
 .pf-icon-builder-image:before {
-  content: "\e800";
+    content: "\e800";
 }
 
 .pf-icon-bundle:before {
-  content: "\e918";
+    content: "\e918";
 }
 
 .pf-icon-catalog:before {
-  content: "\e953";
+    content: "\e953";
 }
 
 .pf-icon-chat:before {
-  content: "\e954";
+    content: "\e954";
 }
 
 .pf-icon-close:before {
-  content: "\e60b";
+    content: "\e60b";
 }
 
 .pf-icon-cloud-security:before {
-  content: "\e903";
+    content: "\e903";
 }
 
 .pf-icon-cloud-tenant:before {
-  content: "\e904";
+    content: "\e904";
 }
 
 .pf-icon-cluster:before {
-  content: "\e620";
+    content: "\e620";
 }
 
 .pf-icon-connected:before {
-  content: "\e938";
+    content: "\e938";
 }
 
 .pf-icon-container-node:before {
-  content: "\e621";
+    content: "\e621";
 }
 
 .pf-icon-cpu:before {
-  content: "\e927";
+    content: "\e927";
 }
 
 .pf-icon-critical-risk:before {
-  content: "\e976";
+    content: "\e976";
 }
 
 .pf-icon-data-processor:before {
-  content: "\e97b";
+    content: "\e97b";
 }
 
 .pf-icon-data-sink:before {
-  content: "\e978";
+    content: "\e978";
 }
 
 .pf-icon-data-source:before {
-  content: "\e979";
+    content: "\e979";
 }
 
 .pf-icon-degraded:before {
-  content: "\e91b";
+    content: "\e91b";
 }
 
 .pf-icon-disconnected:before {
-  content: "\e955";
+    content: "\e955";
 }
 
 .pf-icon-domain:before {
-  content: "\e919";
+    content: "\e919";
 }
 
 .pf-icon-edit:before {
-  content: "\e60a";
+    content: "\e60a";
 }
 
 .pf-icon-enhancement:before {
-  content: "\e93a";
+    content: "\e93a";
 }
 
 .pf-icon-enterprise:before {
-  content: "\e906";
+    content: "\e906";
 }
 
 .pf-icon-equalizer:before {
-  content: "\e956";
+    content: "\e956";
 }
 
 .pf-icon-error-circle-o:before {
-  content: "\e926";
+    content: "\e926";
 }
 
 .pf-icon-export:before {
-  content: "\e616";
+    content: "\e616";
 }
 
 .pf-icon-filter:before {
-  content: "\e943";
+    content: "\e943";
 }
 
 .pf-icon-flavor:before {
-  content: "\e957";
+    content: "\e957";
 }
 
 .pf-icon-folder-close:before {
-  content: "\e607";
+    content: "\e607";
 }
 
 .pf-icon-folder-open:before {
-  content: "\e606";
+    content: "\e606";
 }
 
 .pf-icon-globe-route:before {
-  content: "\e958";
+    content: "\e958";
 }
 
 .pf-icon-help:before {
-  content: "\e605";
+    content: "\e605";
 }
 
 .pf-icon-history:before {
-  content: "\e617";
+    content: "\e617";
 }
 
 .pf-icon-home:before {
-  content: "\e618";
+    content: "\e618";
 }
 
 .pf-icon-import:before {
-  content: "\e615";
+    content: "\e615";
 }
 
 .pf-icon-in-progress:before {
-  content: "\e933";
+    content: "\e933";
 }
 
 .pf-icon-info:before {
-  content: "\e92b";
+    content: "\e92b";
 }
 
 .pf-icon-infrastructure:before {
-  content: "\e93d";
+    content: "\e93d";
 }
 
 .pf-icon-integration:before {
-  content: "\e948";
+    content: "\e948";
 }
 
 .pf-icon-key:before {
-  content: "\e924";
+    content: "\e924";
 }
 
 .pf-icon-locked:before {
-  content: "\e923";
+    content: "\e923";
 }
 
 .pf-icon-maintenance:before {
-  content: "\e932";
+    content: "\e932";
 }
 
 .pf-icon-memory:before {
-  content: "\e908";
+    content: "\e908";
 }
 
 .pf-icon-messages:before {
-  content: "\e603";
+    content: "\e603";
 }
 
 .pf-icon-middleware:before {
-  content: "\e917";
+    content: "\e917";
 }
 
 .pf-icon-migration:before {
-  content: "\e931";
+    content: "\e931";
 }
 
 .pf-icon-module:before {
-  content: "\e959";
+    content: "\e959";
 }
 
 .pf-icon-monitoring:before {
-  content: "\e95a";
+    content: "\e95a";
 }
 
 .pf-icon-namespaces:before {
-  content: "\e95b";
+    content: "\e95b";
 }
 
 .pf-icon-network:before {
-  content: "\e909";
+    content: "\e909";
 }
 
 .pf-icon-new-process:before {
-  content: "\e95c";
+    content: "\e95c";
 }
 
 .pf-icon-not-started:before {
-  content: "\e95d";
+    content: "\e95d";
 }
 
 .pf-icon-off:before {
-  content: "\e92d";
+    content: "\e92d";
 }
 
 .pf-icon-ok:before {
-  content: "\e602";
+    content: "\e602";
 }
 
 .pf-icon-on-running:before {
-  content: "\e925";
+    content: "\e925";
 }
 
 .pf-icon-on:before {
-  content: "\e92c";
+    content: "\e92c";
 }
 
 .pf-icon-open-drawer-right:before {
-  content: "\e977";
+    content: "\e977";
 }
 
 .pf-icon-openshift:before {
-  content: "\e95e";
+    content: "\e95e";
 }
 
 .pf-icon-openstack:before {
-  content: "\e95f";
+    content: "\e95f";
 }
 
 .pf-icon-optimize:before {
-  content: "\e93e";
+    content: "\e93e";
 }
 
 .pf-icon-orders:before {
-  content: "\e93f";
+    content: "\e93f";
 }
 
 .pf-icon-os-image:before {
-  content: "\e960";
+    content: "\e960";
 }
 
 .pf-icon-package:before {
-  content: "\e961";
+    content: "\e961";
 }
 
 .pf-icon-panel-close:before {
-  content: "\e962";
+    content: "\e962";
 }
 
 .pf-icon-panel-open:before {
-  content: "\e963";
+    content: "\e963";
 }
 
 .pf-icon-paused:before {
-  content: "\e92f";
+    content: "\e92f";
 }
 
 .pf-icon-pending:before {
-  content: "\e964";
+    content: "\e964";
 }
 
 .pf-icon-pficon-dragdrop:before {
-  content: "\e965";
+    content: "\e965";
 }
 
 .pf-icon-pficon-history:before {
-  content: "\e966";
+    content: "\e966";
 }
 
 .pf-icon-pficon-network-range:before {
-  content: "\e967";
+    content: "\e967";
 }
 
 .pf-icon-pficon-satellite:before {
-  content: "\e968";
+    content: "\e968";
 }
 
 .pf-icon-pficon-sort-common-asc:before {
-  content: "\e94e";
+    content: "\e94e";
 }
 
 .pf-icon-pficon-sort-common-desc:before {
-  content: "\e94f";
+    content: "\e94f";
 }
 
 .pf-icon-pficon-template:before {
-  content: "\e94c";
+    content: "\e94c";
 }
 
 .pf-icon-pficon-vcenter:before {
-  content: "\e969";
+    content: "\e969";
 }
 
 .pf-icon-plugged:before {
-  content: "\e96a";
+    content: "\e96a";
 }
 
 .pf-icon-port:before {
-  content: "\e96b";
+    content: "\e96b";
 }
 
 .pf-icon-print:before {
-  content: "\e612";
+    content: "\e612";
 }
 
 .pf-icon-private:before {
-  content: "\e914";
+    content: "\e914";
 }
 
 .pf-icon-process-automation:before {
-  content: "\e949";
+    content: "\e949";
 }
 
 .pf-icon-project:before {
-  content: "\e96c";
+    content: "\e96c";
 }
 
 .pf-icon-rebalance:before {
-  content: "\e91c";
+    content: "\e91c";
 }
 
 .pf-icon-rebooting:before {
-  content: "\e96d";
+    content: "\e96d";
 }
 
 .pf-icon-regions:before {
-  content: "\e90a";
+    content: "\e90a";
 }
 
 .pf-icon-registry:before {
-  content: "\e623";
+    content: "\e623";
 }
 
 .pf-icon-remove2:before {
-  content: "\e96e";
+    content: "\e96e";
 }
 
 .pf-icon-replicator:before {
-  content: "\e624";
+    content: "\e624";
 }
 
 .pf-icon-repository:before {
-  content: "\e90b";
+    content: "\e90b";
 }
 
 .pf-icon-resource-pool:before {
-  content: "\e90c";
+    content: "\e90c";
 }
 
 .pf-icon-resources-almost-empty:before {
-  content: "\e91d";
+    content: "\e91d";
 }
 
 .pf-icon-resources-almost-full:before {
-  content: "\e912";
+    content: "\e912";
 }
 
 .pf-icon-resources-empty:before {
-  content: "\e96f";
+    content: "\e96f";
 }
 
 .pf-icon-resources-full:before {
-  content: "\e913";
+    content: "\e913";
 }
 
 .pf-icon-running:before {
-  content: "\e970";
+    content: "\e970";
 }
 
 .pf-icon-save:before {
-  content: "\e601";
+    content: "\e601";
 }
 
 .pf-icon-screen:before {
-  content: "\e971";
+    content: "\e971";
 }
 
 .pf-icon-security:before {
-  content: "\e946";
+    content: "\e946";
 }
 
 .pf-icon-server-group:before {
-  content: "\e91a";
+    content: "\e91a";
 }
 
 .pf-icon-server:before {
-  content: "\e90d";
+    content: "\e90d";
 }
 
 .pf-icon-service-catalog:before {
-  content: "\e972";
+    content: "\e972";
 }
 
 .pf-icon-service:before {
-  content: "\e61e";
+    content: "\e61e";
 }
 
 .pf-icon-services:before {
-  content: "\e947";
+    content: "\e947";
 }
 
 .pf-icon-spinner:before {
-  content: "\e973";
+    content: "\e973";
 }
 
 .pf-icon-spinner2:before {
-  content: "\e613";
+    content: "\e613";
 }
 
 .pf-icon-storage-domain:before {
-  content: "\e90e";
+    content: "\e90e";
 }
 
 .pf-icon-task:before {
-  content: "\e974";
+    content: "\e974";
 }
 
 .pf-icon-tenant:before {
-  content: "\e916";
+    content: "\e916";
 }
 
 .pf-icon-thumb-tack:before {
-  content: "\e920";
+    content: "\e920";
 }
 
 .pf-icon-topology:before {
-  content: "\e608";
+    content: "\e608";
 }
 
 .pf-icon-trend-down:before {
-  content: "\e900";
+    content: "\e900";
 }
 
 .pf-icon-trend-up:before {
-  content: "\e901";
+    content: "\e901";
 }
 
 .pf-icon-unknown:before {
-  content: "\e935";
+    content: "\e935";
 }
 
 .pf-icon-unlocked:before {
-  content: "\e922";
+    content: "\e922";
 }
 
 .pf-icon-unplugged:before {
-  content: "\e942";
+    content: "\e942";
 }
 
 .pf-icon-user:before {
-  content: "\e91e";
+    content: "\e91e";
 }
 
 .pf-icon-users:before {
-  content: "\e91f";
+    content: "\e91f";
 }
 
 .pf-icon-virtual-machine:before {
-  content: "\e90f";
+    content: "\e90f";
 }
 
 .pf-icon-volume:before {
-  content: "\e910";
+    content: "\e910";
 }
 
 .pf-icon-warning-triangle:before {
-  content: "\e975";
+    content: "\e975";
 }
 
 .pf-icon-zone:before {
-  content: "\e911";
+    content: "\e911";
 }
 
 @font-face {
-  font-family: "pficon";
-  src: url("./assets/pficon/pficon.woff2") format("woff2"), url("./assets/pficon/pficon.woff") format("woff");
+    font-family: "pficon";
+    src:
+        url("./assets/pficon/pficon.woff2") format("woff2"),
+        url("./assets/pficon/pficon.woff") format("woff");
 }

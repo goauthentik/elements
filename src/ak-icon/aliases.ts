@@ -2106,7 +2106,7 @@ const tupleAliasToMap = ([alias, clazz]: [string, string]): [string, string][] =
 export const ALIASES = new Map<string, string>(
     internalAliases
         .map((alias: Alias): [string, string][] =>
-            typeof alias === "string" ? stringAliasToMap(alias) : tupleAliasToMap(alias)
+            typeof alias === "string" ? stringAliasToMap(alias) : tupleAliasToMap(alias),
         )
-        .flat()
+        .flat(),
 );

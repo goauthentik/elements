@@ -70,7 +70,11 @@ export const WithCustomSize: Story = {
                 --pf-v5-c-brand--Height: 100px;
             }
         </style>
-        <ak-brand class="custom-sized" src=${ifDefined(args.src)} alt=${ifDefined(args.alt)}></ak-brand>
+        <ak-brand
+            class="custom-sized"
+            src=${ifDefined(args.src)}
+            alt=${ifDefined(args.alt)}
+        ></ak-brand>
     `,
 };
 
@@ -102,10 +106,15 @@ export const ResponsiveSizing: Story = {
             }
         </style>
         <div class="demo-container">
-            <ak-brand class="responsive-brand" src=${ifDefined(args.src)} alt=${ifDefined(args.alt)}></ak-brand>
+            <ak-brand
+                class="responsive-brand"
+                src=${ifDefined(args.src)}
+                alt=${ifDefined(args.alt)}
+            ></ak-brand>
             <div class="breakpoint-info">
                 Resize your browser to see responsive sizing:<br />
-                80px (default) → 100px (≥576px) → 120px (≥768px) → 140px (≥992px) → 160px (≥1200px) → 180px (≥1450px)
+                80px (default) → 100px (≥576px) → 120px (≥768px) → 140px (≥992px) → 160px (≥1200px)
+                → 180px (≥1450px)
             </div>
         </div>
     `,

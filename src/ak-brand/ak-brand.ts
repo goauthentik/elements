@@ -1,4 +1,3 @@
-import { customElement } from "../utils/customElement.js";
 import { akBrand } from "./ak-brand.builder.js";
 import { Brand } from "./ak-brand.component.js";
 
