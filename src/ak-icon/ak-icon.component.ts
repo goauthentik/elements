@@ -86,6 +86,10 @@ export class Icon extends LitElement implements IIcon {
                 this.#iconClass = icon;
                 return;
             }
+            if (this.icon.includes(" ")) {
+                this.#iconClass = icon;
+                return;
+            }
         }
 
         console.warn("Was unable to determine requested icon.");

@@ -39,11 +39,10 @@ const metadata: Meta<Partial<StoryProps>> = {
         docs: {
             description: {
                 component: `
-          The Icon component provides a unified interface for FontAwesome and PatternFly icons
-          with an extensive alias system. Icons can be specified by name, resolved through aliases,
-          or explicitly defined with family/icon pairs. Supports size variants, semantic colors,
-          and visual effects with accessibility considerations.
-        `,
+Displays icons from the Fontawesome and Patternfly font-based icon libraries.  Has an
+aggressive alias system that prioritizes "fas" and "pf-icon" names where there were no
+conflicts; for example, you can provide "birthday-cake" to the \`icon\` attribute and it
+will find and display <ak-icon icon="birthday-cake"></ak-icon>`,
             },
         },
     },
