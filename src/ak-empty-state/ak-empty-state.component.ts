@@ -1,8 +1,7 @@
-import { SlotController } from "@patternfly/pfe-core/controllers/slot-controller.js";
-
 import { msg } from "@lit/localize";
-import { LitElement, TemplateResult, html, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { html, nothing } from "lit";
+import { AkLitElement } from "../component-base.js";
+import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 
 import styles from "./ak-empty-state.css";
@@ -72,21 +71,10 @@ export interface IEmptyState {
 
 
  */
-export class EmptyState extends LitElement implements IEmptyState {
+export class EmptyState extends AkLitElement implements IEmptyState {
     static get styles() {
         return [styles];
     }
-
-    // Track the status of slots
-    private slots = new SlotController(
-        this,
-        "icon",
-        "title",
-        "body",
-        "footer",
-        "actions",
-        "secondary-actions",
-    );
 
     @property({ type: Boolean, attribute: "no-icon" })
     noIcon = false;
@@ -98,56 +86,49 @@ export class EmptyState extends LitElement implements IEmptyState {
     size = "";
 
     private renderDefaultIcon() {
-        const index = isEmptyStateSize(this.size) ? emptyStateSize.indexOf(this.size) : 1;
+        const size = this.getAttribute("size") ?? "sm";
+        const index = isEmptyStateSize(size) ? emptyStateSize.indexOf(size) : 1;
         return this.loading
-            ? html`<ak-spinner ${spinnerSizes[index] ?? "large"}></ak-spinner>`
+            ? html`<ak-spinner size=${spinnerSizes[index] ?? "lg"}></ak-spinner>`
             : html`<ak-icon icon="box-open" size="${iconSizes[index] ?? "3x"}"></ak-icon>`;
     }
 
     render() {
-        const hasIcon = this.slots.hasSlotted("icon");
+        const hasIcon = this.hasSlotted("icon");
         const showIcon = hasIcon || !this.noIcon;
-        const showBody = this.slots.hasSlotted("body") || this.loading;
+        const showBody = this.hasSlotted("body") || this.loading;
 
         return html`
             <div id="main" part="main">
                 <div class="content" part="content">
                     ${showIcon
                         ? html` <div class="icon" part="icon">
-                              ${hasIcon
-                                  ? html`<slot name="icon"></slot>`
-                                  : this.renderDefaultIcon()}
+                              ${hasIcon ? html`<slot name="icon"></slot>` : this.renderDefaultIcon()}
                           </div>`
                         : nothing}
-                    ${this.slots.hasSlotted("title")
+                    ${this.hasSlotted("title")
                         ? html`<div class="title-text" part="title-text">
                               <slot name="title"></slot>
                           </div>`
                         : nothing}
                     ${showBody
                         ? html`<div class="body" part="body">
-                              ${this.slots.hasSlotted("body")
-                                  ? html`<slot name="body"></slot></div>`
-                                  : msg("Loading...")}
+                              ${this.hasSlotted("body") ? html`<slot name="body"></slot></div>` : msg("Loading...")}
                           </div>`
                         : nothing}
-                    ${this.slots.hasSlotted("footer") ||
-                    this.slots.hasSlotted("actions") ||
-                    this.slots.hasSlotted("secondary-actions")
+                    ${this.hasSlotted("footer") || this.hasSlotted("actions") || this.hasSlotted("secondary-actions")
                         ? html` <div class="footer" part="footer">
-                              ${this.slots.hasSlotted("actions")
+                              ${this.hasSlotted("actions")
                                   ? html`<div class="actions" part="actions">
                                         <slot name="actions"></slot>
                                     </div>`
                                   : nothing}
-                              ${this.slots.hasSlotted("secondary-actions")
+                              ${this.hasSlotted("secondary-actions")
                                   ? html`<div class="actions" part="actions">
                                         <slot name="secondary-actions"></slot>
                                     </div>`
                                   : nothing}
-                              ${this.slots.hasSlotted("footer")
-                                  ? html`<slot name="footer"></slot>`
-                                  : nothing}
+                              ${this.hasSlotted("footer") ? html`<slot name="footer"></slot>` : nothing}
                           </div>`
                         : nothing}
                 </div>
