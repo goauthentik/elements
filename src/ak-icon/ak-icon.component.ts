@@ -1,11 +1,11 @@
-import { html, LitElement, PropertyValues } from "lit";
-import { property } from "lit/decorators.js";
-
-import styles from "./ak-icon.css";
 import effects from "./ak-icon-effects.css";
+import styles from "./ak-icon.css";
+import { ALIASES } from "./aliases.js";
 import faicons from "./fontawesome/fontawesome.css";
 import pficons from "./pficons/pficons.css";
-import { ALIASES } from "./aliases.js";
+
+import { html, LitElement, PropertyValues } from "lit";
+import { property } from "lit/decorators.js";
 
 const iconFamilies = ["fa", "fas", "fab", "pf"] as const;
 type IconFamily = (typeof iconFamilies)[number];

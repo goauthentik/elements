@@ -1,8 +1,9 @@
-import { html } from "lit";
-import { ifDefined } from "lit/directives/if-defined.js";
+import "./ak-spinner.js";
 
 import { type Spinner } from "./ak-spinner.js";
-import "./ak-spinner.js";
+
+import { html } from "lit";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 export type AkSpinnerProps = Partial<Pick<Spinner, "label">> & { inline?: boolean; size?: string };
 
@@ -16,5 +17,9 @@ export type AkSpinnerProps = Partial<Pick<Spinner, "label">> & { inline?: boolea
 export function akSpinner(options: AkSpinnerProps = { inline: false }) {
     const { size, label, inline } = options;
 
-    return html`<ak-spinner size=${ifDefined(size)} label=${ifDefined(label)} ?inline=${!!inline}></ak-spinner>`;
+    return html`<ak-spinner
+        size=${ifDefined(size)}
+        label=${ifDefined(label)}
+        ?inline=${!!inline}
+    ></ak-spinner>`;
 }

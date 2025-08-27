@@ -161,32 +161,32 @@
 }
 
 :host([effect~="rotate-90"]) [part="content"] {
-  transform: rotate(90deg);
+    transform: rotate(90deg);
 }
 
 :host([effect~="rotate-180"]) [part="content"] {
-  transform: rotate(180deg);
+    transform: rotate(180deg);
 }
 
 :host([effect~="rotate-270"]) [part="content"] {
-  transform: rotate(270deg);
+    transform: rotate(270deg);
 }
 
-:host([effect~="flip-horizontal"]) [part="content"]  {
-  transform: scale(-1, 1);
+:host([effect~="flip-horizontal"]) [part="content"] {
+    transform: scale(-1, 1);
 }
 
-:host([effect~="flip-vertical"]) [part="content"]  {
-  transform: scale(1, -1);
+:host([effect~="flip-vertical"]) [part="content"] {
+    transform: scale(1, -1);
 }
 
-:host([effect~="flip-both"]) [part="content"] ,
+:host([effect~="flip-both"]) [part="content"],
 :host([effect~="flip-horizontal"][effect~="flip-vertical"]) [part="content"] {
-  transform: scale(-1, -1);
+    transform: scale(-1, -1);
 }
 
-:host([effect~="rotate-by"]) [part="content"]  {
-  transform: rotate(var(--fa-rotate-angle, 0));
+:host([effect~="rotate-by"]) [part="content"] {
+    transform: rotate(var(--fa-rotate-angle, 0));
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -198,9 +198,102 @@
     :host([effect="pulse"]) [part="icon"],
     :host([effect="shake"]) [part="icon"],
     :host([effect="spin"]) [part="icon"],
-    :host([effect="spin-pulse {
+    :host([effect="spin-pulse"]) {
         animation: none !important;
         transition: none !important;
     }
+}
+
+:host {
+    --pf-v5-c-icon--m-1x--Width: var(--pf-v5-global--icon--FontSize--1x, 1em);
+    --pf-v5-c-icon--m-1x--Height: var(--pf-v5-global--icon--FontSize--1x, 1em);
+    --pf-v5-c-icon--m-1x__content--FontSize: var(--pf-v5-global--icon--FontSize--1x, 1em);
+    --pf-v5-c-icon--m-2x--Width: var(--pf-v5-global--icon--FontSize--2x, 2em);
+    --pf-v5-c-icon--m-2x--Height: var(--pf-v5-global--icon--FontSize--2x, 2em);
+    --pf-v5-c-icon--m-2x__content--FontSize: var(--pf-v5-global--icon--FontSize--2x, 2em);
+    --pf-v5-c-icon--m-3x--Width: var(--pf-v5-global--icon--FontSize--3x, 3em);
+    --pf-v5-c-icon--m-3x--Height: var(--pf-v5-global--icon--FontSize--3x, 3em);
+    --pf-v5-c-icon--m-3x__content--FontSize: var(--pf-v5-global--icon--FontSize--3x, 3em);
+    --pf-v5-c-icon--m-4x--Width: var(--pf-v5-global--icon--FontSize--4x, 4em);
+    --pf-v5-c-icon--m-4x--Height: var(--pf-v5-global--icon--FontSize--4x, 4em);
+    --pf-v5-c-icon--m-4x__content--FontSize: var(--pf-v5-global--icon--FontSize--4x, 4em);
+    --pf-v5-c-icon--m-5x--Width: var(--pf-v5-global--icon--FontSize--5x, 5em);
+    --pf-v5-c-icon--m-5x--Height: var(--pf-v5-global--icon--FontSize--5x, 5em);
+    --pf-v5-c-icon--m-5x__content--FontSize: var(--pf-v5-global--icon--FontSize--5x, 5em);
+    --pf-v5-c-icon--m-6x--Width: var(--pf-v5-global--icon--FontSize--6x, 6em);
+    --pf-v5-c-icon--m-6x--Height: var(--pf-v5-global--icon--FontSize--6x, 6em);
+    --pf-v5-c-icon--m-6x__content--FontSize: var(--pf-v5-global--icon--FontSize--6x, 6em);
+    --pf-v5-c-icon--m-7x--Width: var(--pf-v5-global--icon--FontSize--7x, 7em);
+    --pf-v5-c-icon--m-7x--Height: var(--pf-v5-global--icon--FontSize--7x, 7em);
+    --pf-v5-c-icon--m-7x__content--FontSize: var(--pf-v5-global--icon--FontSize--7x, 7em);
+    --pf-v5-c-icon--m-8x--Width: var(--pf-v5-global--icon--FontSize--8x, 8em);
+    --pf-v5-c-icon--m-8x--Height: var(--pf-v5-global--icon--FontSize--8x, 8em);
+    --pf-v5-c-icon--m-8x__content--FontSize: var(--pf-v5-global--icon--FontSize--8x, 8em);
+    --pf-v5-c-icon--m-9x--Width: var(--pf-v5-global--icon--FontSize--9x, 9em);
+    --pf-v5-c-icon--m-9x--Height: var(--pf-v5-global--icon--FontSize--9x, 9em);
+    --pf-v5-c-icon--m-9x__content--FontSize: var(--pf-v5-global--icon--FontSize--9x, 9em);
+    --pf-v5-c-icon--m-10x--Width: var(--pf-v5-global--icon--FontSize--10x, 10em);
+    --pf-v5-c-icon--m-10x--Height: var(--pf-v5-global--icon--FontSize--10x, 10em);
+    --pf-v5-c-icon--m-10x__content--FontSize: var(--pf-v5-global--icon--FontSize--10x, 10em);
+}
+
+:host([size="1x"]) {
+    --pf-v5-c-icon--Width: var(--pf-v5-c-icon--m-1x--Width);
+    --pf-v5-c-icon--Height: var(--pf-v5-c-icon--m-1x--Height);
+    --pf-v5-c-icon__content--FontSize: var(--pf-v5-c-icon--m-1x__content--FontSize);
+}
+
+:host([size="2x"]) {
+    --pf-v5-c-icon--Width: var(--pf-v5-c-icon--m-2x--Width);
+    --pf-v5-c-icon--Height: var(--pf-v5-c-icon--m-2x--Height);
+    --pf-v5-c-icon__content--FontSize: var(--pf-v5-c-icon--m-2x__content--FontSize);
+}
+
+:host([size="3x"]) {
+    --pf-v5-c-icon--Width: var(--pf-v5-c-icon--m-3x--Width);
+    --pf-v5-c-icon--Height: var(--pf-v5-c-icon--m-3x--Height);
+    --pf-v5-c-icon__content--FontSize: var(--pf-v5-c-icon--m-3x__content--FontSize);
+}
+
+:host([size="4x"]) {
+    --pf-v5-c-icon--Width: var(--pf-v5-c-icon--m-4x--Width);
+    --pf-v5-c-icon--Height: var(--pf-v5-c-icon--m-4x--Height);
+    --pf-v5-c-icon__content--FontSize: var(--pf-v5-c-icon--m-4x__content--FontSize);
+}
+
+:host([size="5x"]) {
+    --pf-v5-c-icon--Width: var(--pf-v5-c-icon--m-5x--Width);
+    --pf-v5-c-icon--Height: var(--pf-v5-c-icon--m-5x--Height);
+    --pf-v5-c-icon__content--FontSize: var(--pf-v5-c-icon--m-5x__content--FontSize);
+}
+
+:host([size="6x"]) {
+    --pf-v5-c-icon--Width: var(--pf-v5-c-icon--m-6x--Width);
+    --pf-v5-c-icon--Height: var(--pf-v5-c-icon--m-6x--Height);
+    --pf-v5-c-icon__content--FontSize: var(--pf-v5-c-icon--m-6x__content--FontSize);
+}
+
+:host([size="7x"]) {
+    --pf-v5-c-icon--Width: var(--pf-v5-c-icon--m-7x--Width);
+    --pf-v5-c-icon--Height: var(--pf-v5-c-icon--m-7x--Height);
+    --pf-v5-c-icon__content--FontSize: var(--pf-v5-c-icon--m-7x__content--FontSize);
+}
+
+:host([size="8x"]) {
+    --pf-v5-c-icon--Width: var(--pf-v5-c-icon--m-8x--Width);
+    --pf-v5-c-icon--Height: var(--pf-v5-c-icon--m-8x--Height);
+    --pf-v5-c-icon__content--FontSize: var(--pf-v5-c-icon--m-8x__content--FontSize);
+}
+
+:host([size="9x"]) {
+    --pf-v5-c-icon--Width: var(--pf-v5-c-icon--m-9x--Width);
+    --pf-v5-c-icon--Height: var(--pf-v5-c-icon--m-9x--Height);
+    --pf-v5-c-icon__content--FontSize: var(--pf-v5-c-icon--m-9x__content--FontSize);
+}
+
+:host([size="10x"]) {
+    --pf-v5-c-icon--Width: var(--pf-v5-c-icon--m-10x--Width);
+    --pf-v5-c-icon--Height: var(--pf-v5-c-icon--m-10x--Height);
+    --pf-v5-c-icon__content--FontSize: var(--pf-v5-c-icon--m-10x__content--FontSize);
 }
 

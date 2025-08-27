@@ -1,10 +1,11 @@
+import "./ak-empty-state.js";
+
+import { akEmptyState } from "./ak-empty-state.js";
+
 import { $, browser, expect } from "@wdio/globals";
 
 import { msg } from "@lit/localize";
 import { html, render } from "lit";
-
-import "./ak-empty-state.js";
-import { akEmptyState } from "./ak-empty-state.js";
 
 describe("ak-empty-state component", () => {
     afterEach(async () => {

@@ -1,10 +1,11 @@
+import "./ak-spinner.js";
+
+import { akSpinner } from "./ak-spinner.builder.js";
+
 import { spread } from "@open-wc/lit-helpers";
 import { $, browser, expect } from "@wdio/globals";
 
 import { html, render } from "lit";
-
-import { akSpinner } from "./ak-spinner.builder.js";
-import "./ak-spinner.js";
 
 describe("ak-spinner component", function () {
     // Clean out Lit's cache.

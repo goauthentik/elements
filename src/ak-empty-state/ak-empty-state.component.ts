@@ -1,13 +1,12 @@
-import { msg } from "@lit/localize";
-import { html, nothing } from "lit";
-import { AkLitElement } from "../component-base.js";
-import { property } from "lit/decorators.js";
-import { ifDefined } from "lit/directives/if-defined.js";
-
-import styles from "./ak-empty-state.css";
-
 import "../ak-icon/ak-icon.js";
 import "../ak-spinner/ak-spinner.js";
+
+import { AkLitElement } from "../component-base.js";
+import styles from "./ak-empty-state.css";
+
+import { msg } from "@lit/localize";
+import { html, nothing } from "lit";
+import { property } from "lit/decorators.js";
 
 /**
  * Size variants for the Empty State component
@@ -99,36 +98,44 @@ export class EmptyState extends AkLitElement implements IEmptyState {
         const showBody = this.hasSlotted("body") || this.loading;
 
         return html`
-            <div id="main" part="main">
-                <div class="content" part="content">
+            <div part="empty-state">
+                <div part="content">
                     ${showIcon
-                        ? html` <div class="icon" part="icon">
-                              ${hasIcon ? html`<slot name="icon"></slot>` : this.renderDefaultIcon()}
+                        ? html` <div part="icon">
+                              ${hasIcon
+                                  ? html`<slot name="icon"></slot>`
+                                  : this.renderDefaultIcon()}
                           </div>`
                         : nothing}
                     ${this.hasSlotted("title")
-                        ? html`<div class="title-text" part="title-text">
+                        ? html`<div part="title-text">
                               <slot name="title"></slot>
                           </div>`
                         : nothing}
                     ${showBody
-                        ? html`<div class="body" part="body">
-                              ${this.hasSlotted("body") ? html`<slot name="body"></slot></div>` : msg("Loading...")}
+                        ? html`<div part="body">
+                              ${this.hasSlotted("body")
+                                  ? html`<slot name="body"></slot></div>`
+                                  : msg("Loading...")}
                           </div>`
                         : nothing}
-                    ${this.hasSlotted("footer") || this.hasSlotted("actions") || this.hasSlotted("secondary-actions")
-                        ? html` <div class="footer" part="footer">
+                    ${this.hasSlotted("footer") ||
+                    this.hasSlotted("actions") ||
+                    this.hasSlotted("secondary-actions")
+                        ? html` <div part="footer">
                               ${this.hasSlotted("actions")
-                                  ? html`<div class="actions" part="actions">
+                                  ? html`<div part="actions">
                                         <slot name="actions"></slot>
                                     </div>`
                                   : nothing}
                               ${this.hasSlotted("secondary-actions")
-                                  ? html`<div class="actions" part="actions">
+                                  ? html`<div part="actions">
                                         <slot name="secondary-actions"></slot>
                                     </div>`
                                   : nothing}
-                              ${this.hasSlotted("footer") ? html`<slot name="footer"></slot>` : nothing}
+                              ${this.hasSlotted("footer")
+                                  ? html`<slot name="footer"></slot>`
+                                  : nothing}
                           </div>`
                         : nothing}
                 </div>

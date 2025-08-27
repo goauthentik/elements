@@ -53,7 +53,12 @@ async function build() {
     // SCSS Files that will *not* be converted to lit format
     const rootScssSources = ["css/authentik.scss", "css/theme-dark.scss"];
     const rootScssBuilds = await transformScss(rootScssSources, "./src", "./dist", scssOptions);
-    const rootScssTransforms = await transformLitScss(rootScssSources, "./src", "./dist", scssOptions);
+    const rootScssTransforms = await transformLitScss(
+        rootScssSources,
+        "./src",
+        "./dist",
+        scssOptions,
+    );
 
     // SCSS Files that will be converted to lit format
     const compScssSources = globSrc("**/ak-*/ak-*.scss").filter(scssForIncludeOnly);
@@ -71,10 +76,18 @@ async function build() {
 
     // Typescript files that will be transpiled to JavaScript
     const typescriptSources = globSrc("**/*.{ts,js}");
-    const typescriptBuilds = await compileTypescriptFiles(typescriptSources, swcConfig, "./src", "./dist");
+    const typescriptBuilds = await compileTypescriptFiles(
+        typescriptSources,
+        swcConfig,
+        "./src",
+        "./dist",
+    );
 
     // CSS, Font files, and other assets that do not require conversion
-    const assetSources = [...globSrc("**/*.{png,jpeg,jpg,woff,ttf,woff2}"), ...globSrc("./css/*.css")];
+    const assetSources = [
+        ...globSrc("**/*.{png,jpeg,jpg,woff,ttf,woff2}"),
+        ...globSrc("./css/*.css"),
+    ];
     const _assetSourceCopies = await copyFiles(assetSources, TARGETDIR, "./src");
 
     for (const [build, name] of [

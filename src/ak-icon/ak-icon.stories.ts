@@ -1,10 +1,11 @@
+import "./ak-icon.js";
+
+import { IIcon } from "./ak-icon.js";
+
 import { Meta, StoryObj } from "@storybook/web-components";
 
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
-
-import { Icon, IIcon } from "./ak-icon.js";
-import "./ak-icon.js";
 
 type IconFamily = "fa" | "fas" | "fab" | "pf";
 type IconSize = "sm" | "md" | "lg" | "xl";

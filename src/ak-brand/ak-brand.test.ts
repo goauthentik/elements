@@ -182,7 +182,7 @@ describe("akBrand helper function", () => {
                 src: "/builder-logo.svg",
                 alt: "Builder Logo",
             }),
-            document.body
+            document.body,
         );
 
         const brandEl = await $("ak-brand");
@@ -198,7 +198,7 @@ describe("akBrand helper function", () => {
             akBrand({
                 src: "/logo-only.svg",
             }),
-            document.body
+            document.body,
         );
 
         const brandEl = await $("ak-brand");
@@ -217,7 +217,7 @@ describe("akBrand helper function", () => {
             akBrand({
                 alt: "Logo description only",
             }),
-            document.body
+            document.body,
         );
 
         const brandEl = await $("ak-brand");
@@ -263,7 +263,7 @@ describe("akBrand helper function", () => {
                 src: "/reflected-test.svg",
                 alt: "Reflection Test",
             }),
-            document.body
+            document.body,
         );
 
         const brandEl = await $("ak-brand");
@@ -281,7 +281,7 @@ describe("akBrand helper function", () => {
                 src: "/special-chars.svg",
                 alt: specialAlt,
             }),
-            document.body
+            document.body,
         );
 
         const img = await $("ak-brand").$(">>>img");
@@ -296,7 +296,7 @@ describe("akBrand helper function", () => {
                 src: "/functional-test.svg",
                 alt: "Functional Test Logo",
             }),
-            document.body
+            document.body,
         );
 
         const brandEl = await $("ak-brand");

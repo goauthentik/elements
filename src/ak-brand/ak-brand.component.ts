@@ -39,6 +39,11 @@ export class Brand extends LitElement implements IBrand {
     alt?: string;
 
     render() {
-        return html`<img part="brand" loading="lazy" src=${ifDefined(this.src)} alt=${ifDefined(this.alt)} />`;
+        return html`<img
+            part="brand"
+            loading="lazy"
+            src=${ifDefined(this.src)}
+            alt=${ifDefined(this.alt)}
+        />`;
     }
 }

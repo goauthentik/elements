@@ -1,10 +1,12 @@
+import "./ak-empty-state.js";
+import "../ak-icon/ak-icon.js";
+
+import { akEmptyState, IEmptyState } from "./ak-empty-state.js";
+
 import { Meta, StoryObj } from "@storybook/web-components";
 
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
-
-import { EmptyState, IEmptyState, akEmptyState } from "./ak-empty-state.js";
-import "./ak-empty-state.js";
 
 type StoryProps = IEmptyState & { fullHeight: boolean };
 
@@ -16,9 +18,9 @@ const metadata: Meta<Partial<StoryProps>> = {
         docs: {
             description: {
                 component: `
-          The Empty State component is used when there is no data or content to display.
-          This can be used as a placeholder until content is available, or to indicate 
-          that no content will be available.
+The Empty State component is used when there is no data or content to display.
+This can be used as a placeholder until content is available, or to indicate 
+that no content will be available.
         `,
             },
         },
@@ -88,16 +90,7 @@ export const WithCustomIcon: Story = {
             ?no-icon=${args.noIcon}
         >
             <div slot="icon">
-                <svg
-                    style="height: 100%; width: 100%;"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                        d="M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z"
-                    />
-                </svg>
+                <ak-icon icon="triangle-exclamation" variant="warning" size="xl"></ak-icon>
             </div>
             <h2 slot="title">No results found</h2>
         </ak-empty-state>
@@ -145,16 +138,7 @@ export const Complete: Story = {
             ?no-icon=${args.noIcon}
         >
             <div slot="icon">
-                <svg
-                    style="height: 100%; width: 100%;"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                        d="M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z"
-                    />
-                </svg>
+                <ak-icon icon="triangle-exclamation" variant="danger" size="xl"></ak-icon>
             </div>
             <h2 slot="title">No results found</h2>
             <p slot="body">
@@ -258,15 +242,7 @@ export const HelperFunction: Story = {
         <div style="display: flex; flex-direction: column; gap: 2rem;">
             ${akEmptyState({
                 size: "sm",
-                icon: html`<svg
-                    style="height: 100%; width: 100%;"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                >
-                    <path
-                        d="M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z"
-                    />
-                </svg>`,
+                icon: html`<ak-icon icon="blueprint" size="xl"></ak-icon>`,
                 title: html`<h3>With Custom Icon</h3>`,
                 body: html`<p>Created using the helper function</p>`,
                 actions: html`<button>Action Button</button>`,

@@ -2,7 +2,7 @@ import { customElement } from "../utils/customElement.js";
 import { akSpinner } from "./ak-spinner.builder.js";
 import { Spinner } from "./ak-spinner.component.js";
 
-export { Spinner, akSpinner };
+export { akSpinner, Spinner };
 
 customElement("ak-spinner", Spinner);
 

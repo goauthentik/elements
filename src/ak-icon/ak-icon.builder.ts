@@ -1,8 +1,9 @@
-import { TemplateResult, html } from "lit";
-import { ifDefined } from "lit/directives/if-defined.js";
-
 import "./ak-icon.component.js";
+
 import { Icon } from "./ak-icon.component.js";
+
+import { html } from "lit";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 /* The `pick`ed fields here correspond to their types in the Icon class above. */
 
