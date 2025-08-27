@@ -62,7 +62,8 @@ async function build() {
     // CSS Files that need to be converted to lit format
     const compCssSources = [
         ...globSrc("**/ak-*/ak-*.css").filter(scssForIncludeOnly),
-        "./css/base/fa-icons.css",
+        "./ak-icon/pficons/pficons.css",
+        "./ak-icon/fontawesome/fontawesome.css",
         "./css/components/component_reset.css",
     ];
 
