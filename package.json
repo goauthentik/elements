@@ -30,6 +30,8 @@
         "@goauthentik/eslint-config": "^1.0.5",
         "@goauthentik/prettier-config": "^3.1.0",
         "@goauthentik/tsconfig": "^1.0.4",
+        "@goauthentik/wccss": "github:goauthentik/wccss",
+        "@lit/localize": "^0.12.2",
         "@open-wc/lit-helpers": "^0.7.0",
         "@storybook/addon-docs": "^9.1.3",
         "@storybook/preset-scss": "^1.0.3",
