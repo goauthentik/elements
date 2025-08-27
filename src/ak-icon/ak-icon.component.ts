@@ -87,7 +87,7 @@ export class Icon extends LitElement implements IIcon {
                 return;
             }
             if (this.icon.includes(" ")) {
-                this.#iconClass = icon;
+                this.#iconClass = this.icon;
                 return;
             }
         }
@@ -101,6 +101,6 @@ export class Icon extends LitElement implements IIcon {
     }
 
     render() {
-        return html`<span part="content"><i part="icon" class="${this.#iconClass}"></i></span>`;
+        return html`<div part="content"><i part="icon" class="${this.#iconClass}"></i></div>`;
     }
 }

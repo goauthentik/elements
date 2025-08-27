@@ -56,7 +56,8 @@ will find and display <ak-icon icon="birthday-cake"></ak-icon>`,
         },
         family: {
             control: "select",
-            description: "Icon family prefix - when provided with icon, creates explicit family/icon pair",
+            description:
+                "Icon family prefix - when provided with icon, creates explicit family/icon pair",
             options: ["", "fa", "fas", "fab", "pf"],
             table: {
                 type: { summary: "IconFamily" },
@@ -112,7 +113,10 @@ will find and display <ak-icon icon="birthday-cake"></ak-icon>`,
         },
     },
     decorators: [
-        (story) => html`<div style="padding: 2rem; display: flex; align-items: center; gap: 1rem;">${story()}</div>`,
+        (story) =>
+            html`<div style="padding: 2rem; display: flex; align-items: center; gap: 1rem;">
+                ${story()}
+            </div>`,
     ],
 };
 
@@ -235,17 +239,19 @@ export const AnimationEffects: Story = {
         },
     },
     render: () => html`
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center;">
+        <div
+            style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center;"
+        >
             <div>
-                <ak-icon icon="heart" effect="beat" size="lg" variant="danger"></ak-icon>
+                <ak-icon icon="fist-raised" effect="beat" size="lg" variant="danger"></ak-icon>
                 <div>Beat</div>
             </div>
             <div>
-                <ak-icon icon="basketball" effect="bounce" size="lg"></ak-icon>
+                <ak-icon icon="tired" effect="bounce" size="lg"></ak-icon>
                 <div>Bounce</div>
             </div>
             <div>
-                <ak-icon icon="lightbulb" effect="fade" size="lg"></ak-icon>
+                <ak-icon icon="radiation-alt" effect="fade" size="lg"></ak-icon>
                 <div>Fade</div>
             </div>
             <div>
@@ -257,12 +263,16 @@ export const AnimationEffects: Story = {
                 <div>Flip</div>
             </div>
             <div>
-                <ak-icon icon="bell" effect="shake" size="lg" variant="warning"></ak-icon>
+                <ak-icon icon="bed" effect="shake" size="lg" variant="warning"></ak-icon>
                 <div>Shake</div>
             </div>
             <div>
                 <ak-icon icon="spinner" effect="spin" size="lg"></ak-icon>
                 <div>Spin</div>
+            </div>
+            <div>
+                <ak-icon icon="thumbs-down" effect="flip-down" size="lg"></ak-icon>
+                <div>Flip Vertical</div>
             </div>
         </div>
     `,
@@ -278,7 +288,9 @@ export const TransformEffects: Story = {
         },
     },
     render: () => html`
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center;">
+        <div
+            style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center;"
+        >
             <div>
                 <ak-icon icon="arrow-right" size="lg"></ak-icon>
                 <div>Original</div>
@@ -310,6 +322,40 @@ export const TransformEffects: Story = {
             <div style="--fa-rotate-angle: 45deg;">
                 <ak-icon icon="arrow-right" effect="rotate-by" size="lg"></ak-icon>
                 <div>Custom Rotate (45°)</div>
+            </div>
+        </div>
+    `,
+};
+
+// Transform effects
+export const CombinedEffects: Story = {
+    parameters: {
+        docs: {
+            description: {
+                story: "Icon component with transform effects (rotation and flipping).",
+            },
+        },
+    },
+    render: () => html`
+        <div
+            style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center;"
+        >
+            <div>
+                <ak-icon icon="bed" size="lg"></ak-icon>
+                <div>No modifications</div>
+            </div>
+            <div>
+                <ak-icon icon="bed" effect="flip-vertical shake" size="lg"></ak-icon>
+                <div>Shake and Turn Upside Down</div>
+            </div>
+            <div>
+                <ak-icon
+                    icon="user-astronaut"
+                    style="--fa-rotate-angle: 330deg"
+                    effect="fade rotate-by"
+                    size="lg"
+                ></ak-icon>
+                <div>Tilt (Custom Rotate) and Fade</div>
             </div>
         </div>
     `,
@@ -402,11 +448,17 @@ export const FallbackBehavior: Story = {
     },
     render: (args: StoryProps) => html`
         <div style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
-            <ak-icon icon=${ifDefined(args.icon)} fallback=${ifDefined(args.fallback)} size="lg"></ak-icon>
+            <ak-icon
+                icon=${ifDefined(args.icon)}
+                fallback=${ifDefined(args.fallback)}
+                size="lg"
+            ></ak-icon>
             <div style="text-align: center;">
                 <div>Requested: <code>icon="${args.icon}"</code></div>
                 <div>Fallback: <code>fallback="${args.fallback}"</code></div>
-                <div style="color: #666; font-size: 0.875rem;">Check console for resolution warning</div>
+                <div style="color: #666; font-size: 0.875rem;">
+                    Check console for resolution warning
+                </div>
             </div>
         </div>
     `,
