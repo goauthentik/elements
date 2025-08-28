@@ -11,14 +11,15 @@ import { property } from "lit/decorators.js";
 /**
  * Size variants for the Empty State component
  */
-export const emptyStateSize = ["xs", "sm", "lg", "xl"] as const;
+export const emptyStateSize = ["xs", "sm", "md", "lg", "xl"] as const;
 export type EmptyStateSize = (typeof emptyStateSize)[number];
+const DEFAULT_SIZE_INDEX = emptyStateSize.indexOf("md");
 
 const isEmptyStateSize = (s?: string): s is EmptyStateSize =>
     typeof s === "string" && s.trim() !== "" && emptyStateSize.includes(s as EmptyStateSize);
 
-const spinnerSizes = ["md", "lg", "xl", "xl"];
-const iconSizes = ["sm", "lg", "2x", "3x"];
+const spinnerSizes = ["sm", "sm", "md", "lg", "xl"];
+const iconSizes = ["sm", "md", "lg", "xl", "6x"];
 
 export interface IEmptyState {
     size?: string;
@@ -82,14 +83,13 @@ export class EmptyState extends AkLitElement implements IEmptyState {
     loading = false;
 
     @property({ type: String })
-    size = "";
+    size = "md";
 
     private renderDefaultIcon() {
-        const size = this.getAttribute("size") ?? "sm";
-        const index = isEmptyStateSize(size) ? emptyStateSize.indexOf(size) : 1;
+        const index = isEmptyStateSize(this.size) ? emptyStateSize.indexOf(this.size) : DEFAULT_SIZE_INDEX;
         return this.loading
             ? html`<ak-spinner size=${spinnerSizes[index] ?? "lg"}></ak-spinner>`
-            : html`<ak-icon icon="box-open" size="${iconSizes[index] ?? "3x"}"></ak-icon>`;
+            : html`<ak-icon icon="fa fa-cubes" size="${iconSizes[index] ?? "3x"}"></ak-icon>`;
     }
 
     render() {

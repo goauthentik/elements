@@ -15,7 +15,7 @@
         "lit-analyze": "lit-analyzer ./src",
         "prettier": "prettier --cache --write -u .",
         "prettier-check": "prettier --cache --check -u .",
-        "storybook": "run-s build storybook:main",
+        "storybook": "run-s analyze build storybook:main",
         "storybook:main": "storybook dev -p 6006",
         "test": "run-s build test:unit",
         "test:unit": "wdio run ./config/wdio.conf.mts --logLevel=warn",
