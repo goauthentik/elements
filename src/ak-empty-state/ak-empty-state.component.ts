@@ -18,7 +18,7 @@ const DEFAULT_SIZE_INDEX = emptyStateSize.indexOf("md");
 const isEmptyStateSize = (s?: string): s is EmptyStateSize =>
     typeof s === "string" && s.trim() !== "" && emptyStateSize.includes(s as EmptyStateSize);
 
-const spinnerSizes = ["sm", "sm", "md", "lg", "xl"];
+const spinnerSizes = ["sm", "md", "lg", "lg", "xl"];
 const iconSizes = ["sm", "md", "lg", "xl", "6x"];
 
 export interface IEmptyState {
