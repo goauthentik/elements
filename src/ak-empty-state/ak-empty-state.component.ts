@@ -72,18 +72,18 @@ export interface IEmptyState {
 
  */
 export class EmptyState extends AkLitElement implements IEmptyState {
-    static get styles() {
+    static override get styles() {
         return [styles];
     }
 
     @property({ type: Boolean, attribute: "no-icon" })
-    noIcon = false;
+    public noIcon = false;
 
     @property({ type: Boolean })
-    loading = false;
+    public loading = false;
 
     @property({ type: String })
-    size = "md";
+    public size = "md";
 
     private renderDefaultIcon() {
         const index = isEmptyStateSize(this.size) ? emptyStateSize.indexOf(this.size) : DEFAULT_SIZE_INDEX;
@@ -92,7 +92,7 @@ export class EmptyState extends AkLitElement implements IEmptyState {
             : html`<ak-icon icon="fa fa-cubes" size="${iconSizes[index] ?? "3x"}"></ak-icon>`;
     }
 
-    render() {
+    public override render() {
         const hasIcon = this.hasSlotted("icon");
         const showIcon = hasIcon || !this.noIcon;
         const showBody = this.hasSlotted("body") || this.loading;

@@ -5,7 +5,7 @@ import { akEmptyState } from "./ak-empty-state.js";
 import { $, browser, expect } from "@wdio/globals";
 
 import { msg } from "@lit/localize";
-import { html, render } from "lit";
+import { html, render, type TemplateResult } from "lit";
 
 describe("ak-empty-state component", () => {
     let container: WebdriverIO.Element;
