@@ -4,7 +4,7 @@ import { ALIASES } from "./aliases.js";
 import faicons from "./fontawesome/fontawesome.css";
 import pficons from "./pficons/pficons.css";
 
-import { html, LitElement, PropertyValues } from "lit";
+import { html, LitElement } from "lit";
 import { property } from "lit/decorators.js";
 
 const iconFamilies = ["fa", "fas", "fab", "pf"] as const;
@@ -96,7 +96,7 @@ export class Icon extends LitElement implements IIcon {
         this.#iconClass = this.fallback;
     }
 
-    willUpdate(changed: PropertyValues<this>) {
+    willUpdate() {
         this.deriveIconClass();
     }
 
