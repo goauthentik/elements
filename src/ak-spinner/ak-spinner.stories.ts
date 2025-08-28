@@ -1,9 +1,10 @@
+import "./ak-spinner.js";
+
+import { akSpinner, AkSpinnerProps } from "./ak-spinner.builder.js";
+
 import { Meta, StoryObj } from "@storybook/web-components";
 
 import { html } from "lit";
-
-import { AkSpinnerProps, akSpinner } from "./ak-spinner.builder.js";
-import "./ak-spinner.js";
 
 const metadata: Meta<AkSpinnerProps> = {
     title: "Elements/Spinner",
@@ -102,8 +103,14 @@ export const CustomLabel: Story = {
 export const CustomColor = () => html`
     <div>
         <ak-spinner style="--pf-v5-c-spinner--Color: rebeccapurple;" size="xl"></ak-spinner>
-        <ak-spinner style="--pf-v5-c-spinner--Color: hsl(327.57deg, 100.00%, 53.92%);" size="lg"></ak-spinner>
-        <ak-spinner style="--pf-v5-c-spinner--Color: oklch(0.54 0.0927 194.77);" size="xl"></ak-spinner>
+        <ak-spinner
+            style="--pf-v5-c-spinner--Color: hsl(327.57deg, 100.00%, 53.92%);"
+            size="lg"
+        ></ak-spinner>
+        <ak-spinner
+            style="--pf-v5-c-spinner--Color: oklch(0.54 0.0927 194.77);"
+            size="xl"
+        ></ak-spinner>
     </div>
 `;
 
@@ -139,13 +146,16 @@ export const InlineSpinners: Story = {
     render: () => html`
         <div style="display: flex; flex-direction: column; gap: 1rem;">
             <div style="font-size: 14px;">
-                Small text with <ak-spinner inline label="Loading small"></ak-spinner> inline spinner
+                Small text with <ak-spinner inline label="Loading small"></ak-spinner> inline
+                spinner
             </div>
             <div style="font-size: 16px;">
-                Normal text with <ak-spinner inline label="Loading normal"></ak-spinner> inline spinner
+                Normal text with <ak-spinner inline label="Loading normal"></ak-spinner> inline
+                spinner
             </div>
             <div style="font-size: 20px;">
-                Large text with <ak-spinner inline label="Loading large"></ak-spinner> inline spinner
+                Large text with <ak-spinner inline label="Loading large"></ak-spinner> inline
+                spinner
             </div>
             <div style="font-size: 24px;">
                 Extra large text with
@@ -166,7 +176,10 @@ export const CustomAnimations: Story = {
     render: () => html`
         <div style="display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;">
             <div style="text-align: center;">
-                <ak-spinner size="lg" style="--pf-v5-c-spinner--AnimationDuration: 0.8s;"></ak-spinner>
+                <ak-spinner
+                    size="lg"
+                    style="--pf-v5-c-spinner--AnimationDuration: 0.8s;"
+                ></ak-spinner>
                 <div style="margin-top: 0.5rem; font-size: 0.875rem;">Fast (0.8s)</div>
             </div>
             <div style="text-align: center;">
@@ -174,7 +187,10 @@ export const CustomAnimations: Story = {
                 <div style="margin-top: 0.5rem; font-size: 0.875rem;">Default (1.4s)</div>
             </div>
             <div style="text-align: center;">
-                <ak-spinner size="lg" style="--pf-v5-c-spinner--AnimationDuration: 2.5s;"></ak-spinner>
+                <ak-spinner
+                    size="lg"
+                    style="--pf-v5-c-spinner--AnimationDuration: 2.5s;"
+                ></ak-spinner>
                 <div style="margin-top: 0.5rem; font-size: 0.875rem;">Slow (2.5s)</div>
             </div>
             <div style="text-align: center;">
@@ -206,13 +222,17 @@ export const LoadingStates: Story = {
     render: () => html`
         <div style="display: flex; flex-direction: column; gap: 2rem;">
             <!-- Page loading -->
-            <div style="text-align: center; padding: 3rem; border: 1px dashed #ccc; border-radius: 8px;">
+            <div
+                style="text-align: center; padding: 3rem; border: 1px dashed #ccc; border-radius: 8px;"
+            >
                 <ak-spinner size="xl" label="Loading page content"></ak-spinner>
                 <div style="margin-top: 1rem; color: #666;">Loading page content...</div>
             </div>
 
             <!-- Card loading -->
-            <div style="padding: 1.5rem; border: 1px solid #e5e7eb; border-radius: 8px; background: #f9fafb;">
+            <div
+                style="padding: 1.5rem; border: 1px solid #e5e7eb; border-radius: 8px; background: #f9fafb;"
+            >
                 <div style="display: flex; align-items: center; gap: 1rem;">
                     <ak-spinner size="md" label="Loading card data"></ak-spinner>
                     <div>Loading card data...</div>
@@ -266,7 +286,10 @@ export const UsingBuilderFunction: Story = {
 
             <div>
                 <h4>Inline spinner:</h4>
-                <p>Processing your request ${akSpinner({ inline: true, label: "Processing" })} please wait...</p>
+                <p>
+                    Processing your request ${akSpinner({ inline: true, label: "Processing" })}
+                    please wait...
+                </p>
             </div>
         </div>
     `,
@@ -304,7 +327,10 @@ export const AccessibilityExample: Story = {
                 <h4 style="margin-top: 0;">Accessibility Notes:</h4>
                 <ul style="margin-bottom: 0;">
                     <li>Each spinner has a descriptive <code>aria-label</code> attribute</li>
-                    <li>The <code>role="progressbar"</code> indicates loading state to screen readers</li>
+                    <li>
+                        The <code>role="progressbar"</code> indicates loading state to screen
+                        readers
+                    </li>
                     <li>Labels should describe what is being loaded, not just "Loading..."</li>
                     <li>Consider pairing with visually hidden text for additional context</li>
                 </ul>

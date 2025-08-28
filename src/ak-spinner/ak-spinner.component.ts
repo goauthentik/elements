@@ -1,10 +1,10 @@
-import { msg } from "@lit/localize";
-import { LitElement, html } from "lit";
-import { property } from "lit/decorators.js";
-import { ifDefined } from "lit/directives/if-defined.js";
-
 import keyframes from "./ak-spinner-keyframes.css";
 import styles from "./ak-spinner.css";
+
+import { msg } from "@lit/localize";
+import { html, LitElement } from "lit";
+import { property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 /**
  * Spinner size variants. Prefer T-shirt sizes when possible.
@@ -57,7 +57,12 @@ export class Spinner extends LitElement {
     public label = msg("Loading...");
 
     public override render() {
-        return html`<svg part="spinner" role="progressbar" viewBox="0 0 100 100" aria-label=${ifDefined(this.label)}>
+        return html`<svg
+            part="spinner"
+            role="progressbar"
+            viewBox="0 0 100 100"
+            aria-label=${ifDefined(this.label)}
+        >
             <circle part="circle" cx="50" cy="50" r="45" fill="none" />
         </svg>`;
     }
