@@ -1,0 +1,84 @@
+:host {
+    display: block;
+    position: relative;
+    width: var(--ak-monaco-width, 100%);
+    height: var(--ak-monaco-height, 300px);
+    border: var(--ak-monaco-border, 1px solid var(--pf-v5-global--BorderColor--100));
+    border-radius: var(--ak-monaco-border-radius, var(--pf-v5-global--BorderRadius--sm));
+    overflow: hidden;
+    contain: layout style paint;
+}
+
+.monaco-editor-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+:host .monaco-editor-container .monaco-editor {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+:host .monaco-editor-container .monaco-editor .monaco-editor-background {
+    background-color: transparent;
+}
+
+:host .monaco-editor-container .overflow-guard {
+    border-radius: inherit;
+}
+
+:host([theme="vs-dark"]) {
+    border-color: var(--pf-v5-global--palette--black-600);
+    background-color: var(--pf-v5-global--palette--black-900);
+}
+
+:host([theme="vs"]) {
+    border-color: var(--pf-v5-global--BorderColor--100);
+    background-color: var(--pf-v5-global--BackgroundColor--100);
+}
+
+:host([theme="hc-black"]) {
+    border-color: var(--pf-v5-global--palette--white);
+    background-color: var(--pf-v5-global--palette--black-1000);
+}
+
+@media (max-width: 768px) {
+    :host {
+        --ak-monaco-height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    :host {
+        --ak-monaco-height: 150px;
+    }
+}
+
+:host(:focus-within) {
+    outline: 2px solid var(--pf-v5-global--active-color--100);
+    outline-offset: 2px;
+}
+
+:host([read-only]) {
+    opacity: 0.8;
+    cursor: default;
+}
+
+:host([read-only])::after {
+    content: "Read Only";
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--pf-v5-global--info-color--100);
+    color: var(--pf-v5-global--Color--light-100);
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: var(--pf-v5-global--BorderRadius--sm);
+    z-index: 1000;
+    pointer-events: none;
+}
