@@ -244,48 +244,58 @@
     --pf-v5-c-icon--Height: var(--pf-v5-c-icon--m-1x--Height);
     --pf-v5-c-icon__content--FontSize: var(--pf-v5-c-icon--m-1x__content--FontSize);
 }
+
 :host([size="2x"]) {
     --pf-v5-c-icon--Width: var(--pf-v5-c-icon--m-2x--Width);
     --pf-v5-c-icon--Height: var(--pf-v5-c-icon--m-2x--Height);
     --pf-v5-c-icon__content--FontSize: var(--pf-v5-c-icon--m-2x__content--FontSize);
 }
+
 :host([size="3x"]) {
     --pf-v5-c-icon--Width: var(--pf-v5-c-icon--m-3x--Width);
     --pf-v5-c-icon--Height: var(--pf-v5-c-icon--m-3x--Height);
     --pf-v5-c-icon__content--FontSize: var(--pf-v5-c-icon--m-3x__content--FontSize);
 }
+
 :host([size="4x"]) {
     --pf-v5-c-icon--Width: var(--pf-v5-c-icon--m-4x--Width);
     --pf-v5-c-icon--Height: var(--pf-v5-c-icon--m-4x--Height);
     --pf-v5-c-icon__content--FontSize: var(--pf-v5-c-icon--m-4x__content--FontSize);
 }
+
 :host([size="5x"]) {
     --pf-v5-c-icon--Width: var(--pf-v5-c-icon--m-5x--Width);
     --pf-v5-c-icon--Height: var(--pf-v5-c-icon--m-5x--Height);
     --pf-v5-c-icon__content--FontSize: var(--pf-v5-c-icon--m-5x__content--FontSize);
 }
+
 :host([size="6x"]) {
     --pf-v5-c-icon--Width: var(--pf-v5-c-icon--m-6x--Width);
     --pf-v5-c-icon--Height: var(--pf-v5-c-icon--m-6x--Height);
     --pf-v5-c-icon__content--FontSize: var(--pf-v5-c-icon--m-6x__content--FontSize);
 }
+
 :host([size="7x"]) {
     --pf-v5-c-icon--Width: var(--pf-v5-c-icon--m-7x--Width);
     --pf-v5-c-icon--Height: var(--pf-v5-c-icon--m-7x--Height);
     --pf-v5-c-icon__content--FontSize: var(--pf-v5-c-icon--m-7x__content--FontSize);
 }
+
 :host([size="8x"]) {
     --pf-v5-c-icon--Width: var(--pf-v5-c-icon--m-8x--Width);
     --pf-v5-c-icon--Height: var(--pf-v5-c-icon--m-8x--Height);
     --pf-v5-c-icon__content--FontSize: var(--pf-v5-c-icon--m-8x__content--FontSize);
 }
+
 :host([size="9x"]) {
     --pf-v5-c-icon--Width: var(--pf-v5-c-icon--m-9x--Width);
     --pf-v5-c-icon--Height: var(--pf-v5-c-icon--m-9x--Height);
     --pf-v5-c-icon__content--FontSize: var(--pf-v5-c-icon--m-9x__content--FontSize);
 }
+
 :host([size="10x"]) {
     --pf-v5-c-icon--Width: var(--pf-v5-c-icon--m-10x--Width);
     --pf-v5-c-icon--Height: var(--pf-v5-c-icon--m-10x--Height);
     --pf-v5-c-icon__content--FontSize: var(--pf-v5-c-icon--m-10x__content--FontSize);
 }
+
