@@ -61,20 +61,20 @@ export interface IIcon {
  * @cssprop --fa-flip-angle - Flip angle for flip effect
  */
 export class Icon extends LitElement implements IIcon {
-    static readonly styles = [styles, effects, faicons, pficons];
+    static override readonly styles = [styles, effects, faicons, pficons];
 
     @property()
-    icon?: string;
+    public icon?: string;
 
     @property()
-    family?: IconFamily;
+    public family?: IconFamily;
 
     @property()
-    fallback = "fa fa-bug";
+    public fallback = "fa fa-bug";
 
     #iconClass: string = this.fallback;
 
-    deriveIconClass() {
+    #deriveIconClass() {
         if (this.family && this.icon) {
             this.#iconClass = `${this.family} ${this.icon}`;
             return;
@@ -96,11 +96,11 @@ export class Icon extends LitElement implements IIcon {
         this.#iconClass = this.fallback;
     }
 
-    willUpdate() {
-        this.deriveIconClass();
+    public override willUpdate() {
+        this.#deriveIconClass();
     }
 
-    render() {
+    public override render() {
         return html`<div part="content"><i part="icon" class="${this.#iconClass}"></i></div>`;
     }
 }
