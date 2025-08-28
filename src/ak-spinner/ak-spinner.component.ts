@@ -51,12 +51,12 @@ export interface ISpinner {
  * @cssprop --pf-v5-c-spinner__path--AnimationTimingFunction - Animation timing for the path
  */
 export class Spinner extends LitElement {
-    static readonly styles = [styles, keyframes];
+    static override readonly styles = [styles, keyframes];
 
     @property()
-    label = msg("Loading...");
+    public label = msg("Loading...");
 
-    render() {
+    public override render() {
         return html`<svg
             part="spinner"
             role="progressbar"
