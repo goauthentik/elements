@@ -5,8 +5,8 @@ in the `lib` folder. Each function describes a step in the build process, and ea
 informatively as possible: `transformScssToCss`, `transformCssToLitCss`, `compileTypescriptFiles`,
 etc.
 
-The typescript compiler currently in use is SWC.  There is a Sass layer, but it has been deprecated
-in favor of modern CSS.  Our Typescript configuration is based on `@goauthentik/tsconfig`.
+The typescript compiler currently in use is SWC. There is a Sass layer, but it has been deprecated
+in favor of modern CSS. Our Typescript configuration is based on `@goauthentik/tsconfig`.
 
 The build places all compiled artifacts, and copies any required assets, into the `./dist` folder.
 
@@ -29,4 +29,3 @@ which relies on accurate JSDoc blocks in the component.
 # Formatting
 
 We use the `@goauthentik/prettier-config` configuration exclusively.
-
