@@ -5,7 +5,7 @@ import { AkLitElement } from "../component-base.js";
 import styles from "./ak-empty-state.css";
 
 import { msg } from "@lit/localize";
-import { html, nothing } from "lit";
+import { html, nothing, PropertyValues } from "lit";
 import { property } from "lit/decorators.js";
 
 /**
@@ -21,6 +21,9 @@ const isEmptyStateSize = (s?: string): s is EmptyStateSize =>
 const spinnerSizes = ["md", "lg", "lg", "xl", "xl"];
 const iconSizes = ["sm", "md", "lg", "xl", "6x"];
 
+const VALID_SLOTS = ["icon", "body", "title", "actions", "secondary-actions", "footer"] as const;
+type ValidSlot = (typeof VALID_SLOTS)[number];
+
 export interface IEmptyState {
     size?: string;
     loading?: boolean;
@@ -34,7 +37,7 @@ export interface IEmptyState {
  *
  * @attr {string} size - Size variant: "xs", "sm", "lg", "xl"
  * @attr {boolean} loading - Shows spinner and loading text when true
- * @attr {boolean} default-label - Shows the (localized) text "Loading..."
+ * @attr {boolean} no-loading-message - Do not shows the (localized) text "Loading..." when `loading` is true
  * @attr {boolean} no-icon - Hides the default icon when true
  * @attr {boolean} full-height - Makes component take full height of container
  *
@@ -45,10 +48,10 @@ export interface IEmptyState {
  * @slot actions - Primary action buttons
  * @slot secondary-actions - Secondary action buttons
  *
- * @csspart main - The main container element
+ * @csspart empty-state - The main container element
  * @csspart content - The content container element
  * @csspart icon - The container for the icon element
- * @csspart title-text - The container for the title
+ * @csspart title - The container for the title
  * @csspart body - The container for the body text
  * @csspart footer - The footer container
  * @csspart actions - The container for the action buttons
@@ -69,9 +72,8 @@ export interface IEmptyState {
  * @cssprop --pf-v5-c-empty-state__footer--MarginTop - Top margin of the footer
  * @cssprop --pf-v5-c-empty-state__actions--RowGap - Row gap between action elements
  * @cssprop --pf-v5-c-empty-state__actions--ColumnGap - Column gap between action elements
-
-
  */
+
 export class EmptyState extends AkLitElement implements IEmptyState {
     static override readonly styles = [styles];
 
@@ -81,8 +83,8 @@ export class EmptyState extends AkLitElement implements IEmptyState {
     @property({ type: Boolean, attribute: "no-icon" })
     public noIcon = false;
 
-    @property({ type: Boolean, reflect: true, attribute: "no-label" })
-    public noDefaultLabel = false;
+    @property({ type: Boolean, reflect: true, attribute: "no-loading-message" })
+    public noLoadingMessage = false;
 
     @property({ type: Boolean })
     public loading = false;
@@ -90,11 +92,27 @@ export class EmptyState extends AkLitElement implements IEmptyState {
     @property({ type: String })
     public size = "lg";
 
+    private slotted: Record<ValidSlot, boolean> = {
+        "icon": false,
+        "body": false,
+        "title": false,
+        "actions": false,
+        "secondary-actions": false,
+        "footer": false,
+    };
+
+    public override willUpdate(changed: PropertyValues<this>) {
+        VALID_SLOTS.forEach((slotname) => {
+            this.slotted[slotname] = this.hasSlotted(slotname);
+        });
+        super.willUpdate(changed);
+    }
+
     private renderIcon() {
         if (this.noIcon) {
             return nothing;
         }
-        if (this.hasSlotted("icon")) {
+        if (this.slotted.icon) {
             return html`<div part="icon"><slot name="icon"></slot></div>`;
         }
         if (this.icon) {
@@ -115,10 +133,10 @@ export class EmptyState extends AkLitElement implements IEmptyState {
     }
 
     private renderBody() {
-        if (this.hasSlotted("body")) {
+        if (this.slotted.body) {
             return html`<div part="body"><slot name="body"></slot></div>`;
         }
-        if (this.loading && !this.noDefaultLabel) {
+        if (this.loading && !this.noLoadingMessage) {
             return html`<div part="body">${msg("Loading...")}</div>`;
         }
         return nothing;
@@ -126,33 +144,31 @@ export class EmptyState extends AkLitElement implements IEmptyState {
 
     public override render() {
         const showFooter =
-            this.hasSlotted("footer") ||
-            this.hasSlotted("actions") ||
-            this.hasSlotted("secondary-actions");
+            this.slotted.footer || this.slotted.actions || this.slotted["secondary-actions"];
 
         return html`
             <div part="empty-state">
                 <div part="content">
                     ${this.renderIcon()}
-                    ${this.hasSlotted("title")
-                        ? html`<div part="title-text">
+                    ${this.slotted.title
+                        ? html`<div part="title">
                               <slot name="title"></slot>
                           </div>`
                         : nothing}
                     ${this.renderBody()}
                     ${showFooter
                         ? html` <div part="footer">
-                              ${this.hasSlotted("actions")
+                              ${this.slotted.actions
                                   ? html`<div part="actions">
                                         <slot name="actions"></slot>
                                     </div>`
                                   : nothing}
-                              ${this.hasSlotted("secondary-actions")
+                              ${this.slotted["secondary-actions"]
                                   ? html`<div part="actions">
                                         <slot name="secondary-actions"></slot>
                                     </div>`
                                   : nothing}
-                              ${this.hasSlotted("footer")
+                              ${this.slotted.footer
                                   ? html`<div part="footer"><slot name="footer"></slot></div>`
                                   : nothing}
                           </div>`
@@ -160,5 +176,22 @@ export class EmptyState extends AkLitElement implements IEmptyState {
                 </div>
             </div>
         `;
+    }
+
+    // TODO: Double-check this. "No ARIA is better than bad ARIA," and I'm not 100% on my ARIA
+    // skills yet.
+    public override updated() {
+        if (this.loading) {
+            this.removeAttribute("aria-label");
+            this.setAttribute("aria-live", "polite");
+            this.setAttribute("role", "status");
+        } else {
+            this.removeAttribute("aria-live");
+            this.setAttribute("role", "img");
+            // Consider aria-label for non-loading states
+            if (!this.hasSlotted("title")) {
+                this.setAttribute("aria-label", msg("Empty state"));
+            }
+        }
     }
 }

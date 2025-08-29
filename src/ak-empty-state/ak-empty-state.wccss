@@ -29,6 +29,10 @@ $config {
 }
 
 [part="\1"] {
-    $from: /__(content|icon|title-text|body|footer|actions)/;
+    $from: /__(content|icon|body|footer|actions)/;
+}
+
+[part="title"] {
+    $from: /__title-text/;
 }
 

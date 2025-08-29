@@ -1,14 +1,14 @@
 import "./ak-empty-state.js";
 import "../ak-icon/ak-icon.js";
 
-import { akEmptyState, EmptyState, AkEmptyStateProps } from "./ak-empty-state.js";
+import { akEmptyState, EmptyState } from "./ak-empty-state.js";
 
 import { Meta, StoryObj } from "@storybook/web-components";
 
 import { html, nothing, TemplateResult } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
-type StoryProps = Pick<Partial<EmptyState>, "noIcon" | "noDefaultLabel" | "loading" | "size"> & {
+type StoryProps = Pick<Partial<EmptyState>, "noIcon" | "noLoadingMessage" | "loading" | "size"> & {
     fullHeight: boolean;
     icon: TemplateResult;
     iconClass: string;
@@ -29,7 +29,7 @@ The EmptyState is an in-page element to indicate that something is either loadin
 When "loading" is true it displays a spinner, otherwise it displays a static icon. The default
 icon is a question mark in a circle.
 
-It has five named slots:
+### Slots:
 
 - **icon**: The icon to show.
 - **title**: The title (renders larger and more bold)
@@ -40,9 +40,9 @@ It has five named slots:
 For the loading attributes:
 
 - The attribute \`loading\` will show the spinner and the default (localized) title of "Loading".
-  - Add \`no-label\` to show only the spinner (in which case, why aren't you using the spinner component)?
+  - Add \`no-loading-message\` to show only the spinner (in which case, why aren't you using the spinner component)?
 
-  Attributes:
+### Attributes:
 
 - **icon**: The full class name of a FontAwesome or Patternfly icon.  Passed to the ak-icon \`icon\` attribute.
   If both this attribute is set and content is supplied to the \`icon\` slot, the slot takes precedence.
@@ -70,7 +70,7 @@ slots, the slotted content takes precendence.
             description:
                 "When true, prevents the default icon from showing when no icon is provided",
         },
-        noDefaultLabel: {
+        noLoadingMessage: {
             control: "boolean",
             description: "When loading and true, do not show the default label.",
         },
@@ -109,7 +109,7 @@ const Template: Story = {
         iconClass: "far fa-folder-open",
         size: "lg",
         loading: false,
-        noDefaultLabel: false,
+        noLoadingMessage: false,
         fullHeight: false,
         noIcon: false,
     },
@@ -118,7 +118,7 @@ const Template: Story = {
             icon=${ifDefined(args.iconClass)}
             size=${ifDefined(args.size)}
             ?loading=${args.loading}
-            ?no-label=${args.noDefaultLabel}
+            ?no-loading-message=${args.noLoadingMessage}
             ?full-height=${args.fullHeight}
             ?no-icon=${ifDefined(args.noIcon)}
         >
@@ -156,12 +156,21 @@ export const Loading: Story = {
     },
 };
 
+export const LoadingWithNoMessage: Story = {
+    ...Template,
+    args: {
+        size: "lg",
+        loading: true,
+        noLoadingMessage: true,
+    },
+};
+
 export const LoadingWithCustomMessage: Story = {
     ...Template,
     args: {
         size: "lg",
         loading: true,
-        noDefaultLabel: true,
+        noLoadingMessage: true,
         titleText: html`I <em>know</em> it's around here somewhere!`,
     },
 };
