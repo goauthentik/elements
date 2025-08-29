@@ -93,12 +93,12 @@ export class EmptyState extends AkLitElement implements IEmptyState {
     public size = "lg";
 
     private slotted: Record<ValidSlot, boolean> = {
-        "icon": false,
-        "body": false,
-        "title": false,
-        "actions": false,
+        icon: false,
+        body: false,
+        title: false,
+        actions: false,
         "secondary-actions": false,
-        "footer": false,
+        footer: false,
     };
 
     public override willUpdate(changed: PropertyValues<this>) {
@@ -109,14 +109,14 @@ export class EmptyState extends AkLitElement implements IEmptyState {
     }
 
     private renderIcon() {
-        if (this.noIcon) {
-            return nothing;
-        }
         if (this.slotted.icon) {
             return html`<div part="icon"><slot name="icon"></slot></div>`;
         }
         if (this.icon) {
             return html`<div part="icon"><ak-icon icon=${this.icon}></ak-icon></div>`;
+        }
+        if (this.noIcon) {
+            return nothing;
         }
 
         // Render the default icon, depending on the state

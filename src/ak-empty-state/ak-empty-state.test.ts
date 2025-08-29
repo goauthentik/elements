@@ -40,7 +40,7 @@ describe("ak-empty-state component", () => {
             component,
             content: await component.$('>>>[part="content"]'),
             icon: await component.$('>>>[part="icon"]'),
-            titleText: await component.$('>>>[part="title-text"]'),
+            titleText: await component.$('>>>[part="title"]'),
             body: await component.$('>>>[part="body"]'),
             footer: await component.$('>>>[part="footer"]'),
             actions: await component.$('>>>[part="actions"]'),
@@ -51,7 +51,7 @@ describe("ak-empty-state component", () => {
         const { icon, titleText } = await provide(
             html`<ak-empty-state>
                 <h2 slot="title">${msg("No results found")}</h2>
-            </ak-empty-state>`,
+            </ak-empty-state>`
         );
 
         await expect(icon).toExist();
@@ -67,7 +67,7 @@ describe("ak-empty-state component", () => {
         const { icon, titleText, body } = await provide(
             html`<ak-empty-state loading>
                 <h2 slot="title">${msg("Loading content")}</h2>
-            </ak-empty-state>`,
+            </ak-empty-state>`
         );
 
         await expect(icon).toExist();
@@ -83,7 +83,7 @@ describe("ak-empty-state component", () => {
         const { icon, titleText } = await provide(
             html`<ak-empty-state no-icon>
                 <h2 slot="title">${msg("No results found")}</h2>
-            </ak-empty-state>`,
+            </ak-empty-state>`
         );
 
         await expect(icon).not.toExist();
@@ -99,7 +99,7 @@ describe("ak-empty-state component", () => {
                     </svg>
                 </div>
                 <h2 slot="title">${msg("No results found")}</h2>
-            </ak-empty-state>`,
+            </ak-empty-state>`
         );
 
         await expect(icon).toExist();
@@ -113,7 +113,7 @@ describe("ak-empty-state component", () => {
             html`<ak-empty-state>
                 <h2 slot="title">${msg("No results found")}</h2>
                 <p slot="body">No results match the filter criteria. Try adjusting your filters.</p>
-            </ak-empty-state>`,
+            </ak-empty-state>`
         );
 
         await expect(body).toExist();
@@ -128,7 +128,7 @@ describe("ak-empty-state component", () => {
                 <h2 slot="title">${msg("No results found")}</h2>
                 <p slot="body">No results match the filter criteria.</p>
                 <button slot="actions">Clear filters</button>
-            </ak-empty-state>`,
+            </ak-empty-state>`
         );
 
         await expect(footer).toExist();
@@ -144,7 +144,7 @@ describe("ak-empty-state component", () => {
                 <h2 slot="title">${msg("No results found")}</h2>
                 <p slot="body">No results match the filter criteria.</p>
                 <p slot="footer">Contact the administrator for more information</p>
-            </ak-empty-state>`,
+            </ak-empty-state>`
         );
 
         await expect(footer).toExist();
@@ -157,7 +157,7 @@ describe("ak-empty-state component", () => {
         const { component } = await provide(
             html`<ak-empty-state size="xs">
                 <h2 slot="title">${msg("XS Empty State")}</h2>
-            </ak-empty-state>`,
+            </ak-empty-state>`
         );
 
         await expect(component).toHaveAttribute("size", "xs");
@@ -177,7 +177,7 @@ describe("ak-empty-state component", () => {
         const { component } = await provide(
             html`<ak-empty-state full-height>
                 <h2 slot="title">${msg("Full Height Empty State")}</h2>
-            </ak-empty-state>`,
+            </ak-empty-state>`
         );
 
         await expect(component).toHaveAttribute("full-height");
@@ -192,7 +192,7 @@ describe("ak-empty-state component", () => {
                     </svg>
                 </div>
                 <h2 slot="title">Custom icon with no-icon</h2>
-            </ak-empty-state>`,
+            </ak-empty-state>`
         );
 
         // Should show the custom icon despite no-icon=true
@@ -237,7 +237,7 @@ describe("akEmptyState builder function", () => {
             component,
             content: await component.$('>>>[part="content"]'),
             icon: await component.$('>>>[part="icon"]'),
-            titleText: await component.$('>>>[part="title-text"]'),
+            titleText: await component.$('>>>[part="title"]'),
             body: await component.$('>>>[part="body"]'),
             footer: await component.$('>>>[part="footer"]'),
             actions: await component.$('>>>[part="actions"]'),
@@ -252,7 +252,7 @@ describe("akEmptyState builder function", () => {
                 title: html`<h2>${msg("Helper Function Title")}</h2>`,
                 body: html`<p>This empty state was created using the helper function.</p>`,
                 actions: html`<button>Action Button</button>`,
-            }),
+            })
         );
 
         await expect(component).toExist();
@@ -271,7 +271,7 @@ describe("akEmptyState builder function", () => {
                 title: html`<h3>${msg("Loading Data")}</h3>`,
                 body: html`<span>Please wait while we load your data</span>`,
                 footer: html`<a href="#">Learn more about this process</a>`,
-            }),
+            })
         );
 
         const spinner = await icon.$(">>>ak-spinner");

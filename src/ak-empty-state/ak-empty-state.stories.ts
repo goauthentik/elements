@@ -189,6 +189,25 @@ export const WithCustomIcon: Story = {
     },
 };
 
+export const WithRawSvgIcon: Story = {
+    render: () => html`
+        <ak-empty-state no-icon>
+            <div slot="icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2L1 21h22L12 2z" />
+                </svg>
+            </div>
+            <h2 slot="title">No results found</h2>
+            <p slot="body">
+                No results match the filter criteria. Clear all filters and try again.
+            </p>
+            <div slot="actions">
+                <button>Clear all filters</button>
+            </div>
+        </ak-empty-state>
+    `,
+};
+
 // Empty State with no icon
 export const NoIcon: Story = {
     ...Template,
