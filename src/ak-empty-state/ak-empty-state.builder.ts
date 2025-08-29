@@ -8,7 +8,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 /* The `pick`ed fields here correspond to their types in the EmptyState class above. */
 
 export interface AkEmptyStateProps
-    extends Partial<Pick<EmptyState, "size" | "loading" | "noIcon">> {
+    extends Partial<Pick<EmptyState, "size" | "loading" | "noIcon" | "noDefaultLabel">> {
     fullHeight?: boolean;
     icon?: string | TemplateResult;
     title?: string | TemplateResult;
@@ -29,6 +29,7 @@ export function akEmptyState(options: AkEmptyStateProps) {
     const {
         size,
         fullHeight,
+        noDefaultLabel,
         noIcon,
         loading,
         icon,
@@ -49,6 +50,7 @@ export function akEmptyState(options: AkEmptyStateProps) {
             ?loading=${loading}
             ?full-height=${fullHeight}
             ?no-icon=${noIcon}
+            ?no-label=${noDefaultLabel}
             size=${ifDefined(String(size))}
         >
             ${icon ? html`<div slot="icon">${icon}</div>` : ""}
@@ -56,7 +58,7 @@ export function akEmptyState(options: AkEmptyStateProps) {
             ${body ? html`<div slot="body">${body}</div>` : ""}
             ${footer ? html`<div slot="footer">${footer}</div>` : ""}
             ${actions ? html`<div slot="actions">${actions}</div>` : ""}
-            ${secondaryActions ? html`<div slot="actions">${secondaryActions}</div>` : ""}
+            ${secondaryActions ? html`<div slot="secondary-actions">${secondaryActions}</div>` : ""}
         </ak-empty-state>
     `;
 }

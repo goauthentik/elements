@@ -1,54 +1,98 @@
 import "./ak-empty-state.js";
 import "../ak-icon/ak-icon.js";
 
-import { akEmptyState, IEmptyState } from "./ak-empty-state.js";
+import { akEmptyState, EmptyState, AkEmptyStateProps } from "./ak-empty-state.js";
 
 import { Meta, StoryObj } from "@storybook/web-components";
 
-import { html } from "lit";
+import { html, nothing, TemplateResult } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
-type StoryProps = IEmptyState & { fullHeight: boolean };
+type StoryProps = Pick<Partial<EmptyState>, "noIcon" | "noDefaultLabel" | "loading" | "size"> & {
+    fullHeight: boolean;
+    icon: TemplateResult;
+    iconClass: string;
+    titleText: string | TemplateResult;
+    bodyText: string | TemplateResult;
+    primaryAction: string | TemplateResult;
+};
 
 const metadata: Meta<Partial<StoryProps>> = {
-    title: "Elements/Empty State",
+    title: "Elements / Empty State",
     component: "ak-empty-state",
     tags: ["autodocs"],
     parameters: {
         docs: {
             description: {
-                component: `
-The Empty State component is used when there is no data or content to display.
-This can be used as a placeholder until content is available, or to indicate 
-that no content will be available.
-        `,
+                component: /* md */ `
+The EmptyState is an in-page element to indicate that something is either loading or unavailable.
+When "loading" is true it displays a spinner, otherwise it displays a static icon. The default
+icon is a question mark in a circle.
+
+It has five named slots:
+
+- **icon**: The icon to show.
+- **title**: The title (renders larger and more bold)
+- **body**: Any text to describe the state
+- **primary**: Action buttons or other interactive elements
+- **footer**: Anything you want under the action buttons.
+
+For the loading attributes:
+
+- The attribute \`loading\` will show the spinner and the default (localized) title of "Loading".
+  - Add \`no-label\` to show only the spinner (in which case, why aren't you using the spinner component)?
+
+  Attributes:
+
+- **icon**: The full class name of a FontAwesome or Patternfly icon.  Passed to the ak-icon \`icon\` attribute.
+  If both this attribute is set and content is supplied to the \`icon\` slot, the slot takes precedence.
+- **size**: one of "xs", "sm", "md", "lg" (default), or "xl"
+
+If either of these attributes is active and the element contains content assigned to the icon or title
+slots, the slotted content takes precendence.
+`,
             },
         },
+        layout: "padded",
     },
     argTypes: {
         size: {
             control: "select",
             description: "Size variants",
             options: ["xs", "sm", "md", "lg", "xl"],
-            table: {
-                type: { summary: "string" },
-                defaultValue: { summary: "md" },
-            },
         },
         fullHeight: {
             control: "boolean",
             description: "When true, allows the empty state to fill the available vertical space",
-            table: {
-                type: { summary: "boolean" },
-            },
         },
         noIcon: {
             control: "boolean",
             description:
                 "When true, prevents the default icon from showing when no icon is provided",
-            table: {
-                type: { summary: "boolean" },
-            },
+        },
+        noDefaultLabel: {
+            control: "boolean",
+            description: "When loading and true, do not show the default label.",
+        },
+        iconClass: {
+            control: "text",
+            description: "Font Awesome icon class [family (fa, fas, far, fab) required]",
+        },
+        titleText: {
+            control: "text",
+            description: "Text for heading slot (for demo purposes)",
+        },
+        bodyText: {
+            control: "text",
+            description: "Text for body slot (for demo purposes)",
+        },
+        primaryAction: {
+            control: "text",
+            description: "Text for primary button (for demo purposes)",
+        },
+        footerText: {
+            control: "text",
+            description: "Text for footer slot (for demo purposes)",
         },
     },
     decorators: [(story) => html` <div style="padding: 1rem; max-width: 100%;">${story()}</div> `],
@@ -58,128 +102,111 @@ export default metadata;
 
 type Story = StoryObj<StoryProps>;
 
-// Basic Empty State with title only and default icon
-export const Basic: Story = {
+const describe = (story: string) => ({ parameters: { docs: { description: { story } } } });
+
+const Template: Story = {
     args: {
-        size: "",
+        iconClass: "far fa-folder-open",
+        size: "lg",
+        loading: false,
+        noDefaultLabel: false,
         fullHeight: false,
         noIcon: false,
     },
-    render: (args: StoryProps) => html`
+    render: (args) => html`
         <ak-empty-state
+            icon=${ifDefined(args.iconClass)}
             size=${ifDefined(args.size)}
+            ?loading=${args.loading}
+            ?no-label=${args.noDefaultLabel}
             ?full-height=${args.fullHeight}
-            ?no-icon=${args.noIcon}
+            ?no-icon=${ifDefined(args.noIcon)}
         >
-            <h2 slot="title">No results found</h2>
+            ${args.icon ? html`<div slot="icon">${args.icon}</div>` : nothing}
+            ${args.titleText ? html`<span slot="title">${args.titleText}</span>` : nothing}
+            ${args.bodyText ? html`<span slot="body">${args.bodyText}</span>` : nothing}
+            ${args.primaryAction
+                ? html`<span slot="actions">${args.primaryAction}</span>`
+                : nothing}
+            ${args.footerText ? html`<span slot="footer">${args.footerText}</span>` : nothing}
         </ak-empty-state>
     `,
+};
+
+// Basic Empty State with title only and default icon
+export const Basic: Story = {
+    ...Template,
+    args: {
+        ...Template.args,
+        titleText: "No results found.",
+    },
+};
+
+export const Empty: Story = {
+    ...describe("Note that a completely empty &lt;ak-empty-state&gt; just shows the default icon."),
+    render: () => html` <ak-empty-state></ak-empty-state>`,
 };
 
 // Basic Empty State with title only and default icon
 export const Loading: Story = {
+    ...Template,
     args: {
-        size: "",
-        fullHeight: false,
-        noIcon: false,
+        size: "lg",
+        loading: true,
     },
-    render: (args: StoryProps) => html`
-        <ak-empty-state loading size=${ifDefined(args.size)} ?full-height=${args.fullHeight}>
-            <h2 slot="title">Searching for trouble...</h2>
-        </ak-empty-state>
-    `,
+};
+
+export const LoadingWithCustomMessage: Story = {
+    ...Template,
+    args: {
+        size: "lg",
+        loading: true,
+        noDefaultLabel: true,
+        titleText: html`I <em>know</em> it's around here somewhere!`,
+    },
 };
 
 // Empty State with custom icon
 export const WithCustomIcon: Story = {
+    ...Template,
     args: {
-        size: "",
-        fullHeight: false,
-        noIcon: false,
+        icon: html`<ak-icon
+            icon="triangle-exclamation"
+            effect="fade"
+            variant="danger"
+            size="xl"
+        ></ak-icon>`,
+        titleText: `No results found`,
     },
-    render: (args: StoryProps) => html`
-        <ak-empty-state
-            size=${ifDefined(args.size)}
-            ?full-height=${args.fullHeight}
-            ?no-icon=${args.noIcon}
-        >
-            <div slot="icon">
-                <ak-icon
-                    icon="triangle-exclamation"
-                    effect="fade"
-                    variant="danger"
-                    size="xl"
-                ></ak-icon>
-            </div>
-            <h2 slot="title">No results found</h2>
-        </ak-empty-state>
-    `,
 };
 
 // Empty State with no icon
 export const NoIcon: Story = {
+    ...Template,
     args: {
         noIcon: true,
+        titleText: "No result found",
+        bodyText: "No results match the filter criteria",
+        primaryAction: html`<button>Clear filters</button>`,
     },
-    parameters: {
-        docs: {
-            description: {
-                story: "Empty State without any icon, using the no-icon attribute.",
-            },
-        },
-    },
-    render: (args: StoryProps) => html`
-        <ak-empty-state
-            size=${ifDefined(args.size)}
-            ?full-height=${args.fullHeight}
-            ?no-icon=${args.noIcon}
-        >
-            <h2 slot="title">No results found</h2>
-            <p slot="body">No results match the filter criteria.</p>
-            <div slot="actions">
-                <button>Clear filters</button>
-            </div>
-        </ak-empty-state>
-    `,
+    ...describe("Empty State without any icon, using the no-icon attribute."),
 };
 
 // Complete Empty State with all elements
 export const Complete: Story = {
+    ...Template,
     args: {
-        size: "",
-        fullHeight: false,
-        noIcon: false,
+        icon: html`<ak-icon icon="triangle-exclamation" variant="warning" size="xl"></ak-icon>`,
+        titleText: "Have they got a chance?",
+        bodyText: "Eh. It would take a miracle.",
+        primaryAction: html`<button>Storm the castle</button>`,
+        footerText: "Contact your administrator for more information.",
     },
-    render: (args: StoryProps) => html`
-        <ak-empty-state
-            size=${ifDefined(args.size)}
-            ?full-height=${args.fullHeight}
-            ?no-icon=${args.noIcon}
-        >
-            <div slot="icon">
-                <ak-icon icon="triangle-exclamation" variant="warning" size="xl"></ak-icon>
-            </div>
-            <h2 slot="title">No results found</h2>
-            <p slot="body">
-                No results match the filter criteria. Clear all filters and try again.
-            </p>
-            <div slot="actions">
-                <button>Clear all filters</button>
-            </div>
-            <p slot="footer">Contact the administrator for more information</p>
-        </ak-empty-state>
-    `,
 };
 
 // Size Variants
 export const SizeVariants: Story = {
-    parameters: {
-        docs: {
-            description: {
-                story: "Empty State component with different size variants.",
-            },
-        },
-    },
+    ...describe("Empty State component with different size variants."),
     render: () => html`
         <div style="display: flex; flex-direction: column; gap: 2rem;">
             <div>
@@ -207,7 +234,7 @@ export const SizeVariants: Story = {
             </div>
 
             <div>
-                <h3>Default (medium)</h3>
+                <h3>Default (large)</h3>
                 <ak-empty-state>
                     <h2 slot="title">No results found</h2>
                     <p slot="body">
@@ -250,21 +277,14 @@ export const SizeVariants: Story = {
 
 // Using the helper function
 export const HelperFunction: Story = {
-    parameters: {
-        docs: {
-            description: {
-                story: "Using the akEmptyState helper function to create empty states programmatically.",
-            },
-        },
-    },
+    ...describe("Using the akEmptyState helper function to create empty states programmatically."),
     render: () => html`
         <div style="display: flex; flex-direction: column; gap: 2rem;">
             ${akEmptyState({
-                size: "sm",
-                icon: html`<ak-icon icon="blueprint" size="xl"></ak-icon>`,
-                title: html`<h3>With Custom Icon</h3>`,
-                body: html`<p>Created using the helper function</p>`,
-                actions: html`<button>Action Button</button>`,
+                icon: html`<ak-icon icon="fa fa-beer"></ak-icon>`,
+                title: "Hold My Beer",
+                body: "I saw this in a cartoon once. I'm sure I can pull it off.",
+                actions: html`<button>Leave The Scene Immediately</button>`,
             })}
             ${akEmptyState({
                 size: "sm",
@@ -281,6 +301,45 @@ export const HelperFunction: Story = {
                 actions: html`<button>Primary Action</button><button>Secondary Action</button>`,
                 footer: html`<a href="#">Learn more about this state</a>`,
             })}
+        </div>
+    `,
+};
+
+export const IconShowcase: Story = {
+    args: {},
+    render: () => html`
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;"
+        >
+            <ak-empty-state icon="fa-users">
+                <span>Users</span>
+                <span slot="body">No users found</span>
+            </ak-empty-state>
+
+            <ak-empty-state icon="fa-database">
+                <span>Database</span>
+                <span slot="body">No records</span>
+            </ak-empty-state>
+
+            <ak-empty-state icon="fa-envelope">
+                <span>Messages</span>
+                <span slot="body">No messages</span>
+            </ak-empty-state>
+
+            <ak-empty-state icon="fa-chart-bar">
+                <span>Analytics</span>
+                <span slot="body">No data to display</span>
+            </ak-empty-state>
+
+            <ak-empty-state icon="fa-cog">
+                <span>Settings</span>
+                <span slot="body">No configuration</span>
+            </ak-empty-state>
+
+            <ak-empty-state icon="fa-shield-alt">
+                <span>Security</span>
+                <span slot="body">No alerts</span>
+            </ak-empty-state>
         </div>
     `,
 };

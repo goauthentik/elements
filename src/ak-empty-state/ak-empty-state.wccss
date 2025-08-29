@@ -32,4 +32,3 @@ $config {
     $from: /__(content|icon|title-text|body|footer|actions)/;
 }
 
-

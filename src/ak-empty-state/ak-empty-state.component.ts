@@ -11,14 +11,14 @@ import { property } from "lit/decorators.js";
 /**
  * Size variants for the Empty State component
  */
-export const emptyStateSize = ["xs", "sm", "md", "lg", "xl"] as const;
-export type EmptyStateSize = (typeof emptyStateSize)[number];
-const DEFAULT_SIZE_INDEX = emptyStateSize.indexOf("md");
+export const emptyStateSizes = ["xs", "sm", "md", "lg", "xl"] as const;
+export type EmptyStateSize = (typeof emptyStateSizes)[number];
+const DEFAULT_SIZE_INDEX = emptyStateSizes.indexOf("md");
 
 const isEmptyStateSize = (s?: string): s is EmptyStateSize =>
-    typeof s === "string" && s.trim() !== "" && emptyStateSize.includes(s as EmptyStateSize);
+    typeof s === "string" && s.trim() !== "" && emptyStateSizes.includes(s as EmptyStateSize);
 
-const spinnerSizes = ["sm", "md", "lg", "lg", "xl"];
+const spinnerSizes = ["md", "lg", "lg", "xl", "xl"];
 const iconSizes = ["sm", "md", "lg", "xl", "6x"];
 
 export interface IEmptyState {
@@ -34,6 +34,7 @@ export interface IEmptyState {
  *
  * @attr {string} size - Size variant: "xs", "sm", "lg", "xl"
  * @attr {boolean} loading - Shows spinner and loading text when true
+ * @attr {boolean} default-label - Shows the (localized) text "Loading..."
  * @attr {boolean} no-icon - Hides the default icon when true
  * @attr {boolean} full-height - Makes component take full height of container
  *
@@ -72,58 +73,74 @@ export interface IEmptyState {
 
  */
 export class EmptyState extends AkLitElement implements IEmptyState {
-    static override get styles() {
-        return [styles];
-    }
+    static override readonly styles = [styles];
+
+    @property({ type: String })
+    public icon?: string;
 
     @property({ type: Boolean, attribute: "no-icon" })
     public noIcon = false;
+
+    @property({ type: Boolean, reflect: true, attribute: "no-label" })
+    public noDefaultLabel = false;
 
     @property({ type: Boolean })
     public loading = false;
 
     @property({ type: String })
-    public size = "md";
+    public size = "lg";
 
-    private renderDefaultIcon() {
+    private renderIcon() {
+        if (this.noIcon) {
+            return nothing;
+        }
+        if (this.hasSlotted("icon")) {
+            return html`<div part="icon"><slot name="icon"></slot></div>`;
+        }
+        if (this.icon) {
+            return html`<div part="icon"><ak-icon icon=${this.icon}></ak-icon></div>`;
+        }
+
+        // Render the default icon, depending on the state
         const index = isEmptyStateSize(this.size)
-            ? emptyStateSize.indexOf(this.size)
+            ? emptyStateSizes.indexOf(this.size)
             : DEFAULT_SIZE_INDEX;
         return this.loading
-            ? html`<ak-spinner size=${spinnerSizes[index] ?? "lg"}></ak-spinner>`
-            : html`<ak-icon icon="fa fa-cubes" size="${iconSizes[index] ?? "3x"}"></ak-icon>`;
+            ? html`<div part="icon">
+                  <ak-spinner size=${spinnerSizes[index] ?? "xl"}></ak-spinner>
+              </div>`
+            : html`<div part="icon">
+                  <ak-icon icon="fa fa-cubes" size="${iconSizes[index] ?? "3x"}"></ak-icon>
+              </div>`;
+    }
+
+    private renderBody() {
+        if (this.hasSlotted("body")) {
+            return html`<div part="body"><slot name="body"></slot></div>`;
+        }
+        if (this.loading && !this.noDefaultLabel) {
+            return html`<div part="body">${msg("Loading...")}</div>`;
+        }
+        return nothing;
     }
 
     public override render() {
-        const hasIcon = this.hasSlotted("icon");
-        const showIcon = hasIcon || !this.noIcon;
-        const showBody = this.hasSlotted("body") || this.loading;
+        const showFooter =
+            this.hasSlotted("footer") ||
+            this.hasSlotted("actions") ||
+            this.hasSlotted("secondary-actions");
 
         return html`
             <div part="empty-state">
                 <div part="content">
-                    ${showIcon
-                        ? html` <div part="icon">
-                              ${hasIcon
-                                  ? html`<slot name="icon"></slot>`
-                                  : this.renderDefaultIcon()}
-                          </div>`
-                        : nothing}
+                    ${this.renderIcon()}
                     ${this.hasSlotted("title")
                         ? html`<div part="title-text">
                               <slot name="title"></slot>
                           </div>`
                         : nothing}
-                    ${showBody
-                        ? html`<div part="body">
-                              ${this.hasSlotted("body")
-                                  ? html`<slot name="body"></slot></div>`
-                                  : msg("Loading...")}
-                          </div>`
-                        : nothing}
-                    ${this.hasSlotted("footer") ||
-                    this.hasSlotted("actions") ||
-                    this.hasSlotted("secondary-actions")
+                    ${this.renderBody()}
+                    ${showFooter
                         ? html` <div part="footer">
                               ${this.hasSlotted("actions")
                                   ? html`<div part="actions">
@@ -136,7 +153,7 @@ export class EmptyState extends AkLitElement implements IEmptyState {
                                     </div>`
                                   : nothing}
                               ${this.hasSlotted("footer")
-                                  ? html`<slot name="footer"></slot>`
+                                  ? html`<div part="footer"><slot name="footer"></slot></div>`
                                   : nothing}
                           </div>`
                         : nothing}
