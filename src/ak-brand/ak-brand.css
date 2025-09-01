@@ -11,7 +11,7 @@
 }
 
 :host(:not([hidden])) {
-    display: block;
+    display: inline;
 }
 
 :host([picture]) {
