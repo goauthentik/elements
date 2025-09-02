@@ -1,0 +1,46 @@
+.pf-v5-c-battery {
+    --pf-v5-c-battery--default--FillColor: var(--pf-v5-global--icon--Color--light);
+    --pf-v5-c-battery--m-low--FillColor: var(--pf-v5-global--success-color--100);
+    --pf-v5-c-battery--m-medium--FillColor: var(--pf-v5-global--warning-color--100);
+    --pf-v5-c-battery--m-high--FillColor: var(--pf-v5-global--palette--orange-300);
+    --pf-v5-c-battery--m-critical--FillColor: var(--pf-v5-global--danger-color--100);
+    --pf-v5-c-battery--StrokeColor: var(--pf-v5-global--BorderColor--100);
+    --pf-v5-c-battery--FillColor: var(--pf-v5-c-battery--default--FillColor);
+    display: inline-block;
+    line-height: 0;
+}
+
+.pf-v5-c-battery__svg {
+    position: relative;
+    top: var(--pf-v5-global--spacer--sm);
+    height: 1.75rem;
+    enable-background: new 0 0 448 512;
+}
+
+.pf-v5-c-battery__svg__path {
+    fill: none;
+    fill-opacity: 1;
+    stroke: var(--pf-v5-c-battery--StrokeColor);
+    stroke-width: 41.96378708;
+    stroke-linejoin: round;
+    stroke-miterlimit: 4;
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    stroke-opacity: 1;
+}
+
+.pf-v5-c-battery.pf-m-low {
+    --pf-v5-c-battery--FillColor: var(--pf-v5-c-battery--m-low--FillColor);
+}
+
+.pf-v5-c-battery.pf-m-medium {
+    --pf-v5-c-battery--FillColor: var(--pf-v5-c-battery--m-medium--FillColor);
+}
+
+.pf-v5-c-battery.pf-m-high {
+    --pf-v5-c-battery--FillColor: var(--pf-v5-c-battery--m-high--FillColor);
+}
+
+.pf-v5-c-battery.pf-m-critical {
+    --pf-v5-c-battery--FillColor: var(--pf-v5-c-battery--m-critical--FillColor);
+}
