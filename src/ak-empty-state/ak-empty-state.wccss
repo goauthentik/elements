@@ -1,0 +1,38 @@
+$config {
+    import: @patternfly/patternfly/components/EmptyState/empty-state.css;
+    output: ak-empty-state.css;
+    base: .pf-v5-c-empty-state;
+}
+
+:host {
+    $from: $base;
+    $include: /^--/;
+}
+
+:host(:not([hidden])) {
+    $from: $base;
+    $exclude: /./;
+    display: block;
+}    
+
+[part="empty-state"] {
+      $from: $base;
+      $exclude: /^--/;
+}
+
+:host([size="\1"]) {
+    $from: /\.pf-m-(xs|sm|md|lg|xl)/;
+}
+
+:host([full-height]) {
+    $from: ".pf-m-full-height";
+}
+
+[part="\1"] {
+    $from: /__(content|icon|body|footer|actions)/;
+}
+
+[part="title"] {
+    $from: /__title-text/;
+}
+
