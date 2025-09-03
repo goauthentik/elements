@@ -10,7 +10,7 @@
     --pf-v5-c-divider--content-spacing: 0.35rem;
     --pf-v5-c-divider--height: auto;
     --pf-v5-c-divider--margin: var(--pf-v5-c-divider--content-spacing) 0;
-    
+
     --pf-v5-c-divider__line--before--top: 50%;
     --pf-v5-c-divider__line--before--left: 0;
 
@@ -31,7 +31,7 @@
     --pf-v5-c-divider__line--before--width: var(--pf-v5-c-divider--line-thickness);
     --pf-v5-c-divider__line--before--height: 100%;
 }
-    
+
 :host {
     display: var(--pf-v5-c-divider--display);
     height: var(--pf-v5-c-divider--height);
@@ -62,7 +62,6 @@
     height: var(--pf-v5-c-divider__line--before--height);
 }
 
-
 [part="content"] {
     display: flex;
     align-items: center;
@@ -87,4 +86,3 @@
     --pf-v5-c-divider--strong-color: var(--pf-v5-global--BorderColor--light-100, #1b1d21);
     --pf-v5-c-divider--subtle-color: var(--pf-v5-global--BorderColor--300, #26292d);
 }
-
