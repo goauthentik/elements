@@ -1,0 +1,82 @@
+:host {
+    --pf-v5-c-content-header--breadcrumb--padding: var(--pf-v5-global--spacer--md, 1rem);
+    --pf-v5-c-content-header--icon--padding: var(--pf-v5-global--spacer--md, 1rem);
+    --pf-v5-c-content-header--title--gap: var(--pf-v5-global--spacer--sm, 0.5rem);
+
+    --pf-v5-c-content-header--title--FontSize: var(--pf-v5-global--FontSize--2xl, 1.5rem);
+    --pf-v5-c-content-header--title--FontWeight: var(--pf-v5-global--FontWeight--normal, 400);
+    --pf-v5-c-content-header--title--LineHeight: var(--pf-v5-global--LineHeight--xs, 1.0);
+
+    --pf-v5-c-content-header--subtitle--FontSize: var(--pf-v5-global--FontSize--md, 1rem);
+    --pf-v5-c-content-header--subtitle--FontWeight: var(--pf-v5-global--FontWeight--normal, 400);
+    --pf-v5-c-content-header--subtitle--LineHeight: var(--pf-v5-global--LineHeight--sm, 1.3);
+}
+
+:host {
+    display: block;
+    container-type: inline-size;
+    container-name: header;
+    overflow: hidden;
+}
+
+/* The main of the work */
+[part="content-header"] {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--pf-v5-c-content-header--breadcrumb--padding);
+}
+
+[part="header-main"] {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--pf-v5-c-content-header--icon--padding);
+}
+
+[part="header-titles"] {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.0;
+    gap: var(--pf-v5-c-content-header--title--gap);
+}
+
+[part="icon"], [part="subtitle"], [part="divider"] {
+    display: none;
+}
+
+[part="title"] {
+    font-size: var(--pf-v5-c-content-header--title--FontSize);
+    font-weight: var(--pf-v5-c-content-header--title--FontWeight);
+    line-height: var(--pf-v5-c-content-header--title--LineHeight);
+}
+
+[part="subtitle"] {
+    font-size: var(--pf-v5-c-content-header--subtitle--FontSize);
+    font-weight: var(--pf-v5-c-content-header--subtitle--FontWeight);
+    line-height: var(--pf-v5-c-content-header--subtitle--LineHeight);
+}
+
+@container header (min-width: 360px) {
+    [part="divider"] {
+        display: block;
+        align-self: stretch;
+        flex: 1 0;
+    }
+
+    [part="icon"] {
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+    }
+    
+    [part="subtitle"] {
+        display: block;
+    }
+}
+
+[part="icon-content"] {
+    padding: 0;
+}
+
