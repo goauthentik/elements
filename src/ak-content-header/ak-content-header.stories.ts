@@ -1,6 +1,6 @@
 import "./ak-content-header.js";
 
-import { akContentHeader, ContentHeader } from "./ak-content-header.js";
+import { IContentHeader } from "./ak-content-header.component.js";
 
 import type { Meta, StoryObj } from "@storybook/web-components";
 
