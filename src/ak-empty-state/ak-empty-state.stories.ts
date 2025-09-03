@@ -341,7 +341,7 @@ export const IconShowcase: Story = {
         >
             <ak-empty-state icon="fa-users">
                 <span>Users</span>
-                <span slot="body">No users found</span>
+                <span slot="body">Polycules not supported</span>
             </ak-empty-state>
 
             <ak-empty-state icon="fa-database">
