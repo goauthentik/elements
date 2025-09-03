@@ -3,7 +3,7 @@ import { Spinner } from "./ak-spinner.component.js";
 
 export { akSpinner, Spinner };
 
-window.customElements.register("ak-spinner", Spinner);
+window.customElements.define("ak-spinner", Spinner);
 
 declare global {
     interface HTMLElementTagNameMap {
