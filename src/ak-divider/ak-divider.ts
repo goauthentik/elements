@@ -1,10 +1,9 @@
-import { customElement } from "../utils/customElement.js";
 import { akDivider, type DividerProps } from "./ak-divider.builder.js";
 import { Divider, type IDivider } from "./ak-divider.component.js";
 
-export { akDivider, Divider, type IDivider, type DividerProps };
+export { akDivider, Divider, type DividerProps, type IDivider };
 
-customElement("ak-divider", Divider);
+window.customElements.define("ak-divider", Divider);
 
 declare global {
     interface HTMLElementTagNameMap {

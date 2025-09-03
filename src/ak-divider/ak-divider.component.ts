@@ -2,8 +2,6 @@ import { AkLitElement } from "../component-base.js";
 import styles from "./ak-divider.css";
 
 import { html } from "lit";
-import { property } from "lit/decorators.js";
-import { classMap } from "lit/directives/class-map.js";
 
 export const dividerVariant = ["default", "strong", "subtle"] as const;
 export type DividerVariant = (typeof dividerVariant)[number];

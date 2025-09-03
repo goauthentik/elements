@@ -4,7 +4,7 @@ import { akDivider, type DividerProps } from "./ak-divider.js";
 
 import { Meta, StoryObj } from "@storybook/web-components";
 
-import { html, nothing, TemplateResult } from "lit";
+import { html, nothing } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
 const meta: Meta<DividerProps> = {
@@ -146,7 +146,7 @@ export const Vertical: Story = {
         orientation: "vertical",
     },
     parameters: describe(
-        "Divider with vertical orientation, useful for separating inline content."
+        "Divider with vertical orientation, useful for separating inline content.",
     ),
     render: (args) => html`
         <div style="padding: 2rem; display: flex; align-items: center; height: 100px;">
@@ -164,7 +164,7 @@ export const VerticalWithContent: Story = {
         orientation: "vertical",
     },
     parameters: describe(
-        "Divider with vertical orientation, useful for separating inline content."
+        "Divider with vertical orientation, useful for separating inline content.",
     ),
     render: (args) => html`
         <div style="padding: 2rem; display: flex; align-items: center; height: 100px;">
@@ -183,7 +183,7 @@ export const VerticalWithContent: Story = {
 // Helper function usage
 export const HelperFunction: Story = {
     parameters: describe(
-        "Using the `akDivider` helper function to create dividers programmatically."
+        "Using the `akDivider` helper function to create dividers programmatically.",
     ),
     render: () => html`
         <div style="padding: 2rem; display: flex; flex-direction: column; gap: 2rem;">
