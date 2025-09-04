@@ -22,8 +22,12 @@
     },
     "type": "module",
     "dependencies": {
+        "@lit/localize": "^0.12.2",
         "@patternfly/patternfly": "^5.4.2",
-        "lit": "^3.3.1"
+        "@patternfly/pfe-core": "^5.0.3",
+        "date-fns": "^4.1.0",
+        "lit": "^3.3.1",
+        "ts-pattern": "^5.8.0"
     },
     "devDependencies": {
         "@custom-elements-manifest/analyzer": "^0.10.5",

@@ -1,0 +1,24 @@
+:host {
+    --pf-v5-c-timestamp--FontSize: var(--pf-v5-global--FontSize--sm, 0.875rem);
+    --pf-v5-c-timestamp--Color: var(--pf-v5-global--Color--200, #6a6e73);
+    --pf-v5-c-timestamp--Warning--Color: var(--pf-v5-global--warning-color--200, #795600);
+    --pf-v5-c-timestamp--Warning--FontWeight: var(--pf-v5-global--FontWeight--bold, 700);
+    --pf-v5-c-timestamp--OutlineOffset: 0.1875rem;
+}
+
+:host {
+    display: inline-block;
+}
+
+[part="timestamp"] {
+    font-size: var(--pf-v5-c-timestamp--FontSize);
+    color: var(--pf-v5-c-timestamp--Color);
+    outline-offset: var(--pf-v5-c-timestamp--OutlineOffset);
+}
+
+[part="warning"] {
+    font-size: var(--pf-v5-c-timestamp--FontSize);
+    font-weight: var(--pf-v5-c-timestamp--Warning--FontWeight);
+    color: var(--pf-v5-c-timestamp--Warning--Color);
+    outline-offset: var(--pf-v5-c-timestamp--OutlineOffset);
+}
