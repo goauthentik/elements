@@ -1,0 +1,44 @@
+:host {
+    --pf-v5-c-badge--BorderRadius: var(--pf-v5-global--BorderRadius--lg, 30em);
+    --pf-v5-c-badge--FontSize: var(--pf-v5-global--FontSize--xs, 0.75rem);
+    --pf-v5-c-badge--FontWeight: var(--pf-v5-global--FontWeight--bold, 700);
+    --pf-v5-c-badge--PaddingRight: var(--pf-v5-global--spacer--sm, 0.5rem);
+    --pf-v5-c-badge--PaddingLeft: var(--pf-v5-global--spacer--sm, 0.5rem);
+    --pf-v5-c-badge--Color: var(--pf-v5-global--Color--dark-100, #151515);
+    --pf-v5-c-badge--MinWidth: var(--pf-v5-global--spacer--xl, 2rem);
+    --pf-v5-c-badge--BackgroundColor: inherit;
+    --pf-v5-c-badge--m-read--BackgroundColor: var(--pf-v5-global--BackgroundColor--200, #f0f0f0);
+    --pf-v5-c-badge--m-read--Color: var(--pf-v5-global--Color--dark-100, #151515);
+    --pf-v5-c-badge--m-unread--BackgroundColor: var(--pf-v5-global--primary-color--100, #06c);
+    --pf-v5-c-badge--m-unread--Color: var(--pf-v5-global--Color--light-100, #fff);
+    min-width: var(--pf-v5-c-badge--MinWidth);
+    font-size: var(--pf-v5-c-badge--FontSize);
+    font-weight: var(--pf-v5-c-badge--FontWeight);
+    color: var(--pf-v5-c-badge--Color);
+}
+
+:host(:not([hidden])) {
+    display: inline-block;
+}
+
+:host([read]) {
+    --pf-v5-c-badge--Color: var(--pf-v5-c-badge--m-read--Color);
+    --pf-v5-c-badge--BackgroundColor: var(--pf-v5-c-badge--m-read--BackgroundColor);
+}
+
+:host([unread]) {
+    --pf-v5-c-badge--Color: var(--pf-v5-c-badge--m-unread--Color);
+    --pf-v5-c-badge--BackgroundColor: var(--pf-v5-c-badge--m-unread--BackgroundColor);
+}
+
+[part="badge"] {
+    color: var(--pf-v5-c-badge--Color);
+    display: inline-block;
+    min-width: var(--pf-v5-c-badge--MinWidth);
+    padding-inline-start: var(--pf-v5-c-badge--PaddingLeft);
+    padding-inline-end: var(--pf-v5-c-badge--PaddingRight);
+    text-align: center;
+    white-space: nowrap;
+    background-color: var(--pf-v5-c-badge--BackgroundColor);
+    border-radius: var(--pf-v5-c-badge--BorderRadius);
+}

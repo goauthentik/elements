@@ -1,0 +1,29 @@
+$config {
+    import: @patternfly/patternfly/components/Badge/badge.css;
+    output: ak-badge.css;
+    base: .pf-v5-c-badge;
+}
+
+:host {
+    $from: $base;
+    $include: /^--/, min-width, font-size, font-weight, color;
+}
+
+:host(:not([hidden])) {
+    $from: $base;
+    $include: display;
+}
+
+:host([read]) {
+    $from: ".pf-m-read";
+}
+
+:host([unread]) {
+    $from: ".pf-m-unread";
+}
+
+[part="badge"] {
+    $from: $base;
+    $include: display, min-width, padding-inline-start, padding-inline-end, text-align, white-space, border-radius, background-color;
+}
+
