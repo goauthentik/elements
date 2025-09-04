@@ -1,0 +1,53 @@
+$config {
+    import: @patternfly/patternfly/components/ExpandableSection/expandable-section.css;
+    output: ak-disclosure.css;
+    base: .pf-v5-c-expandable-section;
+}
+
+:host {
+    $from: $base;
+    $include: /^--/;
+}
+
+:host([open]) {
+    $from: ".pf-m-expanded";
+}
+
+:host(:not([no-highlight])) {
+    $from: ".pf-m-display-lg";
+    $include: position;
+}
+
+:host(:not([no-highlight])) #main {
+    $from: ".pf-m-display-lg";
+    $exclude: position;
+}
+
+:host(:not([no-highlight])) #main::after {
+    $from: ".pf-m-display-lg::after";
+}
+
+:host([indent]) [part="disclosure"] {
+    $from: ".pf-m-indented";
+}
+
+[part="toggle"] {
+    $from: "__toggle";
+}
+
+[part="toggle"]:\1 {
+    $from: /__toggle:(hover|active|focus)/;
+}
+
+[part="icon"] {
+    $from: "__toggle-icon";
+}
+
+[part="label"] {
+    $from: "__toggle-text";
+}
+
+[part="content"] {
+    $from: "__content";
+}
+
