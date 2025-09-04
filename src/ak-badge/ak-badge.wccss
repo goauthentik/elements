@@ -7,6 +7,7 @@ $config {
 :host {
     $from: $base;
     $include: /^--/, min-width, font-size, font-weight, color;
+    --pf-v5-c-badge--BackgroundColor: inherit;
 }
 
 :host(:not([hidden])) {
@@ -24,6 +25,6 @@ $config {
 
 [part="badge"] {
     $from: $base;
-    $include: display, min-width, padding-inline-start, padding-inline-end, text-align, white-space, border-radius, background-color;
+    $include: color, display, min-width, padding-inline-start, padding-inline-end, text-align, white-space, border-radius, background-color;
 }
 
