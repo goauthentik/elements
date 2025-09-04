@@ -13,28 +13,18 @@ export type TimestampProps = Partial<ITimestamp>;
  * @see {@link Timestamp} - The underlying web component
  */
 export function akTimestamp(options: TimestampProps = {}) {
-    const {
-        customFormat,
-        date,
-        dateFormat,
-        displaySuffix,
-        is12Hour,
-        locale,
-        raw,
-        shouldDisplayUTC,
-        timeFormat,
-    } = options;
+    const { date, dateFormat, displaySuffix, is12Hour, locale, raw, displayUTC, timeFormat } =
+        options;
 
     return html`
         <ak-timestamp
             date=${ifDefined(date)}
-            .customFormat=${ifDefined(customFormat)}
             date-format=${ifDefined(dateFormat)}
             display-suffix=${ifDefined(displaySuffix)}
             ?is-12-hour=${is12Hour}
             locale=${ifDefined(locale)}
             .raw=${ifDefined(raw)}
-            ?display-utc=${shouldDisplayUTC}
+            ?display-utc=${displayUTC}
             time-format=${ifDefined(timeFormat)}
         ></ak-timestamp>
     `;

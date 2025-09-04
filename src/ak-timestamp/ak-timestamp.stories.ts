@@ -1,13 +1,14 @@
+import "./ak-timestamp";
+
+import { Timestamp, timestampFormats } from "./ak-timestamp";
+
 import { spread } from "@open-wc/lit-helpers";
 import type { Meta, StoryObj } from "@storybook/web-components";
 
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
-import "./ak-timestamp";
-import { type TimestampOptions, timestampFormats } from "./ak-timestamp";
-
-const meta: Meta<TimestampOptions> = {
+const meta: Meta<Timestamp> = {
     title: "Elements/Timestamp",
     component: "ak-timestamp",
     tags: ["autodocs"],
@@ -80,7 +81,7 @@ message instead of the timestamp.
 };
 
 export default meta;
-type Story = StoryObj<TimestampOptions>;
+type Story = StoryObj<Timestamp>;
 
 // Helper function to convert string to Date for the stories
 const template: Story = {
@@ -301,7 +302,7 @@ export const Styling: Story = {
                 font-style: italic;
             }
 
-            .custom-timestamp::part(time) {
+            .custom-timestamp::part(timestamp) {
                 color: #5a2ca0;
                 text-decoration: underline;
                 font-size: 1rem;

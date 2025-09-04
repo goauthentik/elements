@@ -1,12 +1,12 @@
+import styles from "./ak-timestamp.css";
+
 import { observed } from "@patternfly/pfe-core/decorators/observed.js";
 import { parseISO } from "date-fns";
 import { match } from "ts-pattern";
 
 import { msg } from "@lit/localize";
-import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
-
-import styles from "./ak-timestamp.scss";
+import { html, LitElement } from "lit";
+import { property } from "lit/decorators.js";
 
 /**
  * Enum for timestamp format options
@@ -29,11 +29,10 @@ export interface ITimestamp {
     raw?: Date;
     dateFormat?: TimestampFormat;
     timeFormat?: TimestampFormat;
-    customFormat?: Record<string, string>;
     displaySuffix?: string;
     is12Hour?: boolean;
     locale?: string;
-    shouldDisplayUTC?: boolean;
+    displayUTC?: boolean;
 }
 
 /**
@@ -136,7 +135,7 @@ export class Timestamp extends LitElement implements ITimestamp {
      * @attr
      */
     @property({ type: Boolean, attribute: "display-utc", reflect: true })
-    public shouldDisplayUTC = false;
+    public displayUTC = false;
 
     #date: Date | null = null;
 
@@ -152,11 +151,11 @@ export class Timestamp extends LitElement implements ITimestamp {
         this.#date = match(this.date)
             .when(
                 (d: string) => /^\d+$/.test(d),
-                (d: string) => checkAndValidate(new Date(parseInt(d, 10)))
+                (d: string) => checkAndValidate(new Date(parseInt(d, 10))),
             )
             .when(
                 (d: string) => typeof d === "string",
-                (d: string) => checkAndValidate(parseISO(d))
+                (d: string) => checkAndValidate(parseISO(d)),
             )
             .otherwise(() => null);
     }
@@ -190,7 +189,7 @@ export class Timestamp extends LitElement implements ITimestamp {
     }
 
     private formattedDate(date: Date) {
-        return this.shouldDisplayUTC ? this.utcDate(date) : this.localeDate(date);
+        return this.displayUTC ? this.utcDate(date) : this.localeDate(date);
     }
 
     renderDate(date: Date) {

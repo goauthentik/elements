@@ -1,9 +1,9 @@
+import "./ak-timestamp.js";
+
 import { spread } from "@open-wc/lit-helpers";
 import { $, browser, expect } from "@wdio/globals";
 
 import { html, render } from "lit";
-
-import "./ak-timestamp.js";
 
 describe("ak-timestamp component", () => {
     afterEach(async () => {
@@ -20,7 +20,7 @@ describe("ak-timestamp component", () => {
     const renderComponent = async (properties = {}) => {
         const root = render(
             html`<ak-timestamp ${spread(properties)}></ak-timestamp>`,
-            document.body
+            document.body,
         );
         await browser.pause(100);
         return root;
@@ -78,14 +78,14 @@ describe("ak-timestamp component", () => {
         const testDate = "2023-01-15T12:30:00Z";
 
         // Set date format to "short" and render
-        await renderComponent({ date: testDate, "date-format": "short" });
+        await renderComponent({ "date": testDate, "date-format": "short" });
 
         // Get formatted time string from component
         const shortTimeElement = await $("ak-timestamp").$(">>>time");
         const shortTimeText = await shortTimeElement.getText();
 
         // Now render with "long" format
-        await renderComponent({ date: testDate, "date-format": "long" });
+        await renderComponent({ "date": testDate, "date-format": "long" });
 
         const longTimeElement = await $("ak-timestamp").$(">>>time");
         const longTimeText = await longTimeElement.getText();
@@ -101,14 +101,14 @@ describe("ak-timestamp component", () => {
         const testDate = "2023-01-15T12:30:00Z";
 
         // Set time format to "short" and render
-        await renderComponent({ date: testDate, "time-format": "short" });
+        await renderComponent({ "date": testDate, "time-format": "short" });
 
         // Get formatted time string from component
         const shortTimeElement = await $("ak-timestamp").$(">>>time");
         const shortTimeText = await shortTimeElement.getText();
 
         // Now render with "full" format
-        await renderComponent({ date: testDate, "time-format": "full" });
+        await renderComponent({ "date": testDate, "time-format": "full" });
 
         const fullTimeElement = await $("ak-timestamp").$(">>>time");
         const fullTimeText = await fullTimeElement.getText();
@@ -124,7 +124,7 @@ describe("ak-timestamp component", () => {
         const testDate = "2023-01-15T12:30:00Z";
 
         // Render with UTC flag
-        await renderComponent({ date: testDate, "?display-utc": true });
+        await renderComponent({ "date": testDate, "?display-utc": true });
         const utcTimeElement = await $("ak-timestamp").$(">>>time");
         const utcTimeText = await utcTimeElement.getText();
 
@@ -134,7 +134,7 @@ describe("ak-timestamp component", () => {
 
         // Check that full UTC format includes "Coordinated Universal Time"
         await renderComponent({
-            date: testDate,
+            "date": testDate,
             "should-display-utc": true,
             "time-format": "full",
         });
@@ -148,7 +148,7 @@ describe("ak-timestamp component", () => {
         const testDate = "2023-01-15T12:30:00Z";
         const suffix = "EDT";
 
-        await renderComponent({ date: testDate, "display-suffix": suffix });
+        await renderComponent({ "date": testDate, "display-suffix": suffix });
 
         const timeElement = await $("ak-timestamp").$(">>>time");
         const timeText = await timeElement.getText();
@@ -162,7 +162,7 @@ describe("ak-timestamp component", () => {
         const suffix = "Greenwich Mean Time";
 
         await renderComponent({
-            date: testDate,
+            "date": testDate,
             "?should-display-utc": true,
             "display-suffix": suffix,
         });
@@ -181,7 +181,7 @@ describe("ak-timestamp component", () => {
 
         // Force 12-hour format
         await renderComponent({
-            date: testDate,
+            "date": testDate,
             "?is-12-hour": true,
         });
 
@@ -190,7 +190,7 @@ describe("ak-timestamp component", () => {
 
         // Force 24-hour format by setting is-12-hour to false
         await renderComponent({
-            date: testDate,
+            "date": testDate,
             "?is-12-hour": false,
         });
 

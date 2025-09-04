@@ -1,18 +1,18 @@
 import { akTimestamp, type TimestampProps } from "./ak-timestamp.builder.js";
 import {
-    Timestamp,
-    timestampFormats,
     type ITimestamp,
+    Timestamp,
     type TimestampFormat,
+    timestampFormats,
 } from "./ak-timestamp.component.js";
 
 export {
     akTimestamp,
+    type ITimestamp,
     Timestamp,
+    type TimestampFormat,
     timestampFormats,
     type TimestampProps,
-    type ITimestamp,
-    type TimestampFormat,
 };
 
 window.customElements.define("ak-timestamp", Timestamp);
