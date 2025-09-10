@@ -119,7 +119,9 @@ export class EmptyState extends AkLitElement implements IEmptyState {
             return nothing;
         }
 
-        // Render the default icon, depending on the state
+        // Render the default icon, depending on the state. The size check is only to make sure the
+        // subordinate components get legitimate sizes *from this component*; it's not meant as a
+        // check that the size passed in is valid.
         const index = isEmptyStateSize(this.size)
             ? emptyStateSizes.indexOf(this.size)
             : DEFAULT_SIZE_INDEX;
