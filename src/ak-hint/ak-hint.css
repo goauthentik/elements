@@ -1,0 +1,53 @@
+:host {
+    --pf-v5-c-hint--GridRowGap: var(--pf-v5-global--spacer--md, 1rem);
+    --pf-v5-c-hint--PaddingTop: var(--pf-v5-global--spacer--lg, 1.5rem);
+    --pf-v5-c-hint--PaddingRight: var(--pf-v5-global--spacer--lg, 1.5rem);
+    --pf-v5-c-hint--PaddingBottom: var(--pf-v5-global--spacer--lg, 1.5rem);
+    --pf-v5-c-hint--PaddingLeft: var(--pf-v5-global--spacer--lg, 1.5rem);
+    --pf-v5-c-hint--BackgroundColor: var(--pf-v5-global--palette--blue-50, #e7f1fa);
+    --pf-v5-c-hint--BorderColor: var(--pf-v5-global--palette--blue-100, #bee1f4);
+    --pf-v5-c-hint--BorderWidth: var(--pf-v5-global--BorderWidth--sm, 1px);
+    --pf-v5-c-hint--BoxShadow: var(
+        --pf-v5-global--BoxShadow--sm,
+        0 0.0625rem 0.125rem 0 rgba(3, 3, 3, 0.12),
+        0 0 0.125rem 0 rgba(3, 3, 3, 0.06)
+    );
+    --pf-v5-c-hint--Color: var(--pf-v5-global--Color--100, #151515);
+    --pf-v5-c-hint__title--FontSize: var(--pf-v5-global--FontSize--lg, 1.125rem);
+    --pf-v5-c-hint__body--FontSize: var(--pf-v5-global--FontSize--md, 1rem);
+    --pf-v5-c-hint__footer--child--MarginRight: var(--pf-v5-global--spacer--md, 1rem);
+    --pf-v5-c-hint__actions--MarginLeft: var(--pf-v5-global--spacer--2xl, 3rem);
+    --pf-v5-c-hint__actions--c-dropdown--MarginTop: calc(
+        var(--pf-v5-global--spacer--form-element, 0.375rem) * -1
+    );
+}
+
+[part="hint"] {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-row-gap: var(--pf-v5-c-hint--GridRowGap);
+    padding: var(--pf-v5-c-hint--PaddingTop) var(--pf-v5-c-hint--PaddingRight)
+        var(--pf-v5-c-hint--PaddingBottom) var(--pf-v5-c-hint--PaddingLeft);
+    color: var(--pf-v5-c-hint--Color);
+    background-color: var(--pf-v5-c-hint--BackgroundColor);
+    border: var(--pf-v5-c-hint--BorderWidth) solid var(--pf-v5-c-hint--BorderColor);
+    box-shadow: var(--pf-v5-c-hint--BoxShadow);
+}
+
+[part="title"],
+[part="body"],
+[part="footer"] {
+    grid-column: 1/-1;
+}
+
+.title [name="title"]::slotted(*) {
+    font-size: var(--pf-v5-c-hint__title--FontSize) !important;
+}
+
+[part="body"] ::slotted(*) {
+    font-size: var(--pf-v5-c-hint__body--FontSize) !important;
+}
+
+[name="footer"]::slotted(*) {
+    font-size: var(--pf-v5-c-hint__footer--FontSize) !important;
+}
