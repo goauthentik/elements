@@ -1,0 +1,64 @@
+/**
+ * Screensaver Component Styles
+ * 
+ * This stylesheet provides styling for the ak-screensaver component,
+ * which creates a screensaver-like bouncing animation.
+ */
+
+:host {
+    --pf-v5-c-screensaver--Background: black;
+    --pf-v5-c-screensaver--Height: 4rem;
+    --pf-v5-c-screensaver--Transition: 1s ease-in-out;
+    --pf-v5-c-screensaver--Color: var(--pf-v5-global--primary-color--100);
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--pf-v5-c-screensaver--Background);
+    z-index: 1000;
+}
+
+[part="screen"] {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+[part="screensaver"] {
+    position: absolute;
+    height: var(--pf-v5-c-screensaver--Height);
+    will-change: transform;
+    user-select: none;
+    cursor: default;
+}
+
+[part="screensaver"].repositioning {
+    transition: none;
+}
+
+::slotted(svg) {
+    height: 100%;
+    width: 100%;
+}
+
+::slotted(img) {
+    height: 100%;
+    object-fit: contain;
+}
+
+::slotted(*) {
+    color: var(--pf-v5-c-screensaver--Color);
+}
+
+:host([paused]) [part="screensaver"] {
+    transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    [part="screensaver"].repositioning {
+        transition: none;
+    }
+}
