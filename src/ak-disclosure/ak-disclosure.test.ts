@@ -34,7 +34,7 @@ describe("ak-disclosure component", () => {
             html`<ak-disclosure>
                 <label>Test Label</label>
                 <p>Test content</p>
-            </ak-disclosure>`,
+            </ak-disclosure>`
         );
 
         await expect(disclosure).toExist();
@@ -48,7 +48,7 @@ describe("ak-disclosure component", () => {
             html`<ak-disclosure open>
                 <label>Test Label</label>
                 <p>Test content</p>
-            </ak-disclosure>`,
+            </ak-disclosure>`
         );
 
         await expect(disclosure).toHaveAttribute("open");
@@ -61,7 +61,7 @@ describe("ak-disclosure component", () => {
             html`<ak-disclosure>
                 <label>Click me</label>
                 <p>Toggle content</p>
-            </ak-disclosure>`,
+            </ak-disclosure>`
         );
 
         // Initially closed
@@ -86,7 +86,7 @@ describe("ak-disclosure component", () => {
             html`<ak-disclosure>
                 <label>Event test</label>
                 <p>Content</p>
-            </ak-disclosure>`,
+            </ak-disclosure>`
         );
 
         // Listen for toggle event
@@ -109,11 +109,11 @@ describe("ak-disclosure component", () => {
     });
 
     it("should auto-slot single label element", async () => {
-        const { disclosure, labelSlot, label } = await present(
+        const { labelSlot, label } = await present(
             html`<ak-disclosure>
                 <label>Auto-slotted label</label>
                 <p>Content here</p>
-            </ak-disclosure>`,
+            </ak-disclosure>`
         );
 
         await expect(labelSlot).toExist();
@@ -126,7 +126,7 @@ describe("ak-disclosure component", () => {
                 <label>First label</label>
                 <label>Second label</label>
                 <p>Content here</p>
-            </ak-disclosure>`,
+            </ak-disclosure>`
         );
 
         // Labels should not have slot attributes
@@ -142,7 +142,7 @@ describe("ak-disclosure component", () => {
                 <label>This should not be auto-slotted</label>
                 <span slot="label">Explicit slot content</span>
                 <p>Content here</p>
-            </ak-disclosure>`,
+            </ak-disclosure>`
         );
 
         const label = await $("ak-disclosure label");
@@ -153,12 +153,12 @@ describe("ak-disclosure component", () => {
     });
 
     it("should render different labels for open and closed states", async () => {
-        const { disclosure, labelSlot, openLabelSlot } = await present(
+        const { labelSlot, openLabelSlot } = await present(
             html`<ak-disclosure>
                 <span slot="label">Show details</span>
                 <span slot="label-open">Hide details</span>
                 <p>Toggleable content</p>
-            </ak-disclosure>`,
+            </ak-disclosure>`
         );
 
         const labelElement = await $("[slot='label']");
@@ -173,7 +173,7 @@ describe("ak-disclosure component", () => {
             html`<ak-disclosure>
                 <label>Default icon test</label>
                 <p>Content</p>
-            </ak-disclosure>`,
+            </ak-disclosure>`
         );
 
         await expect(iconContainer).toExist();
@@ -184,11 +184,11 @@ describe("ak-disclosure component", () => {
     });
 
     it("should have proper ARIA attributes", async () => {
-        const { disclosure, label, toggle, content } = await present(
+        const { label, toggle, content } = await present(
             html`<ak-disclosure>
                 <label>ARIA test</label>
                 <p>Accessible content</p>
-            </ak-disclosure>`,
+            </ak-disclosure>`
         );
 
         await expect(content).not.toBeDisplayed();
@@ -207,7 +207,7 @@ describe("ak-disclosure component", () => {
             html`<ak-disclosure>
                 <label>Dynamic content test</label>
                 <p>Initial content</p>
-            </ak-disclosure>`,
+            </ak-disclosure>`
         );
 
         // Add new content dynamically
@@ -238,11 +238,12 @@ describe("akDisclosure builder function", () => {
 
     it("should render using akDisclosure helper function", async () => {
         render(
-            akDisclosure(html`<p>This content was created using the helper function.</p>`, {
+            akDisclosure({
+                content: html`<p>This content was created using the helper function.</p>`,
                 label: html`<span>Helper Function Label</span>`,
                 open: true,
             }),
-            document.body,
+            document.body
         );
 
         const disclosure = await $("ak-disclosure");
@@ -258,12 +259,13 @@ describe("akDisclosure builder function", () => {
 
     it("should render with both label and label-open using helper function", async () => {
         render(
-            akDisclosure(html`<p>Helper function with dual labels</p>`, {
+            akDisclosure({
+                content: html`<p>Helper function with dual labels</p>`,
                 label: html`<span>Show content</span>`,
                 labelOpen: html`<span>Hide content</span>`,
                 open: false,
             }),
-            document.body,
+            document.body
         );
 
         const disclosure = await $("ak-disclosure");
@@ -282,7 +284,10 @@ describe("akDisclosure builder function", () => {
     });
 
     it("should render with minimal options using helper function", async () => {
-        render(akDisclosure(html`<p>Minimal helper function usage</p>`), document.body);
+        render(
+            akDisclosure({ content: html`<p>Minimal helper function usage</p>` }),
+            document.body
+        );
 
         const disclosure = await $("ak-disclosure");
         await expect(disclosure).toExist();
@@ -294,8 +299,8 @@ describe("akDisclosure builder function", () => {
 
     it("should handle complex content with helper function", async () => {
         render(
-            akDisclosure(
-                html`
+            akDisclosure({
+                content: html`
                     <div>
                         <h3>Complex Content</h3>
                         <ul>
@@ -306,12 +311,10 @@ describe("akDisclosure builder function", () => {
                         <button>Action Button</button>
                     </div>
                 `,
-                {
-                    label: html`<strong>Show complex content</strong>`,
-                    open: true,
-                },
-            ),
-            document.body,
+                label: html`<strong>Show complex content</strong>`,
+                open: true,
+            }),
+            document.body
         );
 
         const disclosure = await $("ak-disclosure");

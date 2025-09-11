@@ -1,9 +1,8 @@
 import { Meta, StoryObj } from "@storybook/web-components";
 
 import { html } from "lit";
-import { ifDefined } from "lit/directives/if-defined.js";
 
-import { Disclosure, IDisclosure, akDisclosure } from "./ak-disclosure.js";
+import { IDisclosure, akDisclosure } from "./ak-disclosure.js";
 import "./ak-disclosure.js";
 
 type StoryProps = IDisclosure & { indent: boolean; noHighlight: boolean };
@@ -288,17 +287,15 @@ export const HelperFunction: Story = {
     },
     render: () => html`
         <div style="display: flex; flex-direction: column; gap: 2rem;">
-            ${akDisclosure(
-                html`<p>
+            ${akDisclosure({
+                content: html`<p>
                     This disclosure was created using the helper function with a simple label.
                 </p>`,
-                {
-                    label: html`<span>Helper Function - Basic</span>`,
-                    open: false,
-                },
-            )}
-            ${akDisclosure(
-                html`
+                label: html`<span>Helper Function - Basic</span>`,
+                open: false,
+            })}
+            ${akDisclosure({
+                content: html`
                     <div>
                         <h4>Dynamic Content</h4>
                         <p>This content was dynamically generated and includes:</p>
@@ -309,18 +306,16 @@ export const HelperFunction: Story = {
                         </ul>
                     </div>
                 `,
-                {
-                    label: html`<strong>Show details</strong>`,
-                    labelOpen: html`<strong>Hide details</strong>`,
-                    open: true,
-                },
-            )}
-            ${akDisclosure(
-                html`<p>This helper function example starts closed and has minimal styling.</p>`,
-                {
-                    label: html`<em>Programmatically Created</em>`,
-                },
-            )}
+                label: html`<strong>Show details</strong>`,
+                labelOpen: html`<strong>Hide details</strong>`,
+                open: true,
+            })}
+            ${akDisclosure({
+                content: html`<p>
+                    This helper function example starts closed and has minimal styling.
+                </p>`,
+                label: html`<em>Programmatically Created</em>`,
+            })}
         </div>
     `,
 };
