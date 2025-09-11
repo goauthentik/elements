@@ -1,19 +1,17 @@
-import { InternalsController } from "@patternfly/pfe-core/controllers/internals-controller.js";
-
-import { LitElement, TemplateResult, html, nothing } from "lit";
-import { customElement, property, query, state } from "lit/decorators.js";
-import { classMap } from "lit/directives/class-map.js";
+import { TemplateResult, html, nothing } from "lit";
+import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { AkLitElement } from "../component-base.js";
 import "../ak-icon/ak-icon.js";
 import styles from "./ak-switch.scss";
+import { FormAssociatedBooleanMixin } from "./form-associated-boolean-protocol.js";
 
 export interface ISwitchInput {
     name?: string;
     checked: boolean;
     required: boolean;
     disabled: boolean;
-    value?: string;
+    value?: string | null;
     useCheck: boolean;
     showLabel: boolean;
     ariaLabel: string | null;
@@ -61,26 +59,8 @@ const CHECK_ICON = "fas fa-check";
  * @cssprop --pf-v5-c-switch__icon--FontSize - Font size of the check icon
  * @cssprop --pf-v5-c-switch__icon--Color - Color of the check icon
  */
-@customElement("ak-switch")
-export class SwitchInput extends AkLitElement implements ISwitchInput {
+export class SwitchInput extends FormAssociatedBooleanMixin(AkLitElement) implements ISwitchInput {
     static readonly styles = [styles];
-
-    static readonly formAssociated = true;
-
-    @property({ type: String })
-    public name!: string;
-
-    @property({ type: Boolean, reflect: true })
-    public checked: boolean = false;
-
-    @property({ type: Boolean })
-    public required = false;
-
-    @property({ type: Boolean, reflect: true })
-    public disabled = false;
-
-    @property({ type: String })
-    public value?: string;
 
     @property({ type: Boolean, attribute: "use-check" })
     public useCheck = false;
@@ -96,14 +76,6 @@ export class SwitchInput extends AkLitElement implements ISwitchInput {
 
     @property({ type: String, attribute: "aria-label" })
     public ariaLabel: string | null = null;
-
-    @state()
-    private hasFocus = false;
-
-    @query("input[type=checkbox]")
-    private checkbox!: HTMLInputElement;
-
-    private internals = InternalsController.of(this);
 
     constructor() {
         super();
@@ -160,8 +132,6 @@ export class SwitchInput extends AkLitElement implements ISwitchInput {
     }
 
     public override render() {
-        const setFocus = (focus: boolean) => (this.hasFocus = focus);
-
         return html`
             <div
                 part="switch"
@@ -170,8 +140,6 @@ export class SwitchInput extends AkLitElement implements ISwitchInput {
                 aria-checked="${this.checked}"
                 aria-disabled="${this.disabled}"
                 aria-label=${ifDefined(this.ariaLabel ?? undefined)}
-                @focus=${() => setFocus(true)}
-                @blur=${() => setFocus(false)}
             >
                 <!-- Hidden native input for form support -->
                 <input

@@ -1,4 +1,4 @@
-import { TemplateResult, html, nothing } from "lit";
+import { TemplateResult, html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
 import { SwitchInput } from "./ak-switch.js";
@@ -6,7 +6,7 @@ import { SwitchInput } from "./ak-switch.js";
 /**
  * Configuration options for the akSwitch helper function
  */
-export type AkSwitchProps = Partial<
+export type SwitchProps = Partial<
     Pick<
         SwitchInput,
         | "name"
@@ -31,7 +31,7 @@ export type AkSwitchProps = Partial<
  *
  * @see {@link SwitchInput} - The underlying web component
  */
-export function akSwitch(options: AkSwitchProps = {}): TemplateResult {
+export function akSwitch(options: SwitchProps = {}): TemplateResult {
     const {
         name,
         checked,

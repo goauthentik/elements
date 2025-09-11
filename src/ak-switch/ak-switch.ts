@@ -1,10 +1,9 @@
-import { customElement } from "../utils/customElement.js";
-import { akSwitch } from "./ak-switch.builder.js";
-import { SwitchInput } from "./ak-switch.component.js";
+import { akSwitch, type SwitchProps } from "./ak-switch.builder.js";
+import { SwitchInput, type ISwitchInput } from "./ak-switch.component.js";
 
-export { SwitchInput, akSwitch };
+export { akSwitch, type SwitchProps, SwitchInput, type ISwitchInput };
 
-customElement("ak-switch", SwitchInput);
+window.customElements.define("ak-switch", SwitchInput);
 
 declare global {
     interface HTMLElementTagNameMap {
