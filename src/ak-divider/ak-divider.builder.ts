@@ -3,7 +3,7 @@ import { IDivider } from "./ak-divider.component.js";
 import { html, TemplateResult } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
-type DividerProps = IDivider & {
+export type DividerProps = IDivider & {
     content?: string | TemplateResult;
 };
 
