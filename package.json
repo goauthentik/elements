@@ -24,6 +24,7 @@
     "type": "module",
     "dependencies": {
         "@lit-labs/observers": "^2.0.6",
+        "@lit/localize": "^0.12.2",
         "@patternfly/patternfly": "^5.4.2",
         "@patternfly/pfe-core": "^5.0.3",
         "lit": "^3.3.1"

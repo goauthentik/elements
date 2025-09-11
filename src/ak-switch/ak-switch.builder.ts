@@ -1,4 +1,4 @@
-import { TemplateResult, html, nothing } from "lit";
+import { TemplateResult, html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
 import { SwitchInput } from "./ak-switch.js";

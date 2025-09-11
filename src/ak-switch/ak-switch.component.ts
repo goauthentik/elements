@@ -1,9 +1,5 @@
-import { InternalsController } from "@patternfly/pfe-core/controllers/internals-controller.js";
-
-import { LitElement, TemplateResult, html, nothing } from "lit";
-import { customElement, property, query, state } from "lit/decorators.js";
-import { classMap } from "lit/directives/class-map.js";
-import { ifDefined } from "lit/directives/if-defined.js";
+import { PropertyValues, TemplateResult, html, nothing } from "lit";
+import { property, state } from "lit/decorators.js";
 import { AkLitElement } from "../component-base.js";
 import "../ak-icon/ak-icon.js";
 import styles from "./ak-switch.scss";
@@ -77,33 +73,6 @@ export class SwitchInput extends FormAssociatedBooleanMixin(AkLitElement) implem
     @property({ type: Boolean, attribute: "reverse" })
     public reverse = false;
 
-    @property({ type: String, attribute: "aria-label" })
-    public ariaLabel: string | null = null;
-
-    constructor() {
-        super();
-        this.addEventListener("click", this.#onClick);
-        this.addEventListener("keydown", this.#onKeydown);
-    }
-
-    #onClick = (e: MouseEvent) => {
-        if (this.disabled) {
-            e.preventDefault();
-            return;
-        }
-
-        this.checked = !this.checked;
-    };
-
-    #onKeydown = (e: KeyboardEvent) => {
-        if (this.disabled) return;
-
-        if (e.key === " " || e.key === "Enter") {
-            e.preventDefault();
-            this.checked = !this.checked;
-        }
-    };
-
     protected get checkIcon() {
         if (this.hasSlotted("icon")) {
             return `<slot name="icon"></slot>`;
@@ -136,47 +105,16 @@ export class SwitchInput extends FormAssociatedBooleanMixin(AkLitElement) implem
 
     public override render() {
         return html`
-            <div
-                part="switch"
-                tabindex="${this.disabled ? -1 : 0}"
-                role="switch"
-                aria-checked="${this.checked}"
-                aria-disabled="${this.disabled}"
-                aria-label=${ifDefined(this.ariaLabel ?? undefined)}
-            >
-                <!-- Hidden native input for form support -->
-                <input
-                    type="checkbox"
-                    part="input"
-                    ?checked="${this.checked}"
-                    ?disabled="${this.disabled}"
-                    ?required="${this.required}"
-                    name="${ifDefined(this.name)}"
-                    value="${ifDefined(this.value)}"
-                    tabindex="-1"
-                    aria-hidden="true"
-                />
+            <div part="switch" tabindex="${this.disabled ? -1 : 0}">
                 ${this.hasSlotted("label") ? this.renderWithLabels() : this.renderSwitch()}
             </div>
         `;
     }
 
-    public override updated(changedProps: Map<string, unknown>) {
-        this.setAttribute("aria-checked", this.checked ? "true" : "false");
-        if (changedProps.has("checked")) {
-            this.internals.setFormValue(this.checked ? this.value || "on" : null);
-
-            // Dispatch change event
-            this.dispatchEvent(
-                new CustomEvent("change", {
-                    detail: {
-                        checked: this.checked,
-                        value: this.value,
-                    },
-                    bubbles: true,
-                    composed: true,
-                })
-            );
+    public override updated(changed: PropertyValues<this>) {
+        super.updated(changed);
+        if (!this.hasAttribute("role")) {
+            this.setAttribute("role", "switch");
         }
     }
 }
