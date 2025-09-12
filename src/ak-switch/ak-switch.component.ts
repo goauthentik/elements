@@ -1,6 +1,7 @@
 import { PropertyValues, TemplateResult, html, nothing } from "lit";
 import { property, state } from "lit/decorators.js";
 import { AkLitElement } from "../component-base.js";
+import { match, P } from "ts-pattern";
 import "../ak-icon/ak-icon.js";
 import styles from "./ak-switch.scss";
 import { FormAssociatedBooleanMixin } from "./form-associated-boolean-protocol.js";
@@ -73,13 +74,24 @@ export class SwitchInput extends FormAssociatedBooleanMixin(AkLitElement) implem
     @property({ type: Boolean, attribute: "reverse" })
     public reverse = false;
 
-    protected get checkIcon() {
-        if (this.hasSlotted("icon")) {
-            return `<slot name="icon"></slot>`;
-        }
-        return typeof this._checkIcon === "string"
-            ? html`<em><ak-icon size="sm" icon=${this._checkIcon}></ak-icon></em>`
-            : this._checkIcon;
+    protected renderIcon() {
+        const useSlot = this.hasSlotted("icon");
+        const [noIcon, useIcon] = [
+            !(this.useCheck || useSlot),
+            typeof this._checkIcon === "string",
+        ];
+
+        // prettier-ignore
+        const icon = match([noIcon, useSlot, useIcon])
+            .with([true, P._, P._], () => nothing)
+            .with([false, true, P._], () => html`<slot name="icon"></slot>`)
+            .with([false, false, true],
+                  () => html`<ak-icon size="sm" icon=${this._checkIcon}></ak-icon>`)
+            .otherwise(() => this._checkIcon);
+
+        return icon === nothing
+            ? nothing
+            : html`<div part="toggle-icon" aria-hidden="true">${icon}</slot></div>`;
     }
 
     protected renderLabel() {
@@ -89,16 +101,13 @@ export class SwitchInput extends FormAssociatedBooleanMixin(AkLitElement) implem
     }
 
     private renderSwitch() {
-        return html`<div part="toggle">
-            <div part="toggle-icon" aria-hidden="true">${this.checkIcon}</div>
+        return html`<div part="toggle">${this.renderIcon()}</div>
         </div>`;
     }
 
     private renderWithLabels() {
         return html`<div part="toggle">
-                ${this.useCheck || this.hasSlotted("icon")
-                    ? html`<div part="toggle-icon" aria-hidden="true">${this.checkIcon}</div>`
-                    : nothing}
+                <div part="toggle-icon" aria-hidden="true">${this.renderIcon()}</div>
             </div>
             <span part="label"> ${this.renderLabel()} </span>`;
     }

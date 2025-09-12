@@ -58,12 +58,6 @@
   grid-column: 1;
 }
 
-[part="input"] {
-  position: absolute;
-  cursor: pointer;
-  opacity: 0;
-}
-
 :host([checked]) [part="label"] {
   color: var(--pf-v5-c-switch__input--checked__label--Color);
 }
@@ -77,7 +71,7 @@
 }
 
 
-[part="input"]:focus-visible [part="toggle"] {
+:host(:focus-visible) [part="toggle"] {
   outline: var(--pf-v5-c-switch__input--focus__toggle--OutlineWidth) solid var(--pf-v5-c-switch__input--focus__toggle--OutlineColor);
   outline-offset: var(--pf-v5-c-switch__input--focus__toggle--OutlineOffset);
 }

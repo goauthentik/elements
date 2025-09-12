@@ -112,11 +112,12 @@ export function FormAssociatedBooleanMixin<Base extends LitConstructor>(Supercla
             this.addEventListener?.("blur", this.onBlur);
             this.addEventListener?.("invalid", this.onInvalid);
             this.addEventListener?.("click", this.onClick);
+            this.addEventListener?.("keydown", this.onKeyDown);
         }
 
         connectedCallback() {
             super.connectedCallback();
-            this.defaultValue = Boolean(this.getAttribute("checked"));
+            this.defaultValue = Boolean(this.hasAttribute("checked"));
         }
 
         // Inform the form that either the name or the value has changed. */
@@ -226,11 +227,19 @@ export function FormAssociatedBooleanMixin<Base extends LitConstructor>(Supercla
             }
         }
 
+        #setAriaAttribute(name: string, value: string | null) {
+            if (value === null) {
+                this.removeAttribute(name);
+                return;
+            }
+            return this.setAttribute(name, value);
+        }
+
         public override updated(changedProps: PropertyValues<this>) {
             super.updated(changedProps);
             this.#setAriaLabels();
-            this.internals.ariaChecked = this.checked ? "true" : "false";
-            this.internals.ariaDisabled = this.disabled ? "true" : null;
+            this.#setAriaAttribute("aria-checked", this.checked ? "true" : "false");
+            this.#setAriaAttribute("aria-disabled", this.disabled ? "true" : null);
 
             if (changedProps.has("checked")) {
                 this.dispatchEvent(
