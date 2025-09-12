@@ -106,9 +106,7 @@ export class SwitchInput extends FormAssociatedBooleanMixin(AkLitElement) implem
     }
 
     private renderWithLabels() {
-        return html`<div part="toggle">
-                <div part="toggle-icon" aria-hidden="true">${this.renderIcon()}</div>
-            </div>
+        return html`<div part="toggle">${this.renderIcon()}</div>
             <span part="label"> ${this.renderLabel()} </span>`;
     }
 
