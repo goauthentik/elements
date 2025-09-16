@@ -246,6 +246,7 @@ export const FormIntegration: Story = {
             @submit=${(e: Event) => {
                 e.preventDefault();
                 const formData = new FormData(e.target as HTMLFormElement);
+                // eslint-disable-next-line no-alert
                 alert(
                     `Form submitted with: ${
                         Array.from(formData.entries())

@@ -136,7 +136,7 @@ export function FormAssociatedBooleanMixin<Base extends LitConstructor>(Supercla
         public override attributeChangedCallback(
             name: string,
             prev: string | null,
-            value: string | null,
+            value: string | null
         ) {
             if (name === "name" || prev === value) {
                 return;
@@ -229,7 +229,7 @@ export function FormAssociatedBooleanMixin<Base extends LitConstructor>(Supercla
             }
         }
 
-        protected setAriaAttribute(name: string, value: string | null) {
+        public setAriaAttribute(name: string, value: string | null) {
             if (value === null) {
                 this.removeAttribute(name);
                 return;
@@ -252,7 +252,7 @@ export function FormAssociatedBooleanMixin<Base extends LitConstructor>(Supercla
                         },
                         bubbles: true,
                         composed: true,
-                    }),
+                    })
                 );
             }
         }

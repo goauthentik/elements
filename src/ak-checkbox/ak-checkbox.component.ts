@@ -130,10 +130,11 @@ export class CheckboxInput
             this.setAttribute("role", "checkbox");
         }
         this.setAriaAttribute(
+            "aria-checked",
             match([this.indeterminate, this.checked])
                 .with([true, P._], () => "mixed")
                 .with([false, true], () => "true")
-                .with([false, false], () => null)
+                .with([false, false], () => "false")
                 .exhaustive()
         );
     }
