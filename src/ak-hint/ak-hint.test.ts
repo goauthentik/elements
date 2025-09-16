@@ -124,7 +124,7 @@ describe("ak-hint component", () => {
         await renderComponent("Test content");
 
         const hint = await $("ak-hint");
-        const container = await hint.$(">>>#hint");
+        const container = await hint.$("[part='hint']");
 
         const display = await container.getCSSProperty("display");
         expect(display.value).toBe("grid");
@@ -303,7 +303,7 @@ describe("akHint helper function", () => {
         render(akHint({ body: "Test content", title: "Test" }), document.body);
 
         const hint = await $("ak-hint");
-        const container = await hint.$(">>>#hint");
+        const container = await hint.$("[part='hint']");
 
         const display = await container.getCSSProperty("display");
         expect(display.value).toBe("grid");
