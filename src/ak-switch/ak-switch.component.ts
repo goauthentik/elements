@@ -2,7 +2,7 @@ import "../ak-icon/ak-icon.js";
 
 import { AkLitElement } from "../component-base.js";
 import styles from "./ak-switch.scss";
-import { FormAssociatedBooleanMixin } from "./form-associated-boolean-protocol.js";
+import { FormAssociatedBooleanMixin } from "../mixins/form-associated-boolean-mixin.js";
 
 import { match, P } from "ts-pattern";
 
