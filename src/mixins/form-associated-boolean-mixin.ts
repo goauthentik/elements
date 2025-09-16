@@ -1,10 +1,15 @@
-import { LitElement } from "lit";
-import { property, state } from "lit/decorators.js";
 import { match, P } from "ts-pattern";
+
+import { msg } from "@lit/localize";
+import { LitElement, PropertyValues } from "lit";
+import { property, state } from "lit/decorators.js";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Constructor<T = Record<string, unknown>> = new (...args: any[]) => T;
 export type LitConstructor<T extends LitElement = LitElement> = Constructor<T>;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isElement = (v: any): v is Element => v instanceof Node && v.nodeType === 1;
 
 export interface IFormAssociatedBoolean {
     name: string;
@@ -12,8 +17,6 @@ export interface IFormAssociatedBoolean {
     disabled: boolean;
     required: boolean;
     checked: boolean;
-    touched: boolean;
-    focused: boolean;
     internals: ElementInternals;
     readonly form: HTMLFormElement | null;
     readonly labels: NodeList;
@@ -25,6 +28,7 @@ export interface IFormAssociatedBoolean {
     onBlur(): void;
     onInvalid(ev: Event): void;
     onFocus(): void;
+    setAriaAttribute(name: string, value: string | null): void;
 }
 
 export type FormAssociatedBooleanMixin<Base extends LitConstructor> = Base &
@@ -60,6 +64,9 @@ export function FormAssociatedBooleanMixin<Base extends LitConstructor>(Supercla
         @property({ type: Boolean })
         public required = false;
 
+        @property({ type: String, attribute: "aria-label" })
+        public ariaLabel: string | null = null;
+
         #checked = false;
 
         @property({ type: Boolean, reflect: true })
@@ -72,11 +79,13 @@ export function FormAssociatedBooleanMixin<Base extends LitConstructor>(Supercla
             return this.#checked;
         }
 
-        @state()
-        public touched = false;
+        protected defaultValue = false;
 
         @state()
-        public focused = false;
+        protected touched = false;
+
+        @state()
+        protected focused = false;
 
         public get form() {
             return this.internals.form;
@@ -104,6 +113,13 @@ export function FormAssociatedBooleanMixin<Base extends LitConstructor>(Supercla
             this.addEventListener?.("focus", this.onFocus);
             this.addEventListener?.("blur", this.onBlur);
             this.addEventListener?.("invalid", this.onInvalid);
+            this.addEventListener?.("click", this.onClick);
+            this.addEventListener?.("keydown", this.onKeyDown);
+        }
+
+        connectedCallback() {
+            super.connectedCallback();
+            this.defaultValue = Boolean(this.hasAttribute("checked"));
         }
 
         // Inform the form that either the name or the value has changed. */
@@ -139,23 +155,107 @@ export function FormAssociatedBooleanMixin<Base extends LitConstructor>(Supercla
             return this.internals.reportValidity();
         }
 
+        protected validateRequired() {
+            if (this.required && !this.checked) {
+                this.internals.setValidity({ valueMissing: true }, msg("This field is required"));
+                return;
+            }
+            this.internals.setValidity({});
+        }
+
         public onBlur = () => {
             this.focused = false;
-            this.checkValidity();
         };
 
         public onInvalid = (ev: Event) => {
             // Prevent the message from being propagated upwards, since we'll be doing our own
             // management of how the error message is to be displayed.
             ev.preventDefault();
-            this.internals.setValidity(this.validity, this.validationMessage);
             this.touched = true;
         };
 
         public onFocus = () => {
-            this.touched = true;
             this.focused = true;
         };
+
+        #onInteract() {
+            this.touched = true;
+            this.checked = !this.checked;
+            this.validateRequired();
+        }
+
+        public onClick = (event: Event) => {
+            if (this.disabled) {
+                event.preventDefault();
+                return;
+            }
+            this.#onInteract();
+        };
+
+        public onKeyDown = (event: KeyboardEvent) => {
+            if (this.disabled || !(event.key === " " || event.key === "Enter")) {
+                return;
+            }
+            event.preventDefault();
+            this.#onInteract();
+        };
+
+        formResetCallback() {
+            this.checked = this.defaultValue; // Or whatever the default should be
+            this.touched = false;
+            this.focused = false;
+            this.internals.setValidity({}); // Clear any validation errors
+        }
+
+        formDisabledCallback(disabled: boolean) {
+            this.disabled = disabled;
+        }
+
+        formStateRestoreCallback(state: string) {
+            this.checked = state === "on" || state === this.value;
+        }
+
+        protected setAriaLabels() {
+            const labels = [...this.internals.labels]
+                .map((label) => (isElement(label) ? label.id : null))
+                .filter((id) => id);
+            this.removeAttribute("aria-labelledby");
+            // "The aria-labelledby property has the highest precedence when browsers calculate
+            // accessible names. Be aware that it overrides other methods of naming the element,
+            // including aria-label, other naming attributes, and even the element's contents."
+            // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-labelledby
+            if (labels.length > 0) {
+                this.setAttribute("aria-labelledby", labels.join(" "));
+            }
+        }
+
+        public setAriaAttribute(name: string, value: string | null) {
+            if (value === null) {
+                this.removeAttribute(name);
+                return;
+            }
+            return this.setAttribute(name, value);
+        }
+
+        public override updated(changed: PropertyValues<this>) {
+            super.updated(changed);
+            this.setAriaLabels();
+            this.setAriaAttribute("aria-checked", this.checked ? "true" : "false");
+            this.setAriaAttribute("aria-disabled", this.disabled ? "true" : null);
+
+            if (changed.has("checked")) {
+                this.dispatchEvent(
+                    new CustomEvent("change", {
+                        detail: {
+                            checked: this.checked,
+                            value: this.value,
+                        },
+                        bubbles: true,
+                        composed: true,
+                    })
+                );
+            }
+        }
     }
 
     return FormAssociatedBooleanControl as FormAssociatedBooleanMixin<Base>;

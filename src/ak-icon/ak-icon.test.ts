@@ -58,7 +58,7 @@ describe("ak-icon component", () => {
 
     it("should handle explicit family and icon", async () => {
         const { part } = await provide(
-            html`<ak-icon family="pf" icon="pf-icon-cluster"></ak-icon>`,
+            html`<ak-icon family="pf" icon="pf-icon-cluster"></ak-icon>`
         );
         await expect(part).toHaveAttribute("class", "pf pf-icon-cluster");
     });
@@ -115,7 +115,7 @@ describe("ak-icon component", () => {
 
     it("should apply variant attribute to host", async () => {
         const { icon } = await provide(
-            html`<ak-icon icon="exclamation-triangle" variant="warning"></ak-icon>`,
+            html`<ak-icon icon="exclamation-triangle" variant="warning"></ak-icon>`
         );
         await expect(icon).toHaveAttribute("variant", "warning");
     });
@@ -133,7 +133,7 @@ describe("ak-icon component", () => {
 
     it("should maintain property types when accessed programmatically", async () => {
         const { icon } = await provide(
-            html`<ak-icon icon="user" family="fas" fallback="fa fa-question"></ak-icon>`,
+            html`<ak-icon icon="user" family="fas" fallback="fa fa-question"></ak-icon>`
         );
 
         const iconProperty = await icon.execute((elem) => (elem as Icon).icon);
@@ -201,7 +201,7 @@ describe("akIcon builder function", () => {
                 size: "lg",
                 variant: "info",
                 effect: "beat",
-            }),
+            })
         );
 
         await expect(icon).toExist();
@@ -218,7 +218,7 @@ describe("akIcon builder function", () => {
                 family: "pf",
                 icon: "pf-icon-cluster",
                 size: "xl",
-            }),
+            })
         );
 
         await expect(icon).toHaveAttribute("family", "pf");
@@ -232,7 +232,7 @@ describe("akIcon builder function", () => {
             akIcon({
                 icon: "nonexistent",
                 fallback: "fas fa-exclamation",
-            }),
+            })
         );
         await expect(icon).toHaveAttribute("fallback", "fas fa-exclamation");
         await expect(part).toHaveAttribute("class", "fas fa-exclamation");
@@ -260,7 +260,7 @@ describe("akIcon builder function", () => {
                 variant: "danger",
                 effect: "beat-fade",
                 fallback: "fas fa-heart-crack",
-            }),
+            })
         );
 
         await expect(icon).toHaveAttribute("icon", "heart");

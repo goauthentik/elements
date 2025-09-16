@@ -1,10 +1,13 @@
-import { TemplateResult, html, nothing } from "lit";
-import { property, state } from "lit/decorators.js";
-import { ifDefined } from "lit/directives/if-defined.js";
-import { AkLitElement } from "../component-base.js";
 import "../ak-icon/ak-icon.js";
+
+import { AkLitElement } from "../component-base.js";
+import { FormAssociatedBooleanMixin } from "../mixins/form-associated-boolean-mixin.js";
 import styles from "./ak-switch.scss";
-import { FormAssociatedBooleanMixin } from "./form-associated-boolean-protocol.js";
+
+import { match, P } from "ts-pattern";
+
+import { html, nothing, PropertyValues, TemplateResult } from "lit";
+import { property } from "lit/decorators.js";
 
 export interface ISwitchInput {
     name?: string;
@@ -74,40 +77,24 @@ export class SwitchInput extends FormAssociatedBooleanMixin(AkLitElement) implem
     @property({ type: Boolean, attribute: "reverse" })
     public reverse = false;
 
-    @property({ type: String, attribute: "aria-label" })
-    public ariaLabel: string | null = null;
+    protected renderIcon() {
+        const useSlot = this.hasSlotted("icon");
+        const [noIcon, useIcon] = [
+            !(this.useCheck || useSlot),
+            typeof this._checkIcon === "string",
+        ];
 
-    constructor() {
-        super();
-        this.addEventListener("click", this.#onClick);
-        this.addEventListener("keydown", this.#onKeydown);
-    }
+        // prettier-ignore
+        const icon = match([noIcon, useSlot, useIcon])
+            .with([true, P._, P._], () => nothing)
+            .with([false, true, P._], () => html`<slot name="icon"></slot>`)
+            .with([false, false, true],
+                  () => html`<ak-icon size="sm" icon=${this._checkIcon}></ak-icon>`)
+            .otherwise(() => this._checkIcon);
 
-    #onClick = (e: MouseEvent) => {
-        if (this.disabled) {
-            e.preventDefault();
-            return;
-        }
-
-        this.checked = !this.checked;
-    };
-
-    #onKeydown = (e: KeyboardEvent) => {
-        if (this.disabled) return;
-
-        if (e.key === " " || e.key === "Enter") {
-            e.preventDefault();
-            this.checked = !this.checked;
-        }
-    };
-
-    protected get checkIcon() {
-        if (this.hasSlotted("icon")) {
-            return `<slot name="icon"></slot>`;
-        }
-        return typeof this._checkIcon === "string"
-            ? html`<em><ak-icon size="sm" icon=${this._checkIcon}></ak-icon></em>`
-            : this._checkIcon;
+        return icon === nothing
+            ? nothing
+            : html`<div part="toggle-icon" aria-hidden="true">${icon}</slot></div>`;
     }
 
     protected renderLabel() {
@@ -117,63 +104,27 @@ export class SwitchInput extends FormAssociatedBooleanMixin(AkLitElement) implem
     }
 
     private renderSwitch() {
-        return html`<div part="toggle">
-            <div part="toggle-icon" aria-hidden="true">${this.checkIcon}</div>
+        return html`<div part="toggle">${this.renderIcon()}</div>
         </div>`;
     }
 
     private renderWithLabels() {
-        return html`<div part="toggle">
-                ${this.useCheck || this.hasSlotted("icon")
-                    ? html`<div part="toggle-icon" aria-hidden="true">${this.checkIcon}</div>`
-                    : nothing}
-            </div>
+        return html`<div part="toggle">${this.renderIcon()}</div>
             <span part="label"> ${this.renderLabel()} </span>`;
     }
 
     public override render() {
         return html`
-            <div
-                part="switch"
-                tabindex="${this.disabled ? -1 : 0}"
-                role="switch"
-                aria-checked="${this.checked}"
-                aria-disabled="${this.disabled}"
-                aria-label=${ifDefined(this.ariaLabel ?? undefined)}
-            >
-                <!-- Hidden native input for form support -->
-                <input
-                    type="checkbox"
-                    part="input"
-                    ?checked="${this.checked}"
-                    ?disabled="${this.disabled}"
-                    ?required="${this.required}"
-                    name="${ifDefined(this.name)}"
-                    value="${ifDefined(this.value)}"
-                    tabindex="-1"
-                    aria-hidden="true"
-                />
+            <div part="switch" tabindex="${this.disabled ? -1 : 0}">
                 ${this.hasSlotted("label") ? this.renderWithLabels() : this.renderSwitch()}
             </div>
         `;
     }
 
-    public override updated(changedProps: Map<string, unknown>) {
-        this.setAttribute("aria-checked", this.checked ? "true" : "false");
-        if (changedProps.has("checked")) {
-            this.internals.setFormValue(this.checked ? this.value || "on" : null);
-
-            // Dispatch change event
-            this.dispatchEvent(
-                new CustomEvent("change", {
-                    detail: {
-                        checked: this.checked,
-                        value: this.value,
-                    },
-                    bubbles: true,
-                    composed: true,
-                })
-            );
+    public override updated(changed: PropertyValues<this>) {
+        super.updated(changed);
+        if (!this.hasAttribute("role")) {
+            this.setAttribute("role", "switch");
         }
     }
 }

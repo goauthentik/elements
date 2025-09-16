@@ -7,6 +7,7 @@
     "author": "Authentik Security, Inc. <https://goauthentik.io>",
     "scripts": {
         "analyze": "cem analyze --litelement",
+        "clean": "rimraf ./dist",
         "build": "node ./build.mjs",
         "lint": "run-s -sn lint:types lint:eslint lint:package",
         "lint:eslint": "eslint --max-warnings 0 --fix",
@@ -17,7 +18,7 @@
         "prettier-check": "prettier --cache --check -u .",
         "storybook": "run-s analyze build storybook:main",
         "storybook:main": "storybook dev -p 6006",
-        "test": "run-s build test:unit",
+        "test": "run-s clean analyze build test:unit",
         "test:unit": "wdio run ./config/wdio.conf.mts --logLevel=warn",
         "wccss": "wccss"
     },
@@ -61,6 +62,7 @@
         "npm-run-all": "^4.1.5",
         "p-iteration": "^1.1.8",
         "prettier": "^3.6.2",
+        "rimraf": "^6.0.1",
         "rollup-plugin-modify": "^3.0.0",
         "sass": "^1.90.0",
         "storybook": "^9.1.3",
