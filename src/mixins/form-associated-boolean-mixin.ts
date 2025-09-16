@@ -1,7 +1,8 @@
+import { match, P } from "ts-pattern";
+
+import { msg } from "@lit/localize";
 import { LitElement, PropertyValues } from "lit";
 import { property, state } from "lit/decorators.js";
-import { msg } from "@lit/localize";
-import { match, P } from "ts-pattern";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Constructor<T = Record<string, unknown>> = new (...args: any[]) => T;
@@ -27,6 +28,7 @@ export interface IFormAssociatedBoolean {
     onBlur(): void;
     onInvalid(ev: Event): void;
     onFocus(): void;
+    setAriaAttribute(name: string, value: string | null): void;
 }
 
 export type FormAssociatedBooleanMixin<Base extends LitConstructor> = Base &
@@ -134,7 +136,7 @@ export function FormAssociatedBooleanMixin<Base extends LitConstructor>(Supercla
         public override attributeChangedCallback(
             name: string,
             prev: string | null,
-            value: string | null
+            value: string | null,
         ) {
             if (name === "name" || prev === value) {
                 return;
@@ -213,7 +215,7 @@ export function FormAssociatedBooleanMixin<Base extends LitConstructor>(Supercla
             this.checked = state === "on" || state === this.value;
         }
 
-        #setAriaLabels() {
+        protected setAriaLabels() {
             const labels = [...this.internals.labels]
                 .map((label) => (isElement(label) ? label.id : null))
                 .filter((id) => id);
@@ -227,7 +229,7 @@ export function FormAssociatedBooleanMixin<Base extends LitConstructor>(Supercla
             }
         }
 
-        #setAriaAttribute(name: string, value: string | null) {
+        protected setAriaAttribute(name: string, value: string | null) {
             if (value === null) {
                 this.removeAttribute(name);
                 return;
@@ -235,13 +237,13 @@ export function FormAssociatedBooleanMixin<Base extends LitConstructor>(Supercla
             return this.setAttribute(name, value);
         }
 
-        public override updated(changedProps: PropertyValues<this>) {
-            super.updated(changedProps);
-            this.#setAriaLabels();
-            this.#setAriaAttribute("aria-checked", this.checked ? "true" : "false");
-            this.#setAriaAttribute("aria-disabled", this.disabled ? "true" : null);
+        public override updated(changed: PropertyValues<this>) {
+            super.updated(changed);
+            this.setAriaLabels();
+            this.setAriaAttribute("aria-checked", this.checked ? "true" : "false");
+            this.setAriaAttribute("aria-disabled", this.disabled ? "true" : null);
 
-            if (changedProps.has("checked")) {
+            if (changed.has("checked")) {
                 this.dispatchEvent(
                     new CustomEvent("change", {
                         detail: {
@@ -250,7 +252,7 @@ export function FormAssociatedBooleanMixin<Base extends LitConstructor>(Supercla
                         },
                         bubbles: true,
                         composed: true,
-                    })
+                    }),
                 );
             }
         }

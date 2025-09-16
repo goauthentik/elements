@@ -1,7 +1,7 @@
 import { akSwitch, type SwitchProps } from "./ak-switch.builder.js";
-import { SwitchInput, type ISwitchInput } from "./ak-switch.component.js";
+import { type ISwitchInput, SwitchInput } from "./ak-switch.component.js";
 
-export { akSwitch, type SwitchProps, SwitchInput, type ISwitchInput };
+export { akSwitch, type ISwitchInput, SwitchInput, type SwitchProps };
 
 window.customElements.define("ak-switch", SwitchInput);
 

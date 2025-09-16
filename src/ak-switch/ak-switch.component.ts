@@ -1,10 +1,13 @@
-import { PropertyValues, TemplateResult, html, nothing } from "lit";
-import { property, state } from "lit/decorators.js";
-import { AkLitElement } from "../component-base.js";
-import { match, P } from "ts-pattern";
 import "../ak-icon/ak-icon.js";
+
+import { AkLitElement } from "../component-base.js";
+import { FormAssociatedBooleanMixin } from "../mixins/form-associated-boolean-mixin.js";
 import styles from "./ak-switch.scss";
-import { FormAssociatedBooleanMixin } from "./form-associated-boolean-protocol.js";
+
+import { match, P } from "ts-pattern";
+
+import { html, nothing, PropertyValues, TemplateResult } from "lit";
+import { property } from "lit/decorators.js";
 
 export interface ISwitchInput {
     name?: string;

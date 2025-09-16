@@ -1,6 +1,6 @@
-import "./ak-switch.js";
+import "./ak-checkbox.js";
 
-import { SwitchInput } from "./ak-switch.js";
+import { CheckboxInput } from "./ak-checkbox.js";
 
 import type { Meta, StoryObj } from "@storybook/web-components";
 
@@ -9,17 +9,17 @@ import { ifDefined } from "lit/directives/if-defined.js";
 
 type Renderable = string | TemplateResult;
 
-type StoryArgs = SwitchInput;
+type StoryArgs = CheckboxInput;
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const metadata: Meta<StoryArgs> = {
-    title: "Elements/Switch",
-    component: "ak-switch",
+    title: "Elements/Checkbox",
+    component: "ak-checkbox",
     tags: ["autodocs"],
     argTypes: {
         checked: {
             control: "boolean",
-            description: "Whether the switch is checked/enabled",
+            description: "Whether the checkbox is checked/enabled",
             table: {
                 type: { summary: "boolean" },
                 defaultValue: { summary: false },
@@ -27,7 +27,15 @@ const metadata: Meta<StoryArgs> = {
         },
         disabled: {
             control: "boolean",
-            description: "Whether the switch is disabled",
+            description: "Whether the checkbox is disabled",
+            table: {
+                type: { summary: "boolean" },
+                defaultValue: { summary: false },
+            },
+        },
+        indeterminate: {
+            control: "boolean",
+            description: "Whether the checkbox is indeterminate",
             table: {
                 type: { summary: "boolean" },
                 defaultValue: { summary: false },
@@ -73,7 +81,7 @@ const metadata: Meta<StoryArgs> = {
         },
         labelOn: {
             control: "text",
-            description: "Text to show when switch is on",
+            description: "Text to show when checkbox is on",
             table: {
                 type: { summary: "string" },
                 defaultValue: { summary: "On" },
@@ -81,7 +89,7 @@ const metadata: Meta<StoryArgs> = {
         },
         labelOff: {
             control: "text",
-            description: "Text to show when switch is off",
+            description: "Text to show when checkbox is off",
             table: {
                 type: { summary: "string" },
                 defaultValue: { summary: "Off" },
@@ -89,7 +97,7 @@ const metadata: Meta<StoryArgs> = {
         },
         ariaLabel: {
             control: "text",
-            description: "Aria label for the switch",
+            description: "Aria label for the checkbox",
             table: {
                 type: { summary: "string" },
             },
@@ -99,9 +107,9 @@ const metadata: Meta<StoryArgs> = {
         docs: {
             description: {
                 component: `
-# Switch
+# Checkbox
 
-A toggle switch component that can be used as a visual toggle for boolean settings.
+A toggle checkbox component that can be used as a visual toggle for boolean settings.
 `,
             },
         },
@@ -115,10 +123,11 @@ type Story = StoryObj<StoryArgs>;
 
 const Template = {
     render: (args: StoryArgs) => html`
-        <ak-switch
+        <ak-checkbox
             ?checked=${!!args.checked}
             ?disabled=${!!args.disabled}
             ?required=${!!args.required}
+            ?indeterminate=${!!args.indeterminate}
             ?reverse=${!!args.reverse}
             ?show-text=${!!args.showText}
             ?use-check=${!!args.useCheck}
@@ -128,7 +137,7 @@ const Template = {
         >
             ${args.label ? html`<p slot="label">${args.label}</p>` : ""}
             ${args.labelOn ? html`<p slot="label-on">${args.labelOn}</p>` : ""}
-        </ak-switch>
+        </ak-checkbox>
     `,
 };
 
@@ -137,7 +146,7 @@ export const Basic: Story = {
     args: {},
 };
 
-// Checked Switch
+// Checked Checkbox
 export const Checked: Story = {
     ...Template,
     args: {
@@ -145,7 +154,7 @@ export const Checked: Story = {
     },
 };
 
-// Disabled Switch
+// Disabled Checkbox
 export const Disabled: Story = {
     ...Template,
     args: {
@@ -153,7 +162,7 @@ export const Disabled: Story = {
     },
 };
 
-// Disabled Checked Switch
+// Disabled Checked Checkbox
 export const DisabledChecked: Story = {
     ...Template,
     args: {
@@ -162,7 +171,7 @@ export const DisabledChecked: Story = {
     },
 };
 
-// Switch with On/Off Text
+// Checkbox with On/Off Text
 export const WithOnOffText: Story = {
     ...Template,
     args: {
@@ -172,7 +181,7 @@ export const WithOnOffText: Story = {
     },
 };
 
-// Switch with On/Off Text
+// Checkbox with On/Off Text
 export const WithOnOffTextReversed: Story = {
     ...Template,
     args: {
@@ -187,66 +196,72 @@ export const WithOnOffTextReversed: Story = {
 // Form Integration
 export const FormIntegration: Story = {
     args: {
-        name: "switchOption",
+        name: "checkboxOption",
         value: "optionValue",
         required: true,
     },
     render: (args) => html`
         <form
-            id="switch-form"
+            id="checkbox-form"
             @submit=${(e: Event) => {
                 e.preventDefault();
                 const formData = new FormData(e.target as HTMLFormElement);
                 // eslint-disable-next-line no-alert
                 alert(
-                    `Form submitted with value: ${formData.get("switchOption") || "not selected"}`,
+                    `Form submitted with value: ${formData.get("checkboxOption") || "not selected"}`,
                 );
             }}
         >
             <div style="margin-bottom: 1rem;">
-                <ak-switch
+                <ak-checkbox
                     ?checked=${args.checked}
                     name=${ifDefined(args.name)}
                     value=${ifDefined(args.value)}
                     ?required=${args.required}
                 >
                     Required form option
-                </ak-switch>
+                </ak-checkbox>
             </div>
             <button type="submit">Submit Form</button>
         </form>
     `,
 };
 
-// Custom Styling
-export const CustomStyling: Story = {
-    args: {},
+export const LitEventHandling: Story = {
+    args: {
+        name: "checkboxOption",
+        value: "optionValue",
+        required: true,
+    },
     render: (args) => html`
-        <style>
-            .custom-switch {
-                --pf-v5-c-switch--checked--BackgroundColor: #2ecc71;
-                --pf-v5-c-switch__toggle--Width: 60px;
-                --pf-v5-c-switch__toggle--Height: 30px;
-                --pf-v5-c-switch__knob--Size: 24px;
-                --pf-v5-c-switch__toggle--BorderRadius: 6px;
-                --pf-v5-c-switch__knob--BorderRadius: 4px;
-            }
-        </style>
-        <label>Custom styled switch </label>
-        <ak-switch class="custom-switch" ?checked=${args.checked}> </ak-switch>
+        <div style="margin-bottom: 1rem;">
+            <ak-checkbox
+                @click=${(e: Event) => {
+                    e.preventDefault();
+                    // eslint-disable-next-line no-alert
+                    alert(`Box clicked with value: ${e.target.checked}`);
+                }}
+                ?checked=${args.checked}
+                name=${ifDefined(args.name)}
+                value=${ifDefined(args.value)}
+                ?required=${args.required}
+            >
+                Required form option
+            </ak-checkbox>
+        </div>
     `,
 };
 
-// Multiple Switches
-export const MultipleSwitches: Story = {
+// Multiple Checkboxes
+export const MultipleCheckboxes: Story = {
     args: {},
     render: () => html`
         <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <ak-switch>Default option</ak-switch>
-            <ak-switch checked>Checked option</ak-switch>
-            <ak-switch disabled>Disabled option</ak-switch>
-            <ak-switch reverse>Reversed option</ak-switch>
-            <ak-switch show-text>Option with text</ak-switch>
+            <ak-checkbox>Default option</ak-checkbox>
+            <ak-checkbox checked>Checked option</ak-checkbox>
+            <ak-checkbox disabled>Disabled option</ak-checkbox>
+            <ak-checkbox reverse>Reversed option</ak-checkbox>
+            <ak-checkbox show-text>Option with text</ak-checkbox>
         </div>
     `,
 };
@@ -258,16 +273,16 @@ export const EventHandling: Story = {
         <div
             style="display: flex; flex-direction: column; align-content: center; gap: 1rem; min-width: 24ch"
         >
-            <div id="event-status">Switch state: unchecked</div>
-            <ak-switch
+            <div id="event-status">Checkbox state: unchecked</div>
+            <ak-checkbox
                 @change=${(e: CustomEvent) => {
                     const status = document.getElementById("event-status");
                     if (status) {
-                        status.textContent = `Switch state: ${e.detail.checked ? "checked" : "unchecked"}`;
+                        status.textContent = `Checkbox state: ${e.detail.checked ? "checked" : "unchecked"}`;
                     }
                 }}
             >
-            </ak-switch>
+            </ak-checkbox>
         </div>
     `,
 };
