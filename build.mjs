@@ -38,7 +38,7 @@ async function build() {
         rootScssSources,
         "./src",
         "./dist",
-        scssOptions
+        scssOptions,
     );
 
     // SCSS Files that will be converted to lit format
@@ -63,7 +63,7 @@ async function build() {
         typescriptSources,
         swcConfig,
         "./src",
-        "./dist"
+        "./dist",
     );
 
     // CSS, Font files, and other assets that do not require conversion
