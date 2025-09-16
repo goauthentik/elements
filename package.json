@@ -9,6 +9,7 @@
         "analyze": "cem analyze --litelement",
         "clean": "rimraf ./dist",
         "build": "node ./build.mjs",
+        "clean": "rimraf ./dist",
         "lint": "run-s -sn lint:types lint:eslint lint:package",
         "lint:eslint": "eslint --max-warnings 0 --fix",
         "lint:package": "run-s syncpack lint && syncpack fix-mismatches",
@@ -19,8 +20,7 @@
         "storybook": "run-s analyze build storybook:main",
         "storybook:main": "storybook dev -p 6006",
         "test": "run-s clean analyze build test:unit",
-        "test:unit": "wdio run ./config/wdio.conf.mts --logLevel=warn",
-        "wccss": "wccss"
+        "test:unit": "wdio run ./config/wdio.conf.mts --logLevel=warn"
     },
     "type": "module",
     "dependencies": {

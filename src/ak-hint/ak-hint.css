@@ -40,7 +40,7 @@
     grid-column: 1/-1;
 }
 
-.title [name="title"]::slotted(*) {
+[part="title"] ::slotted(*) {
     font-size: var(--pf-v5-c-hint__title--FontSize) !important;
 }
 
@@ -48,6 +48,6 @@
     font-size: var(--pf-v5-c-hint__body--FontSize) !important;
 }
 
-[name="footer"]::slotted(*) {
+[name="footer"] ::slotted(*) {
     font-size: var(--pf-v5-c-hint__footer--FontSize) !important;
 }
