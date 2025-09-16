@@ -25,13 +25,11 @@ const CHECK_ICON = () =>
         <path fill="currentColor" d="M21 7L9 19l-5.5-5.5l1.41-1.41L9 16.17L19.59 5.59z" />
     </svg>`;
 
-const DOT_ICON = () =>
-    html`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-        <path
-            fill="currentColor"
-            d="M12 10a2 2 0 0 0-2 2a2 2 0 0 0 2 2c1.11 0 2-.89 2-2a2 2 0 0 0-2-2"
-        />
-    </svg>`;
+const DOT_ICON = () => html`
+    <svg viewBox="0 0 16 16" fill="currentColor">
+        <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+    </svg>
+`;
 
 /**
  * @element ak-checkbox
@@ -136,7 +134,7 @@ export class CheckboxInput
                 .with([true, P._], () => "mixed")
                 .with([false, true], () => "true")
                 .with([false, false], () => null)
-                .exhaustive(),
+                .exhaustive()
         );
     }
 }
