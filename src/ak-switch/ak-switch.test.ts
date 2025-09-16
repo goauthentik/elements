@@ -4,7 +4,6 @@ import { akSwitch } from "./ak-switch.js";
 
 import { $, browser, expect } from "@wdio/globals";
 
-import { msg } from "@lit/localize";
 import { html, render, type TemplateResult } from "lit";
 
 describe("ak-switch component", () => {
@@ -185,7 +184,7 @@ describe("ak-switch component", () => {
             await browser.pause(50);
 
             const isValid = await browser.execute((el) => {
-                return el.checkValidity();
+                return (el as HTMLInputElement).checkValidity();
             }, component);
 
             expect(isValid).toBe(false);
@@ -198,7 +197,7 @@ describe("ak-switch component", () => {
             await browser.pause(50);
 
             const isValid = await browser.execute((el) => {
-                return el.checkValidity();
+                return (el as HTMLInputElement).checkValidity();
             }, component);
 
             expect(isValid).toBe(true);
@@ -208,20 +207,23 @@ describe("ak-switch component", () => {
     describe("Events", () => {
         it("should fire change event when toggled", async () => {
             await browser.execute(() => {
+                // @ts-expect-error just needed a scratch-pad
                 window.changeEventDetail = null;
                 // eslint-disable-next-line sonarjs/no-nested-functions
                 document.addEventListener("change", (e) => {
+                    // @ts-expect-error still need that scratchpad
                     window.changeEventDetail = (e as CustomEvent).detail;
                 });
             });
 
             const { component } = await provide(
-                html`<ak-switch name="test" value="testValue"></ak-switch>`
+                html`<ak-switch name="test" value="testValue"></ak-switch>`,
             );
 
             await component.click();
             await browser.pause(50);
 
+            // @ts-expect-error still need that scratchpad
             const eventDetail = await browser.execute(() => window.changeEventDetail);
             expect(eventDetail.checked).toBe(true);
             expect(eventDetail.value).toBe("testValue");
@@ -381,7 +383,7 @@ describe("akSwitch builder function", () => {
                 checked: true,
                 value: "testValue",
                 ariaLabel: "Test switch",
-            })
+            }),
         );
 
         await expect(component).toExist();
@@ -397,7 +399,7 @@ describe("akSwitch builder function", () => {
                 required: true,
                 disabled: false,
                 useCheck: true,
-            })
+            }),
         );
 
         await expect(component).toHaveAttribute("required");

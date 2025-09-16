@@ -1,7 +1,7 @@
-import { TemplateResult, html } from "lit";
-import { ifDefined } from "lit/directives/if-defined.js";
-
 import { SwitchInput } from "./ak-switch.js";
+
+import { html, TemplateResult } from "lit";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 /**
  * Configuration options for the akSwitch helper function

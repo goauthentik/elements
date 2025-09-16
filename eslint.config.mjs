@@ -1,11 +1,12 @@
-import eslint from "@eslint/js";
+import { DefaultIgnorePatterns } from "@goauthentik/eslint-config";
 import { javaScriptConfig } from "@goauthentik/eslint-config/javascript-config";
 import { typescriptConfig } from "@goauthentik/eslint-config/typescript-config";
-import { DefaultIgnorePatterns } from "@goauthentik/eslint-config";
+
+import eslint from "@eslint/js";
 import * as litconf from "eslint-plugin-lit";
+import sonarjs from "eslint-plugin-sonarjs";
 import * as wcconf from "eslint-plugin-wc";
 import tseslint from "typescript-eslint";
-import sonarjs from "eslint-plugin-sonarjs";
 
 // @ts-check
 
@@ -56,5 +57,5 @@ export default tseslint.config(
             "prefer-arrow-callback": "off",
             "vars-on-top": "off",
         },
-    }
+    },
 );

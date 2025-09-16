@@ -1,10 +1,11 @@
+import "./ak-switch.js";
+
+import { SwitchInput } from "./ak-switch.js";
+
 import type { Meta, StoryObj } from "@storybook/web-components";
 
-import { TemplateResult, html } from "lit";
+import { html, TemplateResult } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
-
-import "./ak-switch.js";
-import { SwitchInput } from "./ak-switch.js";
 
 type Renderable = string | TemplateResult;
 
@@ -198,7 +199,7 @@ export const FormIntegration: Story = {
                 const formData = new FormData(e.target as HTMLFormElement);
                 // eslint-disable-next-line no-alert
                 alert(
-                    `Form submitted with value: ${formData.get("switchOption") || "not selected"}`
+                    `Form submitted with value: ${formData.get("switchOption") || "not selected"}`,
                 );
             }}
         >

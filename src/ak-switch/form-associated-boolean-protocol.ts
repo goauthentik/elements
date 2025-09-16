@@ -1,7 +1,8 @@
+import { match, P } from "ts-pattern";
+
+import { msg } from "@lit/localize";
 import { LitElement, PropertyValues } from "lit";
 import { property, state } from "lit/decorators.js";
-import { msg } from "@lit/localize";
-import { match, P } from "ts-pattern";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Constructor<T = Record<string, unknown>> = new (...args: any[]) => T;
@@ -134,7 +135,7 @@ export function FormAssociatedBooleanMixin<Base extends LitConstructor>(Supercla
         public override attributeChangedCallback(
             name: string,
             prev: string | null,
-            value: string | null
+            value: string | null,
         ) {
             if (name === "name" || prev === value) {
                 return;
@@ -250,7 +251,7 @@ export function FormAssociatedBooleanMixin<Base extends LitConstructor>(Supercla
                         },
                         bubbles: true,
                         composed: true,
-                    })
+                    }),
                 );
             }
         }
