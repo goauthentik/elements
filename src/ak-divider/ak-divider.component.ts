@@ -2,8 +2,6 @@ import { AkLitElement } from "../component-base.js";
 import styles from "./ak-divider.css";
 
 import { html } from "lit";
-import { property } from "lit/decorators.js";
-import { classMap } from "lit/directives/class-map.js";
 
 export const dividerVariant = ["default", "strong", "subtle"] as const;
 export type DividerVariant = (typeof dividerVariant)[number];
@@ -11,6 +9,8 @@ export type DividerVariant = (typeof dividerVariant)[number];
 export const dividerOrientation = ["horizontal", "vertical"] as const;
 export type DividerOrientation = (typeof dividerOrientation)[number];
 
+// Not included in the `implements` belowe because these attribute fields are 100% controlling the
+// CSS, with no actual effect on the Javascript behavior of the component.
 export interface IDivider {
     variant?: DividerVariant;
     orientation?: DividerOrientation;
@@ -46,7 +46,7 @@ export interface IDivider {
  * @cssprop --pf-v5-c-divider__line--before--width - Width of the line pseudo-element
  * @cssprop --pf-v5-c-divider__line--before--height - Height of the line pseudo-element
  */
-export class Divider extends AkLitElement implements IDivider {
+export class Divider extends AkLitElement {
     static readonly styles = [styles];
 
     render() {

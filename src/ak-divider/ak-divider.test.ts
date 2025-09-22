@@ -38,14 +38,14 @@ describe("ak-divider component", () => {
     });
 
     it("should render the divider as a function with the specified text", async () => {
-        await render(akDivider("Your Message As A Function"), document.body);
+        await render(akDivider({ content: "Your Message As A Function" }), document.body);
         const divider = $("ak-divider");
         await expect(divider).toExist();
         await expect(await divider.$(">>>span")).toHaveText("Your Message As A Function");
     });
 
     it("should render the divider as a function", async () => {
-        await renderDivider(akDivider());
+        await render(akDivider(), document.body);
         const divider = $("ak-divider");
         await expect(divider).toExist();
     });
