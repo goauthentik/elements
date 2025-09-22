@@ -1,13 +1,9 @@
 import styles from "./ak-brand.css";
 
-import { html, LitElement } from "lit";
+import { LitElement } from "lit";
 import { property } from "lit/decorators.js";
-import { ifDefined } from "lit/directives/if-defined.js";
-
-export interface IBrand {
-    src?: string;
-    alt?: string;
-}
+import type { IBrand } from "./ak-brand.types.js";
+import { template } from "./ak-brand.template.js";
 
 /**
  * @summary A **brand** is an image used to identify an organization, corporation or project.
@@ -39,11 +35,7 @@ export class Brand extends LitElement implements IBrand {
     alt?: string;
 
     render() {
-        return html`<img
-            part="brand"
-            loading="lazy"
-            src=${ifDefined(this.src)}
-            alt=${ifDefined(this.alt)}
-        />`;
+        const { src, alt } = this;
+        return template({ src, alt });
     }
 }
