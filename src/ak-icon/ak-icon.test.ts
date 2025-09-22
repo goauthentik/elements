@@ -31,7 +31,7 @@ describe("ak-icon component", () => {
         if (!(innerContainer && innerContainer instanceof HTMLElement)) {
             throw new Error("Unable to find container. /* CAN'T HAPPEN */");
         }
-        const root = render(component, innerContainer);
+        render(component, innerContainer);
         await browser.pause(100);
         const icon = await container.$("ak-icon");
         const content = await icon.$('>>>[part="content"]');
@@ -114,27 +114,25 @@ describe("ak-icon component", () => {
     });
 
     it("should apply variant attribute to host", async () => {
-        const { icon, part } = await provide(
+        const { icon } = await provide(
             html`<ak-icon icon="exclamation-triangle" variant="warning"></ak-icon>`,
         );
         await expect(icon).toHaveAttribute("variant", "warning");
     });
 
     it("should apply effect attribute to host", async () => {
-        const { icon, part } = await provide(
-            html`<ak-icon icon="spinner" effect="spin"></ak-icon>`,
-        );
+        const { icon } = await provide(html`<ak-icon icon="spinner" effect="spin"></ak-icon>`);
         await expect(icon).toHaveAttribute("effect", "spin");
     });
 
     it("should expose correct CSS parts", async () => {
-        const { icon, content, part } = await provide(html`<ak-icon icon="user"></ak-icon>`);
+        const { content, part } = await provide(html`<ak-icon icon="user"></ak-icon>`);
         await expect(content).toExist();
         await expect(part).toExist();
     });
 
     it("should maintain property types when accessed programmatically", async () => {
-        const { icon, part } = await provide(
+        const { icon } = await provide(
             html`<ak-icon icon="user" family="fas" fallback="fa fa-question"></ak-icon>`,
         );
 
@@ -182,12 +180,13 @@ describe("akIcon builder function", () => {
         });
     });
 
+    // eslint-disable-next-line sonarjs/no-identical-functions
     const provide = async (component: TemplateResult) => {
         const innerContainer = document.querySelector("#container");
         if (!(innerContainer && innerContainer instanceof HTMLElement)) {
             throw new Error("Unable to find container. /* CAN'T HAPPEN */");
         }
-        const root = render(component, innerContainer);
+        render(component, innerContainer);
         await browser.pause(100);
         const icon = await container.$("ak-icon");
         const content = await icon.$('>>>[part="content"]');
