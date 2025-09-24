@@ -34,7 +34,7 @@
 [part="title-block"] {
     display: flex;
     flex-direction: row;
-    align-items: baseline;
+    align-items: center;
     gap: var(--ak-v1-c--content-header__icon--Gap);
 }
 
