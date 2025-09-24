@@ -27,28 +27,30 @@ export class ContentHeader extends LitElement implements IContentHeader {
     #slotsController = new DynamicSlotController(this, this.#onSlotChange);
 
     private renderIcon(hasSlottedIcon = false) {
-        if (hasSlottedIcon) {
-            return html`<div part="icon-content"><slot name="icon"></slot></div>`;
+        if (this.#slotsController.has("icon")) {
+            return html`<div part="icon">
+                <div part="icon-content"><slot name="icon"></slot></div>
+            </div>`;
         }
         if (this.icon) {
-            return html`<ak-icon part="icon-content" icon=${this.icon} size="lg"></ak-icon>`;
+            return html`<div part="icon">
+                <ak-icon part="icon-content" icon=${this.icon} size="lg"></ak-icon>
+            </div>`;
         }
         return nothing;
     }
 
     render() {
-        const [hasSlottedIcon, subtitle] = ["icon", "subtitle"].map((slotname) =>
-            this.#slotsController.has(slotname)
-        );
+        const subtitleSlot = this.#slotsController.has("subtitle");
 
         return html`<div part="content-header">
             <div part="title-block">
-                ${hasSlottedIcon || this.icon
-                    ? html`<div part="icon">${this.renderIcon(hasSlottedIcon)}</div>`
-                    : nothing}
+                ${this.renderIcon()}
                 <div part="title"><slot name="title"></slot></div>
             </div>
-            ${subtitle ? html`<div part="subtitle"><slot name="subtitle"></slot></div>` : nothing}
+            ${subtitleSlot
+                ? html`<div part="subtitle"><slot name="subtitle"></slot></div>`
+                : nothing}
         </div>`;
     }
 }
