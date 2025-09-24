@@ -1,12 +1,12 @@
 import "../ak-icon/ak-icon.js";
 import "../ak-spinner/ak-spinner.js";
 
-import { AkLitElement } from "../component-base.js";
 import styles from "./ak-empty-state.css";
 
 import { msg } from "@lit/localize";
-import { html, nothing, PropertyValues } from "lit";
+import { html, nothing, LitElement, PropertyValues } from "lit";
 import { property } from "lit/decorators.js";
+import { DynamicSlotController } from "../controllers/dynamic-slot-controller.js";
 
 /**
  * Size variants for the Empty State component
@@ -20,9 +20,6 @@ const isEmptyStateSize = (s?: string): s is EmptyStateSize =>
 
 const spinnerSizes = ["md", "lg", "lg", "xl", "xl"];
 const iconSizes = ["sm", "md", "lg", "xl", "6x"];
-
-const VALID_SLOTS = ["icon", "body", "title", "actions", "secondary-actions", "footer"] as const;
-type ValidSlot = (typeof VALID_SLOTS)[number];
 
 export interface IEmptyState {
     size?: string;
@@ -74,7 +71,7 @@ export interface IEmptyState {
  * @cssprop --pf-v5-c-empty-state__actions--ColumnGap - Column gap between action elements
  */
 
-export class EmptyState extends AkLitElement implements IEmptyState {
+export class EmptyState extends LitElement implements IEmptyState {
     static override readonly styles = [styles];
 
     @property({ type: String })
@@ -92,24 +89,14 @@ export class EmptyState extends AkLitElement implements IEmptyState {
     @property({ type: String })
     public size = "lg";
 
-    private slotted: Record<ValidSlot, boolean> = {
-        icon: false,
-        body: false,
-        title: false,
-        actions: false,
-        "secondary-actions": false,
-        footer: false,
+    #onSlotChange = () => {
+        this.requestUpdate();
     };
 
-    public override willUpdate(changed: PropertyValues<this>) {
-        VALID_SLOTS.forEach((slotname) => {
-            this.slotted[slotname] = this.hasSlotted(slotname);
-        });
-        super.willUpdate(changed);
-    }
+    #slotsController = new DynamicSlotController(this, this.#onSlotChange);
 
     private renderIcon() {
-        if (this.slotted.icon) {
+        if (this.#slotsController.has("icon")) {
             return html`<div part="icon"><slot name="icon"></slot></div>`;
         }
         if (this.icon) {
@@ -125,6 +112,7 @@ export class EmptyState extends AkLitElement implements IEmptyState {
         const index = isEmptyStateSize(this.size)
             ? emptyStateSizes.indexOf(this.size)
             : DEFAULT_SIZE_INDEX;
+
         return this.loading
             ? html`<div part="icon">
                   <ak-spinner size=${spinnerSizes[index] ?? "xl"}></ak-spinner>
@@ -135,7 +123,7 @@ export class EmptyState extends AkLitElement implements IEmptyState {
     }
 
     private renderBody() {
-        if (this.slotted.body) {
+        if (this.#slotsController.has("body")) {
             return html`<div part="body"><slot name="body"></slot></div>`;
         }
         if (this.loading && !this.noLoadingMessage) {
@@ -145,14 +133,20 @@ export class EmptyState extends AkLitElement implements IEmptyState {
     }
 
     public override render() {
-        const showFooter =
-            this.slotted.footer || this.slotted.actions || this.slotted["secondary-actions"];
+        const [secondarySlot, titleSlot, actionSlot, footerSlot] = [
+            "secondary-actions",
+            "title",
+            "actions",
+            "footer",
+        ].map((name) => this.#slotsController.has(name));
+
+        const showFooter = footerSlot || actionSlot || secondarySlot;
 
         return html`
             <div part="empty-state">
                 <div part="content">
                     ${this.renderIcon()}
-                    ${this.slotted.title
+                    ${titleSlot
                         ? html`<div part="title">
                               <slot name="title"></slot>
                           </div>`
@@ -160,17 +154,17 @@ export class EmptyState extends AkLitElement implements IEmptyState {
                     ${this.renderBody()}
                     ${showFooter
                         ? html` <div part="footer">
-                              ${this.slotted.actions
+                              ${actionSlot
                                   ? html`<div part="actions">
                                         <slot name="actions"></slot>
                                     </div>`
                                   : nothing}
-                              ${this.slotted["secondary-actions"]
+                              ${secondarySlot
                                   ? html`<div part="actions">
                                         <slot name="secondary-actions"></slot>
                                     </div>`
                                   : nothing}
-                              ${this.slotted.footer
+                              ${footerSlot
                                   ? html`<div part="footer"><slot name="footer"></slot></div>`
                                   : nothing}
                           </div>`
@@ -191,7 +185,7 @@ export class EmptyState extends AkLitElement implements IEmptyState {
             this.removeAttribute("aria-live");
             this.setAttribute("role", "img");
             // Consider aria-label for non-loading states
-            if (!this.hasSlotted("title")) {
+            if (!this.#slotsController.has("title")) {
                 this.setAttribute("aria-label", msg("Empty state"));
             }
         }
