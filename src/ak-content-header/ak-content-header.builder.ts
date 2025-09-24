@@ -21,7 +21,7 @@ export function akContentHeader(options: ContentHeaderProps = { title: msg("No t
     const { icon, breadcrumbs, iconSlot, title, subtitle } = options;
     return html`<ak-content-header icon=${ifDefined(icon)}>
         ${breadcrumbs ? html`<span slot="breadcrumbs">${breadcrumbs}</span>` : nothing}
-        ${icon ? html`<span slot="icon">${icon}</span>` : nothing}
+        ${iconSlot ? html`<span slot="icon">${iconSlot}</span>` : nothing}
         ${title ? html`<span slot="title">${title}</span>` : nothing}
         ${subtitle ? html`<span slot="subtitle">${subtitle}</span>` : nothing}</ak-content-header
     >`;

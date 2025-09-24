@@ -1,7 +1,5 @@
 import "./ak-content-header.js";
 
-import { IContentHeader } from "./ak-content-header.component.js";
-
 import type { Meta, StoryObj } from "@storybook/web-components";
 
 import { TemplateResult, html, nothing } from "lit";
@@ -53,14 +51,12 @@ type Story = StoryObj<ContentHeader>;
 const Template: Story = {
     render: (args: ContentHeaderProps) => {
         const { icon, breadcrumbs, iconSlot, title, subtitle } = args;
-        return html`<ak-content-header icon=${ifDefined(args.icon)}>
-            ${args.breadcrumbs
-                ? html`<span slot="breadcrumbs">${args.breadcrumbs}</span>`
-                : nothing}
-            ${args.iconSlot ? html`<span slot="icon">${args.iconSlot}</span>` : nothing}
-            ${args.title ? html`<span slot="title">${args.title}</span>` : nothing}
-            ${args.subtitle
-                ? html`<span slot="subtitle">${args.subtitle}</span>`
+        return html`<ak-content-header icon=${ifDefined(icon)}>
+            ${breadcrumbs ? html`<span slot="breadcrumbs">${breadcrumbs}</span>` : nothing}
+            ${iconSlot ? html`<span slot="icon">${iconSlot}</span>` : nothing}
+            ${title ? html`<span slot="title">${title}</span>` : nothing}
+            ${subtitle
+                ? html`<span slot="subtitle">${subtitle}</span>`
                 : nothing}</ak-content-header
         >`;
     },
