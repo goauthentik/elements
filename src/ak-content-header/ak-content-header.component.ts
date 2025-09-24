@@ -4,7 +4,6 @@ import { LitElement, html, nothing } from "lit";
 import { property } from "lit/decorators.js";
 import { DynamicSlotController } from "../controllers/dynamic-slot-controller.js";
 import "../ak-icon/ak-icon.js";
-import "../ak-divider/ak-divider.js";
 
 export interface IContentHeader {
     icon?: string;
