@@ -1,18 +1,19 @@
-import { Brand } from "./ak-brand.component.js";
-
+import { SkipToContent } from "./ak-skip-to-content.component.js";
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
-export type AkBrandProps = Partial<Pick<Brand, "src" | "alt">>;
+export type SkipToContentProps = Partial<Pick<SkipToContent, "label">> & {
+    targetElement?: HTMLElement;
+};
 
 /**
- * @summary Helper function to create a Brand component programmatically
+ * @summary Helper function to create a SkipToContent component programmatically
  *
- * @returns {TemplateResult} A Lit template result containing the configured ak-brand element
+ * @returns {TemplateResult} A Lit template result containing the configured ak-skip-to-content element
  *
- * @see {@link Brand} - The underlying web component
+ * @see {@link SkipToContent} - The underlying web component
  */
-export function akBrand(options: AkBrandProps = {}) {
-    const { src, alt } = options;
-    return html` <ak-brand src=${ifDefined(src)} alt=${ifDefined(alt)}></ak-brand> `;
+export function akSkipToContent(options: SkipToContentProps = {}) {
+    const { targetElement, label } = options;
+    return html` <ak-skip-to-content .targetElement=${targetElement} label=${ifDefined(label)}></ak-skip-to-content> `;
 }

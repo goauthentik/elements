@@ -1,12 +1,12 @@
-import { akBrand } from "./ak-brand.builder.js";
-import { Brand } from "./ak-brand.component.js";
+import { akSkipToContent, type SkipToContentProps } from "./ak-skip-to-content.builder.js";
+import { SkipToContent } from "./ak-skip-to-content.component.js";
 
-export { akBrand, Brand };
+export { akSkipToContent, SkipToContent, type SkipToContentProps };
 
-window.customElements.define("ak-brand", Brand);
+window.customElements.define("ak-skip-to-content", SkipToContent);
 
 declare global {
     interface HTMLElementTagNameMap {
-        "ak-brand": Brand;
+        "ak-skip-to-content": SkipToContent;
     }
 }
