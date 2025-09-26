@@ -24,25 +24,6 @@ const scssOptions = {
     importers: [new sass.NodePackageImporter()],
 };
 
-// async function sourceIsNewer(sourceFile, destFile) {
-//     const [sourceStat, destStat] = [
-//         await stat(path.join(SOURCEDIR, sourceFile)),
-//         await stat(path.join(TARGETDIR, destFile)),
-//     ];
-//
-//     return sourceStat.mtimeMs > destStat.mtimeMs;
-// }
-//
-// async function sourcesAreNewer(sourceFiles, replacer = (i) => i) {
-//     const newerSources = Promise.all(
-//         sourceFiles.map(async (sourcefile) => [
-//             sourcefile,
-//             sourceIsNewer(sourcefile, replacer(sourcefile)),
-//         ]),
-//     );
-//     return newerSources.filter((s) => s[1]).map((s) => s[0]);
-// }
-
 // Don't compile Scss utility import files.
 const scssForIncludeOnly = (scssfile) => !/\/_[^/]+\.s?css$/.exec(scssfile);
 
@@ -67,8 +48,11 @@ async function build() {
     // CSS Files that need to be converted to lit format
     const compCssSources = [
         ...globSrc("**/ak-*/ak-*.css").filter(scssForIncludeOnly),
-        "./css/base/fa-icons.css",
+        "./ak-icon/pficons/pficons.css",
+        "./ak-icon/fontawesome/fontawesome.css",
         "./css/components/component_reset.css",
+        "./css/base/fa-icons.css",
+        "./css/base/pf-icons.css",
     ];
 
     const compCssBuilds = await transformLitCss(compCssSources, "./src", "./dist", scssOptions);
@@ -83,11 +67,13 @@ async function build() {
     );
 
     // CSS, Font files, and other assets that do not require conversion
+
     const assetSources = [
         ...globSrc("**/*.{png,jpeg,jpg,woff,ttf,woff2}"),
         ...globSrc("./css/*.css"),
     ];
-    const _assetSourceCopies = await copyFiles(assetSources, TARGETDIR, "./src");
+
+    await copyFiles(assetSources, TARGETDIR, "./src");
 
     for (const [build, name] of [
         [rootScssBuilds, "Sass to CSS"],
@@ -98,8 +84,10 @@ async function build() {
     ]) {
         // eslint-disable-next-line no-console
         console.log(name);
+        const successMessages = build.successes.map((s) => `    ${s}`).join("\n");
         // eslint-disable-next-line no-console
-        console.log(`Passed:\n\n${build.successes.map((s) => `    ${s}`).join("\n")}`);
+        console.log(`Passed:\n\n${successMessages}`);
+
         if (build.failures.length > 0) {
             // eslint-disable-next-line no-console
             console.log("\nFailures:");
