@@ -37,11 +37,13 @@ describe("ak-spinner component", function () {
     });
 
     it("sets custom label", async () => {
+        // eslint-disable-next-line sonarjs/no-unused-vars
         const [_, svg] = await renderComponent({ label: "Custom loading message" });
         await expect(svg).toHaveAttribute("aria-label", "Custom loading message");
     });
 
     it("uses default label when not specified", async () => {
+        // eslint-disable-next-line sonarjs/no-unused-vars
         const [_, svg] = await renderComponent();
         const ariaLabel = await svg.getAttribute("aria-label");
 
@@ -119,7 +121,7 @@ describe("akSpinner helper function", () => {
                 label: "Processing complex data structures",
                 inline: false,
             }),
-            document.body,
+            document.body
         );
 
         const spinner = await $("ak-spinner");

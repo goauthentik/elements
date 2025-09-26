@@ -38,7 +38,7 @@ async function build() {
         rootScssSources,
         "./src",
         "./dist",
-        scssOptions
+        scssOptions,
     );
 
     // SCSS Files that will be converted to lit format
@@ -51,6 +51,8 @@ async function build() {
         "./ak-icon/pficons/pficons.css",
         "./ak-icon/fontawesome/fontawesome.css",
         "./css/components/component_reset.css",
+        "./css/base/fa-icons.css",
+        "./css/base/pf-icons.css",
     ];
 
     const compCssBuilds = await transformLitCss(compCssSources, "./src", "./dist", scssOptions);
@@ -61,10 +63,11 @@ async function build() {
         typescriptSources,
         swcConfig,
         "./src",
-        "./dist"
+        "./dist",
     );
 
     // CSS, Font files, and other assets that do not require conversion
+
     const assetSources = [
         ...globSrc("**/*.{png,jpeg,jpg,woff,ttf,woff2}"),
         ...globSrc("./css/*.css"),
