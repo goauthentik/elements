@@ -4,7 +4,6 @@ import { html, nothing, TemplateResult } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
 export type ContentHeaderProps = Partial<Pick<ContentHeader, "icon">> & {
-    breadcrumbs?: TemplateResult;
     iconSlot?: TemplateResult;
     title: string | TemplateResult;
     subtitle?: string | TemplateResult;
@@ -18,11 +17,10 @@ export type ContentHeaderProps = Partial<Pick<ContentHeader, "icon">> & {
  * @see {@link ContentHeader} - The underlying web component
  */
 export function akContentHeader(options: ContentHeaderProps = { title: msg("No title provided") }) {
-    const { icon, breadcrumbs, iconSlot, title, subtitle } = options;
+    const { icon, iconSlot, title, subtitle } = options;
     return html`<ak-content-header icon=${ifDefined(icon)}>
-        ${breadcrumbs ? html`<span slot="breadcrumbs">${breadcrumbs}</span>` : nothing}
-        ${icon ? html`<span slot="icon">${icon}</span>` : nothing}
-        ${title ? html`<span slot="title">${title}</span>` : nothing}
+        ${iconSlot ? html`<span slot="icon">${iconSlot}</span>` : nothing}
+        <span slot="title">${title}</span>
         ${subtitle ? html`<span slot="subtitle">${subtitle}</span>` : nothing}</ak-content-header
     >`;
 }

@@ -1,9 +1,10 @@
 :host {
-    --pf-v5-c-brand--Width: auto;
-    --pf-v5-c-brand--Height: auto;
+    --pf-v5-c-brand--Width: var(--pf-v5-c-brand--Width, auto);
+    --pf-v5-c-brand--Height: var(--pf-v5-c-brand--Height, auto);
     --pf-v5-c-brand--Width--base: var(--pf-v5-c-brand--Width);
     --pf-v5-c-brand--Height--base: var(--pf-v5-c-brand--Height);
 }
+
 
 :host {
     width: var(--pf-v5-c-brand--Width--base);
