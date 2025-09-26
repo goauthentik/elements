@@ -34,7 +34,7 @@ export interface IBadge {
  * @cssprop --pf-v5-c-badge--m-unread--Color - Text color for unread state
  */
 export class Badge extends LitElement implements IBadge {
-    static readonly styles = [styles /* TODO: , screenReader */];
+    static readonly styles = [styles];
 
     @property({ type: String, attribute: "screen-reader-text" })
     screenReaderText?: string;
