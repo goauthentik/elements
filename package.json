@@ -27,6 +27,9 @@
     },
     "scripts": {
         "analyze": "cem analyze --litelement",
+        "build": "run-p clean build:unit build:types",
+        "build:unit": "node ./build.mjs",
+        "build:types": "tsc --declaration --emitDeclarationOnly -p ./tsconfig.json",
         "clean": "rimraf ./dist",
         "build": "run-p build:unit build:types",
         "build:unit": "node ./build.mjs",
@@ -59,7 +62,6 @@
         "@goauthentik/eslint-config": "^1.0.5",
         "@goauthentik/prettier-config": "^3.1.0",
         "@goauthentik/tsconfig": "^1.0.4",
-        "@goauthentik/wccss": "github:goauthentik/wccss",
         "@storybook/addon-a11y": "^9.1.3",
         "@storybook/addon-docs": "^9.1.3",
         "@storybook/addon-themes": "^9.1.3",
