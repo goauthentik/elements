@@ -1,23 +1,38 @@
-import { createESLintPackageConfig } from "@goauthentik/eslint-config";
+import { DefaultIgnorePatterns } from "@goauthentik/eslint-config";
+import { javaScriptConfig } from "@goauthentik/eslint-config/javascript-config";
+import { typescriptConfig } from "@goauthentik/eslint-config/typescript-config";
 
+import eslint from "@eslint/js";
+import * as litconf from "eslint-plugin-lit";
+import sonarjs from "eslint-plugin-sonarjs";
+import * as wcconf from "eslint-plugin-wc";
 import tseslint from "typescript-eslint";
 
 // @ts-check
 
-/**
- * ESLint configuration for authentik's monorepo.
- */
-const ESLintConfig = createESLintPackageConfig({
-    ignorePatterns: ["**/dist/**", "**/.wireit/**", "**/node_modules/", "**/.storybook/*"],
-});
-
 export default tseslint.config(
-    ...ESLintConfig,
+    {
+        ignores: DefaultIgnorePatterns,
+    },
+
+    eslint.configs.recommended,
+    sonarjs.configs.recommended,
+    javaScriptConfig,
+    wcconf.configs["flat/recommended"],
+    litconf.configs["flat/recommended"],
+    ...tseslint.configs.recommended,
+    ...typescriptConfig,
+
     {
         rules: {
             "no-console": "off",
         },
-        files: ["packages/**/*"],
+        files: [
+            // ---
+            "**/scripts/**/*",
+            "**/test/**/*",
+            "**/tests/**/*",
+        ],
     },
     {
         rules: {
