@@ -32,7 +32,7 @@ describe("ak-empty-state component", () => {
         if (!(innerContainer && innerContainer instanceof HTMLElement)) {
             throw new Error("Unable to find container. /* CAN'T HAPPEN */");
         }
-        const root = render(template, innerContainer);
+        await render(template, innerContainer);
         await browser.pause(100);
 
         const component = await container.$("ak-empty-state");
@@ -224,12 +224,13 @@ describe("akEmptyState builder function", () => {
         });
     });
 
+    // eslint-disable-next-line sonarjs/no-identical-functions
     const provide = async (template: TemplateResult) => {
         const innerContainer = document.querySelector("#container");
         if (!(innerContainer && innerContainer instanceof HTMLElement)) {
             throw new Error("Unable to find container. /* CAN'T HAPPEN */");
         }
-        const root = render(template, innerContainer);
+        await render(template, innerContainer);
         await browser.pause(100);
 
         const component = await container.$("ak-empty-state");

@@ -4,22 +4,13 @@ import "../ak-spinner/ak-spinner.js";
 import styles from "./ak-empty-state.css";
 
 import { msg } from "@lit/localize";
-import { html, nothing, LitElement, PropertyValues } from "lit";
+import { LitElement } from "lit";
 import { property } from "lit/decorators.js";
 import { DynamicSlotController } from "../controllers/dynamic-slot-controller.js";
-
+import { template, type EmptyStateSize } from "./ak-empty-state.template.js";
 /**
  * Size variants for the Empty State component
  */
-export const emptyStateSizes = ["xs", "sm", "md", "lg", "xl"] as const;
-export type EmptyStateSize = (typeof emptyStateSizes)[number];
-const DEFAULT_SIZE_INDEX = emptyStateSizes.indexOf("md");
-
-const isEmptyStateSize = (s?: string): s is EmptyStateSize =>
-    typeof s === "string" && s.trim() !== "" && emptyStateSizes.includes(s as EmptyStateSize);
-
-const spinnerSizes = ["md", "lg", "lg", "xl", "xl"];
-const iconSizes = ["sm", "md", "lg", "xl", "6x"];
 
 export interface IEmptyState {
     size?: string;
@@ -87,7 +78,7 @@ export class EmptyState extends LitElement implements IEmptyState {
     public loading = false;
 
     @property({ type: String })
-    public size = "lg";
+    public size: EmptyStateSize = "lg";
 
     #onSlotChange = () => {
         this.requestUpdate();
@@ -95,85 +86,35 @@ export class EmptyState extends LitElement implements IEmptyState {
 
     #slotsController = new DynamicSlotController(this, this.#onSlotChange);
 
-    private renderIcon() {
-        if (this.#slotsController.has("icon")) {
-            return html`<div part="icon"><slot name="icon"></slot></div>`;
-        }
-        if (this.icon) {
-            return html`<div part="icon"><ak-icon icon=${this.icon}></ak-icon></div>`;
-        }
-        if (this.noIcon) {
-            return nothing;
-        }
-
-        // Render the default icon, depending on the state. The size check is only to make sure the
-        // subordinate components get legitimate sizes *from this component*; it's not meant as a
-        // check that the size passed in is valid.
-        const index = isEmptyStateSize(this.size)
-            ? emptyStateSizes.indexOf(this.size)
-            : DEFAULT_SIZE_INDEX;
-
-        return this.loading
-            ? html`<div part="icon">
-                  <ak-spinner size=${spinnerSizes[index] ?? "xl"}></ak-spinner>
-              </div>`
-            : html`<div part="icon">
-                  <ak-icon icon="fa fa-cubes" size="${iconSizes[index] ?? "3x"}"></ak-icon>
-              </div>`;
-    }
-
-    private renderBody() {
-        if (this.#slotsController.has("body")) {
-            return html`<div part="body"><slot name="body"></slot></div>`;
-        }
-        if (this.loading && !this.noLoadingMessage) {
-            return html`<div part="body">${msg("Loading...")}</div>`;
-        }
-        return nothing;
-    }
-
     public override render() {
-        const [secondarySlot, titleSlot, actionSlot, footerSlot] = [
-            "secondary-actions",
+        const [hasTitle, hasBody, hasActions, hasSecondaryActions, hasFooterContent] = [
             "title",
+            "body",
             "actions",
+            "secondary-actions",
             "footer",
         ].map((name) => this.#slotsController.has(name));
 
-        const showFooter = footerSlot || actionSlot || secondarySlot;
+        const hasFooter = hasActions || hasSecondaryActions || hasFooterContent;
+        const { icon, noIcon, size, loading, noLoadingMessage } = this;
 
-        return html`
-            <div part="empty-state">
-                <div part="content">
-                    ${this.renderIcon()}
-                    ${titleSlot
-                        ? html`<div part="title">
-                              <slot name="title"></slot>
-                          </div>`
-                        : nothing}
-                    ${this.renderBody()}
-                    ${showFooter
-                        ? html` <div part="footer">
-                              ${actionSlot
-                                  ? html`<div part="actions">
-                                        <slot name="actions"></slot>
-                                    </div>`
-                                  : nothing}
-                              ${secondarySlot
-                                  ? html`<div part="actions">
-                                        <slot name="secondary-actions"></slot>
-                                    </div>`
-                                  : nothing}
-                              ${footerSlot
-                                  ? html`<div part="footer"><slot name="footer"></slot></div>`
-                                  : nothing}
-                          </div>`
-                        : nothing}
-                </div>
-            </div>
-        `;
+        return template({
+            hasTitle,
+            hasBody,
+            hasFooter,
+            hasActions,
+            hasSecondaryActions,
+            hasFooterContent,
+            useIconSlot: this.#slotsController.has("icon"),
+            icon,
+            noIcon,
+            size,
+            loading,
+            showLoading: loading && !noLoadingMessage,
+        });
     }
 
+    // eslint-disable-next-line sonarjs/todo-tag
     // TODO: Double-check this. "No ARIA is better than bad ARIA," and I'm not 100% on my ARIA
     // skills yet.
     public override updated() {
