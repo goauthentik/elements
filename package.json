@@ -28,8 +28,8 @@
     "scripts": {
         "analyze": "cem analyze --litelement",
         "build": "run-p clean build:unit build:types",
-        "build:unit": "node ./build.mjs",
         "build:types": "tsc --declaration --emitDeclarationOnly -p ./tsconfig.json",
+        "build:unit": "node ./build.mjs",
         "clean": "rimraf ./dist",
         "build": "run-p build:unit build:types",
         "build:unit": "node ./build.mjs",
