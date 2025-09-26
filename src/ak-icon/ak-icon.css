@@ -86,7 +86,37 @@
 }
 
 :host([size="xl"]) {
+<<<<<<< HEAD
   --pf-v5-c-icon--Width: var(--pf-v5-c-icon--m-xl--Width);
   --pf-v5-c-icon--Height: var(--pf-v5-c-icon--m-xl--Height);
   --pf-v5-c-icon__content--FontSize: var(--pf-v5-c-icon--m-xl__content--FontSize);
 }
+=======
+    --pf-v5-c-icon--Width: var(--pf-v5-c-icon--m-xl--Width);
+    --pf-v5-c-icon--Height: var(--pf-v5-c-icon--m-xl--Height);
+    --pf-v5-c-icon__content--FontSize: var(--pf-v5-c-icon--m-xl__content--FontSize);
+}
+
+.fa,
+.fas {
+    display: inline-block;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    width: var(--pf-v5-c-icon--Width);
+    height: var(--pf-v5-c-icon--Height);
+}
+
+.pf-icon {
+    display: inline-block;
+    font-family: "pficon";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    text-decoration: none;
+    text-transform: none;
+    width: var(--pf-v5-c-icon--Width);
+    height: var(--pf-v5-c-icon--Height);
+}
+>>>>>>> element/ak-icon
