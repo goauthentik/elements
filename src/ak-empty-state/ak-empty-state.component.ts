@@ -114,9 +114,7 @@ export class EmptyState extends LitElement implements IEmptyState {
         });
     }
 
-    // eslint-disable-next-line sonarjs/todo-tag
-    // TODO: Double-check this. "No ARIA is better than bad ARIA," and I'm not 100% on my ARIA
-    // skills yet.
+    // Double-check this. "No ARIA is better than bad ARIA," and I'm not 100% on my ARIA skills yet.
     public override updated() {
         if (this.loading) {
             this.removeAttribute("aria-label");
