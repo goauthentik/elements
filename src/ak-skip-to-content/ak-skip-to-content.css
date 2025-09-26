@@ -1,0 +1,27 @@
+:host {
+    --ak-v1-c-skip-to-content--Color: var(--ak-v1-global--Color--dark-foreground, #fafafa0);
+    --ak-v1-c-skip-to-content--BackgroundColor: var(--ak-v1-global--Color--accent, #fd4b2d);
+    --ak-v1-c-skip-to-content--padding: var(--ak-v1-global--Spacer--md, 1rem));
+    --ak-v1-c-skip-to-content--LowerRight--BorderRadius: var(--ak-v1-global--BorderRadius--sm, 3px);
+    --ak-v1-c-skip-to-content--FallbackFontFamily: "RedHatText", "Overpass", overpass, helvetica, arial, sans-serif;
+    --ak-v1-c-skip-to-content--FontFamily: var(--pf-global--FontFamily--heading--sans-serif, var(--ak-v1-c-skip-to-content--FallbackFontFamily));
+}
+
+[part="skip-to-content"]:not(:focus) {
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+    border: 0;
+}
+
+[part="skip-to-content"] {
+    position: absolute;
+    z-index: 99999;
+    color: var(--ak-v1-c-skip-to-content--Color);
+    background-color: var(ak-v1-c-skip-to-content--BackgroundColor);
+    font-family: var(--ak-v1-c-skip-to-content--FontFamily);
+    padding: var(--ak-v1-c-skip-to-content--padding);
+}
+
