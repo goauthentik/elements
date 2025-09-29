@@ -1,9 +1,9 @@
 import "./ak-skip-to-content.js";
 
-import { akSkipToContent, SkipToContent } from "./ak-skip-to-content.js";
+import { SkipToContent } from "./ak-skip-to-content.js";
 
 import { Meta, StoryObj } from "@storybook/web-components";
-import { html, nothing } from "lit";
+import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
 type StoryProps = Pick<Partial<SkipToContent>, "label"> & {
@@ -19,24 +19,27 @@ const metadata: Meta<Partial<StoryProps>> = {
         docs: {
             description: {
                 component: /* md */ `
-The SkipToContent component provides an accessibility feature that allows keyboard users to quickly navigate to the main content of a page, bypassing navigation and other non-essential elements.
+\`<ak-skip-to-content>\` provides an accessibility feature that allows keyboard users to quickly
+navigate to the main content of a page, bypassing navigation and other non-essential elements.
 
-This component is typically placed as the first focusable element on a page. When a user presses Tab on page load, the skip link becomes visible and can be activated to scroll to the designated target element.
+This component should be placed as near to the top of a web page's hierarchy as possible and must
+the first focusable element on a page. When a user presses Tab on page load, the skip link becomes
+visible and can be activated to scroll to the designated target element.
 
 ### Usage
 
-The component requires a target element to be set programmatically via the \`targetElement\` property. This is typically done by the page routing code to ensure the target exists when the component is activated.
+Due to the way browsers work, you must set the \`targetElement\` property after the target element
+becomes available.  The usual way to do this is in your routing code or as a JavaScript expression
+run after the page is fully loaded and parsed.
 
 ### Attributes
 
 - **label**: Custom label for the skip link (defaults to localized "Skip to content")
 
-### Accessibility
+### Slots
 
-- Uses proper ARIA labeling
-- Follows the standard skip link pattern used by GitHub and other major sites
-- Only visible when focused, maintaining clean visual design
-- Automatically scrolls to and focuses the target element
+- (default slot) Alternative text for the visible button.  Defaults to the content of the
+  \`label\` property described above.
 `,
             },
         },

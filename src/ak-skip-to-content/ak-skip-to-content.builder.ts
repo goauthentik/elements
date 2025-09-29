@@ -1,9 +1,10 @@
 import { SkipToContent } from "./ak-skip-to-content.component.js";
-import { html } from "lit";
+import { html, TemplateResult } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
 export type SkipToContentProps = Partial<Pick<SkipToContent, "label">> & {
     targetElement?: HTMLElement;
+    content?: string | TemplateResult;
 };
 
 /**
@@ -14,6 +15,10 @@ export type SkipToContentProps = Partial<Pick<SkipToContent, "label">> & {
  * @see {@link SkipToContent} - The underlying web component
  */
 export function akSkipToContent(options: SkipToContentProps = {}) {
-    const { targetElement, label } = options;
-    return html` <ak-skip-to-content .targetElement=${targetElement} label=${ifDefined(label)}></ak-skip-to-content> `;
+    const { targetElement, label, content } = options;
+    return html`
+        <ak-skip-to-content .targetElement=${targetElement} label=${ifDefined(label)}>
+            ${content ? content : ""}
+        </ak-skip-to-content>
+    `;
 }
