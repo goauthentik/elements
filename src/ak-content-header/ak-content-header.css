@@ -57,6 +57,7 @@
     box-orient: vertical;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    text-wrap-style: balance;
 }
 
 
