@@ -20,29 +20,30 @@ $config {
     display: flex;
     flex-direction: row;
     gap: var(--pf-v5-c-notification-badge__count--MarginLeft);
+    border: 0;
 }
 
 [part="notification-badge"]::before {
     $from: "::before";
 }
 
-:host([read]) {
+:host([variant="read"]) {
     $from: ".pf-m-read";
 }
 
-:host([unread]) {
+:host([variant="unread"]) {
     $from: ".pf-m-unread";
 }
 
-:host([unread]) [part="notification-badge"]:hover {
+:host([variant="unread"]) [part="notification-badge"]:hover {
     $from: ".pf-m-unread:hover";
 }
 
-:host([attention]) {
+:host([variant="attention"]) {
     $from: ".pf-m-attention";
 }
 
-:host([attention]) [part="notification-badge"]:hover {
+:host([variant="attention"]) [part="notification-badge"]:hover {
     $from: ".pf-m-attention:hover";
 }
 
@@ -50,6 +51,6 @@ $config {
     $from: ".pf-m-expanded";
 }
 
-[theme="dark"] {
+:host([theme="dark"]) {
     $from: ":where(.pf-v5-theme-dark) .pf-v5-c-notification-badge";
 }

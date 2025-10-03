@@ -1,8 +1,13 @@
 import { html, nothing } from "lit";
 import type { INotificationBadge } from "./ak-notification-badge.types.js";
+import "../ak-icon/ak-icon.js";
 
-export const template = ({ count, expanded }: INotificationBadge) =>
-    html` <div part="notification-badge" aria-expanded=${expanded ? "true" : "false"}>
-        <span part="icon"><slot></slot></span>
+type TemplateProps = Pick<INotificationBadge, "count">;
+
+export const template = ({ count }: TemplateProps) =>
+    html` <div role="button" tabindex="0" part="notification-badge">
+        <span part="icon"
+            ><slot><ak-icon icon="bell"></ak-icon></slot
+        ></span>
         ${count > 0 ? html`<span part="count">${count}</span>` : nothing}
     </div>`;
