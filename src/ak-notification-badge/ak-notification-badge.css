@@ -77,11 +77,11 @@
     padding-inline-start: var(--pf-v5-c-notification-badge--PaddingLeft);
     padding-inline-end: var(--pf-v5-c-notification-badge--PaddingRight);
     background-color: var(--pf-v5-c-notification-badge--after--BackgroundColor);
-    border: 0;
     border-radius: var(--pf-v5-c-notification-badge--after--BorderRadius);
     display: flex;
     flex-direction: row;
     gap: var(--pf-v5-c-notification-badge__count--MarginLeft);
+    border: 0;
 }
 
 [part="notification-badge"]::before {

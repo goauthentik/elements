@@ -18,7 +18,7 @@ $config {
 
 [part="notification-badge"] {
     $from: $base;
-    $exclude: /^--/, position, display;
+    $exclude: /^--/, /^margin-/, position, display;
     display: flex;
     flex-direction: row;
     gap: var(--pf-v5-c-notification-badge__count--MarginLeft);
