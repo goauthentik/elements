@@ -21,10 +21,12 @@
         "storybook": "run-s clean analyze build storybook:main",
         "storybook:main": "storybook dev -p 6006",
         "test": "run-s clean analyze build test:unit",
-        "test:unit": "wdio run ./config/wdio.conf.mjs --logLevel=warn"
+        "test:unit": "wdio run ./config/wdio.conf.mjs --logLevel=warn",
+        "wccss": "wccss"
     },
     "type": "module",
     "dependencies": {
+        "@goauthentik/wccss": "file:../wccss",
         "@lit-labs/observers": "^2.0.6",
         "@lit/localize": "^0.12.2",
         "@open-wc/lit-helpers": "^0.7.0",
