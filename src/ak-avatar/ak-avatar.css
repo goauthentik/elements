@@ -1,0 +1,152 @@
+:host {
+    --pf-v5-c-avatar--Width: auto;
+    --pf-v5-c-avatar--Height: auto;
+    --pf-v5-c-avatar--Width--base: var(--pf-v5-c-avatar--Width);
+    --pf-v5-c-avatar--Height--base: var(--pf-v5-c-avatar--Height);
+}
+
+:host {
+    width: var(--pf-v5-c-avatar--Width--base);
+    height: var(--pf-v5-c-avatar--Height--base);
+}
+
+:host(:not([hidden])) {
+    display: inline;
+}
+
+:host([picture]) {
+    display: inline-flex;
+}
+
+@media (min-width: 576px) {
+    :host {
+        --pf-v5-c-avatar--Width--base: var(
+            --pf-v5-c-avatar--Width-on-sm,
+            var(--pf-v5-c-avatar--Width)
+        );
+    }
+}
+
+@media (min-width: 768px) {
+    :host {
+        --pf-v5-c-avatar--Width--base: var(
+            --pf-v5-c-avatar--Width-on-md,
+            var(--pf-v5-c-avatar--Width-on-sm, var(--pf-v5-c-avatar--Width))
+        );
+    }
+}
+
+@media (min-width: 992px) {
+    :host {
+        --pf-v5-c-avatar--Width--base: var(
+            --pf-v5-c-avatar--Width-on-lg,
+            var(
+                --pf-v5-c-avatar--Width-on-md,
+                var(--pf-v5-c-avatar--Width-on-sm, var(--pf-v5-c-avatar--Width))
+            )
+        );
+    }
+}
+
+@media (min-width: 1200px) {
+    :host {
+        --pf-v5-c-avatar--Width--base: var(
+            --pf-v5-c-avatar--Width-on-xl,
+            var(
+                --pf-v5-c-avatar--Width-on-lg,
+                var(
+                    --pf-v5-c-avatar--Width-on-md,
+                    var(--pf-v5-c-avatar--Width-on-sm, var(--pf-v5-c-avatar--Width))
+                )
+            )
+        );
+    }
+}
+
+@media (min-width: 1450px) {
+    :host {
+        --pf-v5-c-avatar--Width--base: var(
+            --pf-v5-c-avatar--Width-on-2xl,
+            var(
+                --pf-v5-c-avatar--Width-on-xl,
+                var(
+                    --pf-v5-c-avatar--Width-on-lg,
+                    var(
+                        --pf-v5-c-avatar--Width-on-md,
+                        var(--pf-v5-c-avatar--Width-on-sm, var(--pf-v5-c-avatar--Width))
+                    )
+                )
+            )
+        );
+    }
+}
+
+@media (min-width: 576px) {
+    :host {
+        --pf-v5-c-avatar--Height--base: var(
+            --pf-v5-c-avatar--Height-on-sm,
+            var(--pf-v5-c-avatar--Height)
+        );
+    }
+}
+
+@media (min-width: 768px) {
+    :host {
+        --pf-v5-c-avatar--Height--base: var(
+            --pf-v5-c-avatar--Height-on-md,
+            var(--pf-v5-c-avatar--Height-on-sm, var(--pf-v5-c-avatar--Height))
+        );
+    }
+}
+
+@media (min-width: 992px) {
+    :host {
+        --pf-v5-c-avatar--Height--base: var(
+            --pf-v5-c-avatar--Height-on-lg,
+            var(
+                --pf-v5-c-avatar--Height-on-md,
+                var(--pf-v5-c-avatar--Height-on-sm, var(--pf-v5-c-avatar--Height))
+            )
+        );
+    }
+}
+
+@media (min-width: 1200px) {
+    :host {
+        --pf-v5-c-avatar--Height--base: var(
+            --pf-v5-c-avatar--Height-on-xl,
+            var(
+                --pf-v5-c-avatar--Height-on-lg,
+                var(
+                    --pf-v5-c-avatar--Height-on-md,
+                    var(--pf-v5-c-avatar--Height-on-sm, var(--pf-v5-c-avatar--Height))
+                )
+            )
+        );
+    }
+}
+
+@media (min-width: 1450px) {
+    :host {
+        --pf-v5-c-avatar--Height--base: var(
+            --pf-v5-c-avatar--Height-on-2xl,
+            var(
+                --pf-v5-c-avatar--Height-on-xl,
+                var(
+                    --pf-v5-c-avatar--Height-on-lg,
+                    var(
+                        --pf-v5-c-avatar--Height-on-md,
+                        var(--pf-v5-c-avatar--Height-on-sm, var(--pf-v5-c-avatar--Height))
+                    )
+                )
+            )
+        );
+    }
+}
+
+[part="avatar"] {
+    position: relative;
+    object-fit: contain;
+    width: var(--pf-v5-c-avatar--Width--base);
+    height: var(--pf-v5-c-avatar--Height--base);
+}

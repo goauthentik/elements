@@ -1,0 +1,24 @@
+$config {
+    import: @patternfly/patternfly/components/Avatar/avatar.css;
+    output: ak-avatar.css;
+    base: .pf-v5-c-avatar;
+}
+
+:host {
+    $from: $base;
+    $include: /^--/;
+}
+
+[part="avatar"] {
+    $from: $base;
+    $include: width, height, border, border-radius;
+}
+
+:host([border="\1"]) {
+   $from: /\.pf-m-(light|dark)/;
+}
+
+:host([size="sm"]) {
+    $from: ".pf-m-sm";
+}
+
