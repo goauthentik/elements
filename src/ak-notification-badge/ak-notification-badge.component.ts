@@ -1,11 +1,14 @@
 import styles from "./ak-notification-badge.css";
-import { match } from "ts-pattern";
-import { LitElement, PropertyValues } from "lit";
-import { property } from "lit/decorators.js";
 import type { INotificationBadge } from "./ak-notification-badge.types.js";
-import { template } from "./ak-notification-badge.template.js";
+import "../ak-icon/ak-icon.js";
+import { match } from "ts-pattern";
+
 import { msg, str } from "@lit/localize";
-import { AsButtonController } from "../controllers/as-button-controller.js";
+import { html, nothing, LitElement, PropertyValues } from "lit";
+import { property } from "lit/decorators.js";
+
+type ClickHandler = GlobalEventHandlers["onchange"];
+type KeydownHandler = GlobalEventHandlers["onkeydown"];
 
 type Notifier = (_: number) => string;
 
@@ -29,6 +32,8 @@ const defaultNotifier: Notifier = (count) =>
  *
  * @attr {number} count - Number of notifications to display. Only shown when greater than 0.
  *     Automatically clamped to non-negative values.
+ * @attr {boolean} disabled - Whether or not this component should react to click or keyboard
+ *     events.
  * @attr {string} variant - Visual variant: "read", "unread", or "attention". Controls background
  *     color and text color via CSS.
  * @attr {string} theme - Theme variant: "dark" or "light". Adjusts colors for different backgrounds
@@ -65,31 +70,82 @@ const defaultNotifier: Notifier = (count) =>
 export class NotificationBadge extends LitElement implements INotificationBadge {
     static readonly styles = [styles];
 
+    @property({ type: Boolean })
+    public disabled = false;
+
     @property({ type: Number })
     public count = 0;
 
     @property({ type: Object, attribute: false })
     public notifier: Notifier = defaultNotifier;
 
-    // Disabling check because controllers can add functionality without needing to be accessed
-    // directly.
-    //
-    // eslint-disable-next-line no-unused-private-class-members
-    #controller = new AsButtonController(this, '[part="notification-badge"]');
+    private onClick = (ev: Event) => {
+        if (this.disabled) {
+            return;
+        }
 
-    render() {
-        const { count } = this;
-        return template({ count });
+        // The event should come from the host, not an internal component. This sets the correct
+        // target, the one with the actual `count` set on it.
+        ev.stopPropagation();
+        this.dispatchEvent(
+            new MouseEvent("click", {
+                bubbles: true,
+                cancelable: true,
+            })
+        );
+    };
+
+    // https://www.w3.org/TR/uievents/#event-type-keydown:
+    // On `keydown`, if the key is the Enter or (Space) key, the default action MUST be to
+    // dispatch a click event.
+    private onKeydown = (ev: KeyboardEvent) => {
+        // This button should not be used as a link; we do not need it to be able to open new tabs
+        // or new windows.
+        if (this.disabled || ev.altKey || ev.shiftKey || ev.ctrlKey || ev.metaKey) {
+            return;
+        }
+
+        if (ev.key === "Enter" || ev.key === " ") {
+            ev.preventDefault();
+            this.onClick(ev);
+        }
+    };
+
+    public willUpdate(changed: PropertyValues<this>) {
+        if (this.count < 0) {
+            console.warn(`Received a negative count: ${this.count}`);
+            this.count = Math.max(0, this.count);
+        }
+        super.willUpdate(changed);
+    }
+
+    public override render() {
+        const { disabled, count, onClick, onKeydown } = this;
+        return html` <div
+            role="button"
+            @click=${onClick}
+            @keydown=${onKeydown}
+            tabindex=${disabled ? "-1" : "0"}
+            part="notification-badge"
+        >
+            <div part="icon">
+                <slot><ak-icon icon="bell"></ak-icon></slot>
+            </div>
+            ${count > 0 ? html`<div part="count">${count}</div>` : nothing}
+        </div>`;
     }
 
     public override updated(changed: PropertyValues<this>) {
-        // Avoid announcing negative numbers.  Shouldn't happen, but...
         if (changed.has("count")) {
-            if (this.count <= 0) {
-                this.count = 0;
-                return;
+            const notification = this.notifier(this.count);
+            if (this.count === 0) {
+                // After talking to Teffen, it seems setting this manually will avoid triggering a
+                // notification when the count is reset.
+                this.setAttribute("aria-label", notification);
+            } else {
+                this.ariaLabel = notification;
             }
-            this.ariaLabel = this.notifier(this.count);
         }
+        super.updated(changed);
     }
 }

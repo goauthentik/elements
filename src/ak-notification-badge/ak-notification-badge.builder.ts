@@ -1,7 +1,8 @@
 import { NotificationBadge } from "./ak-notification-badge.component.js";
+import { type NotificationBadgeProps } from "./ak-notification-badge.types.js";
+
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { type NotificationBadgeProps } from "./ak-notification-badge.types.js";
 
 /**
  * @summary Helper function to create a NotificationBadge component programmatically
@@ -11,15 +12,16 @@ import { type NotificationBadgeProps } from "./ak-notification-badge.types.js";
  * @see {@link NotificationBadge} - The underlying web component
  */
 export function akNotificationBadge(props: NotificationBadgeProps) {
-    const { icon, count = 0, expanded, variant, theme } = props;
+    const { icon, count = 0, disabled, expanded, variant, theme } = props;
     return html`
         <ak-notification-badge
             count=${count}
             variant=${ifDefined(variant)}
+            ?disabled=${!!disabled}
             ?expanded=${!!expanded}
             theme=${ifDefined(theme)}
         >
-            >${icon}</ak-notification-badge
+            >${icon ?? ""}</ak-notification-badge
         >
     `;
 }

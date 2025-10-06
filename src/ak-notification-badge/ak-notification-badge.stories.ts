@@ -1,9 +1,12 @@
+import "./ak-notification-badge.js";
+
+import type { NotificationBadge } from "./ak-notification-badge.component.js";
+import type { NotificationBadgeProps } from "./ak-notification-badge.types.js";
+
 import type { Meta, StoryObj } from "@storybook/web-components";
+
 import { html, nothing } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
-import "./ak-notification-badge.js";
-import type { NotificationBadgeProps } from "./ak-notification-badge.types.js";
-import type { NotificationBadge } from "./ak-notification-badge.component.js";
 
 const meta: Meta<NotificationBadgeProps> = {
     title: "Components/Notification Badge",

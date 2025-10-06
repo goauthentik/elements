@@ -1,14 +1,18 @@
-import { TemplateResult } from "lit";
+import type { TemplateResult } from "lit";
 
 type Notifier = (_: number) => string;
 
 export interface INotificationBadge {
     count: number;
+    disabled: boolean;
     notifier: Notifier;
 }
 
-export interface NotificationBadgeProps extends INotificationBadge {
-    icon: TemplateResult;
+type INotificationBadgeProps = Pick<INotificationBadge, "count"> &
+    Partial<Pick<INotificationBadge, "disabled" | "notifier">>;
+
+export interface NotificationBadgeProps extends INotificationBadgeProps {
+    icon?: TemplateResult;
     variant: "read" | "unread" | "attention";
     expanded?: boolean;
     theme?: "dark" | "light";
