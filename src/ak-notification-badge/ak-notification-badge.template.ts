@@ -6,8 +6,8 @@ type TemplateProps = Pick<INotificationBadge, "count">;
 
 export const template = ({ count }: TemplateProps) =>
     html` <div role="button" tabindex="0" part="notification-badge">
-        <span part="icon"
-            ><slot><ak-icon icon="bell"></ak-icon></slot
-        ></span>
-        ${count > 0 ? html`<span part="count">${count}</span>` : nothing}
+        <div part="icon">
+            <slot><ak-icon icon="bell"></ak-icon></slot>
+        </div>
+        ${count > 0 ? html`<div part="count">${count}</div>` : nothing}
     </div>`;

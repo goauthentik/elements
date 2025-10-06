@@ -11,7 +11,9 @@ $config {
 
 :host {
     $from: $base;
-    $include: position, display;
+    $include: position;
+    width: fit-content;
+    display: inline-block;
 }
 
 [part="notification-badge"] {

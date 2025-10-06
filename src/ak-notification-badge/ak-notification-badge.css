@@ -67,6 +67,7 @@
 
 :host {
     position: relative;
+    width: fit-content;
     display: inline-block;
 }
 
@@ -75,10 +76,6 @@
     padding-block-end: var(--pf-v5-c-notification-badge--PaddingBottom);
     padding-inline-start: var(--pf-v5-c-notification-badge--PaddingLeft);
     padding-inline-end: var(--pf-v5-c-notification-badge--PaddingRight);
-    margin-block-start: var(--pf-v5-c-notification-badge--MarginTop);
-    margin-block-end: var(--pf-v5-c-notification-badge--MarginBottom);
-    margin-inline-start: var(--pf-v5-c-notification-badge--MarginLeft);
-    margin-inline-end: var(--pf-v5-c-notification-badge--MarginRight);
     background-color: var(--pf-v5-c-notification-badge--after--BackgroundColor);
     border: 0;
     border-radius: var(--pf-v5-c-notification-badge--after--BorderRadius);
