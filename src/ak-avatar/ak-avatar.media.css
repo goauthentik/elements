@@ -1,0 +1,488 @@
+@media (min-width: 576px) {
+    :host([size="sm"]) {
+        --pf-v5-c-avatar--Width: var(
+            --pf-v5-c-avatar--m-sm--Width-on-sm,
+            var(--pf-v5-c-avatar--m-sm--Width)
+        );
+    }
+}
+@media (min-width: 768px) {
+    :host([size="sm"]) {
+        --pf-v5-c-avatar--Width: var(
+            --pf-v5-c-avatar--m-sm--Width-on-md,
+            var(--pf-v5-c-avatar--m-sm--Width-on-sm, var(--pf-v5-c-avatar--m-sm--Width))
+        );
+    }
+}
+@media (min-width: 992px) {
+    :host([size="sm"]) {
+        --pf-v5-c-avatar--Width: var(
+            --pf-v5-c-avatar--m-sm--Width-on-lg,
+            var(
+                --pf-v5-c-avatar--m-sm--Width-on-md,
+                var(--pf-v5-c-avatar--m-sm--Width-on-sm, var(--pf-v5-c-avatar--m-sm--Width))
+            )
+        );
+    }
+}
+@media (min-width: 1200px) {
+    :host([size="sm"]) {
+        --pf-v5-c-avatar--Width: var(
+            --pf-v5-c-avatar--m-sm--Width-on-xl,
+            var(
+                --pf-v5-c-avatar--m-sm--Width-on-lg,
+                var(
+                    --pf-v5-c-avatar--m-sm--Width-on-md,
+                    var(--pf-v5-c-avatar--m-sm--Width-on-sm, var(--pf-v5-c-avatar--m-sm--Width))
+                )
+            )
+        );
+    }
+}
+@media (min-width: 1450px) {
+    :host([size="sm"]) {
+        --pf-v5-c-avatar--Width: var(
+            --pf-v5-c-avatar--m-sm--Width-on-2xl,
+            var(
+                --pf-v5-c-avatar--m-sm--Width-on-xl,
+                var(
+                    --pf-v5-c-avatar--m-sm--Width-on-lg,
+                    var(
+                        --pf-v5-c-avatar--m-sm--Width-on-md,
+                        var(--pf-v5-c-avatar--m-sm--Width-on-sm, var(--pf-v5-c-avatar--m-sm--Width))
+                    )
+                )
+            )
+        );
+    }
+}
+@media (min-width: 576px) {
+    :host([size="sm"]) {
+        --pf-v5-c-avatar--Height: var(
+            --pf-v5-c-avatar--m-sm--Height-on-sm,
+            var(--pf-v5-c-avatar--m-sm--Height)
+        );
+    }
+}
+@media (min-width: 768px) {
+    :host([size="sm"]) {
+        --pf-v5-c-avatar--Height: var(
+            --pf-v5-c-avatar--m-sm--Height-on-md,
+            var(--pf-v5-c-avatar--m-sm--Height-on-sm, var(--pf-v5-c-avatar--m-sm--Height))
+        );
+    }
+}
+@media (min-width: 992px) {
+    :host([size="sm"]) {
+        --pf-v5-c-avatar--Height: var(
+            --pf-v5-c-avatar--m-sm--Height-on-lg,
+            var(
+                --pf-v5-c-avatar--m-sm--Height-on-md,
+                var(--pf-v5-c-avatar--m-sm--Height-on-sm, var(--pf-v5-c-avatar--m-sm--Height))
+            )
+        );
+    }
+}
+@media (min-width: 1200px) {
+    :host([size="sm"]) {
+        --pf-v5-c-avatar--Height: var(
+            --pf-v5-c-avatar--m-sm--Height-on-xl,
+            var(
+                --pf-v5-c-avatar--m-sm--Height-on-lg,
+                var(
+                    --pf-v5-c-avatar--m-sm--Height-on-md,
+                    var(--pf-v5-c-avatar--m-sm--Height-on-sm, var(--pf-v5-c-avatar--m-sm--Height))
+                )
+            )
+        );
+    }
+}
+@media (min-width: 1450px) {
+    :host([size="sm"]) {
+        --pf-v5-c-avatar--Height: var(
+            --pf-v5-c-avatar--m-sm--Height-on-2xl,
+            var(
+                --pf-v5-c-avatar--m-sm--Height-on-xl,
+                var(
+                    --pf-v5-c-avatar--m-sm--Height-on-lg,
+                    var(
+                        --pf-v5-c-avatar--m-sm--Height-on-md,
+                        var(
+                            --pf-v5-c-avatar--m-sm--Height-on-sm,
+                            var(--pf-v5-c-avatar--m-sm--Height)
+                        )
+                    )
+                )
+            )
+        );
+    }
+}
+:host([size="md"]) {
+    --pf-v5-c-avatar--Width: var(--pf-v5-c-avatar--m-md--Width);
+    --pf-v5-c-avatar--Height: var(--pf-v5-c-avatar--m-md--Height);
+}
+@media (min-width: 576px) {
+    :host([size="md"]) {
+        --pf-v5-c-avatar--Width: var(
+            --pf-v5-c-avatar--m-md--Width-on-sm,
+            var(--pf-v5-c-avatar--m-md--Width)
+        );
+    }
+}
+@media (min-width: 768px) {
+    :host([size="md"]) {
+        --pf-v5-c-avatar--Width: var(
+            --pf-v5-c-avatar--m-md--Width-on-md,
+            var(--pf-v5-c-avatar--m-md--Width-on-sm, var(--pf-v5-c-avatar--m-md--Width))
+        );
+    }
+}
+@media (min-width: 992px) {
+    :host([size="md"]) {
+        --pf-v5-c-avatar--Width: var(
+            --pf-v5-c-avatar--m-md--Width-on-lg,
+            var(
+                --pf-v5-c-avatar--m-md--Width-on-md,
+                var(--pf-v5-c-avatar--m-md--Width-on-sm, var(--pf-v5-c-avatar--m-md--Width))
+            )
+        );
+    }
+}
+@media (min-width: 1200px) {
+    :host([size="md"]) {
+        --pf-v5-c-avatar--Width: var(
+            --pf-v5-c-avatar--m-md--Width-on-xl,
+            var(
+                --pf-v5-c-avatar--m-md--Width-on-lg,
+                var(
+                    --pf-v5-c-avatar--m-md--Width-on-md,
+                    var(--pf-v5-c-avatar--m-md--Width-on-sm, var(--pf-v5-c-avatar--m-md--Width))
+                )
+            )
+        );
+    }
+}
+@media (min-width: 1450px) {
+    :host([size="md"]) {
+        --pf-v5-c-avatar--Width: var(
+            --pf-v5-c-avatar--m-md--Width-on-2xl,
+            var(
+                --pf-v5-c-avatar--m-md--Width-on-xl,
+                var(
+                    --pf-v5-c-avatar--m-md--Width-on-lg,
+                    var(
+                        --pf-v5-c-avatar--m-md--Width-on-md,
+                        var(--pf-v5-c-avatar--m-md--Width-on-sm, var(--pf-v5-c-avatar--m-md--Width))
+                    )
+                )
+            )
+        );
+    }
+}
+@media (min-width: 576px) {
+    :host([size="md"]) {
+        --pf-v5-c-avatar--Height: var(
+            --pf-v5-c-avatar--m-md--Height-on-sm,
+            var(--pf-v5-c-avatar--m-md--Height)
+        );
+    }
+}
+@media (min-width: 768px) {
+    :host([size="md"]) {
+        --pf-v5-c-avatar--Height: var(
+            --pf-v5-c-avatar--m-md--Height-on-md,
+            var(--pf-v5-c-avatar--m-md--Height-on-sm, var(--pf-v5-c-avatar--m-md--Height))
+        );
+    }
+}
+@media (min-width: 992px) {
+    :host([size="md"]) {
+        --pf-v5-c-avatar--Height: var(
+            --pf-v5-c-avatar--m-md--Height-on-lg,
+            var(
+                --pf-v5-c-avatar--m-md--Height-on-md,
+                var(--pf-v5-c-avatar--m-md--Height-on-sm, var(--pf-v5-c-avatar--m-md--Height))
+            )
+        );
+    }
+}
+@media (min-width: 1200px) {
+    :host([size="md"]) {
+        --pf-v5-c-avatar--Height: var(
+            --pf-v5-c-avatar--m-md--Height-on-xl,
+            var(
+                --pf-v5-c-avatar--m-md--Height-on-lg,
+                var(
+                    --pf-v5-c-avatar--m-md--Height-on-md,
+                    var(--pf-v5-c-avatar--m-md--Height-on-sm, var(--pf-v5-c-avatar--m-md--Height))
+                )
+            )
+        );
+    }
+}
+@media (min-width: 1450px) {
+    :host([size="md"]) {
+        --pf-v5-c-avatar--Height: var(
+            --pf-v5-c-avatar--m-md--Height-on-2xl,
+            var(
+                --pf-v5-c-avatar--m-md--Height-on-xl,
+                var(
+                    --pf-v5-c-avatar--m-md--Height-on-lg,
+                    var(
+                        --pf-v5-c-avatar--m-md--Height-on-md,
+                        var(
+                            --pf-v5-c-avatar--m-md--Height-on-sm,
+                            var(--pf-v5-c-avatar--m-md--Height)
+                        )
+                    )
+                )
+            )
+        );
+    }
+}
+:host([size="lg"]) {
+    --pf-v5-c-avatar--Width: var(--pf-v5-c-avatar--m-lg--Width);
+    --pf-v5-c-avatar--Height: var(--pf-v5-c-avatar--m-lg--Height);
+}
+@media (min-width: 576px) {
+    :host([size="lg"]) {
+        --pf-v5-c-avatar--Width: var(
+            --pf-v5-c-avatar--m-lg--Width-on-sm,
+            var(--pf-v5-c-avatar--m-lg--Width)
+        );
+    }
+}
+@media (min-width: 768px) {
+    :host([size="lg"]) {
+        --pf-v5-c-avatar--Width: var(
+            --pf-v5-c-avatar--m-lg--Width-on-md,
+            var(--pf-v5-c-avatar--m-lg--Width-on-sm, var(--pf-v5-c-avatar--m-lg--Width))
+        );
+    }
+}
+@media (min-width: 992px) {
+    :host([size="lg"]) {
+        --pf-v5-c-avatar--Width: var(
+            --pf-v5-c-avatar--m-lg--Width-on-lg,
+            var(
+                --pf-v5-c-avatar--m-lg--Width-on-md,
+                var(--pf-v5-c-avatar--m-lg--Width-on-sm, var(--pf-v5-c-avatar--m-lg--Width))
+            )
+        );
+    }
+}
+@media (min-width: 1200px) {
+    :host([size="lg"]) {
+        --pf-v5-c-avatar--Width: var(
+            --pf-v5-c-avatar--m-lg--Width-on-xl,
+            var(
+                --pf-v5-c-avatar--m-lg--Width-on-lg,
+                var(
+                    --pf-v5-c-avatar--m-lg--Width-on-md,
+                    var(--pf-v5-c-avatar--m-lg--Width-on-sm, var(--pf-v5-c-avatar--m-lg--Width))
+                )
+            )
+        );
+    }
+}
+@media (min-width: 1450px) {
+    :host([size="lg"]) {
+        --pf-v5-c-avatar--Width: var(
+            --pf-v5-c-avatar--m-lg--Width-on-2xl,
+            var(
+                --pf-v5-c-avatar--m-lg--Width-on-xl,
+                var(
+                    --pf-v5-c-avatar--m-lg--Width-on-lg,
+                    var(
+                        --pf-v5-c-avatar--m-lg--Width-on-md,
+                        var(--pf-v5-c-avatar--m-lg--Width-on-sm, var(--pf-v5-c-avatar--m-lg--Width))
+                    )
+                )
+            )
+        );
+    }
+}
+@media (min-width: 576px) {
+    :host([size="lg"]) {
+        --pf-v5-c-avatar--Height: var(
+            --pf-v5-c-avatar--m-lg--Height-on-sm,
+            var(--pf-v5-c-avatar--m-lg--Height)
+        );
+    }
+}
+@media (min-width: 768px) {
+    :host([size="lg"]) {
+        --pf-v5-c-avatar--Height: var(
+            --pf-v5-c-avatar--m-lg--Height-on-md,
+            var(--pf-v5-c-avatar--m-lg--Height-on-sm, var(--pf-v5-c-avatar--m-lg--Height))
+        );
+    }
+}
+@media (min-width: 992px) {
+    :host([size="lg"]) {
+        --pf-v5-c-avatar--Height: var(
+            --pf-v5-c-avatar--m-lg--Height-on-lg,
+            var(
+                --pf-v5-c-avatar--m-lg--Height-on-md,
+                var(--pf-v5-c-avatar--m-lg--Height-on-sm, var(--pf-v5-c-avatar--m-lg--Height))
+            )
+        );
+    }
+}
+@media (min-width: 1200px) {
+    :host([size="lg"]) {
+        --pf-v5-c-avatar--Height: var(
+            --pf-v5-c-avatar--m-lg--Height-on-xl,
+            var(
+                --pf-v5-c-avatar--m-lg--Height-on-lg,
+                var(
+                    --pf-v5-c-avatar--m-lg--Height-on-md,
+                    var(--pf-v5-c-avatar--m-lg--Height-on-sm, var(--pf-v5-c-avatar--m-lg--Height))
+                )
+            )
+        );
+    }
+}
+@media (min-width: 1450px) {
+    :host([size="lg"]) {
+        --pf-v5-c-avatar--Height: var(
+            --pf-v5-c-avatar--m-lg--Height-on-2xl,
+            var(
+                --pf-v5-c-avatar--m-lg--Height-on-xl,
+                var(
+                    --pf-v5-c-avatar--m-lg--Height-on-lg,
+                    var(
+                        --pf-v5-c-avatar--m-lg--Height-on-md,
+                        var(
+                            --pf-v5-c-avatar--m-lg--Height-on-sm,
+                            var(--pf-v5-c-avatar--m-lg--Height)
+                        )
+                    )
+                )
+            )
+        );
+    }
+}
+:host([size="xl"]) {
+    --pf-v5-c-avatar--Width: var(--pf-v5-c-avatar--m-xl--Width);
+    --pf-v5-c-avatar--Height: var(--pf-v5-c-avatar--m-xl--Height);
+}
+@media (min-width: 576px) {
+    :host([size="xl"]) {
+        --pf-v5-c-avatar--Width: var(
+            --pf-v5-c-avatar--m-xl--Width-on-sm,
+            var(--pf-v5-c-avatar--m-xl--Width)
+        );
+    }
+}
+@media (min-width: 768px) {
+    :host([size="xl"]) {
+        --pf-v5-c-avatar--Width: var(
+            --pf-v5-c-avatar--m-xl--Width-on-md,
+            var(--pf-v5-c-avatar--m-xl--Width-on-sm, var(--pf-v5-c-avatar--m-xl--Width))
+        );
+    }
+}
+@media (min-width: 992px) {
+    :host([size="xl"]) {
+        --pf-v5-c-avatar--Width: var(
+            --pf-v5-c-avatar--m-xl--Width-on-lg,
+            var(
+                --pf-v5-c-avatar--m-xl--Width-on-md,
+                var(--pf-v5-c-avatar--m-xl--Width-on-sm, var(--pf-v5-c-avatar--m-xl--Width))
+            )
+        );
+    }
+}
+@media (min-width: 1200px) {
+    :host([size="xl"]) {
+        --pf-v5-c-avatar--Width: var(
+            --pf-v5-c-avatar--m-xl--Width-on-xl,
+            var(
+                --pf-v5-c-avatar--m-xl--Width-on-lg,
+                var(
+                    --pf-v5-c-avatar--m-xl--Width-on-md,
+                    var(--pf-v5-c-avatar--m-xl--Width-on-sm, var(--pf-v5-c-avatar--m-xl--Width))
+                )
+            )
+        );
+    }
+}
+@media (min-width: 1450px) {
+    :host([size="xl"]) {
+        --pf-v5-c-avatar--Width: var(
+            --pf-v5-c-avatar--m-xl--Width-on-2xl,
+            var(
+                --pf-v5-c-avatar--m-xl--Width-on-xl,
+                var(
+                    --pf-v5-c-avatar--m-xl--Width-on-lg,
+                    var(
+                        --pf-v5-c-avatar--m-xl--Width-on-md,
+                        var(--pf-v5-c-avatar--m-xl--Width-on-sm, var(--pf-v5-c-avatar--m-xl--Width))
+                    )
+                )
+            )
+        );
+    }
+}
+@media (min-width: 576px) {
+    :host([size="xl"]) {
+        --pf-v5-c-avatar--Height: var(
+            --pf-v5-c-avatar--m-xl--Height-on-sm,
+            var(--pf-v5-c-avatar--m-xl--Height)
+        );
+    }
+}
+@media (min-width: 768px) {
+    :host([size="xl"]) {
+        --pf-v5-c-avatar--Height: var(
+            --pf-v5-c-avatar--m-xl--Height-on-md,
+            var(--pf-v5-c-avatar--m-xl--Height-on-sm, var(--pf-v5-c-avatar--m-xl--Height))
+        );
+    }
+}
+@media (min-width: 992px) {
+    :host([size="xl"]) {
+        --pf-v5-c-avatar--Height: var(
+            --pf-v5-c-avatar--m-xl--Height-on-lg,
+            var(
+                --pf-v5-c-avatar--m-xl--Height-on-md,
+                var(--pf-v5-c-avatar--m-xl--Height-on-sm, var(--pf-v5-c-avatar--m-xl--Height))
+            )
+        );
+    }
+}
+@media (min-width: 1200px) {
+    :host([size="xl"]) {
+        --pf-v5-c-avatar--Height: var(
+            --pf-v5-c-avatar--m-xl--Height-on-xl,
+            var(
+                --pf-v5-c-avatar--m-xl--Height-on-lg,
+                var(
+                    --pf-v5-c-avatar--m-xl--Height-on-md,
+                    var(--pf-v5-c-avatar--m-xl--Height-on-sm, var(--pf-v5-c-avatar--m-xl--Height))
+                )
+            )
+        );
+    }
+}
+@media (min-width: 1450px) {
+    :host([size="xl"]) {
+        --pf-v5-c-avatar--Height: var(
+            --pf-v5-c-avatar--m-xl--Height-on-2xl,
+            var(
+                --pf-v5-c-avatar--m-xl--Height-on-xl,
+                var(
+                    --pf-v5-c-avatar--m-xl--Height-on-lg,
+                    var(
+                        --pf-v5-c-avatar--m-xl--Height-on-md,
+                        var(
+                            --pf-v5-c-avatar--m-xl--Height-on-sm,
+                            var(--pf-v5-c-avatar--m-xl--Height)
+                        )
+                    )
+                )
+            )
+        );
+    }
+}
