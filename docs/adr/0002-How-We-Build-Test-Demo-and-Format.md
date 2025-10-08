@@ -1,4 +1,14 @@
-# Building the elements
+---
+kind: 'Architectural Decision Record'
+---
+
+ADR 0002: How We Build, Test, Demo, and Format
+
+🗓️ 2025-09-16 · ✍️ Ken Sternberg <ken@goauthentik.io>
+
+This document explains our current building, testing, demoing, and formatting.
+
+## Building the elements
 
 Building is driven through the script `build.mjs`, and a collection of asynchronous functions kept
 in the `lib` folder. Each function describes a step in the build process, and each is named as
@@ -13,19 +23,19 @@ The build places all compiled artifacts, and copies any required assets, into th
 We use `@goauthentik/eslint-config` and eslint, but also `lit-analyze` and
 `custom-elements-manifest/analyzer`.
 
-# Testing the elements
+## Testing the elements
 
 The component and builder files are tested using WebdriverIO 9's Unit Test facility.
 
 All tests are conducted out of the `./dist/` folder. We test what we deploy, not what a third-party
 compiler thinks we're going to deploy.
 
-# Demonstrations and documentation for the library
+## Demonstrations and documentation for the library
 
 Storybook is used. Most components have multiple stories, along with a configurable "stock" variant.
 We use Custom Elements Manifest to build the properties and attributes documents for the component,
 which relies on accurate JSDoc blocks in the component.
 
-# Formatting
+## Formatting
 
 We use the `@goauthentik/prettier-config` configuration exclusively.
