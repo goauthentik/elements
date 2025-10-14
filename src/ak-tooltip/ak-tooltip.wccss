@@ -1,0 +1,21 @@
+$config {
+    import: @patternfly/patternfly/components/Tooltip/tooltip.css;
+    output: ak-tooltip.css;
+    base: .pf-v5-c-tooltip;
+}
+
+:host {
+    $from: $base;
+    $include: /^--pf-v5-c-tooltip(--|__content)/;
+}
+
+[part="tooltip"] {
+    $from: $base;
+    $include: max-width, box-shadow;
+    margin: 0;
+    position: absolute;
+}
+
+[part="content"] {
+    $from: "__content";
+}

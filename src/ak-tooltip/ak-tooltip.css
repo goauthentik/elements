@@ -1,0 +1,77 @@
+:host {
+    --pf-v5-c-tooltip--MaxWidth: 18.75rem;
+    --pf-v5-c-tooltip--BoxShadow--default: 0 0.25rem 0.5rem 0rem rgba(3, 3, 3, 0.12),
+        0 0 0.25rem 0 rgba(3, 3, 3, 0.06);
+    --pf-v5-c-tooltip--BoxShadow: var(
+        --pf-v5-global--BoxShadow--md,
+        var(--pf-v5-c-tooltip--BoxShadow--default)
+    );
+    --pf-c-tooltip__arrow--Size: 0.5rem;
+    --pf-v5-c-tooltip__content--PaddingTop: var(--pf-v5-global--spacer--sm, 0.5rem);
+    --pf-v5-c-tooltip__content--PaddingRight: var(--pf-v5-global--spacer--sm, 0.5rem);
+    --pf-v5-c-tooltip__content--PaddingBottom: var(--pf-v5-global--spacer--sm, 0.5rem);
+    --pf-v5-c-tooltip__content--PaddingLeft: var(--pf-v5-global--spacer--sm, 0.5rem);
+    --pf-v5-c-tooltip__content--Color: var(--pf-v5-global--Color--light-100, #fff);
+    --pf-v5-c-tooltip__content--BackgroundColor: var(
+        --pf-v5-global--BackgroundColor--dark-100,
+        #151515
+    );
+    --pf-v5-c-tooltip__content--FontSize: var(--pf-v5-global--FontSize--sm, 0.625rem);
+
+    --ak-v1-c-tooltip--TimingFunction: var(--pf-global--TimingFunction, cubic-bezier(0.645, 0.045, 0.355, 1));
+    --ak-v1-c-tooltip--TransitionDuration: var(--pf-global--TransitionDuration, 250ms);
+    
+    --ak-v1-c-tooltip--transition:
+}
+
+[part="tooltip"] {
+    padding: 0;
+    max-width: var(--pf-v5-c-tooltip--MaxWidth);
+    box-shadow: var(--pf-v5-c-tooltip--BoxShadow);
+    margin: 0;
+    position: absolute;
+    opacity: 0;
+}
+
+dialog {
+    transition:
+        display var(--ak-v1-c-tooltip--TransitionDuration) var(--ak-v1-c-tooltip--TimingFunction) allow-discrete,
+        overlay var(--ak-v1-c-tooltip--TransitionDuration) var(--ak-v1-c-tooltip--TimingFunction) allow-discrete;
+    animation: close var(--ak-v1-c-tooltip--TransitionDuration) var(--ak-v1-c-tooltip--TimingFunction) forwards;
+}
+
+dialog[open] {
+    animation: open var(--ak-v1-c-tooltip--TransitionDuration) var(--ak-v1-c-tooltip--TimingFunction) forwards;
+}
+    
+@keyframes open {
+  from { opacity: 0 }
+  to   { opacity: 1 }
+}
+
+@keyframes close {
+  from { opacity: 1 }
+  to   { opacity: 0 }
+}
+
+[part="arrow"] {
+    width: var(--pf-c-tooltip__arrow--Size);
+    height: var(--pf-c-tooltip__arrow--Size);
+    position: absolute;
+    background-color: var(--pf-v5-c-tooltip__content--BackgroundColor);
+    transform-origin: center;
+    transform: rotate(45deg);
+}
+
+[part="content"] {
+    position: relative;
+    background-color: var(--pf-v5-c-tooltip__content--BackgroundColor);
+    padding-block-start: var(--pf-v5-c-tooltip__content--PaddingTop);
+    padding-block-end: var(--pf-v5-c-tooltip__content--PaddingBottom);
+    padding-inline-start: var(--pf-v5-c-tooltip__content--PaddingLeft);
+    padding-inline-end: var(--pf-v5-c-tooltip__content--PaddingRight);
+    font-size: var(--pf-v5-c-tooltip__content--FontSize);
+    color: var(--pf-v5-c-tooltip__content--Color);
+    text-align: center;
+    word-break: break-word;
+}
