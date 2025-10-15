@@ -1,7 +1,10 @@
-import { Meta, StoryObj } from "@storybook/web-components";
 import "./ak-tooltip.js";
+
 import type { Tooltip } from "./ak-tooltip.component.js";
+
 import { placements } from "@floating-ui/utils";
+import { Meta, StoryObj } from "@storybook/web-components";
+
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
@@ -169,6 +172,68 @@ export const AllPlacements: Story = {
                 content="Bottom right placement"
                 placement="bottom-end"
             ></ak-tooltip>
+        </div>
+    `,
+};
+
+export const OverflowContainer: Story = {
+    render: () => html`
+        <div style="padding: 100px;">
+            <p style="margin-bottom: 20px;">
+                <strong>Overflow test:</strong> The tooltip escapes the overflow:hidden container
+                thanks to the dialog element's top layer.
+            </p>
+            <div style="overflow: hidden; border: 2px solid #ddd; padding: 20px; max-width: 300px;">
+                <p>This container has <code>overflow: hidden</code></p>
+                <button id="overflow-btn" style="padding: 10px 20px; margin-top: 10px;">
+                    Hover me
+                </button>
+            </div>
+
+            <ak-tooltip
+                style="--pf-v5-c-tooltip__content--BackgroundColor: repeating-linear-gradient(45deg, hsl(43, 74%, 42%), hsl(43, 74%, 42%) 0.5rem, hsl(201, 12%, 40%) 0.5rem, hsl(201, 12%, 40%) 1rem);"
+                for="overflow-btn"
+                placement="right"
+                ><div style="white-space: nowrap; font-weight: bold;">
+                    Warning! The creature has escaped containment.<br />The creature has escaped
+                    containment!
+                </div></ak-tooltip
+            >
+        </div>
+    `,
+};
+
+export const ExternalStyling: Story = {
+    render: () => html`
+        <div style="padding: 100px;">
+            <p style="margin-bottom: 20px;">
+                <strong>Overflow test:</strong> The tooltip escapes the overflow:hidden container
+                thanks to the dialog element's top layer.
+            </p>
+            <div style="overflow: hidden; border: 2px solid #ddd; padding: 20px; max-width: 300px;">
+                <p>This container has <code>overflow: hidden</code></p>
+                <button id="overflow-btn" style="padding: 10px 20px; margin-top: 10px;">
+                    Hover me
+                </button>
+            </div>
+
+            <style>
+                ak-tooltip: {
+                    --pf-v5-c-tooltip__content--BackgroundColor: repeating-linear-gradient(
+                        45deg,
+                        hsl(43, 74%, 42%),
+                        hsl(43, 74%, 42%) 0.5rem,
+                        hsl(201, 12%, 40%) 0.5rem,
+                        hsl(201, 12%, 40%) 1rem
+                    );
+                }
+            </style>
+            <ak-tooltip for="overflow-btn" placement="right"
+                ><div style="white-space: nowrap; font-weight: bold;">
+                    Warning! The creature has escaped containment.<br />The creature has escaped
+                    containment!
+                </div></ak-tooltip
+            >
         </div>
     `,
 };

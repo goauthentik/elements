@@ -5,8 +5,6 @@ import { ifDefined } from "lit/directives/if-defined.js";
 
 export type TooltipProps = Partial<Pick<Tooltip, "htmlFor" | "placement">> & {
     content: string | TemplateResult;
-    hideDelay?: number;
-    showDelay?: number;
     trigger: Trigger;
     offset?: number;
     noArrow?: boolean;
@@ -20,13 +18,11 @@ export type TooltipProps = Partial<Pick<Tooltip, "htmlFor" | "placement">> & {
  * @see {@link Tooltip} - The underlying web component
  */
 export function akTooltip(options: TooltipProps) {
-    const { content, htmlFor, hideDelay, showDelay, trigger, placement, offset, noArrow } = options;
+    const { content, htmlFor, trigger, placement, offset, noArrow } = options;
 
     return html`
         <ak-tooltip
             for=${ifDefined(htmlFor)}
-            hide-delay=${ifDefined(hideDelay)}
-            show-delay=${ifDefined(showDelay)}
             trigger=${ifDefined(trigger)}
             placement=${ifDefined(placement)}
             offset=${ifDefined(offset)}

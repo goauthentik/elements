@@ -1,12 +1,25 @@
-import { computePosition, flip, shift, offset, arrow, autoUpdate } from "@floating-ui/dom";
-import type { Placement, Middleware } from "@floating-ui/dom";
 import styles from "./ak-tooltip.css";
 
-import { LitElement, PropertyValues, html, nothing } from "lit";
-import { query, property, state } from "lit/decorators.js";
-import { ref, createRef, Ref } from "lit/directives/ref.js";
+import type { Middleware, Placement } from "@floating-ui/dom";
+import { arrow, autoUpdate, computePosition, flip, offset, shift } from "@floating-ui/dom";
+
+import { html, LitElement, nothing, PropertyValues } from "lit";
+import { property, query, state } from "lit/decorators.js";
+import { createRef, ref, Ref } from "lit/directives/ref.js";
+
+const DEFAULT_SHOW_DELAY = "100ms";
+const DEFAULT_HIDE_DELAY = "150ms";
 
 const validHtmlId = /^[A-Za-z][.\w\-:]*$/;
+const delaySyntax = /^(\d+)\s*(ms|s)$/;
+
+function parseDelay(delay: string) {
+    const g = delaySyntax.exec(delay.trim());
+    if (!(g && g.length > 2)) {
+        return 0;
+    }
+    return parseInt(g[1], 10) * (g[2] === "ms" ? 1 : 1000);
+}
 
 const oppositeSideMap: Record<string, string> = {
     left: "right",
@@ -14,6 +27,29 @@ const oppositeSideMap: Record<string, string> = {
     bottom: "top",
     top: "bottom",
 };
+
+// Getting a better tooltip required meeting the goal that moving across the anchor quickly
+// shouldn't cause the tooltip to show up immediately, as that would spam a display with a lot of
+// tooltips. It also shouldn't fade out when the pointer transitions from the anchor to the tooltip
+// itself.
+//
+// So when you hover or focus an anchor element, the tooltip is *scheduled to show*, which can be
+// cancelled by leaving the anchor before it becomes visible. Likewise, when the tooltip is visible,
+// the tooltip is *scheduled to hide* when the pointer transitions away, which can be cancelled
+// by the pointer returning to hover or focus either element.
+//
+// This then becomes a state machine:
+//
+// - Hidden -> (mouseover anchor): Scheduled to Show
+// - Scheduled to Show -> [(mouseout anchor): Show canceled: Hidden, otherwise: Show not cancelled: Showing]
+// - Showing -> [Scheduled to hide]
+// - Scheduled to Hide -> [(mouseover anchor or tooltip): Hide canceled: Showing,
+//                          otherwise: Hide not cancelled: Hidden]
+//
+// The `TooltipEvent` class contains the API needed to support transitions from one state to another
+// inside a `Tooltip`, and the four states inherit from it. It's completely self- contained, there's
+// no "state manager"; a transition results in calls to the Tooltip API to show or hide, but
+// timeouts are dependent on the state being live so they live on the state itself.
 
 export type Trigger = "hover" | "focus";
 type Timeout = ReturnType<typeof setTimeout> | null;
@@ -43,7 +79,9 @@ abstract class TooltipEvents {
         /* no op */
     };
 
+    // A little type magic means that we can avoid making an error with this call;
     setState<T extends TooltipState>(State: TooltipStateConstructor<T>) {
+        this.clearTimeout();
         this.host.setState(new State(this.host));
     }
 
@@ -89,7 +127,6 @@ class ScheduledShow extends TooltipEvents {
     }
 
     onAnchorLeave = () => {
-        this.clearTimeout();
         this.setState(TooltipInitial);
     };
 }
@@ -126,7 +163,6 @@ class ScheduledHide extends TooltipEvents {
     }
 
     onTooltipEnter = () => {
-        this.clearTimeout();
         this.setState(TooltipShown);
     };
 
@@ -186,19 +222,6 @@ export class Tooltip extends LitElement {
     trigger: Trigger = "hover";
 
     /**
-     * @attr {string} showDelay - interval in milliseconds before the tooltip should show up. Used
-     * to prevent spamming the screen with tooltips while the pointer scans across the page.
-     */
-    @property({ type: Number, attribute: "show-delay" })
-    showDelay = 50;
-
-    /**
-     * @attr {string} hideDelay - interval in milliseconds before the tooltip should hide.
-     */
-    @property({ type: Number, attribute: "hide-delay" })
-    hideDelay = 150;
-
-    /**
      * @attr { number } offsetDistance - Distance from the anchor in pixels
      */
     @property({ type: Number, attribute: "offset" })
@@ -213,40 +236,44 @@ export class Tooltip extends LitElement {
     @state()
     isOpen = false;
 
-    #state: TooltipState = new TooltipInitial(this);
+    protected state: TooltipState = new TooltipInitial(this);
 
-    #dialog: Ref<HTMLDialogElement> = createRef();
+    protected dialog: Ref<HTMLDialogElement> = createRef();
 
     @query('[part="arrow"]')
     arrow?: HTMLElement;
 
-    #anchor: HTMLElement | null = null;
+    public showDelay = parseDelay(DEFAULT_SHOW_DELAY);
+    public hideDelay = parseDelay(DEFAULT_HIDE_DELAY);
+
+    protected anchor: HTMLElement | null = null;
+
     #cleanupFloating?: () => void;
     #anchorAbortController = new AbortController();
     #tooltipAbortController = new AbortController();
 
     setState(state: TooltipState) {
-        this.#state = state;
+        this.state = state;
     }
 
-    #onAnchorEnter = () => {
-        this.#state.onAnchorEnter();
+    onAnchorEnter = () => {
+        this.state.onAnchorEnter();
     };
 
-    #onAnchorLeave = () => {
-        this.#state.onAnchorLeave();
+    onAnchorLeave = () => {
+        this.state.onAnchorLeave();
     };
 
     #onTooltipEnter = () => {
-        this.#state.onTooltipEnter();
+        this.state.onTooltipEnter();
     };
 
     #onTooltipLeave = () => {
-        this.#state.onTooltipLeave();
+        this.state.onTooltipLeave();
     };
 
-    #attachToAnchor() {
-        this.#anchor = null;
+    protected attachToAnchor() {
+        this.anchor = null;
 
         if (!this.htmlFor) {
             console.warn("ak-tooltip: tooltip without anchor declared.");
@@ -272,19 +299,19 @@ export class Tooltip extends LitElement {
 
         if (!(anchor instanceof HTMLElement)) {
             console.warn(
-                `ak-tooltip: element '${this.htmlFor}' does not resolve to an HTMLElement`
+                `ak-tooltip: element '${this.htmlFor}' does not resolve to an HTMLElement`,
             );
             return;
         }
 
-        this.#anchor = anchor;
+        this.anchor = anchor;
 
         const signal = { signal: this.#anchorAbortController.signal };
-        this.#anchor.addEventListener("focus", this.#onAnchorEnter, signal);
-        this.#anchor.addEventListener("blur", this.#onAnchorLeave, signal);
+        this.anchor.addEventListener("focus", this.onAnchorEnter, signal);
+        this.anchor.addEventListener("blur", this.onAnchorLeave, signal);
         if (this.trigger === "hover") {
-            this.#anchor.addEventListener("mouseenter", this.#onAnchorEnter, signal);
-            this.#anchor.addEventListener("mouseleave", this.#onAnchorLeave, signal);
+            this.anchor.addEventListener("mouseenter", this.onAnchorEnter, signal);
+            this.anchor.addEventListener("mouseleave", this.onAnchorLeave, signal);
         }
     }
 
@@ -292,17 +319,17 @@ export class Tooltip extends LitElement {
         if (this.isOpen) {
             this.#detachDialogListeners();
         }
-        if (this.#anchor) {
+        if (this.anchor) {
             this.#anchorAbortController.abort();
             this.#anchorAbortController = new AbortController();
         }
-        this.#state.clearTimeout();
+        this.state.clearTimeout();
         this.#cleanupFloating?.();
     }
 
     public override connectedCallback() {
         super.connectedCallback();
-        this.#attachToAnchor();
+        this.attachToAnchor();
     }
 
     public override disconnectedCallback() {
@@ -310,10 +337,20 @@ export class Tooltip extends LitElement {
         this.#detachFromAnchor();
     }
 
+    public override willUpdate(changed: PropertyValues<this>) {
+        super.willUpdate(changed);
+        this.hideDelay = parseDelay(
+            getComputedStyle(this).getPropertyValue("--ak-v1-c-tooltip--HideDelay"),
+        );
+        this.showDelay = parseDelay(
+            getComputedStyle(this).getPropertyValue("--ak-v1-c-tooltip--ShowDelay"),
+        );
+    }
+
     public override render() {
         const fromSlot = this.textContent?.trim() || this.childNodes.length > 0;
         const content = fromSlot ? html`<slot></slot>` : this.content;
-        return html`<dialog ${ref(this.#dialog)} part="tooltip" role="tooltip" aria-live="polite">
+        return html`<dialog ${ref(this.dialog)} part="tooltip" role="tooltip" aria-live="polite">
             <div part="content">${content}</div>
             ${this.noArrow ? nothing : html`<div part="arrow"></div>`}
         </dialog>`;
@@ -325,11 +362,11 @@ export class Tooltip extends LitElement {
         }
 
         const signal = { signal: this.#tooltipAbortController.signal };
-        this.#dialog.value?.addEventListener("focus", this.#onTooltipEnter, signal);
-        this.#dialog.value?.addEventListener("blue", this.#onTooltipLeave, signal);
+        this.dialog.value?.addEventListener("focus", this.#onTooltipEnter, signal);
+        this.dialog.value?.addEventListener("blue", this.#onTooltipLeave, signal);
         if (this.trigger === "hover") {
-            this.#dialog.value?.addEventListener("mouseenter", this.#onTooltipEnter, signal);
-            this.#dialog.value?.addEventListener("mouseleave", this.#onTooltipLeave, signal);
+            this.dialog.value?.addEventListener("mouseenter", this.#onTooltipEnter, signal);
+            this.dialog.value?.addEventListener("mouseleave", this.#onTooltipLeave, signal);
         }
     }
 
@@ -339,7 +376,7 @@ export class Tooltip extends LitElement {
     }
 
     #updatePosition = async () => {
-        const [anchor, dialog] = [this.#anchor, this.#dialog.value];
+        const [anchor, dialog] = [this.anchor, this.dialog.value];
         if (!(anchor && dialog)) {
             return;
         }
@@ -380,7 +417,7 @@ export class Tooltip extends LitElement {
     };
 
     #setPositioning() {
-        const [anchor, dialog] = [this.#anchor, this.#dialog.value];
+        const [anchor, dialog] = [this.anchor, this.dialog.value];
         if (!(anchor && dialog)) {
             return;
         }
@@ -394,7 +431,7 @@ export class Tooltip extends LitElement {
     }
 
     #showTooltip() {
-        const dialog = this.#dialog.value;
+        const dialog = this.dialog.value;
         if (!dialog) {
             return;
         }
@@ -404,7 +441,7 @@ export class Tooltip extends LitElement {
     }
 
     #hideTooltip() {
-        const dialog = this.#dialog.value;
+        const dialog = this.dialog.value;
         if (!dialog) {
             return;
         }
@@ -414,7 +451,7 @@ export class Tooltip extends LitElement {
     public override updated(changed: PropertyValues<this>) {
         if (changed.has("htmlFor")) {
             this.#detachFromAnchor();
-            this.#attachToAnchor();
+            this.attachToAnchor();
         }
 
         if (changed.has("isOpen")) {

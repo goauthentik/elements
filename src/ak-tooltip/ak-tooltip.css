@@ -1,12 +1,12 @@
 :host {
-    --pf-v5-c-tooltip--MaxWidth: 18.75rem;
-    --pf-v5-c-tooltip--BoxShadow--default: 0 0.25rem 0.5rem 0rem rgba(3, 3, 3, 0.12),
-        0 0 0.25rem 0 rgba(3, 3, 3, 0.06);
+    --pf-v5-c-tooltip--MaxWidth: fit-content;
+    --pf-v5-c-tooltip--BoxShadow--default:
+        0 0.25rem 0.5rem 0rem rgba(3, 3, 3, 0.12), 0 0 0.25rem 0 rgba(3, 3, 3, 0.06);
     --pf-v5-c-tooltip--BoxShadow: var(
         --pf-v5-global--BoxShadow--md,
         var(--pf-v5-c-tooltip--BoxShadow--default)
     );
-    --pf-c-tooltip__arrow--Size: 0.5rem;
+    --pf-v5-c-tooltip__arrow--Size: 0.5rem;
     --pf-v5-c-tooltip__content--PaddingTop: var(--pf-v5-global--spacer--sm, 0.5rem);
     --pf-v5-c-tooltip__content--PaddingRight: var(--pf-v5-global--spacer--sm, 0.5rem);
     --pf-v5-c-tooltip__content--PaddingBottom: var(--pf-v5-global--spacer--sm, 0.5rem);
@@ -16,12 +16,32 @@
         --pf-v5-global--BackgroundColor--dark-100,
         #151515
     );
+    --pf-v5-c-tooltip__arrow--BackgroundColor: var(
+        --pf-v5-global--BackgroundColor--dark-100,
+        #151515
+    );
     --pf-v5-c-tooltip__content--FontSize: var(--pf-v5-global--FontSize--sm, 0.625rem);
 
-    --ak-v1-c-tooltip--TimingFunction: var(--pf-global--TimingFunction, cubic-bezier(0.645, 0.045, 0.355, 1));
+    /* These control the fade in/fade out animations */
+    --ak-v1-c-tooltip--TimingFunction: var(
+        --pf-global--TimingFunction,
+        cubic-bezier(0.645, 0.045, 0.355, 1)
+    );
     --ak-v1-c-tooltip--TransitionDuration: var(--pf-global--TransitionDuration, 250ms);
-    
-    --ak-v1-c-tooltip--transition:
+
+    /* These control the delay before the browser opens or hides the tooltip
+     * after the anchor has been triggered. */
+    --ak-v1-c-tooltip--ShowDelay: 100ms;
+    --ak-v1-c-tooltip--HideDelay: 150ms;
+}
+
+@media (prefers-reduced-motion) {
+    :host {
+        --ak-v1-c-tooltip--ShowDelay: 1s;
+        --ak-v1-c-tooltip--HideDelay: 1s;
+        --ak-v1-c-tooltip--TimingFunction: linear;
+        --ak-v1-c-tooltip--TransitionDuration: 0s;
+    }
 }
 
 [part="tooltip"] {
@@ -35,37 +55,51 @@
 
 dialog {
     transition:
-        display var(--ak-v1-c-tooltip--TransitionDuration) var(--ak-v1-c-tooltip--TimingFunction) allow-discrete,
-        overlay var(--ak-v1-c-tooltip--TransitionDuration) var(--ak-v1-c-tooltip--TimingFunction) allow-discrete;
-    animation: close var(--ak-v1-c-tooltip--TransitionDuration) var(--ak-v1-c-tooltip--TimingFunction) forwards;
+        display var(--ak-v1-c-tooltip--TransitionDuration) var(--ak-v1-c-tooltip--TimingFunction)
+            allow-discrete,
+        overlay var(--ak-v1-c-tooltip--TransitionDuration) var(--ak-v1-c-tooltip--TimingFunction)
+            allow-discrete;
+    animation: close var(--ak-v1-c-tooltip--TransitionDuration)
+        var(--ak-v1-c-tooltip--TimingFunction) forwards;
 }
 
 dialog[open] {
-    animation: open var(--ak-v1-c-tooltip--TransitionDuration) var(--ak-v1-c-tooltip--TimingFunction) forwards;
+    animation: open var(--ak-v1-c-tooltip--TransitionDuration)
+        var(--ak-v1-c-tooltip--TimingFunction) forwards;
 }
-    
+
 @keyframes open {
-  from { opacity: 0 }
-  to   { opacity: 1 }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes close {
-  from { opacity: 1 }
-  to   { opacity: 0 }
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
 }
 
 [part="arrow"] {
-    width: var(--pf-c-tooltip__arrow--Size);
-    height: var(--pf-c-tooltip__arrow--Size);
+    z-index: 5;
+    width: var(--pf-v5-c-tooltip__arrow--Size);
+    height: var(--pf-v5-c-tooltip__arrow--Size);
     position: absolute;
-    background-color: var(--pf-v5-c-tooltip__content--BackgroundColor);
+    background-color: var(--pf-v5-c-tooltip__arrow--BackgroundColor);
     transform-origin: center;
     transform: rotate(45deg);
 }
 
 [part="content"] {
+    z-index: 10;
     position: relative;
-    background-color: var(--pf-v5-c-tooltip__content--BackgroundColor);
+    background: var(--pf-v5-c-tooltip__content--BackgroundColor);
     padding-block-start: var(--pf-v5-c-tooltip__content--PaddingTop);
     padding-block-end: var(--pf-v5-c-tooltip__content--PaddingBottom);
     padding-inline-start: var(--pf-v5-c-tooltip__content--PaddingLeft);
