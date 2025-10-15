@@ -1,9 +1,9 @@
 import styles from "./ak-brand.css";
+import { template } from "./ak-brand.template.js";
+import type { IBrand } from "./ak-brand.types.js";
 
 import { LitElement } from "lit";
 import { property } from "lit/decorators.js";
-import type { IBrand } from "./ak-brand.types.js";
-import { template } from "./ak-brand.template.js";
 
 /**
  * @summary A **brand** is an image used to identify an organization, corporation or project.
