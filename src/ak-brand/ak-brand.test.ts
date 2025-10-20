@@ -126,9 +126,10 @@ describe("ak-brand component", () => {
         await browser.execute(() => {
             const style = document.createElement("style");
             style.textContent = `
-                .responsive-test {
-                    --pf-v5-c-brand--Width: 100px;
-                    --pf-v5-c-brand--Height: 50px;
+            .responsive-test {
+                    display: block;
+                    --ak-v1-c-brand--Width: 100px;
+                    --ak-v1-c-brand--Height: 50px;
                 }
             `;
             document.head.appendChild(style);
@@ -178,7 +179,7 @@ describe("akBrand helper function", () => {
                 src: "/builder-logo.svg",
                 alt: "Builder Logo",
             }),
-            document.body,
+            document.body
         );
 
         const brandEl = $("ak-brand");
@@ -194,7 +195,7 @@ describe("akBrand helper function", () => {
             akBrand({
                 src: "/logo-only.svg",
             }),
-            document.body,
+            document.body
         );
 
         const brandEl = $("ak-brand");
@@ -213,7 +214,7 @@ describe("akBrand helper function", () => {
             akBrand({
                 alt: "Logo description only",
             }),
-            document.body,
+            document.body
         );
 
         const brandEl = $("ak-brand");
@@ -259,7 +260,7 @@ describe("akBrand helper function", () => {
                 src: "/reflected-test.svg",
                 alt: "Reflection Test",
             }),
-            document.body,
+            document.body
         );
 
         const brandEl = $("ak-brand");
@@ -277,7 +278,7 @@ describe("akBrand helper function", () => {
                 src: "/special-chars.svg",
                 alt: specialAlt,
             }),
-            document.body,
+            document.body
         );
 
         const img = $("ak-brand").$(">>>img");
@@ -292,7 +293,7 @@ describe("akBrand helper function", () => {
                 src: "/functional-test.svg",
                 alt: "Functional Test Logo",
             }),
-            document.body,
+            document.body
         );
 
         const brandEl = $("ak-brand");

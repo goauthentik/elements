@@ -1,0 +1,27 @@
+/*
+ * component: ak-brand
+ */
+:host {
+    --ak-v1-c-brand--Width: auto;
+    --ak-v1-c-brand--Height: auto;
+
+    /* Documenting the breakpoints defined on the brand component. `initial` is treated as undefined,
+     * causing any `var()` expressions to use the fallback value, if one is provided */
+
+    --ak-v1-c-brand--Height-on-2xl: initial;
+    --ak-v1-c-brand--Height-on-xl: initial;
+    --ak-v1-c-brand--Height-on-lg: initial;
+    --ak-v1-c-brand--Height-on-md: initial;
+    --ak-v1-c-brand--Height-on-sm: initial;
+    --ak-v1-c-brand--Width-on-2xl: initial;
+    --ak-v1-c-brand--Width-on-xl: initial;
+    --ak-v1-c-brand--Width-on-lg: initial;
+    --ak-v1-c-brand--Width-on-md: initial;
+    --ak-v1-c-brand--Width-on-sm: initial;
+
+    --ak-v1-c-brand--Width--base: var(--ak-v1-c-brand--Width);
+    --ak-v1-c-brand--Height--base: var(--ak-v1-c-brand--Height);
+}
+
+
+
