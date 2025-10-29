@@ -15,7 +15,39 @@
 @import "pkg:@patternfly/patternfly/sass-utilities/layout-namespaces";
 @import "pkg:@patternfly/patternfly/sass-utilities/placeholders";
 @import "pkg:@patternfly/patternfly/base/variables";
-@import "./fonts";
 @import "pkg:@patternfly/patternfly/base/base";
 @import "pkg:@patternfly/patternfly/base/themes";
+
+@import "./base/fonts";
+@import "./base/palette";
 @import "./components/all-components";
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root {
+    --ak-theme--BackgroundColor--primary: var(--ak-palette--Black-200);
+    --ak-theme--TextColor--primary: var(--ak-palette--Black--900);
+    --ak-theme--FontFamily--text: "RedHatText", helvetica, arial, sans-serif;
+    --ak-theme--FontSize--md: 1rem;
+    --ak-theme--FontWeight--normal: 400;
+    --ak-theme--LineHeight--md: 1.5;
+}
+
+html[theme="dark"] {
+    --ak-theme--BackgroundColor--primary: var(--ak-palette--Black-900);
+    --ak-theme--TextColor--primary: var(--ak-palette--Black--200);
+}
+
+:where(body) {
+    font-family: var(--ak-theme--FontFamily--text);
+    font-size: var(--ak-theme--FontSize--md);
+    font-weight: var(--ak-theme--FontWeight--normal);
+    line-height: var(--ak-theme--LineHeight--md);
+    color: var(--ak-theme--TextColor--primary);
+    background-color: var(--ak-theme--BackgroundColor--primary);
+    height: 100%;
+}

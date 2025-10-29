@@ -46,8 +46,8 @@ export class ThemeProvider extends ThemeMediaHandler implements ReactiveControll
         }
     }
 
-    // Policy decision: Setting the attribute `<body theme="dark">` will always take
-    // priority over even the browser preferences.
+    // POLICY: Setting the attribute `<body theme="dark">` will always take priority over the
+    // browser preferences.
 
     #onAttributeChange = (mutations: MutationRecord[]) => {
         // It's possible to get multiple mutations in a single pass; in this case,
@@ -87,7 +87,7 @@ export class ThemeProvider extends ThemeMediaHandler implements ReactiveControll
         });
 
         this.#observer = new MutationObserver(this.#onAttributeChange);
-        this.#observer.observe(document.body, {
+        this.#observer.observe(document.documentElement, {
             attributeFilter: [THEME_ATTRIBUTE],
             attributeOldValue: true,
             childList: false,

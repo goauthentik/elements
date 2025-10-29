@@ -7,14 +7,13 @@ export function themeDecorator({ themes, defaultTheme, ...rest }) {
     initializeThemeState(Object.keys(themes), defaultTheme);
 
     return (story, context) => {
-        console.log(themes, defaultTheme, rest, context);
         // This is a fetcher for `context.globals["theme"]` 🙄
         const selectedTheme = pluckThemeFromContext(context);
         const { themeOverride } = context.paramaters?.themes ?? {};
         const selected = themeOverride ?? selectedTheme ?? defaultTheme;
 
         setTimeout(() => {
-            document.body.setAttribute("theme", selected);
+            document.documentElement.setAttribute("theme", selected);
         }, 0);
 
         return html`<link rel="stylesheet" href="/css/authentik.css" />
