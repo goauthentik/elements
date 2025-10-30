@@ -1,18 +1,21 @@
 import fs from "node:fs";
-import * as sass from "sass";
-import * as prettier from "prettier";
-import prettierConfig from "@goauthentik/prettier-config";
 import path from "node:path";
+
 import {
-    checkIsInPackageRoot,
-    isProduction,
-    globSrc,
-    writeFile,
-    readFile,
-    SOURCE_DIR,
     BUILD_DIR,
+    checkIsInPackageRoot,
+    globSrc,
+    isProduction,
+    readFile,
     SASS_OPTS,
+    SOURCE_DIR,
+    writeFile,
 } from "./utilities.mjs";
+
+import prettierConfig from "@goauthentik/prettier-config";
+
+import * as prettier from "prettier";
+import * as sass from "sass";
 
 // The "gapSymbol" is a convention
 

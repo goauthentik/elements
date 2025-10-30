@@ -1,8 +1,9 @@
-import { LitElement, ReactiveController, ReactiveControllerHost } from "lit";
-import { ContextConsumer } from "@lit/context";
-import { DEFAULT_THEME, themeContext, type Theme } from "./themeContext.js";
 import { schedule } from "../utils/schedule.js";
+import { DEFAULT_THEME, type Theme, themeContext } from "./themeContext.js";
 import { ThemeMediaHandler } from "./themeMediaHandler.js";
+
+import { ContextConsumer } from "@lit/context";
+import { LitElement, ReactiveController, ReactiveControllerHost } from "lit";
 
 type HostElement = ReactiveControllerHost & LitElement;
 

@@ -15,5 +15,3 @@ This is going to become a common pattern: we wrap it in a web component and rend
 much business logic going on in here. We separate the CSS into the "global" definitions stored in
 the `.variables.css` file, and the "local" definitions that apply to the component in the `.css`
 file.
-
-

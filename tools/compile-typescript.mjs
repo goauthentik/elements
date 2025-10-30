@@ -1,14 +1,9 @@
 import fsp from "node:fs/promises";
 import path from "node:path";
+
+import { BUILD_DIR, checkIsInPackageRoot, globSrc, readFile, SOURCE_DIR } from "./utilities.mjs";
+
 import swc from "@swc/core";
-import {
-    checkIsInPackageRoot,
-    globSrc,
-    writeFile,
-    readFile,
-    BUILD_DIR,
-    SOURCE_DIR,
-} from "./utilities.mjs";
 
 checkIsInPackageRoot();
 

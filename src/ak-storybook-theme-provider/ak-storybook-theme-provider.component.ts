@@ -1,5 +1,7 @@
-import { LitElement, css, html } from "lit";
 import { ThemeProvider } from "../controllers/themeContextProvider.js";
+
+import { css, html, LitElement } from "lit";
+
 /**
  * @summary A very simple empty element to activate the theme provider.
  *

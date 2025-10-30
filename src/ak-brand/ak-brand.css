@@ -12,25 +12,22 @@
 
     /* "base" is the variable that controls the look and feel of the component itself. It's the variable
      * we *actually* use for controlling the component and its internal image. */
-    
+
     --brand--Width--base: var(--brand--Width);
     --brand--Height--base: var(--brand--Height);
-    
+
     --brand--Width: var(--ak-v1-c-brand--Width, auto);
     --brand--Height: var(--ak-v1-c-brand--Height, auto);
-
 }
 
 :host([picture]) {
     display: flex;
 }
 
-
 :host {
     width: var(--brand--Width--base);
     height: var(--brand--Height--base);
 }
-
 
 [part="brand"] {
     position: relative;
@@ -41,15 +38,9 @@
 
 @media (min-width: 576px) {
     :host {
-        --brand--Width--base: var(
-            --brand--Width-on-sm,
-            var(--brand--Width)
-        );
+        --brand--Width--base: var(--brand--Width-on-sm, var(--brand--Width));
     }
-        --brand--Height--base: var(
-            --brand--Height-on-sm,
-            var(--brand--Height)
-        );
+    --brand--Height--base: var(--brand--Height-on-sm, var(--brand--Height));
 }
 
 @media (min-width: 768px) {
@@ -69,17 +60,11 @@
     :host {
         --brand--Width--base: var(
             --brand--Width-on-lg,
-            var(
-                --brand--Width-on-md,
-                var(--brand--Width-on-sm, var(--brand--Width))
-            )
+            var(--brand--Width-on-md, var(--brand--Width-on-sm, var(--brand--Width)))
         );
         --brand--Height--base: var(
             --brand--Height-on-lg,
-            var(
-                --brand--Height-on-md,
-                var(--brand--Height-on-sm, var(--brand--Height))
-            )
+            var(--brand--Height-on-md, var(--brand--Height-on-sm, var(--brand--Height)))
         );
     }
 }
@@ -90,20 +75,14 @@
             --brand--Width-on-xl,
             var(
                 --brand--Width-on-lg,
-                var(
-                    --brand--Width-on-md,
-                    var(--brand--Width-on-sm, var(--brand--Width))
-                )
+                var(--brand--Width-on-md, var(--brand--Width-on-sm, var(--brand--Width)))
             )
         );
         --brand--Height--base: var(
             --brand--Height-on-xl,
             var(
                 --brand--Height-on-lg,
-                var(
-                    --brand--Height-on-md,
-                    var(--brand--Height-on-sm, var(--brand--Height))
-                )
+                var(--brand--Height-on-md, var(--brand--Height-on-sm, var(--brand--Height)))
             )
         );
     }
@@ -117,10 +96,7 @@
                 --brand--Width-on-xl,
                 var(
                     --brand--Width-on-lg,
-                    var(
-                        --brand--Width-on-md,
-                        var(--brand--Width-on-sm, var(--brand--Width))
-                    )
+                    var(--brand--Width-on-md, var(--brand--Width-on-sm, var(--brand--Width)))
                 )
             )
         );
@@ -130,13 +106,9 @@
                 --brand--Height-on-xl,
                 var(
                     --brand--Height-on-lg,
-                    var(
-                        --brand--Height-on-md,
-                        var(--brand--Height-on-sm, var(--brand--Height))
-                    )
+                    var(--brand--Height-on-md, var(--brand--Height-on-sm, var(--brand--Height)))
                 )
             )
         );
     }
 }
-

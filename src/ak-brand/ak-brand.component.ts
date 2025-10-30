@@ -1,6 +1,6 @@
 import styles from "./ak-brand.css";
 
-import { LitElement, html } from "lit";
+import { html, LitElement } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 

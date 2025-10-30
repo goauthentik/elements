@@ -1,8 +1,9 @@
-import { LitElement, ReactiveController, ReactiveControllerHost } from "lit";
-import { ContextProvider } from "@lit/context";
-import { DEFAULT_THEME, themeContext, type Theme } from "./themeContext.js";
-import { ThemeMediaHandler } from "./themeMediaHandler.js";
 import { schedule } from "../utils/schedule.js";
+import { DEFAULT_THEME, type Theme, themeContext } from "./themeContext.js";
+import { ThemeMediaHandler } from "./themeMediaHandler.js";
+
+import { ContextProvider } from "@lit/context";
+import { LitElement, ReactiveController, ReactiveControllerHost } from "lit";
 
 type HostElement = ReactiveControllerHost & LitElement;
 
@@ -22,7 +23,7 @@ export class ThemeProvider extends ThemeMediaHandler implements ReactiveControll
     #provider: ContextProvider<typeof themeContext> | null = null;
     #observer: MutationObserver | null = null;
     #host: HostElement;
-    #hasBodySetting = false;
+    #hasAttributeSetting = false;
 
     public get theme() {
         return this.#theme;
@@ -46,7 +47,7 @@ export class ThemeProvider extends ThemeMediaHandler implements ReactiveControll
         }
     }
 
-    // POLICY: Setting the attribute `<body theme="dark">` will always take priority over the
+    // POLICY: Setting the attribute `<html theme="dark">` will always take priority over the
     // browser preferences.
 
     #onAttributeChange = (mutations: MutationRecord[]) => {
@@ -60,24 +61,25 @@ export class ThemeProvider extends ThemeMediaHandler implements ReactiveControll
         }
         const theme = getMutationValue(lastValidMutation);
 
-        // Someone deleted the attribute on `document.body`. Revert to media-query monitoring.
+        // Someone deleted the attribute on `document.documentElement` (i.e. `<html>`). Revert to
+        // media-query monitoring.
         if (theme === null && !this.hasActiveMediaQuery) {
-            this.#hasBodySetting = false;
+            this.#hasAttributeSetting = false;
             this.connectMediaQuery();
             return;
         }
 
         if (isTheme(theme)) {
             this.theme = theme;
-            this.#hasBodySetting = true;
+            this.#hasAttributeSetting = true;
             this.disconnectMediaQuery();
         }
     };
 
     hostConnected() {
-        const theme = document.body.getAttribute(THEME_ATTRIBUTE);
+        const theme = document.documentElement.getAttribute(THEME_ATTRIBUTE);
         if (isTheme(theme)) {
-            this.#hasBodySetting = true;
+            this.#hasAttributeSetting = true;
             this.#theme = theme;
         }
 
@@ -94,7 +96,7 @@ export class ThemeProvider extends ThemeMediaHandler implements ReactiveControll
         });
 
         schedule(() => {
-            if (!this.#hasBodySetting) {
+            if (!this.#hasAttributeSetting) {
                 this.connectMediaQuery();
             }
         });

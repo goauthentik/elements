@@ -7,11 +7,11 @@
     "scripts": {
         "analyze": "cem analyze --litelement",
         "build": "run-p clean build:styles build:unit build:types",
+        "build:copy-assets": "node ./tools/copy-assets.mjs",
         "build:host-styles": "node ./tools/css-to-host-css.mjs",
         "build:root-styles": "node ./tools/write-root-css-collection.mjs",
-        "build:copy-assets": "node ./tools/copy-assets.mjs",
-        "build:stylesheets": "node ./tools/build-stylesheets.mjs",
         "build:styles": "run-s build:host-styles build:root-styles build:stylesheets",
+        "build:stylesheets": "node ./tools/build-stylesheets.mjs",
         "build:types": "tsc --declaration --emitDeclarationOnly -p ./tsconfig.json",
         "build:unit": "node ./tools/compile-typescript.mjs",
         "clean": "rimraf ./dist",
@@ -27,9 +27,6 @@
         "storybook:main": "storybook dev -p 6006",
         "test": "run-s clean analyze build test:unit",
         "test:unit": "wdio run ./config/wdio.conf.mjs --logLevel=warn"
-    },
-    "engines": {
-        "node": ">=24"
     },
     "type": "module",
     "dependencies": {
@@ -84,6 +81,9 @@
         "vite-tsconfig-paths": "^5.1.4",
         "wdio-wait-for": "^3.1.0",
         "yaml": "^2.8.1"
+    },
+    "engines": {
+        "node": ">=24"
     },
     "keywords": [
         "authentik",

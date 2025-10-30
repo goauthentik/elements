@@ -1,6 +1,6 @@
-import { checkIsInPackageRoot, globSrc, writeFile, SOURCE_DIR } from "./utilities.mjs";
-
 import path from "node:path";
+
+import { checkIsInPackageRoot, globSrc, SOURCE_DIR, writeFile } from "./utilities.mjs";
 
 // This script, which must be run from the project root folder, hunts down files of the format
 // `<component>.root.scss` and `<component>.root.css` in the source folder and writes their

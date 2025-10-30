@@ -1,16 +1,19 @@
 import fs from "node:fs";
-import * as sass from "sass";
 import path from "node:path";
-import * as prettier from "prettier";
-import prettierConfig from "@goauthentik/prettier-config";
+
 import {
-    checkIsInPackageRoot,
-    writeFile,
-    SASS_OPTS,
     BUILD_DIR,
-    SOURCE_DIR,
+    checkIsInPackageRoot,
     isProduction,
+    SASS_OPTS,
+    SOURCE_DIR,
+    writeFile,
 } from "./utilities.mjs";
+
+import prettierConfig from "@goauthentik/prettier-config";
+
+import * as prettier from "prettier";
+import * as sass from "sass";
 
 // This script, which must be run from the project root folder, copies or processes the files that shoud be
 // left *as CSS* in the target folder.
@@ -38,7 +41,7 @@ function writeSourceMap(destMapPath, sourceMap) {
         JSON.stringify({
             ...sourceMap,
             sources,
-        })
+        }),
     );
 }
 
@@ -52,7 +55,7 @@ async function transformSrc(source) {
     fs.mkdirSync(path.dirname(destPath), { recursive: true });
     writeFile(
         destPath,
-        isProduction ? css : await prettier.format(css, { ...prettierConfig, parser: "css" })
+        isProduction ? css : await prettier.format(css, { ...prettierConfig, parser: "css" }),
     );
     writeSourceMap(destMapPath, sourceMap);
 }

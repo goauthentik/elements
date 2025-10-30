@@ -1,7 +1,10 @@
-import { DecoratorHelpers } from "@storybook/addon-themes";
-const { pluckThemeFromContext, initializeThemeState } = DecoratorHelpers;
 import "../dist/ak-storybook-theme-provider/ak-storybook-theme-provider.js";
+
+import { DecoratorHelpers } from "@storybook/addon-themes";
+
 import { html } from "lit";
+
+const { pluckThemeFromContext, initializeThemeState } = DecoratorHelpers;
 
 export function themeDecorator({ themes, defaultTheme, ...rest }) {
     initializeThemeState(Object.keys(themes), defaultTheme);
