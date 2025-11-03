@@ -5096,10 +5096,6 @@
     font-weight: 900;
 }
 
-@font-face {
-    font-family: "pf-v5-pficon";
-    src: url("./assets/pficon/pf-v5-pficon.woff2") format("woff2");
-}
 .pf-v5-pficon-zone:before,
 .pf-v5-pficon-warning-triangle:before,
 .pf-v5-pficon-volume:before,
@@ -45340,3 +45336,4 @@ label.pf-v5-c-tree-view__node-text {
 .pf-v5-l-stack.pf-m-gutter {
     gap: var(--pf-v5-l-stack--m-gutter--Gap);
 }
+
