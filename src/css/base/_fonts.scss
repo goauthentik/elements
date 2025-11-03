@@ -1,0 +1,31 @@
+@font-face {
+    font-family: RedHatText;
+    font-style: normal;
+    font-weight: 400;
+    src: url("./assets/fonts/RedHatText/RedHatText-Regular.woff2") format("woff2");
+    font-display: fallback;
+}
+
+@font-face {
+    font-family: RedHatText;
+    font-style: italic;
+    font-weight: 400;
+    src: url("./assets/fonts/RedHatText/RedHatText-Italic.woff2") format("woff2");
+    font-display: fallback;
+}
+
+@font-face {
+    font-family: RedHatText;
+    font-style: normal;
+    font-weight: 700;
+    src: url("./assets/fonts/RedHatText/RedHatText-Medium.woff2") format("woff2");
+    font-display: fallback;
+}
+
+@font-face {
+    font-family: RedHatText;
+    font-style: italic;
+    font-weight: 700;
+    src: url("./assets/fonts/RedHatText/RedHatText-MediumItalic.woff2") format("woff2");
+    font-display: fallback;
+}
