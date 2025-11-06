@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import { BUILD_DIR, checkIsInPackageRoot, globSrc, isProduction, readFile, SASS_OPTS, SOURCE_DIR, writeFile, } from "./utilities.mjs";
+import { BUILD_DIR, checkIsInPackageRoot, globSrc, isProduction, readFile, SASS_OPTS, SOURCE_DIR, writeFile, } from "./lib/utilities.mjs";
+// @ts-expect-error no types provided
 import prettierConfig from "@goauthentik/prettier-config";
 import * as prettier from "prettier";
 import * as sass from "sass";

@@ -1,4 +1,4 @@
-import { BUILD_DIR, checkIsInPackageRoot, globSrc, SOURCE_DIR } from "./utilities.mjs";
+import { BUILD_DIR, checkIsInPackageRoot, globSrc, SOURCE_DIR } from "./lib/utilities.mjs";
 
 checkIsInPackageRoot();
 
@@ -14,7 +14,7 @@ import path from "node:path";
 // prefix itself.
 //
 
-export async function copyFiles(sourceFiles, targetFolder, cwd = ".") {
+export async function copyFiles(sourceFiles: string[], targetFolder: string, cwd = ".") {
     const results = await Promise.allSettled(
         sourceFiles.map(async (sourceFile) => {
             const sourcePath = path.join(cwd, sourceFile);
@@ -25,10 +25,9 @@ export async function copyFiles(sourceFiles, targetFolder, cwd = ".") {
         })
     );
 
-    const flattened = results.map((r) => r.value).flat();
     return {
-        successes: flattened.filter((r) => r.status === "fulfilled").map((r) => r.value),
-        failures: flattened.filter((r) => r.status === "rejected").map((r) => r.reason),
+        successes: results.filter((r) => r.status === "fulfilled").map((r) => r.value),
+        failures: results.filter((r) => r.status === "rejected").map((r) => r.reason),
     };
 }
 

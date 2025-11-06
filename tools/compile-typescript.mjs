@@ -1,6 +1,6 @@
-import fsp from "node:fs/promises";
-import path from "node:path";
-import { BUILD_DIR, checkIsInPackageRoot, globSrc, readFile, SOURCE_DIR } from "./utilities.mjs";
+import fsp from "fs/promises";
+import path from "path";
+import { BUILD_DIR, checkIsInPackageRoot, globSrc, readFile, SOURCE_DIR, } from "./lib/utilities.mjs";
 import swc from "@swc/core";
 checkIsInPackageRoot();
 const configFile = path.join("./swcrc.json");
@@ -12,7 +12,7 @@ swcConfig.jsc.baseUrl = process.cwd();
 // ends in ".js".
 const importStatement = /^import\s+(\w+)\s+from\s+(["'])([^"']+)\.(css|scss)(["']);/;
 // eslint-disable-next-line max-params
-const fixedImport = (match, importName, delim1, filename, _suffix, delim2) => `import ${importName} from ${delim1}${filename}.css.js${delim2};`;
+const fixedImport = (_match, importName, delim1, filename, _suffix, delim2) => `import ${importName} from ${delim1}${filename}.css.js${delim2};`;
 async function compileOneSource(sourceFile) {
     const sourcePath = path.join(SOURCE_DIR, sourceFile);
     const sourceCode = await fsp.readFile(sourcePath, "utf-8");

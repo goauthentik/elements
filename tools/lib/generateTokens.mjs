@@ -1,8 +1,8 @@
-import fs from "node:fs";
 import path from "node:path";
 import { createRequire } from "node:module";
 import { parse, stringify } from "css";
 import { globSync } from "glob";
+import { readFile } from "./utilities.mjs";
 const require = createRequire(import.meta.url);
 const pfStylesDir = path.dirname(require.resolve("@patternfly/patternfly/patternfly.css"));
 const cssFileGlobs = [
@@ -16,9 +16,20 @@ const cssFileGlobOpts = {
     absolute: true,
 };
 const patternflyRoot = "--pf-v5";
-const readFile = (fn) => fs.readFileSync(fn, "utf8");
 const formatCustomPropertyName = (key) => key.replace("--pf-v5-", "");
-const isRule = (node) => typeof node === "object" && node !== null && "type" in node && node.type === "rule";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isObj = (v) => typeof v === "object" && v !== null;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isCssObj = (v) => isObj(v) && "type" in v;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isCssType = (v, t) => isCssObj(v) && v.type === t;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isRule = (node) => isCssType(node, "rule");
+export const isDeclaration = (v) => isCssType(v, "declaration") &&
+    "property" in v &&
+    "value" in v &&
+    typeof v.property === "string" &&
+    typeof v.value === "string";
 const hasNoDarkSelectors = (node) => isRule(node) &&
     (!node.selectors || !node.selectors.some((item) => item.includes(".pf-v5-theme-dark")));
 function getRegexMatches(s, r) {
@@ -53,6 +64,10 @@ function getDeclarations(cssAst) {
         .map(extractDeclarations)
         .reduce((acc, decls) => [...acc, ...decls], []);
 }
+export const tap = (a) => {
+    console.debug(a);
+    return a;
+};
 function buildLocalVarsMapGetter(cssFiles) {
     // For all of the CSS files passed to it, gets the declarations and creates a map for each CSS
     // Custom Property to the selectors that are associated with it. Note: see this one in action.
@@ -291,16 +306,17 @@ export function generateTokens() {
         // key is the formatted file name, e.g. c_about_modal_box
         const key = formatFilePathToName(filePath);
         getDeclarations(cssAst).forEach(({ property, value, parent }) => {
-            const selector = parent.selectors[0];
+            const selector = parent?.selectors?.[0];
+            if (!selector) {
+                return;
+            }
             if (property.startsWith("--pf")) {
                 const varsMap = getVarsMap(value, selector);
                 const propertyObj = {
-                    name: property,
+                    property,
                     value: varsMap[varsMap.length - 1],
+                    values: varsMap.length > 1 ? varsMap : [],
                 };
-                if (varsMap.length > 1) {
-                    propertyObj.values = varsMap;
-                }
                 fileTokens[key] = fileTokens[key] || {};
                 fileTokens[key][selector] = fileTokens[key][selector] || {};
                 fileTokens[key][selector][property] = propertyObj;
@@ -308,7 +324,7 @@ export function generateTokens() {
             }
             fileTokens[key] = fileTokens[key] || {};
             fileTokens[key][selector] = fileTokens[key][selector] || {};
-            fileTokens[key][selector][property] = { name: property, value };
+            fileTokens[key][selector][property] = { property, value, values: [] };
         });
     });
     return fileTokens;

@@ -9,10 +9,10 @@ import {
     SASS_OPTS,
     SOURCE_DIR,
     writeFile,
-} from "./utilities.mjs";
+} from "./lib/utilities.mjs";
 
 // @ts-expect-error no types provided
-import { prettierConfig } from "@goauthentik/prettier-config";
+import prettierConfig from "@goauthentik/prettier-config";
 
 import * as prettier from "prettier";
 import * as sass from "sass";

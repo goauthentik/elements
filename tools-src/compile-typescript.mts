@@ -1,7 +1,13 @@
-import fsp from "node:fs/promises";
-import path from "node:path";
+import fsp from "fs/promises";
+import path from "path";
 
-import { BUILD_DIR, checkIsInPackageRoot, globSrc, readFile, SOURCE_DIR } from "./utilities.mjs";
+import {
+    BUILD_DIR,
+    checkIsInPackageRoot,
+    globSrc,
+    readFile,
+    SOURCE_DIR,
+} from "./lib/utilities.mjs";
 
 import swc from "@swc/core";
 
@@ -19,18 +25,24 @@ swcConfig.jsc.baseUrl = process.cwd();
 const importStatement = /^import\s+(\w+)\s+from\s+(["'])([^"']+)\.(css|scss)(["']);/;
 
 // eslint-disable-next-line max-params
-const fixedImport = (match, importName, delim1, filename, _suffix, delim2) =>
-    `import ${importName} from ${delim1}${filename}.css.js${delim2};`;
+const fixedImport = (
+    _match: unknown,
+    importName: string,
+    delim1: string,
+    filename: string,
+    _suffix: string,
+    delim2: string
+) => `import ${importName} from ${delim1}${filename}.css.js${delim2};`;
 
-async function compileOneSource(sourceFile) {
-    const sourcePath = path.join(SOURCE_DIR, sourceFile);
-    const sourceCode = await fsp.readFile(sourcePath, "utf-8");
+async function compileOneSource(sourceFile: string) {
+    const sourcePath: string = path.join(SOURCE_DIR, sourceFile);
+    const sourceCode: string = await fsp.readFile(sourcePath, "utf-8");
 
     // Compute output path, maintaining directory structure
-    const outputPath = path.join(BUILD_DIR, sourceFile.replace(/\.ts$/, ".js"));
+    const outputPath: string = path.join(BUILD_DIR, sourceFile.replace(/\.ts$/, ".js"));
 
     // Ensure the output directory exists
-    const outputDir = path.dirname(outputPath);
+    const outputDir: string = path.dirname(outputPath);
     await fsp.mkdir(outputDir, { recursive: true });
 
     const { code, map } = await swc.transform(sourceCode, {

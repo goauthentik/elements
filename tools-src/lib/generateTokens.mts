@@ -1,8 +1,13 @@
-import fs from "node:fs";
 import path from "node:path";
 import { createRequire } from "node:module";
-import { parse, stringify } from "css";
+import { parse, stringify, Node, Rule, Declaration, Stylesheet } from "css";
 import { globSync } from "glob";
+import { readFile } from "./utilities.mjs";
+
+export type HardDeclaration = Omit<Declaration, "property" | "value"> & {
+    property: string;
+    value: string;
+};
 
 const require = createRequire(import.meta.url);
 
@@ -22,18 +27,33 @@ const cssFileGlobOpts = {
 
 const patternflyRoot = "--pf-v5";
 
-const readFile = (fn) => fs.readFileSync(fn, "utf8");
-const formatCustomPropertyName = (key) => key.replace("--pf-v5-", "");
+const formatCustomPropertyName = (key: string) => key.replace("--pf-v5-", "");
 
-const isRule = (node) =>
-    typeof node === "object" && node !== null && "type" in node && node.type === "rule";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isObj = (v: any): boolean => typeof v === "object" && v !== null;
 
-const hasNoDarkSelectors = (node) =>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isCssObj = (v: any): boolean => isObj(v) && "type" in v;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isCssType = (v: any, t: string): boolean => isCssObj(v) && v.type === t;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isRule = (node: Node): node is Rule => isCssType(node, "rule");
+
+export const isDeclaration = (v: any): v is HardDeclaration =>
+    isCssType(v, "declaration") &&
+    "property" in v &&
+    "value" in v &&
+    typeof v.property === "string" &&
+    typeof v.value === "string";
+
+const hasNoDarkSelectors = (node: Node): boolean =>
     isRule(node) &&
     (!node.selectors || !node.selectors.some((item) => item.includes(".pf-v5-theme-dark")));
 
-function getRegexMatches(s, r) {
-    const res = {};
+function getRegexMatches(s: string, r: RegExp) {
+    const res: Record<string, string> = {};
     while (true) {
         const matches = r.exec(s);
         if (!matches) {
@@ -44,7 +64,7 @@ function getRegexMatches(s, r) {
     return res;
 }
 
-const isHardDeclaration = (node) =>
+const isHardDeclaration = (node: Node): node is HardDeclaration =>
     typeof node === "object" &&
     node !== null &&
     "type" in node &&
@@ -55,10 +75,10 @@ const isHardDeclaration = (node) =>
 // From a given stylesheet, return every *declaration* key that starts with `--pf-v5` and the
 // *last value* associated with it.
 //
-function getDeclarations(cssAst) {
-    const isNotDarkRule = (rule) => !(rule.selectors ?? []).includes(".pf-v5-t-dark");
+function getDeclarations(cssAst: Stylesheet) {
+    const isNotDarkRule = (rule: Rule) => !(rule.selectors ?? []).includes(".pf-v5-t-dark");
 
-    const extractDeclarations = (rule) =>
+    const extractDeclarations = (rule: Rule) =>
         (rule.declarations ?? [])
             .filter(isHardDeclaration)
             .map((decl) => ({ ...decl, parent: decl.parent ?? rule }));
@@ -72,11 +92,16 @@ function getDeclarations(cssAst) {
         .reduce((acc, decls) => [...acc, ...decls], []);
 }
 
-function buildLocalVarsMapGetter(cssFiles) {
+export const tap = <A,>(a: A): A => {
+    console.debug(a);
+    return a;
+};
+
+function buildLocalVarsMapGetter(cssFiles: string[]) {
     // For all of the CSS files passed to it, gets the declarations and creates a map for each CSS
     // Custom Property to the selectors that are associated with it. Note: see this one in action.
-    function makeLocalVarsMap(cssFiles) {
-        const res = {};
+    function makeLocalVarsMap(cssFiles: string[]) {
+        const res: Record<string, Record<string, string>> = {};
         for (const cssFile of cssFiles) {
             const cssAst = parse(readFile(cssFile));
             for (const { property, value, parent } of getDeclarations(cssAst)) {
@@ -84,7 +109,7 @@ function buildLocalVarsMapGetter(cssFiles) {
                     typeof value === "string" &&
                     typeof property === "string" /* && property.startsWith(patternflyRoot) */
                 ) {
-                    const propertyName = parent.selectors?.[0];
+                    const propertyName = (parent as Rule).selectors?.[0];
                     if (typeof propertyName === "string") {
                         res[property] = {
                             ...res[property],
@@ -98,7 +123,7 @@ function buildLocalVarsMapGetter(cssFiles) {
     }
 
     // I have the feeling this is hard-won knowledge.
-    const sanitizeKey = (key) =>
+    const sanitizeKey = (key: string) =>
         key
             .replace(/\*$/, "")
             .trim()
@@ -113,7 +138,7 @@ function buildLocalVarsMapGetter(cssFiles) {
     // associated with that property in that selector. This function is rather, ah, *loose* in its
     // interperetation of "closest," but it's the best we can do under the circumstances.
 
-    const getFromLocalVarsMap = (match, selector) => {
+    const getFromLocalVarsMap = (match: string, selector: string) => {
         const propMatch = localVarsMap[match];
 
         if (!propMatch) {
@@ -213,8 +238,8 @@ function makeScssVarValueGetter() {
         ...getScssColorsMap(),
     };
 
-    const getComputedScssVarValue = (value) =>
-        value.replace(/\$pf[^,)\s*/]*/g, (match) => {
+    const getComputedScssVarValue = (value: string) =>
+        value.replace(/\$pf[^,)\s*/]*/g, (match: string) => {
             if (combinedScssVarsColorsMap[match]) {
                 return combinedScssVarsColorsMap[match];
             } else {
@@ -288,14 +313,18 @@ function getCssGlobalVariablesMap() {
 
 const cssGlobalVariablesMap = getCssGlobalVariablesMap();
 
-function formatFilePathToName(filePath) {
+function formatFilePathToName(filePath: string) {
     return path.basename(filePath);
 }
 
-function makeCSSVarValueGetter(cssFiles) {
+function makeCSSVarValueGetter(cssFiles: string[]) {
     const getFromLocalVarsMap = buildLocalVarsMapGetter(cssFiles);
 
-    const getComputedCSSVarValue = (value, selector, varMap) => {
+    const getComputedCSSVarValue = (
+        value: string,
+        selector: string,
+        varMap: Record<string, string>
+    ) => {
         return value.replace(/var\(([\w-]*)(,.*)?\)/g, (full, m1, m2) => {
             if (m1.startsWith("--pf-v5-global")) {
                 return varMap[m1] ? varMap[m1] + (m2 || "") : full;
@@ -317,18 +346,18 @@ function makeCSSVarValueGetter(cssFiles) {
 //
 // This function creates an array of the entire "stack" of variables from their place-of-use all
 // the way back to where they're firl defined.
-function buildVarsMapGetter(cssFiles) {
+function buildVarsMapGetter(cssFiles: string[]) {
     const getComputedScssVarValue = makeScssVarValueGetter();
     const getComputedCSSVarValue = makeCSSVarValueGetter(cssFiles);
 
-    const getVarsMap = (value, selector) => {
+    const getVarsMap = (value: string, selector: string) => {
         const varsMap = [value];
         let computedValue = value;
         let finalValue = value;
 
         // We haven't hit a concrete value yet, just a dereferencing of some kind.
         //
-        const keepGoing = (final, computed) =>
+        const keepGoing = (final: string, computed: string) =>
             final.includes("var(--pf") ||
             computed.includes("var(--pf") ||
             computed.includes("$pf-");
@@ -363,13 +392,28 @@ function buildVarsMapGetter(cssFiles) {
     return getVarsMap;
 }
 
+export type NestedDeclaration = {
+    property: string;
+    value: string;
+    values: string[];
+};
+
+// Property Name: Nested Declaration
+export type TokenDeclarations = Record<string, NestedDeclaration>;
+
+// Selector -> Property Names and their Nested Declarations
+export type TokenRules = Record<string, TokenDeclarations>;
+
+// ComponentName -> Selector and their Declarations
+export type TokenComponents = Record<string, TokenRules>;
+
 // Given a collection of CSS files, generate a file tokens library of *all* of the tokens within.
 export function generateTokens() {
     const cssFiles = globSync(cssFileGlobs, cssFileGlobOpts)
         // Sort to put variables and charts at END of list so getLocalVarsMap returns correct values
         .sort((a, b) => (a.split(path.sep).length < b.split(path.sep).length ? 1 : -1));
 
-    const fileTokens = {};
+    const fileTokens: TokenComponents = {};
     const getVarsMap = buildVarsMapGetter(cssFiles);
 
     cssFiles.forEach((filePath) => {
@@ -378,19 +422,19 @@ export function generateTokens() {
         const key = formatFilePathToName(filePath);
 
         getDeclarations(cssAst).forEach(({ property, value, parent }) => {
-            const selector = parent.selectors[0];
+            const selector = (parent as Rule)?.selectors?.[0];
+            if (!selector) {
+                return;
+            }
 
             if (property.startsWith("--pf")) {
                 const varsMap = getVarsMap(value, selector);
 
                 const propertyObj = {
-                    name: property,
+                    property,
                     value: varsMap[varsMap.length - 1],
+                    values: varsMap.length > 1 ? varsMap : [],
                 };
-
-                if (varsMap.length > 1) {
-                    propertyObj.values = varsMap;
-                }
 
                 fileTokens[key] = fileTokens[key] || {};
                 fileTokens[key][selector] = fileTokens[key][selector] || {};
@@ -400,7 +444,7 @@ export function generateTokens() {
 
             fileTokens[key] = fileTokens[key] || {};
             fileTokens[key][selector] = fileTokens[key][selector] || {};
-            fileTokens[key][selector][property] = { name: property, value };
+            fileTokens[key][selector][property] = { property, value, values: [] };
         });
     });
 

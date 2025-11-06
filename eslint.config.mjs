@@ -26,9 +26,13 @@ export default tseslint.config(
     {
         rules: {
             "no-console": "off",
+            "no-labels": "off",
+            "no-extra-label": "off",
+            "sonarjs/no-labels": "off",
         },
         files: [
             // ---
+            "**/tools-src/**/*",
             "**/scripts/**/*",
             "**/test/**/*",
             "**/tests/**/*",
@@ -57,5 +61,5 @@ export default tseslint.config(
             "prefer-arrow-callback": "off",
             "vars-on-top": "off",
         },
-    },
+    }
 );

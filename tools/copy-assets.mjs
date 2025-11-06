@@ -1,4 +1,4 @@
-import { BUILD_DIR, checkIsInPackageRoot, globSrc, SOURCE_DIR } from "./utilities.mjs";
+import { BUILD_DIR, checkIsInPackageRoot, globSrc, SOURCE_DIR } from "./lib/utilities.mjs";
 checkIsInPackageRoot();
 const assetSources = [...globSrc("**/*.{png,jpeg,jpg,woff,ttf,woff2}"), ...globSrc("./css/*.css")];
 import { copyFile, mkdir } from "node:fs/promises";
@@ -17,10 +17,9 @@ export async function copyFiles(sourceFiles, targetFolder, cwd = ".") {
         await copyFile(sourcePath, targetPath);
         return sourceFile;
     }));
-    const flattened = results.map((r) => r.value).flat();
     return {
-        successes: flattened.filter((r) => r.status === "fulfilled").map((r) => r.value),
-        failures: flattened.filter((r) => r.status === "rejected").map((r) => r.reason),
+        successes: results.filter((r) => r.status === "fulfilled").map((r) => r.value),
+        failures: results.filter((r) => r.status === "rejected").map((r) => r.reason),
     };
 }
 await copyFiles(assetSources, BUILD_DIR, SOURCE_DIR);

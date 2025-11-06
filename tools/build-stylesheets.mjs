@@ -1,8 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
-import { BUILD_DIR, checkIsInPackageRoot, isProduction, SASS_OPTS, SOURCE_DIR, writeFile, } from "./utilities.mjs";
+import { BUILD_DIR, checkIsInPackageRoot, isProduction, SASS_OPTS, SOURCE_DIR, writeFile, } from "./lib/utilities.mjs";
 // @ts-expect-error no types provided
-import { prettierConfig } from "@goauthentik/prettier-config";
+import prettierConfig from "@goauthentik/prettier-config";
 import * as prettier from "prettier";
 import * as sass from "sass";
 // This script, which must be run from the project root folder, copies or processes the files that shoud be

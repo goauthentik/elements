@@ -8,9 +8,10 @@ import * as sass from "sass";
 export const SOURCE_DIR = "./src";
 export const BUILD_DIR = "./dist";
 
-export const globSrc = (glob) => globSync(glob, { cwd: SOURCE_DIR });
-export const writeFile = (path, content) => fs.writeFileSync(path, content, { encoding: "utf8" });
-export const readFile = (path) => fs.readFileSync(path, { encoding: "utf8" });
+export const globSrc = (glob: string) => globSync(glob, { cwd: SOURCE_DIR });
+export const writeFile = (path: string, content: string) =>
+    fs.writeFileSync(path, content, { encoding: "utf8" });
+export const readFile = (path: string) => fs.readFileSync(path, { encoding: "utf8" });
 
 export function checkIsInPackageRoot() {
     if (!fs.existsSync("./package.json")) {
