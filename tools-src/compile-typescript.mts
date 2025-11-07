@@ -22,17 +22,17 @@ swcConfig.jsc.baseUrl = process.cwd();
 // CSSResult-wrapped version created by the compiler, which is a JavaScript file and
 // ends in ".js".
 
-const importStatement = /^import\s+(\w+)\s+from\s+(["'])([^"']+)\.(css|scss)(["']);/;
+const importStatement = /^import\s+(\w+)\s+from\s+(["'])([^"']+)\.(?:css|scss)(["']);/;
 
-// eslint-disable-next-line max-params
-const fixedImport = (
+function fixedImport(
     _match: unknown,
     importName: string,
     delim1: string,
     filename: string,
-    _suffix: string,
     delim2: string
-) => `import ${importName} from ${delim1}${filename}.css.js${delim2};`;
+) {
+    return `import ${importName} from ${delim1}${filename}.css.js${delim2};`;
+}
 
 async function compileOneSource(sourceFile: string) {
     const sourcePath: string = path.join(SOURCE_DIR, sourceFile);
@@ -72,11 +72,9 @@ const successes = results.filter((r) => r.status === "fulfilled").map((r) => r.v
 const failures = results.filter((r) => r.status === "rejected").map((r) => r.reason);
 const successMessages = successes.map((s) => `    ${s}`).join("\n");
 
-// eslint-disable-next-line no-console
 console.log(`Passed:\n\n${successMessages}`);
 if (failures.length > 0) {
-    // eslint-disable-next-line no-console
     console.log("\nFailures:");
-    // eslint-disable-next-line no-console
+
     console.log(failures.join("\n\n"));
 }

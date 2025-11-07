@@ -1,11 +1,11 @@
+import { copyFile, mkdir } from "node:fs/promises";
+import path from "node:path";
+
 import { BUILD_DIR, checkIsInPackageRoot, globSrc, SOURCE_DIR } from "./lib/utilities.mjs";
 
 checkIsInPackageRoot();
 
 const assetSources = [...globSrc("**/*.{png,jpeg,jpg,woff,ttf,woff2}"), ...globSrc("./css/*.css")];
-
-import { copyFile, mkdir } from "node:fs/promises";
-import path from "node:path";
 
 // copyFiles
 //

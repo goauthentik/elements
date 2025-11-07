@@ -15,7 +15,6 @@ export const readFile = (path: string) => fs.readFileSync(path, { encoding: "utf
 
 export function checkIsInPackageRoot() {
     if (!fs.existsSync("./package.json")) {
-        // eslint-disable-next-line no-console
         console.log("This script must be run from the package root.");
         process.exit();
     }
