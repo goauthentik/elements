@@ -1,0 +1,30 @@
+{
+    "extends": "@goauthentik/tsconfig",
+    "include": ["tools-src/**/*"],
+    "compilerOptions": {
+        "baseUrl": ".",
+        "rootDir": "tools-src",
+        "composite": false,
+        "outDir": "tools",
+        "checkJs": true,
+        "allowJs": true,
+        "resolveJsonModule": true,
+        "allowSyntheticDefaultImports": true,
+        "experimentalDecorators": true,
+        "useDefineForClassFields": false,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": ["DOM", "DOM.Iterable", "ESNext"],
+        "paths": {
+            "@goauthentik/foundation/*": ["./src/*"]
+        },
+        // TODO: We should enable this when when we're ready to enforce it.
+        "noUncheckedIndexedAccess": false,
+        "sourceMap": false,
+        "declaration": false,
+        "types": ["node", "@types/source-map"],
+        "declarationMap": false
+    },
+    "exclude": ["node_modules", "dist", "src/**/*.stories.ts", "config/**/*.mts"]
+}

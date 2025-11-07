@@ -8,12 +8,14 @@ import {
     SASS_OPTS,
     SOURCE_DIR,
     writeFile,
-} from "./utilities.mjs";
+} from "./lib/utilities.mjs";
 
+// @ts-expect-error no types provided
 import prettierConfig from "@goauthentik/prettier-config";
 
 import * as prettier from "prettier";
 import * as sass from "sass";
+import type { RawSourceMap } from "source-map";
 
 // This script, which must be run from the project root folder, copies or processes the files that shoud be
 // left *as CSS* in the target folder.
@@ -26,7 +28,7 @@ const hostEitherRe = /\.s?css$/;
 
 // ../../src/css/authentik.scss
 
-function writeSourceMap(destMapPath, sourceMap) {
+function writeSourceMap(destMapPath: string, sourceMap: RawSourceMap | undefined) {
     if (isProduction || !sourceMap) {
         return;
     }
@@ -45,11 +47,11 @@ function writeSourceMap(destMapPath, sourceMap) {
     );
 }
 
-async function transformSrc(source) {
-    const sourcePath = path.join(SOURCE_DIR, source);
+async function transformSrc(source: string) {
+    const sourcePath: string = path.join(SOURCE_DIR, source);
     const compiled = sass.compile(sourcePath, SASS_OPTS);
-    const destPath = path.join(BUILD_DIR, source.replace(hostEitherRe, ".css"));
-    const destMapPath = path.join(BUILD_DIR, source.replace(hostEitherRe, ".css.map"));
+    const destPath: string = path.join(BUILD_DIR, source.replace(hostEitherRe, ".css"));
+    const destMapPath: string = path.join(BUILD_DIR, source.replace(hostEitherRe, ".css.map"));
     const { css, sourceMap } = compiled;
 
     fs.mkdirSync(path.dirname(destPath), { recursive: true });
