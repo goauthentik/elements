@@ -1,8 +1,10 @@
-import path from "node:path";
 import { createRequire } from "node:module";
-import { parse, stringify, Node, Rule, Declaration, Stylesheet } from "css";
-import { globSync } from "glob";
+import path from "node:path";
+
 import { readFile } from "./utilities.mjs";
+
+import { Declaration, Node, parse, Rule, stringify, Stylesheet } from "css";
+import { globSync } from "glob";
 
 export type HardDeclaration = Omit<Declaration, "property" | "value"> & {
     property: string;
@@ -196,11 +198,11 @@ function buildLocalVarsMapGetter(cssFiles: string[]) {
 
 function getScssColorsMap() {
     const scssColorVariables = readFile(
-        require.resolve("@patternfly/patternfly/sass-utilities/colors.scss")
+        require.resolve("@patternfly/patternfly/sass-utilities/colors.scss"),
     );
     const scssColorsMap = getRegexMatches(
         scssColorVariables,
-        /(\$.*):\s*([^\s]+)\s*(?:!default);/g // eslint-disable-line sonarjs/slow-regex
+        /(\$.*):\s*([^\s]+)\s*(?:!default);/g, // eslint-disable-line sonarjs/slow-regex
     );
     return scssColorsMap;
 }
@@ -216,11 +218,11 @@ function getScssColorsMap() {
 //
 function getScssVarsMap() {
     const scssVariables = readFile(
-        require.resolve("@patternfly/patternfly/sass-utilities/scss-variables.scss")
+        require.resolve("@patternfly/patternfly/sass-utilities/scss-variables.scss"),
     );
     const scssVarsMap = getRegexMatches(
         scssVariables,
-        /(\$.*):\s*([^;^!]+)/g // eslint-disable-line sonarjs/slow-regex
+        /(\$.*):\s*([^;^!]+)/g, // eslint-disable-line sonarjs/slow-regex
     );
     return scssVarsMap;
 }
@@ -261,12 +263,12 @@ function makeScssVarValueGetter() {
 //
 function getCssGlobalsToScssVarsMap() {
     const variables = readFile(
-        require.resolve("@patternfly/patternfly/base/_variables.scss")
+        require.resolve("@patternfly/patternfly/base/_variables.scss"),
     ).replaceAll("#{$pf-global}", "pf-v5-global");
 
     const cssGlobalsToScssVarsMap = getRegexMatches(
         variables,
-        /(--pf-.*):\s*(?:#{)?(\$?pf-[\w -]+)}?;/g
+        /(--pf-.*):\s*(?:#{)?(\$?pf-[\w -]+)}?;/g,
     );
 
     return cssGlobalsToScssVarsMap;
@@ -292,7 +294,7 @@ const cssGlobalsToScssVarsMap = getCssGlobalsToScssVarsMap();
 //
 function getCssGlobalVariablesMap() {
     const cssGlobalVariablesAst = parse(
-        readFile(require.resolve("@patternfly/patternfly/base/patternfly-variables.css"))
+        readFile(require.resolve("@patternfly/patternfly/base/patternfly-variables.css")),
     );
 
     if (!cssGlobalVariablesAst.stylesheet?.rules) {
@@ -305,7 +307,7 @@ function getCssGlobalVariablesMap() {
     const cssGlobalVariablesMap = getRegexMatches(
         stringify(cssGlobalVariablesAst),
         // eslint-disable-next-line sonarjs/slow-regex,sonarjs/duplicates-in-character-class
-        /(--pf-[\w-]*):\s*([\w -_]+);/g
+        /(--pf-[\w-]*):\s*([\w -_]+);/g,
     );
 
     return cssGlobalVariablesMap;
@@ -323,7 +325,7 @@ function makeCSSVarValueGetter(cssFiles: string[]) {
     const getComputedCSSVarValue = (
         value: string,
         selector: string,
-        varMap: Record<string, string>
+        varMap: Record<string, string>,
     ) => {
         return value.replace(/var\(([\w-]*)(,.*)?\)/g, (full, m1, m2) => {
             if (m1.startsWith("--pf-v5-global")) {

@@ -22,7 +22,7 @@ export async function copyFiles(sourceFiles: string[], targetFolder: string, cwd
             await mkdir(path.dirname(targetPath), { recursive: true });
             await copyFile(sourcePath, targetPath);
             return sourceFile;
-        })
+        }),
     );
 
     return {

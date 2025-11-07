@@ -1,21 +1,22 @@
 // import fs from "node:fs";
 import path from "node:path";
+
+import parseCludes from "./lib/cludeRuleParser.mjs";
 import generateTokens, {
     TokenComponents,
-    TokenRules,
     TokenDeclarations,
+    TokenRules,
 } from "./lib/generateTokens.mjs";
-import parseCludes from "./lib/cludeRuleParser.mjs";
-import yaml from "yaml";
 import {
     checkIsInPackageRoot,
-    readFile,
-    writeFile,
     globSrc,
+    readFile,
     SOURCE_DIR,
-    //    writeFile,
+    writeFile,
 } from "./lib/utilities.mjs";
-import css, { Declaration, Rule, Stylesheet } from "css";
+
+import css, { Declaration, Rule } from "css";
+import yaml from "yaml";
 
 type WccssInstructions = {
     import: string;
@@ -121,14 +122,14 @@ const varWrap = (s: string) => (/^--[\w-]+/.test(s) ? `var(${s})` : s);
  */
 const makeCleanDeclarations = (
     declarations: TokenDeclarations,
-    baseRegex: RegExp
+    baseRegex: RegExp,
 ): CleanedDeclaration[] =>
     Object.entries(declarations).map(([property, entry]) => [
         property.replace(baseRegex, "--"),
         varWrap(
             (entry.values ?? []).length > 0
                 ? entry.values[0].replaceAll(baseRegex, "--")
-                : entry.value.replaceAll(baseRegex, "--")
+                : entry.value.replaceAll(baseRegex, "--"),
         ),
     ]);
 
@@ -266,7 +267,7 @@ function getHostRules(allDeclarations: TokenDeclarations, base: string) {
             const { property, value, values } = declaration;
             return makeDeclaration(
                 property,
-                !(values && values.length > 1) ? value : `var(${values[0]})`
+                !(values && values.length > 1) ? value : `var(${values[0]})`,
             );
         })
         .filter((declaration) => declaration !== null);
@@ -286,7 +287,7 @@ function buildStylesheets(transformationFiles: string[]) {
     for (const transformationFile of transformationFiles) {
         console.log(transformationFile);
         const transformation: WccssInstructions = yaml.parse(
-            readFile(path.join(SOURCE_DIR, transformationFile))
+            readFile(path.join(SOURCE_DIR, transformationFile)),
         );
 
         const componentRules: TokenRules = sourceStylesheet[path.basename(transformation.import)];
@@ -307,12 +308,12 @@ function buildStylesheets(transformationFiles: string[]) {
 
         const { rootRules, hostRules } = getHostRules(
             componentRules[transformation.base],
-            baseComponentProperty
+            baseComponentProperty,
         );
 
         const addHostRule = (rule: HardRule) => {
             const foundRule = hostRules.find(
-                (r: HardRule) => r.selectors.at(0) === rule.selectors.at(0)
+                (r: HardRule) => r.selectors.at(0) === rule.selectors.at(0),
             );
             if (!foundRule) {
                 hostRules.push(rule);
@@ -344,7 +345,7 @@ function buildStylesheets(transformationFiles: string[]) {
                     "$exclude" in transRequest
                 ) {
                     throw new Error(
-                        "A rule with no $from may not have substitutions or inclusion rules"
+                        "A rule with no $from may not have substitutions or inclusion rules",
                     );
                 }
 
@@ -359,20 +360,20 @@ function buildStylesheets(transformationFiles: string[]) {
             // New rule derived from a single selector;
             if (!selectorHasSubstitutions) {
                 const matchingRules = cleanSourceRules.filter(([cleanSelector]) =>
-                    fromMatcher(cleanSelector)
+                    fromMatcher(cleanSelector),
                 );
 
                 const allMatchingDeclarations: CleanedDeclaration[] = matchingRules.flatMap(
-                    ([_cleanRules, cleanDeclarations]) => cleanDeclarations
+                    ([_cleanRules, cleanDeclarations]) => cleanDeclarations,
                 );
 
                 const includedCleanDeclarations = declarationFilter(allMatchingDeclarations);
                 const includedDeclarations = includedCleanDeclarations.map((declaration) =>
-                    makeDeclaration(...declaration)
+                    makeDeclaration(...declaration),
                 );
 
                 addHostRule(
-                    makeRule(transSelector, [...includedDeclarations, ...customDeclarations])
+                    makeRule(transSelector, [...includedDeclarations, ...customDeclarations]),
                 );
 
                 continue transrule;
@@ -392,15 +393,15 @@ function buildStylesheets(transformationFiles: string[]) {
                     const newSelector = doSelectorSubstitution(
                         transformationRegex,
                         transSelector,
-                        cleanSelector
+                        cleanSelector,
                     );
 
                     const includedCleanDeclarations = declarationFilter(cleanDeclarations);
                     const includedDeclarations = includedCleanDeclarations.map((declaration) =>
-                        makeDeclaration(...declaration)
+                        makeDeclaration(...declaration),
                     );
                     addHostRule(
-                        makeRule(newSelector, [...includedDeclarations, ...customDeclarations])
+                        makeRule(newSelector, [...includedDeclarations, ...customDeclarations]),
                     );
                 }
             }
@@ -408,7 +409,7 @@ function buildStylesheets(transformationFiles: string[]) {
 
         const newHostPath = path.join(
             SOURCE_DIR,
-            transformationFile.replace(/\.wcc\.\w+$/, ".css")
+            transformationFile.replace(/\.wcc\.\w+$/, ".css"),
         );
 
         writeFile(
@@ -418,12 +419,12 @@ function buildStylesheets(transformationFiles: string[]) {
                 stylesheet: {
                     rules: hostRules,
                 },
-            })
+            }),
         );
 
         const newRootPath = path.join(
             SOURCE_DIR,
-            transformationFile.replace(/\.wcc\.\w+$/, ".root.css")
+            transformationFile.replace(/\.wcc\.\w+$/, ".root.css"),
         );
 
         writeFile(
@@ -433,7 +434,7 @@ function buildStylesheets(transformationFiles: string[]) {
                 stylesheet: {
                     rules: rootRules,
                 },
-            })
+            }),
         );
     }
 }

@@ -67,5 +67,5 @@ export default tseslint.config(
             "prefer-arrow-callback": "off",
             "vars-on-top": "off",
         },
-    }
+    },
 );

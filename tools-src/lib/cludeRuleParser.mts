@@ -26,7 +26,7 @@ const cludes = P.createLanguage<CludeMatcher>({
     // then backtracks and tries to match the second if there's only one.
     IncludeTerms: (r) =>
         P.seq(r.IncludeRule.trim(OWS).skip(S(",")).many(), OWS.then(r.IncludeRule).skip(OWS)).map(
-            (d) => [...d[0], d[1]]
+            (d) => [...d[0], d[1]],
         ),
 
     IncludeRule: (r) => P.alt(r.Regex, r.Name, r.Ident),

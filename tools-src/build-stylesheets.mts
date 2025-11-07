@@ -1,6 +1,5 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { RawSourceMap } from "source-map";
 
 import {
     BUILD_DIR,
@@ -16,6 +15,7 @@ import prettierConfig from "@goauthentik/prettier-config";
 
 import * as prettier from "prettier";
 import * as sass from "sass";
+import type { RawSourceMap } from "source-map";
 
 // This script, which must be run from the project root folder, copies or processes the files that shoud be
 // left *as CSS* in the target folder.
@@ -43,7 +43,7 @@ function writeSourceMap(destMapPath: string, sourceMap: RawSourceMap | undefined
         JSON.stringify({
             ...sourceMap,
             sources,
-        })
+        }),
     );
 }
 
@@ -57,7 +57,7 @@ async function transformSrc(source: string) {
     fs.mkdirSync(path.dirname(destPath), { recursive: true });
     writeFile(
         destPath,
-        isProduction ? css : await prettier.format(css, { ...prettierConfig, parser: "css" })
+        isProduction ? css : await prettier.format(css, { ...prettierConfig, parser: "css" }),
     );
     writeSourceMap(destMapPath, sourceMap);
 }

@@ -1,5 +1,5 @@
-import fsp from "fs/promises";
-import path from "path";
+import fsp from "node:fs/promises";
+import path from "node:path";
 
 import {
     BUILD_DIR,
@@ -29,7 +29,7 @@ function fixedImport(
     importName: string,
     delim1: string,
     filename: string,
-    delim2: string
+    delim2: string,
 ) {
     return `import ${importName} from ${delim1}${filename}.css.js${delim2};`;
 }
