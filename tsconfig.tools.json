@@ -23,7 +23,7 @@
         "noUncheckedIndexedAccess": false,
         "sourceMap": false,
         "declaration": false,
-        "types": ["node", "@types/source-map"],
+        "types": ["node", "@types/node", "@types/source-map"],
         "declarationMap": false
     },
     "exclude": ["node_modules", "dist", "src/**/*.stories.ts", "config/**/*.mts"]

@@ -60,8 +60,8 @@ export declare const styles: import("lit").CSSResult;
 }
 
 async function transformSrc(source: string) {
-    const sourcePath: string = path.join(SOURCE_DIR, source);
-    const code: string = readFile(sourcePath);
+    const sourcePath = path.join(SOURCE_DIR, source);
+    const code = readFile(sourcePath);
     const rawCss = hostCssRe.test(source) ? code : sass.compile(sourcePath, SASS_OPTS).css;
     // This came up once or twice in testing, mostly in relation to icons and the `content:` property.
     const litCss = rawCss
