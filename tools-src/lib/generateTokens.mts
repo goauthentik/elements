@@ -40,10 +40,9 @@ const isCssObj = (v: any): boolean => isObj(v) && "type" in v;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isCssType = (v: any, t: string): boolean => isCssObj(v) && v.type === t;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isRule = (node: Node): node is Rule => isCssType(node, "rule");
 
-export const isDeclaration = (v: any): v is HardDeclaration =>
+export const isDeclaration = (v: Node): v is HardDeclaration =>
     isCssType(v, "declaration") &&
     "property" in v &&
     "value" in v &&
@@ -138,13 +137,12 @@ function buildLocalVarsMapGetter(cssFiles: string[]) {
 
     // Create a lookup from a property and a selector match, so return the value most closely
     // associated with that property in that selector. This function is rather, ah, *loose* in its
-    // interperetation of "closest," but it's the best we can do under the circumstances.
+    // interpretation of "closest," but it's the best we can do under the circumstances.
 
     const getFromLocalVarsMap = (match: string, selector: string) => {
         const propMatch = localVarsMap[match];
 
         if (!propMatch) {
-            // console.error(`no matching property found for ${match} in localVarsMap`);
             return;
         }
 
@@ -174,10 +172,6 @@ function buildLocalVarsMapGetter(cssFiles: string[]) {
                     }
                 }
             }
-        }
-
-        if (!bestMatch) {
-            // console.error(`no matching selector found for ${match} in localVarsMap`);
         }
 
         return bestValue;

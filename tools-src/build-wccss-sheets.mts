@@ -1,4 +1,3 @@
-// import fs from "node:fs";
 import path from "node:path";
 
 import parseCludes from "./lib/cludeRuleParser.mjs";
@@ -26,6 +25,7 @@ type WccssInstructions = {
 };
 
 type HardDeclaration = Required<Pick<Declaration, "type" | "property" | "value">>;
+
 type HardRule = Required<Pick<Rule, "type" | "selectors">> & { declarations: HardDeclaration[] };
 
 /*
@@ -81,9 +81,7 @@ type HardRule = Required<Pick<Rule, "type" | "selectors">> & { declarations: Har
 
 checkIsInPackageRoot();
 
-const componentPrefix = new RegExp("^--pf-v5-c-");
-
-const sourceStylesheet: TokenComponents = generateTokens();
+const COMPONENT_PREFIX = new RegExp("^--pf-v5-c-");
 
 /*
  * In order to make life easier, for each Block Indentifier in our CSS, we *strip* it from the
@@ -107,55 +105,57 @@ const sourceStylesheet: TokenComponents = generateTokens();
  * it against a regexp match which may find more than one.
  */
 
-type CleanedDeclaration = [string, string];
-
-type CleanedRule = [string, CleanedDeclaration[]];
-
+/**
+ * @function cleanRules
+ *
+ * "Clean" rules are source rules in which any rooting prefixes related to the
+ * component's name have been removed.  `.pf-v5-c-component__element`
+ * becomes just `__element`, and `--pf-v5-c--BaseColor` becomes `--BaseColor`.
+ *
+ * We do this because it removes clutter and toil from defining the
+ * transformation; transformations are on a per-component basis, and there's
+ * no reason for maintainers to have to continually write the component's
+ * name over and over in the transformation file.
+ */
 const varWrap = (s: string) => (/^--[\w-]+/.test(s) ? `var(${s})` : s);
 
-/**
- * @function
- *
- * Returns a rule's declarations in the form:
- * ["-icon--Width", "--icon--m-sm--Width"]
- * ["width": "--icon--Width"]
- */
-const makeCleanDeclarations = (
-    declarations: TokenDeclarations,
-    baseRegex: RegExp,
-): CleanedDeclaration[] =>
-    Object.entries(declarations).map(([property, entry]) => [
-        property.replace(baseRegex, "--"),
-        varWrap(
-            (entry.values ?? []).length > 0
-                ? entry.values[0].replaceAll(baseRegex, "--")
-                : entry.value.replaceAll(baseRegex, "--"),
-        ),
-    ]);
+type CleanDeclaration = [string, string];
 
-function cleanRules(sourceRules: TokenRules, className: string): CleanedRule[] {
-    const baseComponentName = className.replace(/^\./, "");
+type CleanRule = [string, CleanDeclaration[]];
 
-    const baseClassRegex = new RegExp(`^\\.${baseComponentName}`);
+function cleanRules(componentRules: TokenRules, className: string): CleanRule[] {
+    const cleanDeclarations = (decl: TokenDeclarations, regex: RegExp): CleanDeclaration[] =>
+        Object.entries(decl).map(([property, entry]) => [
+            property.replace(regex, "--"),
+            varWrap(
+                (entry.values ?? []).length > 0
+                    ? entry.values[0].replaceAll(regex, "--")
+                    : entry.value.replaceAll(regex, "--"),
+            ),
+        ]);
 
-    const basePropertyRegex = new RegExp(`--pf-v5-c-`, "g");
+    const componentName = className.replace(/^\./, "");
+    const classRegex = new RegExp(`^\\.${componentName}`);
+    const propertyRegex = new RegExp(`--pf-v5-c-`, "g");
 
-    return Object.entries(sourceRules).map(([selector, declarations]) => [
-        selector === className ? "$base" : selector.replace(baseClassRegex, ""),
-        makeCleanDeclarations(declarations, basePropertyRegex),
+    return Object.entries(componentRules).map(([selector, declarations]) => [
+        selector === className ? "$base" : selector.replace(classRegex, ""),
+        cleanDeclarations(declarations, propertyRegex),
     ]);
 }
 
 /**
  * @function
  *
- * When passed an array of (parsed) include/exclude patterns,
- * returns a function that will tell you if the Property passed in
- * matches any of them.
+ * When passed an array of (parsed) include/exclude patterns, returns a function
+ * that will tell you if the Property passed in matches any of them.  This
+ * function is used to create filters for including or excluding declarations
+ * when copying a source rule's declaration into a built rule
  */
-function createPropertyMatcher(patterns: (string | RegExp)[]) {
+function makePropertyMatcher(patterns: (string | RegExp)[]) {
     const stringPatterns = patterns.filter((p) => typeof p === "string");
     const regexPatterns = patterns.filter((p) => p instanceof RegExp);
+
     return (property: string) => {
         const trimmedProperty = property.trim();
         return (
@@ -169,22 +169,22 @@ function createPropertyMatcher(patterns: (string | RegExp)[]) {
  * @function
  *
  * When passed a Transformation, returns a function that will filter Declarations
- * by Property based on the include/exclude entry for that Transformation.  `$include`
- * takes precedence over `$exclude`, which takes precedence over the identity (which just
- * returns an unfiltered list).
+ * from the source Rule by Property based on the include/exclude entry for that
+ * Transformation.  `$include` takes precedence over `$exclude`, which takes
+ * precedence over the identity (which just returns an unfiltered list).
  */
 function makeDeclarationFilter(transformation: Record<string, string>) {
     if ("$include" in transformation) {
-        const shouldInclude = createPropertyMatcher(parseCludes(transformation.$include));
-        return (declarations: CleanedDeclaration[]) =>
+        const shouldInclude = makePropertyMatcher(parseCludes(transformation.$include));
+        return (declarations: CleanDeclaration[]) =>
             declarations.filter((d) => shouldInclude(d[0]));
     }
     if ("$exclude" in transformation) {
-        const shouldExclude = createPropertyMatcher(parseCludes(transformation.$exclude));
-        return (declarations: CleanedDeclaration[]) =>
+        const shouldExclude = makePropertyMatcher(parseCludes(transformation.$exclude));
+        return (declarations: CleanDeclaration[]) =>
             declarations.filter((d) => !shouldExclude(d[0]));
     }
-    return (declarations: CleanedDeclaration[]) => declarations;
+    return (declarations: CleanDeclaration[]) => declarations;
 }
 
 /**
@@ -205,7 +205,7 @@ const makeRegexp = (instruction: string) => new RegExp(extractRegexpInside(instr
 const makeAnchoredRegexp = (instruction: string) =>
     new RegExp("^" + extractRegexpInside(instruction) + "$");
 
-function getSelectorMatcher(from: string) {
+function makeSelectorMatcher(from: string) {
     if (matchInstructionIsRegex(from)) {
         const comparison = makeAnchoredRegexp(from);
         return (s: string) => comparison.test(s);
@@ -220,23 +220,25 @@ function getSelectorMatcher(from: string) {
  * this function replaces those keys with their values from the
  * discovered selectors.
  */
-function doSelectorSubstitution(transFrom: RegExp, transSelector: string, sourceSelector: string) {
-    const match = transFrom.exec(sourceSelector);
+function doSelectorSubstitution(from: RegExp, transSelector: string, sourceSelector: string) {
+    const match = from.exec(sourceSelector);
     if (!match) {
         return transSelector;
     }
+
     let substituted = transSelector;
     match.slice(1).forEach((group, index) => {
         substituted = substituted.replaceAll(`\\${index + 1}`, group);
     });
+
     return substituted;
 }
 
-// A useful debugging function.
-export function tap<A>(a: A): A {
-    console.debug(a);
-    return a;
-}
+/**
+ * Convert our internal formats to those use by Rework/CSS's stringifier.  In the
+ * end, that's what we construct and emit, using their verifier to ensure we're
+ * not writing out a broken CSS file.
+ */
 
 const makeRule = (selector: string, declarations: HardDeclaration[]): HardRule => ({
     type: "rule",
@@ -250,20 +252,73 @@ const makeDeclaration = (property: string, value: string): HardDeclaration => ({
     value,
 });
 
-// Extracts the Declarations that go into a component's `:host` Rule.
-function getHostRules(allDeclarations: TokenDeclarations, base: string) {
-    const hostDeclarations = Object.keys(allDeclarations).filter((h) => h.startsWith(base));
+/**
+ * @function
+ *
+ * Extracts declarations from the Transformation that aren't imported via
+ * `$include` or `$exclude`
+ */
+const getCustomDeclarations = (declarations: Record<string, string>): HardDeclaration[] =>
+    Object.entries(declarations)
+        .filter(([property]) => !property.startsWith("$"))
+        .map(([property, value]) => makeDeclaration(property, value));
+
+/**
+ * @class
+ *
+ * Manages the built rules and their declarations collection.  Mostly, this was
+ * just to avoid some weirdness around using closures in the big
+ * buildStylesheet() function.
+ */
+class HostRules {
+    hostRules: HardRule[];
+
+    constructor(hostRules: HardRule[] = []) {
+        this.hostRules = hostRules;
+    }
+
+    add(rule: HardRule) {
+        const foundRule = this.hostRules.find(
+            (r: HardRule) => r.selectors.at(0) === rule.selectors.at(0),
+        );
+        if (!foundRule) {
+            this.hostRules.push(rule);
+            return;
+        }
+        foundRule.declarations = [...foundRule.declarations, ...rule.declarations];
+    }
+
+    get rules() {
+        return this.hostRules;
+    }
+}
+
+/**
+ * @function
+ *
+ * The CSS Custom Properties that ultimately go into the `:host` or `:root` declarations are
+ * handled separately.  We haven't found a case where they aren't definitive on their own,
+ * without custom processing.
+ *
+ */
+type GetHostRulesReturn = {
+    hostRules: HostRules;
+    rootRules: HostRules;
+};
+
+function getHostRules(sourceDeclarations: TokenDeclarations, base: string): GetHostRulesReturn {
+    const hostDeclarations = Object.keys(sourceDeclarations).filter((h) => h.startsWith(base));
 
     const foundHostDeclarations = hostDeclarations.map((declarationName: string) => {
-        const { property, value } = allDeclarations[declarationName];
-        const shortName = property.replace(componentPrefix, "--");
+        const { property, value } = sourceDeclarations[declarationName];
+        const shortName = property.replace(COMPONENT_PREFIX, "--");
         const hostValue = `var(${property}, ${value})`;
         return makeDeclaration(shortName, hostValue);
     });
 
     const foundRootDeclarations = hostDeclarations
         .map((declarationName: string) => {
-            const declaration = allDeclarations[declarationName];
+            const declaration = sourceDeclarations[declarationName];
             const { property, value, values } = declaration;
             return makeDeclaration(
                 property,
@@ -273,19 +328,91 @@ function getHostRules(allDeclarations: TokenDeclarations, base: string) {
         .filter((declaration) => declaration !== null);
 
     return {
-        hostRules: [makeRule(":host", foundHostDeclarations)],
-        rootRules: [makeRule(":root", foundRootDeclarations)],
+        hostRules: new HostRules([makeRule(":host", foundHostDeclarations)]),
+        rootRules: new HostRules([makeRule(":root", foundRootDeclarations)]),
     };
 }
 
-const getCustomDeclarations = (declarations: Record<string, string>): HardDeclaration[] =>
-    Object.entries(declarations)
-        .filter(([property]) => !property.startsWith("$"))
-        .map(([property, value]) => makeDeclaration(property, value));
+/**
+ * @function
+ *
+ * If we get a transformation with no $from, we have to check that it has no
+ * features that might hint that it should.
+ */
+const isValidStandalone = (hasSubstitutions: boolean, request: Record<string, string>) =>
+    hasSubstitutions || "$include" in request || "$exclude" in request;
+
+/**
+ * Named types for parameters of the function following
+ */
+type DeclarationFilter = ReturnType<typeof makeDeclarationFilter>;
+
+type ComponentMatcher = ReturnType<typeof makeSelectorMatcher>;
+
+/**
+ * @function
+ *
+ * Used when there's a `$from` clause, but no substitutions.  In that case, the
+ * selector doesn't need to be transformed, only the declarations, so we
+ * extract those here and return them preprocessed and ready to be incorporated
+ * into the built rule.
+ */
+function getComponentDeclarations(
+    cleanRules: CleanRule[],
+    componentMatcher: ComponentMatcher,
+    declarationFilter: DeclarationFilter,
+) {
+    const matchingRules = cleanRules.filter(([cleanSelector]) => componentMatcher(cleanSelector));
+
+    const allMatchingDeclarations: CleanDeclaration[] = matchingRules.flatMap(
+        ([_cleanRules, cleanDeclarations]) => cleanDeclarations,
+    );
+
+    return declarationFilter(allMatchingDeclarations).map((declaration) =>
+        makeDeclaration(...declaration),
+    );
+}
+
+type SubstitutedRule = [string, HardDeclaration[]];
+
+/**
+ * @function
+ *
+ * Used when there's a `$from` clause and substitutions are required.  This inverts
+ * the process of the "no substitutions" algorithms; it generates a collection of
+ * rules in a [selector, declarations] format, and then relies on the HostRules
+ * merge algorithm to merge them all together at the end.
+ */
+function buildSubstitutedRules(
+    from: string,
+    cleanRules: CleanRule[],
+    componentMatcher: ComponentMatcher,
+    transSelector: string,
+    declarationFilter: DeclarationFilter,
+): SubstitutedRule[] {
+    const transformationRegex = makeAnchoredRegexp(from);
+    return cleanRules
+        .filter(([cleanSelector]) => componentMatcher(cleanSelector))
+        .map(([cleanSelector, cleanDeclarations]) => {
+            const newSelector = doSelectorSubstitution(
+                transformationRegex,
+                transSelector,
+                cleanSelector,
+            );
+
+            const includedCleanDeclarations = declarationFilter(cleanDeclarations);
+            const includedDeclarations: HardDeclaration[] = includedCleanDeclarations.map(
+                (declaration) => makeDeclaration(...declaration),
+            );
+
+            return [newSelector, includedDeclarations];
+        });
+}
 
 function buildStylesheets(transformationFiles: string[]) {
+    const sourceStylesheet: TokenComponents = generateTokens();
+
     for (const transformationFile of transformationFiles) {
-        console.log(transformationFile);
         const transformation: WccssInstructions = yaml.parse(
             readFile(path.join(SOURCE_DIR, transformationFile)),
         );
@@ -311,100 +438,60 @@ function buildStylesheets(transformationFiles: string[]) {
             baseComponentProperty,
         );
 
-        const addHostRule = (rule: HardRule) => {
-            const foundRule = hostRules.find(
-                (r: HardRule) => r.selectors.at(0) === rule.selectors.at(0),
-            );
-            if (!foundRule) {
-                hostRules.push(rule);
-                return;
-            }
-            foundRule.declarations = [...foundRule.declarations, ...rule.declarations];
-        };
-
         const cleanSourceRules = cleanRules(componentRules, transformation.base);
 
         // For each transformation in the command file:
-        //    Using the selector, find every rule in the componentRules collection for which the selector matches precisely.
-        //    For each componentRule in the collection that matches precisely,
-        //       Perform a selector transformation and create or append to an entry in the return rules collection for it
-        //       Perform an include/exclude/append transformation on the declarations in the matching component rule
+        //   - Using the selector, find every rule in the componentRules
+        //     collection for which the selector matches precisely.
+        //   - For each componentRule in the collection that matches
+        //     precisely
+        //     - Perform a selector transformation and create or append to an
+        //       entry in the return rules collection for it
+        //     - Perform an include/exclude/append transformation on the
+        //       declarations in the matching component rule
 
         const transformationsToPerform = Object.entries(transformation.host ?? {});
 
         transrule: for (const [transSelector, transRequest] of transformationsToPerform) {
             const selectorHasSubstitutions = /\\\d+/.test(transSelector);
-
             const customDeclarations = getCustomDeclarations(transRequest);
 
             // New rule not derived from the source material.
             if (!("$from" in transRequest)) {
-                if (
-                    selectorHasSubstitutions ||
-                    "$include" in transRequest ||
-                    "$exclude" in transRequest
-                ) {
+                if (!isValidStandalone(selectorHasSubstitutions, transRequest)) {
                     throw new Error(
                         "A rule with no $from may not have substitutions or inclusion rules",
                     );
                 }
-
-                addHostRule(makeRule(transSelector, getCustomDeclarations(transRequest)));
+                hostRules.add(makeRule(transSelector, customDeclarations));
                 continue transrule;
             }
 
-            const fromMatcher = getSelectorMatcher(transRequest.$from);
-
+            const componentMatcher = makeSelectorMatcher(transRequest.$from);
             const declarationFilter = makeDeclarationFilter(transRequest);
 
             // New rule derived from a single selector;
             if (!selectorHasSubstitutions) {
-                const matchingRules = cleanSourceRules.filter(([cleanSelector]) =>
-                    fromMatcher(cleanSelector),
+                const foundDeclarations = getComponentDeclarations(
+                    cleanSourceRules,
+                    componentMatcher,
+                    declarationFilter,
                 );
-
-                const allMatchingDeclarations: CleanedDeclaration[] = matchingRules.flatMap(
-                    ([_cleanRules, cleanDeclarations]) => cleanDeclarations,
+                hostRules.add(
+                    makeRule(transSelector, [...foundDeclarations, ...customDeclarations]),
                 );
-
-                const includedCleanDeclarations = declarationFilter(allMatchingDeclarations);
-                const includedDeclarations = includedCleanDeclarations.map((declaration) =>
-                    makeDeclaration(...declaration),
-                );
-
-                addHostRule(
-                    makeRule(transSelector, [...includedDeclarations, ...customDeclarations]),
-                );
-
-                continue transrule;
+                continue;
             }
 
-            // Multiple rules derived from selector matching
-
-            {
-                const transformationRegex = makeAnchoredRegexp(transRequest.$from);
-
-                multirule: for (const [cleanSelector, cleanDeclarations] of cleanSourceRules) {
-                    const m = fromMatcher(cleanSelector);
-                    if (!m) {
-                        continue multirule;
-                    }
-
-                    const newSelector = doSelectorSubstitution(
-                        transformationRegex,
-                        transSelector,
-                        cleanSelector,
-                    );
-
-                    const includedCleanDeclarations = declarationFilter(cleanDeclarations);
-                    const includedDeclarations = includedCleanDeclarations.map((declaration) =>
-                        makeDeclaration(...declaration),
-                    );
-                    addHostRule(
-                        makeRule(newSelector, [...includedDeclarations, ...customDeclarations]),
-                    );
-                }
-            }
+            buildSubstitutedRules(
+                transRequest.$from,
+                cleanSourceRules,
+                componentMatcher,
+                transSelector,
+                declarationFilter,
+            ).forEach(([newSelector, newDeclarations]) =>
+                hostRules.add(makeRule(newSelector, [...newDeclarations, ...customDeclarations])),
+            );
         }
 
         const newHostPath = path.join(
@@ -417,7 +504,7 @@ function buildStylesheets(transformationFiles: string[]) {
             css.stringify({
                 type: "stylesheet",
                 stylesheet: {
-                    rules: hostRules,
+                    rules: hostRules.rules,
                 },
             }),
         );
@@ -432,7 +519,7 @@ function buildStylesheets(transformationFiles: string[]) {
             css.stringify({
                 type: "stylesheet",
                 stylesheet: {
-                    rules: rootRules,
+                    rules: rootRules.rules,
                 },
             }),
         );

@@ -2,11 +2,11 @@ import Parsimmon from "parsimmon";
 
 const P = Parsimmon;
 
-// String operator, so I don't have to write "String" all the time.
+// String operator, so I don't have to write "P.string" all the time.
 const S = P.string.bind(P);
 
-// Regex operator, so I don't have to write "String" all the time. Also helps disambiguate between
-// Parsimmon's "regexp" and JavaScript's "RegExp".
+// Regex operator, so I don't have to write "P.regex" all the time. Also helps
+// disambiguate between Parsimmon's "regexp" and JavaScript's "RegExp".
 const R = P.regexp.bind(P);
 
 // OptionalWhiteSpace
