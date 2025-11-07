@@ -10,8 +10,9 @@ import {
     SASS_OPTS,
     SOURCE_DIR,
     writeFile,
-} from "./utilities.mjs";
+} from "./lib/utilities.mjs";
 
+// @ts-expect-error no types provided
 import prettierConfig from "@goauthentik/prettier-config";
 
 import * as prettier from "prettier";
@@ -38,7 +39,7 @@ const sassOpts = {
     loadPaths: [path.resolve(process.cwd(), "src")],
 };
 
-function litTemplate(content) {
+function litTemplate(content: string) {
     return `import { css } from "lit";
 
 /* This is a generated file. Do not edit directly. */
@@ -58,7 +59,7 @@ export declare const styles: import("lit").CSSResult;
 `;
 }
 
-async function transformSrc(source) {
+async function transformSrc(source: string) {
     const sourcePath = path.join(SOURCE_DIR, source);
     const code = readFile(sourcePath);
     const rawCss = hostCssRe.test(source) ? code : sass.compile(sourcePath, SASS_OPTS).css;

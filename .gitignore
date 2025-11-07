@@ -30,3 +30,5 @@ custom-elements.json
 
 custom-elements.json
 tsconfig.tsbuildinfo
+tsconfig.tools.tsbuildinfo
+/tools/
