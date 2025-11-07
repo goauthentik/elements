@@ -35,14 +35,14 @@ function fixedImport(
 }
 
 async function compileOneSource(sourceFile: string) {
-    const sourcePath: string = path.join(SOURCE_DIR, sourceFile);
-    const sourceCode: string = await fsp.readFile(sourcePath, "utf-8");
+    const sourcePath = path.join(SOURCE_DIR, sourceFile);
+    const sourceCode = await fsp.readFile(sourcePath, "utf-8");
 
     // Compute output path, maintaining directory structure
-    const outputPath: string = path.join(BUILD_DIR, sourceFile.replace(/\.ts$/, ".js"));
+    const outputPath = path.join(BUILD_DIR, sourceFile.replace(/\.ts$/, ".js"));
 
     // Ensure the output directory exists
-    const outputDir: string = path.dirname(outputPath);
+    const outputDir = path.dirname(outputPath);
     await fsp.mkdir(outputDir, { recursive: true });
 
     const { code, map } = await swc.transform(sourceCode, {

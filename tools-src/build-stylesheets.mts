@@ -48,10 +48,10 @@ function writeSourceMap(destMapPath: string, sourceMap: RawSourceMap | undefined
 }
 
 async function transformSrc(source: string) {
-    const sourcePath: string = path.join(SOURCE_DIR, source);
+    const sourcePath = path.join(SOURCE_DIR, source);
     const compiled = sass.compile(sourcePath, SASS_OPTS);
-    const destPath: string = path.join(BUILD_DIR, source.replace(hostEitherRe, ".css"));
-    const destMapPath: string = path.join(BUILD_DIR, source.replace(hostEitherRe, ".css.map"));
+    const destPath = path.join(BUILD_DIR, source.replace(hostEitherRe, ".css"));
+    const destMapPath = path.join(BUILD_DIR, source.replace(hostEitherRe, ".css.map"));
     const { css, sourceMap } = compiled;
 
     fs.mkdirSync(path.dirname(destPath), { recursive: true });
