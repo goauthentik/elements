@@ -277,7 +277,7 @@ function getHostRules(allDeclarations: TokenDeclarations, base: string) {
     };
 }
 
-const getStandardDeclarations = (declarations: Record<string, string>): HardDeclaration[] =>
+const getCustomDeclarations = (declarations: Record<string, string>): HardDeclaration[] =>
     Object.entries(declarations)
         .filter(([property]) => !property.startsWith("$"))
         .map(([property, value]) => makeDeclaration(property, value));
@@ -334,6 +334,8 @@ function buildStylesheets(transformationFiles: string[]) {
         transrule: for (const [transSelector, transRequest] of transformationsToPerform) {
             const selectorHasSubstitutions = /\\\d+/.test(transSelector);
 
+            const customDeclarations = getCustomDeclarations(transRequest);
+
             // New rule not derived from the source material.
             if (!("$from" in transRequest)) {
                 if (
@@ -346,7 +348,7 @@ function buildStylesheets(transformationFiles: string[]) {
                     );
                 }
 
-                addHostRule(makeRule(transSelector, getStandardDeclarations(transRequest)));
+                addHostRule(makeRule(transSelector, getCustomDeclarations(transRequest)));
                 continue transrule;
             }
 
@@ -369,7 +371,9 @@ function buildStylesheets(transformationFiles: string[]) {
                     makeDeclaration(...declaration)
                 );
 
-                addHostRule(makeRule(transSelector, includedDeclarations));
+                addHostRule(
+                    makeRule(transSelector, [...includedDeclarations, ...customDeclarations])
+                );
 
                 continue transrule;
             }
@@ -395,7 +399,9 @@ function buildStylesheets(transformationFiles: string[]) {
                     const includedDeclarations = includedCleanDeclarations.map((declaration) =>
                         makeDeclaration(...declaration)
                     );
-                    addHostRule(makeRule(newSelector, includedDeclarations));
+                    addHostRule(
+                        makeRule(newSelector, [...includedDeclarations, ...customDeclarations])
+                    );
                 }
             }
         }

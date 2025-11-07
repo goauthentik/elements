@@ -190,7 +190,7 @@ function getHostRules(allDeclarations, base) {
         rootRules: [makeRule(":root", foundRootDeclarations)],
     };
 }
-const getStandardDeclarations = (declarations) => Object.entries(declarations)
+const getCustomDeclarations = (declarations) => Object.entries(declarations)
     .filter(([property]) => !property.startsWith("$"))
     .map(([property, value]) => makeDeclaration(property, value));
 function buildStylesheets(transformationFiles) {
@@ -226,6 +226,7 @@ function buildStylesheets(transformationFiles) {
         const transformationsToPerform = Object.entries(transformation.host ?? {});
         transrule: for (const [transSelector, transRequest] of transformationsToPerform) {
             const selectorHasSubstitutions = /\\\d+/.test(transSelector);
+            const customDeclarations = getCustomDeclarations(transRequest);
             // New rule not derived from the source material.
             if (!("$from" in transRequest)) {
                 if (selectorHasSubstitutions ||
@@ -233,7 +234,7 @@ function buildStylesheets(transformationFiles) {
                     "$exclude" in transRequest) {
                     throw new Error("A rule with no $from may not have substitutions or inclusion rules");
                 }
-                addHostRule(makeRule(transSelector, getStandardDeclarations(transRequest)));
+                addHostRule(makeRule(transSelector, getCustomDeclarations(transRequest)));
                 continue transrule;
             }
             const fromMatcher = getSelectorMatcher(transRequest.$from);
@@ -244,7 +245,7 @@ function buildStylesheets(transformationFiles) {
                 const allMatchingDeclarations = matchingRules.flatMap(([_cleanRules, cleanDeclarations]) => cleanDeclarations);
                 const includedCleanDeclarations = declarationFilter(allMatchingDeclarations);
                 const includedDeclarations = includedCleanDeclarations.map((declaration) => makeDeclaration(...declaration));
-                addHostRule(makeRule(transSelector, includedDeclarations));
+                addHostRule(makeRule(transSelector, [...includedDeclarations, ...customDeclarations]));
                 continue transrule;
             }
             // Multiple rules derived from selector matching
@@ -258,7 +259,7 @@ function buildStylesheets(transformationFiles) {
                     const newSelector = doSelectorSubstitution(transformationRegex, transSelector, cleanSelector);
                     const includedCleanDeclarations = declarationFilter(cleanDeclarations);
                     const includedDeclarations = includedCleanDeclarations.map((declaration) => makeDeclaration(...declaration));
-                    addHostRule(makeRule(newSelector, includedDeclarations));
+                    addHostRule(makeRule(newSelector, [...includedDeclarations, ...customDeclarations]));
                 }
             }
         }
