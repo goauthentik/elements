@@ -6,7 +6,7 @@
     "author": "Authentik Security, Inc. <https://goauthentik.io>",
     "scripts": {
         "analyze": "cem analyze --litelement",
-        "build": "run-p clean build:styles build:unit build:types build:copy-assets",
+        "build": "run-p clean build:tools build:styles build:unit build:types build:copy-assets",
         "build:copy-assets": "node ./tools/copy-assets.mjs",
         "build:host-styles": "node ./tools/css-to-host-css.mjs",
         "build:tools": "tsc -p ./tsconfig.tools.json",
