@@ -911,7 +911,7 @@
     --button--m-warning--BackgroundColor: var(--button--m-warning--active--BackgroundColor);
 }
 
-:host([variant="secondary"][severity="danger"]:hover) #main {
+:host([variant="secondary"][severity="danger"]):hover #main {
     --button--m-secondary--m-danger--Color: var(--button--m-secondary--m-danger--hover--Color);
     --button--m-secondary--m-danger--BackgroundColor: var(
         --button--m-secondary--m-danger--hover--BackgroundColor
@@ -919,7 +919,7 @@
     --button--after--BorderColor: var(--button--m-secondary--m-danger--hover--after--BorderColor);
 }
 
-:host([variant="secondary"][severity="danger"]:focus) #main {
+:host([variant="secondary"][severity="danger"]):focus #main {
     --button--m-secondary--m-danger--Color: var(--button--m-secondary--m-danger--focus--Color);
     --button--m-secondary--m-danger--BackgroundColor: var(
         --button--m-secondary--m-danger--focus--BackgroundColor
@@ -927,7 +927,7 @@
     --button--after--BorderColor: var(--button--m-secondary--m-danger--focus--after--BorderColor);
 }
 
-:host([variant="secondary"][severity="danger"]:active) #main {
+:host([variant="secondary"][severity="danger"]):active #main {
     --button--m-secondary--m-danger--Color: var(--button--m-secondary--m-danger--active--Color);
     --button--m-secondary--m-danger--BackgroundColor: var(
         --button--m-secondary--m-danger--active--BackgroundColor
@@ -935,21 +935,21 @@
     --button--after--BorderColor: var(--button--m-secondary--m-danger--active--after--BorderColor);
 }
 
-:host([variant="link"][severity="danger"]:hover) #main {
+:host([variant="link"][severity="danger"]):hover #main {
     --button--m-link--m-danger--Color: var(--button--m-link--m-danger--hover--Color);
     --button--m-link--m-danger--BackgroundColor: var(
         --button--m-link--m-danger--hover--BackgroundColor
     );
 }
 
-:host([variant="link"][severity="danger"]:focus) #main {
+:host([variant="link"][severity="danger"]):focus #main {
     --button--m-link--m-danger--Color: var(--button--m-link--m-danger--focus--Color);
     --button--m-link--m-danger--BackgroundColor: var(
         --button--m-link--m-danger--focus--BackgroundColor
     );
 }
 
-:host([variant="link"][severity="danger"]:active) #main {
+:host([variant="link"][severity="danger"]):active #main {
     --button--m-link--m-danger--Color: var(--button--m-link--m-danger--active--Color);
     --button--m-link--m-danger--BackgroundColor: var(
         --button--m-link--m-danger--active--BackgroundColor
@@ -1006,17 +1006,11 @@
     border-color: var(--button--disabled--after--BorderColor);
 }
 
-:host([variant="link"]:not[inline]:hover) #main {
+:host([variant="link"]:not[inline]):\2 #main {
     --button--m-link--Color: var(--button--m-link--hover--Color);
     --button--m-link--BackgroundColor: var(--button--m-link--hover--BackgroundColor);
-}
-
-:host([variant="link"]:not[inline]:focus) #main {
     --button--m-link--Color: var(--button--m-link--focus--Color);
     --button--m-link--BackgroundColor: var(--button--m-link--focus--BackgroundColor);
-}
-
-:host([variant="link"]:not[inline]:active) #main {
     --button--m-link--Color: var(--button--m-link--active--Color);
     --button--m-link--BackgroundColor: var(--button--m-link--active--BackgroundColor);
 }

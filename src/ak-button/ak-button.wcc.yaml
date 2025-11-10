@@ -35,7 +35,7 @@ host:
         $from: /\.pf-m-(danger|warning)/
     ':host([severity="\1"]:\2) #main':
         $from: /\.pf-m-(danger|warning):(hover|focus|active)/
-    ':host([variant="\2"][severity="\1"]:\3) #main':
+    ':host([variant="\2"][severity="\1"]):\3 #main':
         $from: /\.pf-m-(danger|warning)\.pf-m-(primary|secondary|tertiary|link):(hover|focus|active)/
     ':host([variant="\2"][severity="\1"][active]) #main':
         $from: /\.pf-m-(danger|warning)\.pf-m-(primary|secondary|tertiary|link)\.pf-m-active/
@@ -66,7 +66,7 @@ host:
         $from: ":disabled::after"
     ":host([disabled]) #main::after":
         $from: /(pf-m-disabled|pf-m-aria-disabled)::after/
-    ':host([variant="link"]:not[inline]:\1) #main':
+    ':host([variant="link"]:not[inline]):\2 #main':
         $from: /\.pf-m-link:not\(\.pf-m-inline\):(hover|focus|active)/
     ':host([variant="link"][active]:not[inline]) #main':
         $from: /\.pf-m-link:not\(\.pf-m-inline\)\.pf-m-active/
