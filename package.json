@@ -1,15 +1,19 @@
 {
     "name": "@goauthentik/elements",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "The Authentik open-source elements library",
     "license": "MIT",
-    "private": true,
     "author": "Authentik Security, Inc. <https://goauthentik.io>",
     "scripts": {
         "analyze": "cem analyze --litelement",
-        "build": "run-p clean build:unit build:types",
+        "build": "run-p clean build:styles build:unit build:types",
+        "build:copy-assets": "node ./tools/copy-assets.mjs",
+        "build:host-styles": "node ./tools/css-to-host-css.mjs",
+        "build:root-styles": "node ./tools/write-root-css-collection.mjs",
+        "build:styles": "run-s build:host-styles build:root-styles build:stylesheets",
+        "build:stylesheets": "node ./tools/build-stylesheets.mjs",
         "build:types": "tsc --declaration --emitDeclarationOnly -p ./tsconfig.json",
-        "build:unit": "node ./build.mjs",
+        "build:unit": "node ./tools/compile-typescript.mjs",
         "clean": "rimraf ./dist",
         "lint": "run-s -sn lint:types lint:eslint lint:package",
         "lint:eslint": "eslint --max-warnings 0 --fix",
@@ -19,6 +23,7 @@
         "prettier": "prettier --cache --write -u .",
         "prettier-check": "prettier --cache --check -u .",
         "storybook": "run-s analyze build storybook:main",
+        "storybook:build": "storybook build",
         "storybook:main": "storybook dev -p 6006",
         "test": "run-s clean analyze build test:unit",
         "test:unit": "wdio run ./config/wdio.conf.mjs --logLevel=warn"
@@ -76,6 +81,9 @@
         "vite-tsconfig-paths": "^5.1.4",
         "wdio-wait-for": "^3.1.0",
         "yaml": "^2.8.1"
+    },
+    "engines": {
+        "node": ">=24"
     },
     "keywords": [
         "authentik",
