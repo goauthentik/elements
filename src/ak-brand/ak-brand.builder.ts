@@ -3,7 +3,7 @@ import { Brand } from "./ak-brand.component.js";
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
-export type AkBrandProps = Partial<Pick<Brand, "src" | "alt">>;
+export type BrandProps = Partial<Pick<Brand, "src" | "alt">>;
 
 /**
  * @summary Helper function to create a Brand component programmatically
@@ -12,7 +12,7 @@ export type AkBrandProps = Partial<Pick<Brand, "src" | "alt">>;
  *
  * @see {@link Brand} - The underlying web component
  */
-export function akBrand(options: AkBrandProps = {}) {
+export function akBrand(options: BrandProps = {}) {
     const { src, alt } = options;
     return html` <ak-brand src=${ifDefined(src)} alt=${ifDefined(alt)}></ak-brand> `;
 }
