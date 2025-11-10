@@ -1,7 +1,10 @@
+# This file describes the *decisions* that govern how the Patternfly 5 CSS is
+# converted to a more... web-component-friendly format.
+
 import: button.css
 base: .pf-v5-c-button
 host:
-    ':host':
+    ":host":
         $from: $base
         $include: /^--/, position, display
     '[part="button"]':
@@ -38,7 +41,9 @@ host:
         $from: /\.pf-m-(danger|warning)\.pf-m-(primary|secondary|tertiary|link)\.pf-m-active/
     ':host([variant="control"]) #main::after':
         $from: /\.pf-m-control::after/
-        --button--after--BorderColor: var(--button--m-control--after--BorderTopColor) var(--button--m-control--after--BorderRightColor) var(--button--m-control--after--BorderBottomColor) var(--button--m-control--after--BorderLeftColor);        
+        # The converter tends to fail on variables with multiple dependencies.  They have to be
+        # added by hand.
+        --button--after--BorderColor: var(--button--m-control--after--BorderTopColor) var(--button--m-control--after--BorderRightColor) var(--button--m-control--after--BorderBottomColor) var(--button--m-control--after--BorderLeftColor);
     ':host([variant="control"]):\1 #main::after':
         $from: /\.pf-m-control:(hover|active|focus)::after/
     ':host([variant="control"][active]) #main::after':
@@ -53,13 +58,13 @@ host:
         $from: /:where\(.pf-v5-theme-dark\) \.pf-v5-c-button/
     ':host([theme="dark"][variant="control"][disabled]) #main::after':
         $from: /:where\(.pf-v5-theme-dark\) \.pf-v5-c-button\.pf-m-control:disabled::after/
-    ':host:disabled':
+    ":host:disabled":
         $from: ":disabled"
-    ':host([disabled]) #main':
+    ":host([disabled]) #main":
         $from: /(pf-m-disabled|pf-m-aria-disabled)/
-    ':host:disabled #main::after':
+    ":host:disabled #main::after":
         $from: ":disabled::after"
-    ':host([disabled]) #main::after':
+    ":host([disabled]) #main::after":
         $from: /(pf-m-disabled|pf-m-aria-disabled)::after/
     ':host([variant="link"]:not[inline]:\1) #main':
         $from: /\.pf-m-link:not\(\.pf-m-inline\):(hover|focus|active)/
@@ -67,7 +72,7 @@ host:
         $from: /\.pf-m-link:not\(\.pf-m-inline\)\.pf-m-active/
     ':host([type="link"][size="lg"])':
         $from: /\.pf-m-link\.pf-m-display-lg/
-    ':host([inline]) #main':
+    ":host([inline]) #main":
         $from: /\.pf-m-link\.pf-m-inline/
     ':host([variant="\2"][severity="\1"]) #main':
         $from: /\.pf-m-(danger)\.pf-m-(link)/
