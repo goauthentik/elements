@@ -2,7 +2,7 @@
     font-family: RedHatText;
     font-style: normal;
     font-weight: 400;
-    src: url("./assets/fonts/RedHatText/RedHatText-Regular.woff2") format("woff2");
+    src: url("../../fonts/RedHatText/RedHatText-Regular.woff2") format("woff2");
     font-display: fallback;
 }
 
@@ -10,7 +10,7 @@
     font-family: RedHatText;
     font-style: italic;
     font-weight: 400;
-    src: url("./assets/fonts/RedHatText/RedHatText-Italic.woff2") format("woff2");
+    src: url("../../fonts/RedHatText/RedHatText-Italic.woff2") format("woff2");
     font-display: fallback;
 }
 
@@ -18,7 +18,7 @@
     font-family: RedHatText;
     font-style: normal;
     font-weight: 700;
-    src: url("./assets/fonts/RedHatText/RedHatText-Medium.woff2") format("woff2");
+    src: url("../../fonts/RedHatText/RedHatText-Medium.woff2") format("woff2");
     font-display: fallback;
 }
 
@@ -26,6 +26,20 @@
     font-family: RedHatText;
     font-style: italic;
     font-weight: 700;
-    src: url("./assets/fonts/RedHatText/RedHatText-MediumItalic.woff2") format("woff2");
+    src: url("../../fonts/RedHatText/RedHatText-MediumItalic.woff2") format("woff2");
     font-display: fallback;
+}
+
+@font-face {
+    font-family: "Font Awesome 5 Free";
+    font-style: normal;
+    font-weight: 900;
+    src: url("../../fonts/webfonts/fa-solid-900.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "pficon";
+    src:
+        url("../../fonts/pficon/pficon.woff2") format("woff2"),
+        url("../../fonts/pficon/pficon.woff") format("woff");
 }
