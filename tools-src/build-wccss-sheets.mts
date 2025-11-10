@@ -453,7 +453,9 @@ function buildStylesheets(transformationFiles: string[]) {
         const transformationsToPerform = Object.entries(transformation.host ?? {});
 
         transrule: for (const [transSelector, transRequest] of transformationsToPerform) {
-            const selectorHasSubstitutions = /\\\d+/.test(transSelector);
+            const safeSelector = transSelector.replace(/%.*/, "");
+
+            const selectorHasSubstitutions = /\\\d+/.test(safeSelector);
             const customDeclarations = getCustomDeclarations(transRequest);
 
             // New rule not derived from the source material.
@@ -463,7 +465,7 @@ function buildStylesheets(transformationFiles: string[]) {
                         "A rule with no $from may not have substitutions or inclusion rules",
                     );
                 }
-                hostRules.add(makeRule(transSelector, customDeclarations));
+                hostRules.add(makeRule(safeSelector, customDeclarations));
                 continue transrule;
             }
 
@@ -478,7 +480,7 @@ function buildStylesheets(transformationFiles: string[]) {
                     declarationFilter,
                 );
                 hostRules.add(
-                    makeRule(transSelector, [...foundDeclarations, ...customDeclarations]),
+                    makeRule(safeSelector, [...foundDeclarations, ...customDeclarations]),
                 );
                 continue;
             }
@@ -487,7 +489,7 @@ function buildStylesheets(transformationFiles: string[]) {
                 transRequest.$from,
                 cleanSourceRules,
                 componentMatcher,
-                transSelector,
+                safeSelector,
                 declarationFilter,
             ).forEach(([newSelector, newDeclarations]) =>
                 hostRules.add(makeRule(newSelector, [...newDeclarations, ...customDeclarations])),
