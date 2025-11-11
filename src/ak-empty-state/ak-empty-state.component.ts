@@ -1,13 +1,14 @@
 import "../ak-icon/ak-icon.js";
 import "../ak-spinner/ak-spinner.js";
 
+import { DynamicSlotController } from "../controllers/dynamic-slot-controller.js";
 import styles from "./ak-empty-state.css";
+import { type EmptyStateSize, template } from "./ak-empty-state.template.js";
 
 import { msg } from "@lit/localize";
 import { LitElement } from "lit";
 import { property } from "lit/decorators.js";
-import { DynamicSlotController } from "../controllers/dynamic-slot-controller.js";
-import { template, type EmptyStateSize } from "./ak-empty-state.template.js";
+
 /**
  * Size variants for the Empty State component
  */

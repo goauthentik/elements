@@ -26,10 +26,5 @@ gap.
 All of the innermost content has been handed over to slots; clients can implement whatever gap
 between horizontal components they want (for example, if there are multiple buttons or links in the
 `actions` block; the Empty State turns on flex wrappers for components based on whether or not the
-slot is populated.  The sizing has been regularized to the t-shirt sizing on the topmost attribute,
+slot is populated. The sizing has been regularized to the t-shirt sizing on the topmost attribute,
 especially when internal rendering is used for the spinner or icons.
-
-
-
-
-  
