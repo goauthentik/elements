@@ -11,11 +11,11 @@ describe("ak-spinner component", function () {
     // Clean out Lit's cache.
     afterEach(async () => {
         await browser.execute(async () => {
-            await document.body.querySelector("ak-spinner")?.remove();
+            document.body.querySelector("ak-spinner")?.remove();
             // @ts-expect-error expression of type '"_$litPart$"' is added by Lit
             if (document.body._$litPart$) {
                 // @ts-expect-error expression of type '"_$litPart$"' is added by Lit
-                await delete document.body._$litPart$;
+                delete document.body._$litPart$;
             }
         });
     });
@@ -23,8 +23,8 @@ describe("ak-spinner component", function () {
     const renderComponent = async (properties = {}) => {
         render(html`<ak-spinner ${spread(properties)}></ak-spinner>`, document.body);
         await browser.pause(100);
-        const spinner = await $("ak-spinner");
-        const svg = await spinner.$(">>>svg");
+        const spinner = $("ak-spinner");
+        const svg = spinner.$(">>>svg");
         return [spinner, svg];
     };
 
@@ -60,8 +60,8 @@ describe("ak-spinner component", function () {
     it("exposes its CSS parts", async () => {
         const [spinner] = await renderComponent();
 
-        const spinnerPart = await spinner.$(">>>[part='spinner']");
-        const circlePart = await spinner.$(">>>[part='circle']");
+        const spinnerPart = spinner.$(">>>[part='spinner']");
+        const circlePart = spinner.$(">>>[part='circle']");
 
         await expect(spinnerPart).toExist();
         await expect(circlePart).toExist();
@@ -73,11 +73,11 @@ describe("ak-spinner component", function () {
 describe("akSpinner helper function", () => {
     afterEach(async () => {
         await browser.execute(async () => {
-            await document.body.querySelector("ak-spinner")?.remove();
+            document.body.querySelector("ak-spinner")?.remove();
             // @ts-expect-error expression of type '"_$litPart$"' is added by Lit
             if (document.body._$litPart$) {
                 // @ts-expect-error expression of type '"_$litPart$"' is added by Lit
-                await delete document.body._$litPart$;
+                delete document.body._$litPart$;
             }
         });
     });
@@ -85,8 +85,8 @@ describe("akSpinner helper function", () => {
     it("should create a basic spinner", async () => {
         render(akSpinner(), document.body);
 
-        const spinner = await $("ak-spinner");
-        const svg = await spinner.$(">>>svg");
+        const spinner = $("ak-spinner");
+        const svg = spinner.$(">>>svg");
 
         await expect(spinner).toExist();
         await expect(svg).toExist();
@@ -96,21 +96,21 @@ describe("akSpinner helper function", () => {
     it("should create spinner with custom size", async () => {
         render(akSpinner({ size: "xl" }), document.body);
 
-        const spinner = await $("ak-spinner");
+        const spinner = $("ak-spinner");
         await expect(spinner).toHaveAttribute("size", "xl");
     });
 
     it("should create spinner with custom label", async () => {
-        render(akSpinner({ label: "Building awesome things..." }), document.body);
+        render(akSpinner({ ariaLabel: "Building awesome things..." }), document.body);
 
-        const svg = await $("ak-spinner").$(">>>svg");
+        const svg = $("ak-spinner").$(">>>svg");
         await expect(svg).toHaveAttribute("aria-label", "Building awesome things...");
     });
 
     it("should create inline spinner", async () => {
         render(akSpinner({ inline: true }), document.body);
 
-        const spinner = await $("ak-spinner");
+        const spinner = $("ak-spinner");
         await expect(spinner).toHaveAttribute("inline");
     });
 
@@ -118,14 +118,14 @@ describe("akSpinner helper function", () => {
         render(
             akSpinner({
                 size: "lg",
-                label: "Processing complex data structures",
+                ariaLabel: "Processing complex data structures",
                 inline: false,
             }),
             document.body,
         );
 
-        const spinner = await $("ak-spinner");
-        const svg = await spinner.$(">>>svg");
+        const spinner = $("ak-spinner");
+        const svg = spinner.$(">>>svg");
 
         await expect(spinner).toHaveAttribute("size", "lg");
         await expect(spinner).not.toHaveAttribute("inline");
@@ -135,7 +135,7 @@ describe("akSpinner helper function", () => {
     it("should handle boolean properties correctly", async () => {
         render(akSpinner({ inline: false }), document.body);
 
-        const spinner = await $("ak-spinner");
+        const spinner = $("ak-spinner");
         await expect(spinner).not.toHaveAttribute("inline");
     });
 });
