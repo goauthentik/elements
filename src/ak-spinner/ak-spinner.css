@@ -27,7 +27,7 @@
     --spinner--Height: var(--spinner--diameter);
 }
 
-[part="spinner"] {
+[part="container"] {
     width: var(--spinner--Width);
     height: var(--spinner--Height);
     animation: pf-v5-c-spinner-animation-rotate calc(var(--spinner--AnimationDuration) * 2)
@@ -54,7 +54,7 @@
     --spinner--diameter: var(--spinner--m-xl--diameter);
 }
 
-[part="circle"] {
+[part="shape"] {
     width: 100%;
     height: 100%;
     stroke: var(--spinner--Color);

@@ -4,7 +4,6 @@ import styles from "./ak-spinner.css";
 import { msg } from "@lit/localize";
 import { html, LitElement } from "lit";
 import { property } from "lit/decorators.js";
-import { ifDefined } from "lit/directives/if-defined.js";
 
 /**
  * Spinner size variants. Prefer T-shirt sizes when possible.
@@ -31,8 +30,8 @@ export interface ISpinner {
  * The spinner also supports an `inline` boolean attribute that sets the diameter
  * to 1em, allowing it to scale with surrounding text.
  *
- * @csspart spinner - The SVG element for the spinner container
- * @csspart circle - The SVG circle element for the actual spinning part
+ * @csspart container - The SVG element for the spinner container
+ * @csspart shape - The SVG circle element for the actual spinning part
  *
  * @cssprop --pf-v5-c-spinner--AnimationDuration - Duration of the spinning animation
  * @cssprop --pf-v5-c-spinner--AnimationTimingFunction - Timing function for the animation
@@ -53,17 +52,55 @@ export interface ISpinner {
 export class Spinner extends LitElement {
     static override readonly styles = [styles, keyframes];
 
-    @property()
-    public label = msg("Loading...");
+    #internals = this.attachInternals();
+
+    @property({ type: String, useDefault: true })
+    public size: SpinnerSize = "md";
+
+    @property({ type: Boolean, useDefault: true })
+    public inline = false;
+
+    public override get role() {
+        return this.#internals.role || "progressbar";
+    }
+
+    public override set role(value: string) {
+        this.#internals.role = value;
+    }
+
+    #defaultAriaLabel = msg("Loading spinner", {
+        id: "ak-spinner.ariaLabel",
+        desc: "Accessible label for spinner",
+    });
+
+    public override get ariaLabel(): string | null {
+        return (
+            this.getAttribute("aria-label") || this.#internals.ariaLabel || this.#defaultAriaLabel
+        );
+    }
+
+    public override set ariaLabel(value: string | null) {
+        this.#internals.ariaLabel = value;
+    }
+
+    public override connectedCallback() {
+        super.connectedCallback();
+
+        this.role = "progressbar";
+
+        const initialRoleDescription = this.getAttribute("aria-label");
+
+        this.#internals.ariaLabel = initialRoleDescription || this.#defaultAriaLabel;
+    }
 
     public override render() {
         return html`<svg
-            part="spinner"
-            role="progressbar"
+            part="container"
             viewBox="0 0 100 100"
-            aria-label=${ifDefined(this.label)}
+            role="img"
+            aria-label=${msg("Spinner icon")}
         >
-            <circle part="circle" cx="50" cy="50" r="45" fill="none" />
+            <circle part="shape" cx="50" cy="50" r="45" fill="none" />
         </svg>`;
     }
 }

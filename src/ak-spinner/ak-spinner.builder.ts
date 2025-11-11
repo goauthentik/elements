@@ -5,7 +5,10 @@ import { type Spinner } from "./ak-spinner.js";
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
-export type AkSpinnerProps = Partial<Pick<Spinner, "label">> & { inline?: boolean; size?: string };
+export type AkSpinnerProps = Partial<Pick<Spinner, "ariaLabel">> & {
+    inline?: boolean;
+    size?: string;
+};
 
 /**
  * @summary Helper function to create a Spinner component programmatically
@@ -15,11 +18,11 @@ export type AkSpinnerProps = Partial<Pick<Spinner, "label">> & { inline?: boolea
  * @see {@link Spinner} - The underlying web component
  */
 export function akSpinner(options: AkSpinnerProps = { inline: false }) {
-    const { size, label, inline } = options;
+    const { size, ariaLabel, inline } = options;
 
     return html`<ak-spinner
         size=${ifDefined(size)}
-        label=${ifDefined(label)}
+        aria-label=${ifDefined(ariaLabel!)}
         ?inline=${!!inline}
     ></ak-spinner>`;
 }
