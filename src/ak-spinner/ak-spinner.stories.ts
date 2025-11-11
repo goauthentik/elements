@@ -20,7 +20,7 @@ const metadata: Meta<AkSpinnerProps> = {
                 defaultValue: { summary: "md" },
             },
         },
-        label: {
+        ariaLabel: {
             control: "text",
             description: "Accessible label for screen readers",
             table: {
@@ -39,7 +39,6 @@ const metadata: Meta<AkSpinnerProps> = {
     },
     args: {
         size: "md",
-        label: "Loading...",
         inline: false,
     },
     parameters: {
@@ -115,7 +114,11 @@ export const CustomColor = () => html`
 `;
 
 export const AllSizes = () => html`
-    <div style="display: flex; flex-direction: column; gap: 16px;">
+    <main
+        tabindex="0"
+        aria-label="All sizes"
+        style="display: flex; flex-direction: column; gap: 16px;"
+    >
         <div>
             <h3>Small (sm)</h3>
             <ak-spinner size="sm"></ak-spinner>
@@ -132,7 +135,7 @@ export const AllSizes = () => html`
             <h3>Extra Large (xl)</h3>
             <ak-spinner size="xl"></ak-spinner>
         </div>
-    </div>
+    </main>
 `;
 
 export const InlineSpinners: Story = {
@@ -144,7 +147,11 @@ export const InlineSpinners: Story = {
         },
     },
     render: () => html`
-        <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <main
+            tabindex="0"
+            aria-label="Inline spinners"
+            style="display: flex; flex-direction: column; gap: 1rem;"
+        >
             <div style="font-size: 14px;">
                 Small text with <ak-spinner inline label="Loading small"></ak-spinner> inline
                 spinner
@@ -161,7 +168,7 @@ export const InlineSpinners: Story = {
                 Extra large text with
                 <ak-spinner inline label="Loading extra large"></ak-spinner> inline spinner
             </div>
-        </div>
+        </main>
     `,
 };
 
@@ -174,7 +181,11 @@ export const CustomAnimations: Story = {
         },
     },
     render: () => html`
-        <div style="display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;">
+        <main
+            tabindex="0"
+            aria-label="Custom animations"
+            style="display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;"
+        >
             <div style="text-align: center;">
                 <ak-spinner
                     size="lg"
@@ -207,7 +218,7 @@ export const CustomAnimations: Story = {
                 ></ak-spinner>
                 <div style="margin-top: 0.5rem; font-size: 0.875rem;">Thick stroke</div>
             </div>
-        </div>
+        </main>
     `,
 };
 
@@ -220,24 +231,40 @@ export const LoadingStates: Story = {
         },
     },
     render: () => html`
-        <div style="display: flex; flex-direction: column; gap: 2rem;">
+        <main
+            tabindex="0"
+            aria-label="Loading states"
+            style="display: flex; flex-direction: column; gap: 2rem;"
+        >
             <!-- Page loading -->
-            <div
+            <section
+                id="demo-region-1"
                 style="text-align: center; padding: 3rem; border: 1px dashed #ccc; border-radius: 8px;"
+                aria-busy="true"
+                aria-live="polite"
+                aria-label="Demo Region 1"
+                aria-describedby="demo-region-1-description"
             >
-                <ak-spinner size="xl" label="Loading page content"></ak-spinner>
-                <div style="margin-top: 1rem; color: #666;">Loading page content...</div>
-            </div>
+                <ak-spinner size="xl"></ak-spinner>
+                <div id="demo-region-1-description" style="margin-top: 1rem; color: #666;">
+                    Loading page content...
+                </div>
+            </section>
 
             <!-- Card loading -->
-            <div
+            <section
                 style="padding: 1.5rem; border: 1px solid #e5e7eb; border-radius: 8px; background: #f9fafb;"
+                id="demo-region-1"
+                aria-busy="true"
+                aria-live="polite"
+                aria-label="Demo Region 2"
+                aria-describedby="demo-region-2-description"
             >
                 <div style="display: flex; align-items: center; gap: 1rem;">
-                    <ak-spinner size="md" label="Loading card data"></ak-spinner>
-                    <div>Loading card data...</div>
+                    <ak-spinner size="md"></ak-spinner>
+                    <div id="demo-region-2-description">Loading card data...</div>
                 </div>
-            </div>
+            </section>
 
             <!-- List item loading -->
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
@@ -254,7 +281,7 @@ export const LoadingStates: Story = {
                     <div>Loading list item...</div>
                 </div>
             </div>
-        </div>
+        </main>
     `,
 };
 
@@ -267,7 +294,11 @@ export const UsingBuilderFunction: Story = {
         },
     },
     render: () => html`
-        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <main
+            tabindex="0"
+            aria-label="Using Builder Function"
+            style="display: flex; flex-direction: column; gap: 1.5rem;"
+        >
             <div>
                 <h4>Basic spinner with builder:</h4>
                 <div style="display: flex; align-items: center; gap: 1rem;">
@@ -279,7 +310,7 @@ export const UsingBuilderFunction: Story = {
             <div>
                 <h4>Custom size and label:</h4>
                 <div style="display: flex; align-items: center; gap: 1rem;">
-                    ${akSpinner({ size: "lg", label: "Processing data..." })}
+                    ${akSpinner({ size: "lg", ariaLabel: "Processing data..." })}
                     <span>Large spinner with custom label</span>
                 </div>
             </div>
@@ -287,11 +318,11 @@ export const UsingBuilderFunction: Story = {
             <div>
                 <h4>Inline spinner:</h4>
                 <p>
-                    Processing your request ${akSpinner({ inline: true, label: "Processing" })}
+                    Processing your request ${akSpinner({ inline: true, ariaLabel: "Processing" })}
                     please wait...
                 </p>
             </div>
-        </div>
+        </main>
     `,
 };
 
@@ -304,21 +335,20 @@ export const AccessibilityExample: Story = {
         },
     },
     render: () => html`
-        <div style="display: flex; flex-direction: column; gap: 2rem;">
-            <div>
+            <main tabindex="0" aria-label="All sizes">
                 <h4>Spinners with descriptive labels:</h4>
                 <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
                     <div style="text-align: center;">
-                        <ak-spinner size="md" label="Loading user profile data"></ak-spinner>
-                        <div style="margin-top: 0.5rem; font-size: 0.875rem;">User Profile</div>
+                        <ak-spinner id="demo-accessibility-spinner-1" size="md" aria-label="Loading user profile data"></ak-spinner>
+                        <div aria-busy="true" aria-describedby="demo-accessibility-spinner-1" style="margin-top: 0.5rem; font-size: 0.875rem;">User Profile</div>
                     </div>
                     <div style="text-align: center;">
-                        <ak-spinner size="md" label="Uploading document, please wait"></ak-spinner>
-                        <div style="margin-top: 0.5rem; font-size: 0.875rem;">File Upload</div>
+                        <ak-spinner id="demo-accessibility-spinner-2" size="md" aria-label="Uploading document, please wait"></ak-spinner>
+                        <div aria-busy="true" aria-describedby="demo-accessibility-spinner-2" style="margin-top: 0.5rem; font-size: 0.875rem;">File Upload</div>
                     </div>
                     <div style="text-align: center;">
-                        <ak-spinner size="md" label="Saving changes to database"></ak-spinner>
-                        <div style="margin-top: 0.5rem; font-size: 0.875rem;">Save Operation</div>
+                        <ak-spinner id="demo-accessibility-spinner-3" size="md" aria-label="Saving changes to database"></ak-spinner>
+                        <div aria-busy="true" aria-describedby="demo-accessibility-spinner-3" style="margin-top: 0.5rem; font-size: 0.875rem;">Save Operation</div>
                     </div>
                 </div>
             </div>
@@ -335,6 +365,6 @@ export const AccessibilityExample: Story = {
                     <li>Consider pairing with visually hidden text for additional context</li>
                 </ul>
             </div>
-        </div>
+        </main>
     `,
 };
