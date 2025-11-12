@@ -10,7 +10,14 @@ import { property } from "lit/decorators/property.js";
 /**
  * Variant types
  */
-export const buttonVariant = ["primary", "secondary", "tertiary", "control", "plain", "link"] as const;
+export const buttonVariant = [
+    "primary",
+    "secondary",
+    "tertiary",
+    "control",
+    "plain",
+    "link",
+] as const;
 export type ButtonVariant = (typeof buttonVariant)[number];
 
 /**
@@ -198,7 +205,8 @@ export class Button extends LitElement implements IButton {
     }
 
     public override render() {
-        const { href, type, target, name, value, disabled, rel, download, onClick, onKeydown } = this;
+        const { href, type, target, name, value, disabled, rel, download, onClick, onKeydown } =
+            this;
 
         return this.variant === "link" && typeof href === "string"
             ? linkTemplate({ href, target, disabled, rel, download, onClick, onKeydown })
