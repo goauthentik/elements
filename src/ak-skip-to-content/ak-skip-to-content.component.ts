@@ -1,6 +1,7 @@
 import styles from "./ak-skip-to-content.css";
-import { LitElement, html } from "lit";
+
 import { msg } from "@lit/localize";
+import { html, LitElement } from "lit";
 import { property } from "lit/decorators.js";
 
 /**
