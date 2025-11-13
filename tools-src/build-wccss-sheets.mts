@@ -340,7 +340,7 @@ function getHostRules(sourceDeclarations: TokenDeclarations, base: string): GetH
  * features that might hint that it should.
  */
 const isValidStandalone = (hasSubstitutions: boolean, request: Record<string, string>) =>
-    hasSubstitutions || "$include" in request || "$exclude" in request;
+    !(hasSubstitutions || "$include" in request || "$exclude" in request);
 
 /**
  * Named types for parameters of the function following
@@ -460,7 +460,7 @@ function buildStylesheets(transformationFiles: string[]) {
             if (!("$from" in transRequest)) {
                 if (!isValidStandalone(selectorHasSubstitutions, transRequest)) {
                     throw new Error(
-                        "A rule with no $from may not have substitutions or inclusion rules",
+                        `${transSelector} rule has no $from and may not have substitutions or inclusion rules`,
                     );
                 }
                 hostRules.add(makeRule(transSelector, customDeclarations));
