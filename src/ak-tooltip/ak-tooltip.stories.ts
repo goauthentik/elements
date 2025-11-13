@@ -181,7 +181,8 @@ export const OverflowContainer: Story = {
         <div style="padding: 100px;">
             <p style="margin-bottom: 20px;">
                 <strong>Overflow test:</strong> The tooltip escapes the overflow:hidden container
-                thanks to the dialog element's top layer.
+                thanks to the dialog element's top layer. This also demonstrates how to override the
+                tooltip's styling with a <code>style</code> attribute on the component.
             </p>
             <div style="overflow: hidden; border: 2px solid #ddd; padding: 20px; max-width: 300px;">
                 <p>This container has <code>overflow: hidden</code></p>
@@ -194,41 +195,6 @@ export const OverflowContainer: Story = {
                 style="--pf-v5-c-tooltip__content--BackgroundColor: repeating-linear-gradient(45deg, hsl(43, 74%, 42%), hsl(43, 74%, 42%) 0.5rem, hsl(201, 12%, 40%) 0.5rem, hsl(201, 12%, 40%) 1rem);"
                 for="overflow-btn"
                 placement="right"
-                ><div style="white-space: nowrap; font-weight: bold;">
-                    Warning! The creature has escaped containment.<br />The creature has escaped
-                    containment!
-                </div></ak-tooltip
-            >
-        </div>
-    `,
-};
-
-export const ExternalStyling: Story = {
-    render: () => html`
-        <div style="padding: 100px;">
-            <p style="margin-bottom: 20px;">
-                <strong>Overflow test:</strong> The tooltip escapes the overflow:hidden container
-                thanks to the dialog element's top layer.
-            </p>
-            <div style="overflow: hidden; border: 2px solid #ddd; padding: 20px; max-width: 300px;">
-                <p>This container has <code>overflow: hidden</code></p>
-                <button id="overflow-btn" style="padding: 10px 20px; margin-top: 10px;">
-                    Hover me
-                </button>
-            </div>
-
-            <style>
-                ak-tooltip: {
-                    --pf-v5-c-tooltip__content--BackgroundColor: repeating-linear-gradient(
-                        45deg,
-                        hsl(43, 74%, 42%),
-                        hsl(43, 74%, 42%) 0.5rem,
-                        hsl(201, 12%, 40%) 0.5rem,
-                        hsl(201, 12%, 40%) 1rem
-                    );
-                }
-            </style>
-            <ak-tooltip for="overflow-btn" placement="right"
                 ><div style="white-space: nowrap; font-weight: bold;">
                     Warning! The creature has escaped containment.<br />The creature has escaped
                     containment!
