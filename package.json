@@ -26,6 +26,7 @@
         "lint:package": "run-s syncpack lint && syncpack fix-mismatches",
         "lint:types": "tsc --declaration --noEmit -p ./tsconfig.json",
         "lit-analyze": "lit-analyzer ./src",
+        "precommit": "run-s lint:types lint:eslint prettier-check",
         "prettier": "prettier --cache --write -u .",
         "prettier-check": "prettier --cache --check -u .",
         "storybook": "run-s analyze build storybook:main",
