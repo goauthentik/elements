@@ -1,24 +1,40 @@
 :host {
-    --pf-v5-c-timestamp--FontSize: var(--pf-v5-global--FontSize--sm, 0.875rem);
-    --pf-v5-c-timestamp--Color: var(--pf-v5-global--Color--200, #6a6e73);
-    --pf-v5-c-timestamp--Warning--Color: var(--pf-v5-global--warning-color--200, #795600);
-    --pf-v5-c-timestamp--Warning--FontWeight: var(--pf-v5-global--FontWeight--bold, 700);
-    --pf-v5-c-timestamp--OutlineOffset: 0.1875rem;
-}
-
-:host {
-    display: inline-block;
+  --timestamp--FontSize: var(--pf-v5-c-timestamp--FontSize, 0.875rem);
+  --timestamp--Color: var(--pf-v5-c-timestamp--Color, #6a6e73);
+  --timestamp--OutlineOffset: var(--pf-v5-c-timestamp--OutlineOffset, 0.1875rem);
+  --timestamp--m-help-text--TextDecorationLine: var(--pf-v5-c-timestamp--m-help-text--TextDecorationLine, underline);
+  --timestamp--m-help-text--TextDecorationStyle: var(--pf-v5-c-timestamp--m-help-text--TextDecorationStyle, dashed);
+  --timestamp--m-help-text--TextDecorationThickness: var(--pf-v5-c-timestamp--m-help-text--TextDecorationThickness, 1px);
+  --timestamp--m-help-text--TextUnderlineOffset: var(--pf-v5-c-timestamp--m-help-text--TextUnderlineOffset, 0.25rem);
+  --timestamp--m-help-text--TextDecorationColor: var(--pf-v5-c-timestamp--m-help-text--TextDecorationColor, #8a8d90);
+  --timestamp--m-help-text--hover--Color: var(--pf-v5-c-timestamp--m-help-text--hover--Color, #151515);
+  --timestamp--m-help-text--focus--Color: var(--pf-v5-c-timestamp--m-help-text--focus--Color, #151515);
+  --timestamp--m-help-text--hover--TextDecorationColor: var(--pf-v5-c-timestamp--m-help-text--hover--TextDecorationColor, #151515);
+  --timestamp--m-help-text--focus--TextDecorationColor: var(--pf-v5-c-timestamp--m-help-text--focus--TextDecorationColor, #151515);
+  display: inline-block;
 }
 
 [part="timestamp"] {
-    font-size: var(--pf-v5-c-timestamp--FontSize);
-    color: var(--pf-v5-c-timestamp--Color);
-    outline-offset: var(--pf-v5-c-timestamp--OutlineOffset);
+  font-size: var(--timestamp--FontSize);
+  color: var(--timestamp--Color);
+  outline-offset: var(--timestamp--OutlineOffset);
 }
 
 [part="warning"] {
-    font-size: var(--pf-v5-c-timestamp--FontSize);
-    font-weight: var(--pf-v5-c-timestamp--Warning--FontWeight);
-    color: var(--pf-v5-c-timestamp--Warning--Color);
-    outline-offset: var(--pf-v5-c-timestamp--OutlineOffset);
+  text-decoration-line: var(--timestamp--m-help-text--TextDecorationLine);
+  text-decoration-thickness: var(--timestamp--m-help-text--TextDecorationThickness);
+  text-decoration-style: var(--timestamp--m-help-text--TextDecorationStyle);
+  text-decoration-color: var(--timestamp--m-help-text--TextDecorationColor);
+  text-underline-offset: var(--timestamp--m-help-text--TextUnderlineOffset);
+  cursor: pointer;
+}
+
+[part="warning"]:hover {
+  --timestamp--Color: var(--timestamp--m-help-text--hover--Color);
+  --timestamp--m-help-text--TextDecorationColor: var(--timestamp--m-help-text--hover--TextDecorationColor);
+}
+
+[part="warning"]:focus {
+  --timestamp--Color: var(--timestamp--m-help-text--focus--Color);
+  --timestamp--m-help-text--TextDecorationColor: var(--timestamp--m-help-text--focus--TextDecorationColor);
 }

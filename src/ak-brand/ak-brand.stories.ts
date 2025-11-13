@@ -66,8 +66,8 @@ export const WithCustomSize: Story = {
     render: (args) => html`
         <style>
             .custom-sized {
-                --pf-v5-c-brand--Width: 100px;
-                --pf-v5-c-brand--Height: 100px;
+                --ak-v1-c-brand--Width: 100px;
+                --ak-v1-c-brand--Height: 100px;
             }
         </style>
         <ak-brand
@@ -86,13 +86,13 @@ export const ResponsiveSizing: Story = {
     render: (args) => html`
         <style>
             .responsive-brand {
-                --pf-v5-c-brand--Width: 80px;
-                --pf-v5-c-brand--Width-on-sm: 100px;
-                --pf-v5-c-brand--Width-on-md: 120px;
-                --pf-v5-c-brand--Width-on-lg: 140px;
-                --pf-v5-c-brand--Width-on-xl: 160px;
-                --pf-v5-c-brand--Width-on-2xl: 180px;
-                --pf-v5-c-brand--Height: auto;
+                --ak-v1-c-brand--Width: 80px;
+                --ak-v1-c-brand--Width-on-sm: 100px;
+                --ak-v1-c-brand--Width-on-md: 120px;
+                --ak-v1-c-brand--Width-on-lg: 140px;
+                --ak-v1-c-brand--Width-on-xl: 160px;
+                --ak-v1-c-brand--Width-on-2xl: 180px;
+                --ak-v1-c-brand--Height: auto;
             }
             .demo-container {
                 padding: 20px;
