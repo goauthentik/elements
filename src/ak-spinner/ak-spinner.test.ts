@@ -121,7 +121,7 @@ describe("akSpinner helper function", () => {
                 label: "Processing complex data structures",
                 inline: false,
             }),
-            document.body
+            document.body,
         );
 
         const spinner = await $("ak-spinner");

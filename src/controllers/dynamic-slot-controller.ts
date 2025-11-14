@@ -1,4 +1,4 @@
-import { ReactiveControllerHost, ReactiveController } from "lit";
+import { ReactiveController, ReactiveControllerHost } from "lit";
 
 type ReactiveControllerElement = ReactiveControllerHost & HTMLElement;
 type CallbackThunk = () => void;
@@ -68,7 +68,7 @@ export class DynamicSlotController implements ReactiveController {
     public constructor(
         host: ReactiveControllerElement,
         callback?: CallbackThunk | boolean,
-        trackDefault?: boolean
+        trackDefault?: boolean,
     ) {
         if (typeof callback === "boolean") {
             trackDefault = callback;
@@ -85,7 +85,7 @@ export class DynamicSlotController implements ReactiveController {
         const foundSlots = new Set<SlotName>(
             Array.from(this.#host.children)
                 .map((child) => child.getAttribute("slot"))
-                .filter((name) => typeof name === "string")
+                .filter((name) => typeof name === "string"),
         );
 
         if (this.#trackDefault) {
@@ -109,7 +109,8 @@ export class DynamicSlotController implements ReactiveController {
 
     #onContentChange = (mutations: MutationRecord[]) => {
         const needUpdate = mutations.some(
-            (m) => m.type === "childList" || (m.type === "attributes" && m.attributeName === "slot")
+            (m) =>
+                m.type === "childList" || (m.type === "attributes" && m.attributeName === "slot"),
         );
         if (needUpdate) {
             this.#scanForSlots();
