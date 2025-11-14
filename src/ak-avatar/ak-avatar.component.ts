@@ -1,8 +1,10 @@
 import styles from "./ak-avatar.css";
 import { styles as mediaStyles } from "./ak-avatar.media.css";
-import { LitElement } from "lit";
-import { property } from "lit/decorators.js";
 import type { IAvatar } from "./ak-avatar.types.js";
+
+import { html, LitElement } from "lit";
+import { property } from "lit/decorators/property.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 /**
  * @summary A **avatar** is an image used to identify an individual using the application
@@ -27,12 +29,6 @@ export class Avatar extends LitElement implements IAvatar {
 
     render() {
         const { src, alt, size, border } = this;
-        return html` <img
-            part="avatar"
-            src=${ifDefined(src)}
-            alt=${ifDefined(alt)}
-            size=${ifDefined(size)}
-            border=${ifDefined(border)}
-        />`;
+        return html` <img part="avatar" src=${ifDefined(src)} alt=${ifDefined(alt)} size=${ifDefined(size)} border=${ifDefined(border)} />`;
     }
 }
