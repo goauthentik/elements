@@ -339,8 +339,8 @@ function getHostRules(sourceDeclarations: TokenDeclarations, base: string): GetH
  * If we get a transformation with no $from, we have to check that it has no
  * features that might hint that it should.
  */
-const isValidStandalone = (hasSubstitutions: boolean, request: Record<string, string>) =>
-    hasSubstitutions || "$include" in request || "$exclude" in request;
+const derivedFromTokens = (hasSubstitutions: boolean, request: Record<string, string>) =>
+    hasSubstitutions || ["$include", "$exclude"].some((key) => key in request);
 
 /**
  * Named types for parameters of the function following
@@ -458,7 +458,7 @@ function buildStylesheets(transformationFiles: string[]) {
 
             // New rule not derived from the source material.
             if (!("$from" in transRequest)) {
-                if (!isValidStandalone(selectorHasSubstitutions, transRequest)) {
+                if (derivedFromTokens(selectorHasSubstitutions, transRequest)) {
                     throw new Error(
                         "A rule with no $from may not have substitutions or inclusion rules",
                     );

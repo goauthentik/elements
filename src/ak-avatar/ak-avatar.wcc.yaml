@@ -1,0 +1,41 @@
+import: avatar.css
+base: .pf-v5-c-avatar
+host:
+    :host:
+        $from: $base
+        $exclude: /^--/, width, height, border, border-radius
+        --avatar--FallbackTextFontSize: var(--ak-v1-c-avatar--FallbackTextFontSize, 1em)
+        --avatar--FallbackTextFontWeight: var(--ak-v1-c-avatar--FallbackTextFontWeight, 600)
+        --avatar--FallbackTextColor: "var(--ak-v1-c-avatar--FallbackTextColor, #151515)"
+        --avatar--BackgroundColor: "var(--ak-v1-c-avatar--BackgroundColor, #e0e0e0)"
+    '[part="avatar"]':
+        $from: $base
+        $include: width, height, border, border-radius
+    :host([border="\1"]):
+        $from: /\.pf-m-(light|dark)/
+    :host([size="sm"]):
+        $from: ".pf-m-sm"
+    :host([size="md"]):
+        --avatar--Width: var(--avatar--m-md--Width)
+        --avatar--Height: var(--avatar--m-md--Height)
+    :host([size="lg"]):
+        --avatar--Width: var(--avatar--m-lg--Width)
+        --avatar--Height: var(--avatar--m-lg--Height)
+    :host([size="xl"]):
+        --avatar--Width: var(--avatar--m-xl--Width)
+        --avatar--Height: var(--avatar--m-xl--Height)
+    '[part="avatar-icon"]':
+        width: var(--avatar--Width);
+        height: var(--avatar--Height);
+        border: var(--avatar--BorderWidth) solid var(--avatar--BorderColor);
+        border-radius: var(--avatar--BorderRadius);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--avatar--BackgroundColor);
+    '[part="avatar-initials"]':
+        font-size: var(--avatar--FallbackTextFontSize);
+        font-weight: var(--avatar--FallbackTextFontWeight);
+        color: var(--avatar--FallbackTextColor);
+        text-transform: uppercase;
+        user-select: none;
