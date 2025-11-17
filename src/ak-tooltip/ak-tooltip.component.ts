@@ -216,6 +216,13 @@ export class Tooltip extends LitElement {
     htmlFor = "";
 
     /**
+     * @attr {object} target: A reference to the target. Must be in the same or in a sibling context
+       of the tooltip.
+     */
+    @property({ type: Object, attribute: "target" })
+    target?: HTMLElement;
+
+    /**
      * @attr {string} trigger - What event causes the tooltip to show up.
      */
     @property({ type: String })
@@ -272,19 +279,28 @@ export class Tooltip extends LitElement {
         this.state.onTooltipLeave();
     };
 
-    protected attachToAnchor() {
-        this.anchor = null;
-
-        if (!this.htmlFor) {
-            console.warn("ak-tooltip: tooltip without anchor declared.");
-            return;
-        }
+    #getAnchor() {
         const parent = this.getRootNode() as ParentNode;
         if (
             !(parent === document || parent instanceof HTMLElement || parent instanceof ShadowRoot)
         ) {
             console.warn("ak-tooltip: component not running in a valid context");
-            return;
+            return null;
+        }
+
+        if (!(this.htmlFor || this.target)) {
+            console.warn("ak-tooltip: tooltip without anchor declared.");
+            return null;
+        }
+
+        if (this.target) {
+            if (!(this.target instanceof HTMLElement)) {
+                console.warn(
+                    `ak-tooltip: element '${this.htmlFor}' does not resolve to an HTMLElement`,
+                );
+                return null;
+            }
+            return this.target;
         }
 
         // Fallback to search based on selector, even if we're pretty sure it's an ID.
@@ -294,17 +310,24 @@ export class Tooltip extends LitElement {
 
         if (!anchor) {
             console.warn("ak-tooltip: could not find anchor");
-            return;
+            return null;
         }
 
         if (!(anchor instanceof HTMLElement)) {
             console.warn(
                 `ak-tooltip: element '${this.htmlFor}' does not resolve to an HTMLElement`,
             );
-            return;
+            return null;
         }
 
-        this.anchor = anchor;
+        return anchor;
+    }
+
+    protected attachToAnchor() {
+        this.anchor = this.#getAnchor();
+        if (!this.anchor) {
+            return;
+        }
 
         const signal = { signal: this.#anchorAbortController.signal };
         this.anchor.addEventListener("focus", this.onAnchorEnter, signal);
