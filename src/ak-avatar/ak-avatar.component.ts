@@ -1,3 +1,5 @@
+import "../ak-tooltip/ak-tooltip.js";
+
 import { randomId } from "../utils/randomId.js";
 import styles from "./ak-avatar.css";
 import { styles as mediaStyles } from "./ak-avatar.media.css";
