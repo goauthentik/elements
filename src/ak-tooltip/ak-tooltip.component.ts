@@ -166,7 +166,7 @@ class ScheduledHide extends TooltipEvents {
         this.setState(TooltipShown);
     };
 
-    onTriggerEnter = () => {
+    onAnchorEnter = () => {
         this.onTooltipEnter();
     };
 }
@@ -363,10 +363,10 @@ export class Tooltip extends LitElement {
     public override willUpdate(changed: PropertyValues<this>) {
         super.willUpdate(changed);
         this.hideDelay = parseDelay(
-            getComputedStyle(this).getPropertyValue("--ak-v1-c-tooltip--HideDelay"),
+            getComputedStyle(this).getPropertyValue("--tooltip--HideDelay"),
         );
         this.showDelay = parseDelay(
-            getComputedStyle(this).getPropertyValue("--ak-v1-c-tooltip--ShowDelay"),
+            getComputedStyle(this).getPropertyValue("--tooltip--ShowDelay"),
         );
     }
 
