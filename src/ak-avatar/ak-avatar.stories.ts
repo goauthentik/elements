@@ -195,20 +195,12 @@ export const MissingImage: Story = {
             </div>
             §
             <div style="text-align: center;">
-                <ak-avatar alt="No image provided" fallback-text="LMc" size="lg"></ak-avatar>
-                <div style="margin-top: 0.5rem; font-size: 0.875rem;">
-                    Using <kbd>fallback-text</kbd>
-                </div>
+                <ak-avatar alt="No image provided" initials="TLA" size="lg"></ak-avatar>
+                <div style="margin-top: 0.5rem; font-size: 0.875rem;">Fall back to initials</div>
             </div>
             <div style="text-align: center;">
-                <ak-avatar
-                    alt="No image provided"
-                    fallback-icon="fa fa-horse"
-                    size="lg"
-                ></ak-avatar>
-                <div style="margin-top: 0.5rem; font-size: 0.875rem;">
-                    Using <kbd>fallback-icon</kbd>
-                </div>
+                <ak-avatar alt="No image provided" icon="fa fa-horse" size="lg"></ak-avatar>
+                <div style="margin-top: 0.5rem; font-size: 0.875rem;">Fall back to icon</div>
             </div>
         </div>
     `,

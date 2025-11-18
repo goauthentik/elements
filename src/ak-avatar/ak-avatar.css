@@ -16,10 +16,15 @@
     --avatar--m-light--BorderWidth: var(--pf-v5-c-avatar--m-light--BorderWidth, 1px);
     --avatar--m-dark--BorderColor: var(--pf-v5-c-avatar--m-dark--BorderColor, #4f5255);
     --avatar--m-dark--BorderWidth: var(--pf-v5-c-avatar--m-dark--BorderWidth, 1px);
+    width: var(--avatar--Width);
+    height: var(--avatar--Height);
     --avatar--FallbackTextFontSize: var(--ak-v1-c-avatar--FallbackTextFontSize, 1em);
     --avatar--FallbackTextFontWeight: var(--ak-v1-c-avatar--FallbackTextFontWeight, 600);
     --avatar--FallbackTextColor: var(--ak-v1-c-avatar--FallbackTextColor, #151515);
     --avatar--BackgroundColor: var(--ak-v1-c-avatar--BackgroundColor, #e0e0e0);
+    max-width: fit-content;
+    max-height: fit-content;
+    display: inline-block;
 }
 
 [part="avatar"] {
@@ -27,6 +32,7 @@
     height: var(--avatar--Height);
     border: var(--avatar--BorderWidth) solid var(--avatar--BorderColor);
     border-radius: var(--avatar--BorderRadius);
+    display: block;
 }
 
 :host([border="light"]) {
@@ -71,9 +77,17 @@
 }
 
 [part="avatar-initials"] {
-    font-size: var(--avatar--FallbackTextFontSize);
+    width: var(--avatar--Width);
+    height: var(--avatar--Height);
+    border: var(--avatar--BorderWidth) solid var(--avatar--BorderColor);
+    border-radius: var(--avatar--BorderRadius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-weight: var(--avatar--FallbackTextFontWeight);
-    color: var(--avatar--FallbackTextColor);
-    text-transform: uppercase;
-    user-select: none;
+    background-color: var(--avatar--BackgroundColor);
+}
+
+ak-tooltip {
+    position: absolute;
 }

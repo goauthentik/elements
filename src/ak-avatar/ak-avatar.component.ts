@@ -1,11 +1,12 @@
 import "../ak-tooltip/ak-tooltip.js";
+import "../ak-icon/ak-icon.js";
 
-import { randomId } from "../utils/randomId.js";
 import styles from "./ak-avatar.css";
 import { styles as mediaStyles } from "./ak-avatar.media.css";
 
 import { html, LitElement, PropertyValues, TemplateResult } from "lit";
 import { property, state } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 export interface IAvatar {
     src?: string;
@@ -24,7 +25,6 @@ const DEFAULT_ICON = "fa fa-user";
  * These attributes, "size" and "border", only influence the look of the component, and are defined
  * only in the CSS.
  *
- * @attr {string} size - "sm", "md", "lg", "xl"; "md" is also the default behavior
  * @attr {string} border - "dark" | "light"; the default is no border
  *
  */
@@ -40,18 +40,22 @@ export class Avatar extends LitElement implements IAvatar {
     @property()
     public icon?: string;
 
-    /** @attr { string} initials - A two-or-three letter text for the avatar.  Third priority */
+    /** @attr {string} initials - A two-or-three letter text for the avatar.  Third priority */
     @property()
     public initials: string = "";
 
-    /** @attr { string} initials - A full textual name to use as a tooltip and/or `<img alt>` */
+    /** @attr {string} initials - A full textual name to use as a tooltip and/or `<img alt>` */
     @property()
     public alt: string = "";
 
+    // Although this almost always has relevance only to CSS, in the case of icon (and the fallback
+    // icon), this has to be passed to ak-icon.
+    /** @attr {string} size - "sm", "md", "lg", "xl"; "md" is also the default behavior */
+    @property()
+    public size?: IAvatar["size"];
+
     @state()
     private imageLoadFailed = false;
-
-    #innerId = randomId();
 
     #onImageFail = () => {
         this.imageLoadFailed = true;
@@ -66,35 +70,33 @@ export class Avatar extends LitElement implements IAvatar {
 
     #maybeWithTooltip(content: TemplateResult) {
         return this.alt
-            ? html`${content} <ak-tooltip for=${this.#innerId}>${this.alt}</ak-tooltip>`
+            ? html`${content} <ak-tooltip .target=${this}>${this.alt}</ak-tooltip>`
             : content;
     }
 
     #renderAvatar(src: string) {
         return this.#maybeWithTooltip(
-            html`<img part="avatar" id=${this.#innerId} src=${src} @error=${this.#onImageFail} />`,
+            html`<img part="avatar" src=${src} @error=${this.#onImageFail} />`,
         );
     }
 
     #renderIcon(icon: string) {
         return this.#maybeWithTooltip(
-            html`<ak-icon part="avatar-icon" id=${this.#innerId} icon=${icon}></ak-icon>`,
+            html`<ak-icon part="avatar-icon" icon=${icon} size=${ifDefined(this.size)}></ak-icon>`,
         );
     }
 
     #renderInitials(initials: string) {
         return this.#maybeWithTooltip(
-            html`<div id=${this.#innerId} part="avatar-initials">
-                ${this.initials.trim().substr(0, 3)}
-            </div>`,
+            html`<div part="avatar-initials">${this.initials.trim().substr(0, 3)}</div>`,
         );
     }
 
     public override render() {
-        const { src, initials, icon } = this;
+        const { src, initials, icon, imageLoadFailed } = this;
 
         /* Priority order: Image first */
-        if (src && !this.imageLoadFailed) {
+        if (src && !imageLoadFailed) {
             return this.#renderAvatar(src);
         }
 
@@ -106,6 +108,6 @@ export class Avatar extends LitElement implements IAvatar {
             return this.#renderInitials(initials);
         }
 
-        this.#renderIcon("fa fa-user");
+        return this.#renderIcon("fa fa-user");
     }
 }
