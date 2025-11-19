@@ -20,4 +20,3 @@ host:
         $from: "__svg__path"
     :host([severity="\1"]) [part="battery"]:
         $from: /\.pf-m-(low|medium|high|critical)/
-

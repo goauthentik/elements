@@ -1,12 +1,17 @@
+/*
+ * Because this is a community-supplied Paternfly variant, it's not part of the stock Patternfly
+ * build.  The WCC file is written *as if* the `pf-battery.css` file was part of the stock
+ * Patternfly component collection.
+ */
+
 :host {
-    --pf-v5-c-battery--default--FillColor: var(--pf-v5-global--icon--Color--light, #6a6e73);
-    --pf-v5-c-battery--m-low--FillColor: var(--pf-v5-global--success-color--100, #3e8635);
-    --pf-v5-c-battery--m-medium--FillColor: var(--pf-v5-global--warning-color--100, #f0ab00);
-    --pf-v5-c-battery--m-high--FillColor: var(--pf-v5-global--palette--orange-300, #ec7a08);
-    --pf-v5-c-battery--m-critical--FillColor: var(--pf-v5-global--danger-color--100, #c9190b);
-    --pf-v5-c-battery--StrokeColor: var(--pf-v5-global--BorderColor--100, #d2d2d2);
-    --pf-v5-c-battery--FillColor: var(--pf-v5-c-battery--default--FillColor);
-    --pf-v5-c-battery--spacer: var(--pf-v5-global--spacer--sm, 0.5rem);
+    --battery--default--FillColor: var(--pf-v5-c-battery--default--FillColor, #6a6e73);
+    --battery--m-low--FillColor: var(--pf-v5-c-battery--m-low--FillColor, #3e8635);
+    --battery--m-medium--FillColor: var(--pf-v5-c-battery--m-medium--FillColor, #f0ab00);
+    --battery--m-high--FillColor: var(--pf-v5-c-battery--m-high--FillColor, #ec7a08);
+    --battery--m-critical--FillColor: var(--pf-v5-c-battery--m-critical--FillColor, #c9190b);
+    --battery--StrokeColor: var(--pf-v5-c-battery--StrokeColor, #d2d2d2);
+    --battery--FillColor: var(--pf-v5-c-battery--FillColor, 0.5rem);
     position: relative;
 }
 
