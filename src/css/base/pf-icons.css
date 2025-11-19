@@ -524,6 +524,6 @@
 @font-face {
     font-family: "pficon";
     src:
-        url("./assets/pficon/pficon.woff2") format("woff2"),
-        url("./assets/pficon/pficon.woff") format("woff");
+        url("./fonts/pficon/pficon.woff2") format("woff2"),
+        url("./fonts/pficon/pficon.woff") format("woff");
 }
