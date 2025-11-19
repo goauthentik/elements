@@ -1,10 +1,10 @@
-import { TemplateResult, html, nothing } from "lit";
+import { Title } from "./ak-title.component.js";
+
+import { html, nothing, TemplateResult } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
 export const titleSize = ["xs", "sm", "md", "lg", "xl", "2xl", "3xl", "4xl"] as const;
 export type TitleSize = (typeof titleSize)[number];
-
-import { Title } from "./ak-title.component.js";
 
 export type AkTitleProps = Partial<Pick<Title, "href" | "noAutoSlot">> & {
     icon?: string | TemplateResult;

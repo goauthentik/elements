@@ -1,30 +1,29 @@
 :host {
     /* From PatternFly */
-    --pf-v5-c-title--FontFamily: var(
-        --pf-v5-global--FontFamily--heading,
-        "RedHatDisplay",
-        helvetica,
-        arial,
-        sans-serif
+    --title--FontFamily--heading-fallback: "RedHatDisplay", helvetica, arial, sans-serif;
+    --title--FontFamily: var(
+        --pf-v5-c-title--FontFamily,
+        var(--title--FontFamily--heading-fallback)
     );
-    --pf-v5-c-title--FontWeight: var(--pf-v5-global--FontWeight--bold, 700);
-    --pf-v5-c-title--LineHeight: var(--pf-v5-global--LineHeight--md, 1.5);
+
+    --title--FontWeight: var(--pf-v5-c-title--FontWeight, 700);
+    --title--LineHeight: var(--pf-v5-c-title--LineHeight, 1.5);
 
     /* Default medium size */
-    --pf-v5-c-title--FontSize: var(--pf-v5-global--FontSize--lg, 1.125rem);
+    --FontSize: var(--pf-v5-c-title--FontSize, 1.125rem);
 
     /* None of these entries actually exist in the orginal Patternfly v5,
      * so we make them up as we go along.
      */
 
     /* Custom gap variable for icon spacing */
-    --ak-v1-c-title--Gap: var(--pf-v5-global--spacer--xs, 0.25rem);
+    --title--Gap: var(--ak-v1-c-title--Gap, 0.25rem);
 
     /* Link icon styling */
-    --ak-v1-c-title--link--Color: var(--pf-v5-global--link--Color, #06c);
-    --ak-v1-c-title--link--hover--Color: var(--pf-v5-global--link--Color--hover, #004080);
-    --ak-v1-c-title--link--focus--OutlineStyle: 2px solid
-        var(--pf-v5-global--primary-color--100, #06c);
+    --title--link--Color: var(--ak-v1-c-title--link--Color, #06c);
+    --title--link--hover--Color: var(--ak-v1-c-title--link--hover--Color, #004080);
+    --title--link--focus--OutlineStyle: 2px solid
+        var(--ak-v1-c-title--link--focus--OutlineStyle #06c);
 }
 
 :host {
@@ -39,11 +38,11 @@
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    font-family: var(--pf-v5-c-title--FontFamily);
-    font-size: var(--pf-v5-c-title--FontSize);
-    font-weight: var(--pf-v5-c-title--FontWeight);
-    line-height: 1.0;
-    gap: var(--ak-v1-c-title--Gap);
+    font-family: var(--title--FontFamily);
+    font-size: var(--title--FontSize);
+    font-weight: var(--title--FontWeight);
+    line-height: 1;
+    gap: var(--title--Gap);
     width: 100%;
 }
 
@@ -54,7 +53,7 @@
     flex-direction: row;
     align-items: baseline;
     align-content: center;
-    gap: var(--ak-v1-c-title--Gap);
+    gap: var(--title--Gap);
 }
 
 [part="icon"] {
@@ -75,11 +74,11 @@
     flex: 0 0 auto;
     display: fex;
     align-items: center;
-    margin-inline-start: var(--ak-v1-c-title--Gap);
+    margin-inline-start: var(--title--Gap);
 }
 
 [part="anchor"] {
-    color: var(--ak-v1-c-title--link--Color);
+    color: var(--title--link--Color);
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -87,51 +86,53 @@
 }
 
 [part="anchor"]:hover {
-    color: var(--ak-v1-c-title--link--hover--Color);
+    color: var(--title--link--hover--Color);
 }
 
 [part="anchor"]:focus {
-    outline: var(--ak-v1-c-title--link--focus--OutlineStyle);
+    outline: var(--title--link--focus--OutlineStyle);
     outline-offset: 2px;
     border-radius: 2px;
 }
 
-/* These size choices are different from those used in the original Patternfly 5. */
+/*
+ * These size choices are different from those used in the original Patternfly 5. @beryju approved.
+ */
 
 :host([size="xs"]) {
-    --pf-v5-c-title--FontSize: var(--pf-v5-global--FontSize--xs, 0.75rem);
+    --title--FontSize: var(--pf-v5-c-title--FontSize--xs, 0.75rem);
 }
 
 :host([size="sm"]) {
-    --pf-v5-c-title--FontSize: var(--pf-v5-global--FontSize--sm, 1rem);
+    --title--FontSize: var(--pf-v5-c-title--FontSize--sm, 1rem);
 }
 
 :host([size="md"]) {
-    --pf-v5-c-title--FontSize: var(--pf-v5-global--FontSize--lg, 1.125rem);
+    --title--FontSize: var(--pf-v5-c-title--FontSize--lg, 1.125rem);
 }
 
 :host([size="lg"]) {
-    --pf-v5-c-title--FontSize: var(--pf-v5-global--FontSize--xl, 1.25rem);
+    --title--FontSize: var(--pf-v5-c-title--FontSize--xl, 1.25rem);
 }
 
 :host([size="xl"]) {
-    --pf-v5-c-title--FontSize: var(--pf-v5-global--FontSize--2xl, 1.5rem);
+    --title--FontSize: var(--pf-v5-c-title--FontSize--2xl, 1.5rem);
 }
 
 :host([size="2xl"]) {
-    --pf-v5-c-title--FontSize: var(--pf-v5-global--FontSize--3xl, 1.875rem);
+    --title--FontSize: var(--pf-v5-c-title--FontSize--3xl, 1.875rem);
 }
 
 :host([size="3xl"]) {
-    --pf-v5-c-title--FontSize: var(--pf-v5-global--FontSize--4xl, 2.25rem);
+    --title--FontSize: var(--pf-v5-c-title--FontSize--4xl, 2.25rem);
 }
 
 :host([size="4xl"]) {
-    --pf-v5-c-title--FontSize: var(--pf-v5-global--FontSize--5xl, 3rem);
+    --title--FontSize: var(--pf-v5-c-title--FontSize--5xl, 3rem);
 }
 
 /* Dark theme adjustments */
 :host([theme="dark"]) {
-    --ak-v1-c-title--link--Color: var(--pf-v5-global--palette--blue-300, #73bcf7);
-    --ak-v1-c-title--link--hover--Color: var(--pf-v5-global--palette--blue-200, #bee1f4);
+    --title--link--Color: var(--ak-v1-c-title--link--Color, #73bcf7);
+    --title--link--hover--Color: var(--ak-v1-c-title--link--hover--Color, #bee1f4);
 }

@@ -1,12 +1,14 @@
-import { MutationController } from "@lit-labs/observers/mutation-controller.js";
-
-import { LitElement, html, nothing } from "lit";
-import { property } from "lit/decorators/property.js";
-import { ifDefined } from "lit/directives/if-defined.js";
-import { AkLitElement } from "../component-base.js";
-
-import { styles } from "./ak-title.css";
 import "../ak-icon/ak-icon.js";
+import "../ak-tooltip/ak-tooltip.js";
+
+import { AkLitElement } from "../component-base.js";
+import { styles } from "./ak-title.css";
+
+import { MutationController } from "@lit-labs/observers/mutation-controller.js";
+import { html, nothing, PropertyValues } from "lit";
+import { property, queryAssignedNodes, state } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { createRef, ref, Ref } from "lit/directives/ref.js";
 
 export interface ITitle {
     href?: string;
@@ -41,15 +43,23 @@ export interface ITitle {
  * @cssprop --ak-v1-c-title--link--focus--OutlineStyle - Focus outline style for the link
  */
 export class Title extends AkLitElement implements ITitle {
-    static readonly styles = [styles];
+    static override readonly styles = [styles];
 
     @property({ type: String })
-    href?: string;
+    public href?: string;
 
     @property({ type: Boolean, attribute: "no-auto-slot" })
-    noAutoSlot = false;
+    public noAutoSlot = false;
 
-    private updateAutoSlot = () => {
+    @state()
+    private isOverflowing = false;
+
+    @queryAssignedNodes({ flatten: true })
+    bodyText!: Array<Node>;
+
+    #containerRef: Ref<HTMLDivElement> = createRef();
+
+    #updateAutoSlot = () => {
         if (this.noAutoSlot || this.querySelectorAll('[slot="icon"]').length > 0) {
             return;
         }
@@ -66,36 +76,56 @@ export class Title extends AkLitElement implements ITitle {
         icon.slot = "icon";
     };
 
-    protected observer = new MutationController(this, {
+    private observer = new MutationController(this, {
         config: {
             childList: true,
             subtree: true,
             attributes: true,
             attributeFilter: ["slot"],
         },
-        callback: this.updateAutoSlot,
+        callback: this.#updateAutoSlot,
     });
+
+    get #titleText() {
+        return this.bodyText
+            .map((node) => node.textContent)
+            .join("")
+            .trim();
+    }
 
     public override connectedCallback() {
         super.connectedCallback();
-        this.updateAutoSlot();
+        this.#updateAutoSlot();
     }
 
-    render() {
+    public override render() {
         return html`<div part="title">
-            <div part="start">
-                ${this.hasSlotted("icon")
-                    ? html`<div part="icon"><slot name="icon"></slot></div>`
+                <div part="start">
+                    ${this.hasSlotted("icon")
+                        ? html`<div part="icon"><slot name="icon"></slot></div>`
+                        : nothing}
+                    <div part="body" ${ref(this.#containerRef)}><slot></slot></div>
+                </div>
+                ${this.href?.trim()
+                    ? html`<div part="end">
+                          <a part="anchor" href=${ifDefined(this.href)}
+                              ><ak-icon part="anchor-icon" icon="fas fa-external-link-alt"></ak-icon
+                          ></a>
+                      </div>`
                     : nothing}
-                <div part="body"><slot></slot></div>
             </div>
-            ${this.href?.trim()
-                ? html`<div part="end">
-                      <a part="anchor" href=${ifDefined(this.href)}
-                          ><ak-icon part="anchor-icon" icon="fas fa-external-link-alt"></ak-icon
-                      ></a>
-                  </div>`
-                : nothing}
-        </div>`;
+            ${this.isOverflowing
+                ? html`<ak-tooltip .target=${this.#containerRef?.value}
+                      >${this.#titleText}</ak-tooltip
+                  >`
+                : nothing}`;
+    }
+
+    public updated(changed: PropertyValues<this>) {
+        super.updated(changed);
+        requestAnimationFrame(() => {
+            const title = this.#containerRef.value;
+            this.isOverflowing = title !== undefined && title.scrollWidth > title.clientWidth;
+        });
     }
 }
