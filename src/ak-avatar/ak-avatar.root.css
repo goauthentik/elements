@@ -1,0 +1,19 @@
+:root {
+    --pf-v5-c-avatar--BorderColor: transparent;
+    --pf-v5-c-avatar--BorderWidth: 0;
+    --pf-v5-c-avatar--BorderRadius: var(--pf-v5-global--BorderRadius--lg);
+    --pf-v5-c-avatar--Width: 2.25rem;
+    --pf-v5-c-avatar--Height: 2.25rem;
+    --pf-v5-c-avatar--m-sm--Width: 1.5rem;
+    --pf-v5-c-avatar--m-sm--Height: 1.5rem;
+    --pf-v5-c-avatar--m-md--Width: 2.25rem;
+    --pf-v5-c-avatar--m-md--Height: 2.25rem;
+    --pf-v5-c-avatar--m-lg--Width: 4.5rem;
+    --pf-v5-c-avatar--m-lg--Height: 4.5rem;
+    --pf-v5-c-avatar--m-xl--Width: 8rem;
+    --pf-v5-c-avatar--m-xl--Height: 8rem;
+    --pf-v5-c-avatar--m-light--BorderColor: var(--pf-v5-global--BorderColor--dark-100);
+    --pf-v5-c-avatar--m-light--BorderWidth: var(--pf-v5-global--BorderWidth--sm);
+    --pf-v5-c-avatar--m-dark--BorderColor: var(--pf-v5-global--palette--black-700);
+    --pf-v5-c-avatar--m-dark--BorderWidth: var(--pf-v5-global--BorderWidth--sm);
+}

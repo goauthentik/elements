@@ -32,8 +32,8 @@ checkIsInPackageRoot();
 /* CONVENTION: For the purpose of generating component CSS, any css or scss filename in the source folder
  * (filename, not path) that contains only one period will be converted into LIT format. */
 
-const hostCssRe = /ak-[^.]+.css$/;
-const hostEitherRe = /(ak-[^.]+.).(css|scss)$/;
+const hostCssRe = /ak-[^.]+(?:\.(media))?\.css$/;
+const hostEitherRe = /(ak-[^.]+(?:\.(media))?)\.(css|scss)$/;
 
 const sassOpts = {
     loadPaths: [path.resolve(process.cwd(), "src")],

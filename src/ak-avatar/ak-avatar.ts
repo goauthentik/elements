@@ -1,7 +1,7 @@
-import { akAvatar } from "./ak-avatar.builder.js";
+import { akAvatar, type AvatarProps } from "./ak-avatar.builder.js";
 import { Avatar } from "./ak-avatar.component.js";
 
-export { akAvatar, Avatar };
+export { akAvatar, Avatar, type AvatarProps };
 
 window.customElements.define("ak-avatar", Avatar);
 

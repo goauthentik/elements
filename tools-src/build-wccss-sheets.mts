@@ -14,7 +14,11 @@ import {
     writeFile,
 } from "./lib/utilities.mjs";
 
+// @ts-expect-error no types provided
+import authentikPrettierConfig from "@goauthentik/prettier-config";
+
 import css, { Declaration, Rule } from "css";
+import * as prettier from "prettier";
 import yaml from "yaml";
 
 type WccssInstructions = {
@@ -83,6 +87,8 @@ checkIsInPackageRoot();
 
 const COMPONENT_PREFIX = new RegExp("^--pf-v5-c-");
 
+const prettierConfig = { ...authentikPrettierConfig, parser: "css" };
+
 /*
  * In order to make life easier, for each Block Indentifier in our CSS, we *strip* it from the
  * sourceStylesheet's collection of entries, so that our Transformation file doesn't have to
@@ -130,7 +136,7 @@ function cleanRules(componentRules: TokenRules, className: string): CleanRule[] 
             varWrap(
                 (entry.values ?? []).length > 0
                     ? entry.values[0].replaceAll(regex, "--")
-                    : entry.value.replaceAll(regex, "--"),
+                    : entry.value.replaceAll(regex, "--")
             ),
         ]);
 
@@ -279,7 +285,7 @@ class HostRules {
 
     add(rule: HardRule) {
         const foundRule = this.hostRules.find(
-            (r: HardRule) => r.selectors.at(0) === rule.selectors.at(0),
+            (r: HardRule) => r.selectors.at(0) === rule.selectors.at(0)
         );
         if (!foundRule) {
             this.hostRules.push(rule);
@@ -322,7 +328,7 @@ function getHostRules(sourceDeclarations: TokenDeclarations, base: string): GetH
             const { property, value, values } = declaration;
             return makeDeclaration(
                 property,
-                !(values && values.length > 1) ? value : `var(${values[0]})`,
+                !(values && values.length > 1) ? value : `var(${values[0]})`
             );
         })
         .filter((declaration) => declaration !== null);
@@ -339,8 +345,8 @@ function getHostRules(sourceDeclarations: TokenDeclarations, base: string): GetH
  * If we get a transformation with no $from, we have to check that it has no
  * features that might hint that it should.
  */
-const isValidStandalone = (hasSubstitutions: boolean, request: Record<string, string>) =>
-    !(hasSubstitutions || "$include" in request || "$exclude" in request);
+const derivedFromTokens = (hasSubstitutions: boolean, request: Record<string, string>) =>
+    hasSubstitutions || ["$include", "$exclude"].some((key) => key in request);
 
 /**
  * Named types for parameters of the function following
@@ -360,16 +366,16 @@ type ComponentMatcher = ReturnType<typeof makeSelectorMatcher>;
 function getComponentDeclarations(
     cleanRules: CleanRule[],
     componentMatcher: ComponentMatcher,
-    declarationFilter: DeclarationFilter,
+    declarationFilter: DeclarationFilter
 ) {
     const matchingRules = cleanRules.filter(([cleanSelector]) => componentMatcher(cleanSelector));
 
     const allMatchingDeclarations: CleanDeclaration[] = matchingRules.flatMap(
-        ([_cleanRules, cleanDeclarations]) => cleanDeclarations,
+        ([_cleanRules, cleanDeclarations]) => cleanDeclarations
     );
 
     return declarationFilter(allMatchingDeclarations).map((declaration) =>
-        makeDeclaration(...declaration),
+        makeDeclaration(...declaration)
     );
 }
 
@@ -388,7 +394,7 @@ function buildSubstitutedRules(
     cleanRules: CleanRule[],
     componentMatcher: ComponentMatcher,
     transSelector: string,
-    declarationFilter: DeclarationFilter,
+    declarationFilter: DeclarationFilter
 ): SubstitutedRule[] {
     const transformationRegex = makeAnchoredRegexp(from);
     return cleanRules
@@ -397,24 +403,24 @@ function buildSubstitutedRules(
             const newSelector = doSelectorSubstitution(
                 transformationRegex,
                 transSelector,
-                cleanSelector,
+                cleanSelector
             );
 
             const includedCleanDeclarations = declarationFilter(cleanDeclarations);
             const includedDeclarations: HardDeclaration[] = includedCleanDeclarations.map(
-                (declaration) => makeDeclaration(...declaration),
+                (declaration) => makeDeclaration(...declaration)
             );
 
             return [newSelector, includedDeclarations];
         });
 }
 
-function buildStylesheets(transformationFiles: string[]) {
+async function buildStylesheets(transformationFiles: string[]) {
     const sourceStylesheet: TokenComponents = generateTokens();
 
     for (const transformationFile of transformationFiles) {
         const transformation: WccssInstructions = yaml.parse(
-            readFile(path.join(SOURCE_DIR, transformationFile)),
+            readFile(path.join(SOURCE_DIR, transformationFile))
         );
 
         const componentRules: TokenRules = sourceStylesheet[path.basename(transformation.import)];
@@ -435,7 +441,7 @@ function buildStylesheets(transformationFiles: string[]) {
 
         const { rootRules, hostRules } = getHostRules(
             componentRules[transformation.base],
-            baseComponentProperty,
+            baseComponentProperty
         );
 
         const cleanSourceRules = cleanRules(componentRules, transformation.base);
@@ -458,9 +464,9 @@ function buildStylesheets(transformationFiles: string[]) {
 
             // New rule not derived from the source material.
             if (!("$from" in transRequest)) {
-                if (!isValidStandalone(selectorHasSubstitutions, transRequest)) {
+                if (derivedFromTokens(selectorHasSubstitutions, transRequest)) {
                     throw new Error(
-                        `${transSelector} rule has no $from and may not have substitutions or inclusion rules`,
+                        `${transSelector} rule has no $from and may not have substitutions or inclusion rules`
                     );
                 }
                 hostRules.add(makeRule(transSelector, customDeclarations));
@@ -475,10 +481,10 @@ function buildStylesheets(transformationFiles: string[]) {
                 const foundDeclarations = getComponentDeclarations(
                     cleanSourceRules,
                     componentMatcher,
-                    declarationFilter,
+                    declarationFilter
                 );
                 hostRules.add(
-                    makeRule(transSelector, [...foundDeclarations, ...customDeclarations]),
+                    makeRule(transSelector, [...foundDeclarations, ...customDeclarations])
                 );
                 continue;
             }
@@ -488,43 +494,47 @@ function buildStylesheets(transformationFiles: string[]) {
                 cleanSourceRules,
                 componentMatcher,
                 transSelector,
-                declarationFilter,
+                declarationFilter
             ).forEach(([newSelector, newDeclarations]) =>
-                hostRules.add(makeRule(newSelector, [...newDeclarations, ...customDeclarations])),
+                hostRules.add(makeRule(newSelector, [...newDeclarations, ...customDeclarations]))
             );
         }
 
         const newHostPath = path.join(
             SOURCE_DIR,
-            transformationFile.replace(/\.wcc\.\w+$/, ".css"),
+            transformationFile.replace(/\.wcc\.\w+$/, ".css")
         );
 
-        writeFile(
-            newHostPath,
+        const hostContent = await prettier.format(
             css.stringify({
                 type: "stylesheet",
                 stylesheet: {
                     rules: hostRules.rules,
                 },
             }),
+            prettierConfig
         );
+
+        writeFile(newHostPath, hostContent);
 
         const newRootPath = path.join(
             SOURCE_DIR,
-            transformationFile.replace(/\.wcc\.\w+$/, ".root.css"),
+            transformationFile.replace(/\.wcc\.\w+$/, ".root.css")
         );
 
-        writeFile(
-            newRootPath,
+        const rootContent = await prettier.format(
             css.stringify({
                 type: "stylesheet",
                 stylesheet: {
                     rules: rootRules.rules,
                 },
             }),
+            prettierConfig
         );
+
+        writeFile(newRootPath, rootContent);
     }
 }
 
 const transformationFiles: string[] = globSrc("**/*.wcc.yaml");
-buildStylesheets(transformationFiles);
+await buildStylesheets(transformationFiles);
