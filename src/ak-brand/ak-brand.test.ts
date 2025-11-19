@@ -126,9 +126,10 @@ describe("ak-brand component", () => {
         await browser.execute(() => {
             const style = document.createElement("style");
             style.textContent = `
-                .responsive-test {
-                    --pf-v5-c-brand--Width: 100px;
-                    --pf-v5-c-brand--Height: 50px;
+            .responsive-test {
+                    display: block;
+                    --ak-v1-c-brand--Width: 100px;
+                    --ak-v1-c-brand--Height: 50px;
                 }
             `;
             document.head.appendChild(style);
