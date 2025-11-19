@@ -8,7 +8,7 @@ visible and can be activated to scroll to the designated target element.
 ### Usage
 
 Due to the way browsers work, you must set the `targetElement` property after the target element
-becomes available.  The usual way to do this is in your routing code or as a JavaScript expression
+becomes available. The usual way to do this is in your routing code or as a JavaScript expression
 run after the page is fully loaded and parsed.
 
 ### Attributes
@@ -17,5 +17,5 @@ run after the page is fully loaded and parsed.
 
 ### Slots
 
-- (default slot) Alternative text for the visible button.  Defaults to the content of `label`,
+- (default slot) Alternative text for the visible button. Defaults to the content of `label`,
   described above.

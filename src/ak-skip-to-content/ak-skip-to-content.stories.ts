@@ -3,6 +3,7 @@ import "./ak-skip-to-content.js";
 import { SkipToContent } from "./ak-skip-to-content.js";
 
 import { Meta, StoryObj } from "@storybook/web-components";
+
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
@@ -60,8 +61,8 @@ run after the page is fully loaded and parsed.
             <div style="min-height: 200vh;">
                 <div style="padding: 1rem; border: 2px dashed #ccc; margin-bottom: 2rem;">
                     <p>
-                        <strong>Instructions:</strong> Press Tab to see the skip link appear. Click it or press Enter to
-                        jump to the target content below.
+                        <strong>Instructions:</strong> Press Tab to see the skip link appear. Click
+                        it or press Enter to jump to the target content below.
                     </p>
                 </div>
                 ${story()}
@@ -70,12 +71,18 @@ run after the page is fully loaded and parsed.
                 >
                     <p>Placeholder content area</p>
                 </div>
-                <div id="main-content" style="padding: 2rem; background: #e8f4fd; border: 2px solid #0066cc;">
+                <div
+                    id="main-content"
+                    style="padding: 2rem; background: #e8f4fd; border: 2px solid #0066cc;"
+                >
                     <h2>Main Content</h2>
-                    <p>This is the target content area. The skip link should scroll to this section and focus it.</p>
                     <p>
-                        This demonstrates how users can bypass navigation and other page elements to quickly reach the
-                        primary content.
+                        This is the target content area. The skip link should scroll to this section
+                        and focus it.
+                    </p>
+                    <p>
+                        This demonstrates how users can bypass navigation and other page elements to
+                        quickly reach the primary content.
                     </p>
                 </div>
                 <div
@@ -117,13 +124,19 @@ const Template: Story = {
             setupTarget();
         }
 
-        return html` <ak-skip-to-content label=${ifDefined(args.customLabel || undefined)}></ak-skip-to-content> `;
+        return html`
+            <ak-skip-to-content
+                label=${ifDefined(args.customLabel || undefined)}
+            ></ak-skip-to-content>
+        `;
     },
 };
 
 export const Default: Story = {
     ...Template,
-    ...describe("Basic skip to content link with default label. Press Tab to reveal the skip link."),
+    ...describe(
+        "Basic skip to content link with default label. Press Tab to reveal the skip link.",
+    ),
 };
 
 export const CustomLabel: Story = {
