@@ -1,10 +1,11 @@
+import "./ak-title";
+
+import { type Title, type TitleProps, titleSize } from "./ak-title.js";
+
 import type { Meta, StoryObj } from "@storybook/web-components";
 
-import { TemplateResult, html, nothing } from "lit";
+import { html, nothing, TemplateResult } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
-
-import "./ak-title";
-import { type Title, type TitleProps, titleSize } from "./ak-title.js";
 
 type Renderable = string | TemplateResult;
 
@@ -74,7 +75,8 @@ const Template: Story = {
             ?no-auto-slot=${args.noAutoSlot}
         >
             ${args.iconName
-                ? html`<i class=${args.iconName} slot=${args.iconSlot ? "icon" : nothing}></i>`
+                ? // eslint-disable-next-line sonarjs/no-nested-conditional
+                  html`<i class=${args.iconName} slot=${args.iconSlot ? "icon" : nothing}></i>`
                 : nothing}
             ${args.content}
         </ak-title>

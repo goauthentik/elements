@@ -1,0 +1,40 @@
+:root {
+    /* From PatternFly */
+    --pf-v5-c-title--FontFamily: var(--pf-v5-global--FontFamily--heading)
+        --pf-v5-c-title--FontWeight: var(--pf-v5-global--FontWeight--bold);
+    --pf-v5-c-title--LineHeight: var(--pf-v5-global--LineHeight--md);
+
+    /* Default medium size */
+    --pf-v5-c-title--FontSize: var(--pf-v5-global--FontSize--lg);
+
+    /* None of these entries actually exist in the orginal Patternfly v5,
+     * so we make them up as we go along.
+     */
+
+    /* Custom gap variable for icon spacing */
+    --ak-v1-c-title--Gap: var(--pf-v5-global--spacer--xs);
+
+    /* Link icon styling */
+    --ak-v1-c-title--link--Color: var(--pf-v5-global--link--Color);
+    --ak-v1-c-title--link--hover--Color: var(--pf-v5-global--link--Color--hover);
+    --ak-v1-c-title--link--focus--OutlineStyle: 2px solid var(--pf-v5-global--primary-color--100);
+
+    /*
+     * CUSTOMIZATION: These size choices are different from those used in the original Patternfly 5.
+     * @beryju approved.
+     */
+
+    --pf-v5-c-title--FontSize--xs: 0.75rem;
+    --pf-v5-c-title--FontSize--sm: 1rem;
+    --pf-v5-c-title--FontSize--lg: 1.125rem;
+    --pf-v5-c-title--FontSize--xl: 1.25rem;
+    --pf-v5-c-title--FontSize--2xl: 1.5rem;
+    --pf-v5-c-title--FontSize--3xl: 1.875rem;
+    --pf-v5-c-title--FontSize--4xl: 2.25rem;
+    --pf-v5-c-title--FontSize--5xl: 3rem;
+}
+
+html[theme="dark"] {
+    --ak-v1-c-title--link--Color: var(--pf-v5-global--palette--blue-300);
+    --ak-v1-c-title--link--hover--Color: var(--pf-v5-global--palette--blue-200);
+}

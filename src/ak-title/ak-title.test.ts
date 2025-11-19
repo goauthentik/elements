@@ -1,10 +1,11 @@
+import "./ak-title.js";
+
+import { akTitle } from "./ak-title.builder.js";
+
 import { spread } from "@open-wc/lit-helpers";
 import { $, browser, expect } from "@wdio/globals";
 
-import { TemplateResult, html, render } from "lit";
-
-import { akTitle, TitleSize, titleSize } from "./ak-title.builder.js";
-import "./ak-title.js";
+import { html, render, TemplateResult } from "lit";
 
 describe("ak-title component", () => {
     afterEach(async () => {
@@ -22,11 +23,11 @@ describe("ak-title component", () => {
 
     const renderComponent = async (
         content: string | TemplateResult = "Test Title",
-        properties = {}
+        properties = {},
     ) => {
         const root = render(
             html`<ak-title ${spread(properties)}>${content}</ak-title>`,
-            document.body
+            document.body,
         );
         await browser.pause(100);
         return root;
@@ -115,7 +116,7 @@ describe("ak-title component", () => {
                 <i class="fas fa-gear" id="no-auto"></i>
                 No Auto Slot Title
             `,
-            { "no-auto-slot": true }
+            { "no-auto-slot": true },
         );
 
         await browser.pause(150);
@@ -200,7 +201,7 @@ describe("ak-title component", () => {
                 <i class="fas fa-user" slot="icon"></i>
                 User Profile
             `,
-            { href: "/user/details", size: "lg" }
+            { href: "/user/details", size: "lg" },
         );
 
         const title = await $("ak-title");
@@ -223,7 +224,7 @@ describe("ak-title component", () => {
                 <i class="fas fa-test" slot="icon"></i>
                 Parts Test
             `,
-            { href: "/test" }
+            { href: "/test" },
         );
 
         const title = await $("ak-title");
@@ -254,7 +255,7 @@ describe("ak-title component", () => {
 
         await renderComponent(
             "This is a very long title that should demonstrate text overflow behavior",
-            { class: "narrow-container" }
+            { class: "narrow-container" },
         );
 
         const body = await $("ak-title").$('>>>[part="body"]');
@@ -271,7 +272,7 @@ describe("ak-title component", () => {
                 <i class="fas fa-layout" slot="icon"></i>
                 Layout Test
             `,
-            { href: "/layout" }
+            { href: "/layout" },
         );
 
         const main = await $("ak-title").$('>>>[part="title"]');
@@ -333,7 +334,7 @@ describe("akTitle helper function", () => {
     it("should create title with icon option", async () => {
         render(
             akTitle({ content: "Icon Title", icon: html`<i class="fas fa-builder"></i>` }),
-            document.body
+            document.body,
         );
 
         const title = await $("ak-title");
@@ -354,7 +355,7 @@ describe("akTitle helper function", () => {
                 noAutoSlot: true,
                 icon: html`<i class="fas fa-complete"></i>`,
             }),
-            document.body
+            document.body,
         );
 
         const title = await $("ak-title");
@@ -373,7 +374,7 @@ describe("akTitle helper function", () => {
     it("should handle template content", async () => {
         render(
             akTitle({ content: html`<strong>Bold</strong> Builder Title`, size: "md" }),
-            document.body
+            document.body,
         );
 
         const title = await $("ak-title");
@@ -415,7 +416,7 @@ describe("akTitle helper function", () => {
                 icon: html`<i class="fas fa-test"></i>`,
                 href: "/test",
             }),
-            document.body
+            document.body,
         );
 
         const title = await $("ak-title");
