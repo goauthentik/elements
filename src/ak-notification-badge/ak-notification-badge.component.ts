@@ -1,10 +1,12 @@
+import "../ak-icon/ak-icon.js";
+
 import styles from "./ak-notification-badge.css";
 import type { INotificationBadge } from "./ak-notification-badge.types.js";
-import "../ak-icon/ak-icon.js";
+
 import { match } from "ts-pattern";
 
 import { msg, str } from "@lit/localize";
-import { html, nothing, LitElement, PropertyValues } from "lit";
+import { html, LitElement, nothing, PropertyValues } from "lit";
 import { property } from "lit/decorators.js";
 
 type ClickHandler = GlobalEventHandlers["onchange"];
@@ -91,7 +93,7 @@ export class NotificationBadge extends LitElement implements INotificationBadge 
             new MouseEvent("click", {
                 bubbles: true,
                 cancelable: true,
-            })
+            }),
         );
     };
 

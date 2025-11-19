@@ -1,6 +1,6 @@
 import "./ak-notification-badge.js";
 
-import { akNotificationBadge, NotificationBadge } from "./ak-notification-badge.js";
+import { NotificationBadge } from "./ak-notification-badge.js";
 
 import { $, browser, expect } from "@wdio/globals";
 
@@ -46,7 +46,7 @@ describe("ak-notification-badge component", () => {
 
     it("should render with default icon and no count when count is 0", async () => {
         const { badge, icon, count } = await provide(
-            html`<ak-notification-badge></ak-notification-badge>`
+            html`<ak-notification-badge></ak-notification-badge>`,
         );
 
         await expect(badge).toExist();
@@ -60,7 +60,7 @@ describe("ak-notification-badge component", () => {
 
     it("should display count when greater than 0", async () => {
         const { count } = await provide(
-            html`<ak-notification-badge count="5"></ak-notification-badge>`
+            html`<ak-notification-badge count="5"></ak-notification-badge>`,
         );
 
         await expect(count).toExist();
@@ -69,7 +69,7 @@ describe("ak-notification-badge component", () => {
 
     it("should hide count when it returns to 0", async () => {
         const { component, count } = await provide(
-            html`<ak-notification-badge count="3"></ak-notification-badge>`
+            html`<ak-notification-badge count="3"></ak-notification-badge>`,
         );
 
         await expect(count).toExist();
@@ -85,7 +85,7 @@ describe("ak-notification-badge component", () => {
 
     it("should clamp negative counts to 0", async () => {
         const { component, count } = await provide(
-            html`<ak-notification-badge count="-5"></ak-notification-badge>`
+            html`<ak-notification-badge count="-5"></ak-notification-badge>`,
         );
 
         await expect(count).not.toExist();
@@ -96,7 +96,7 @@ describe("ak-notification-badge component", () => {
 
     it("should have correct ARIA label for count 0", async () => {
         const { component } = await provide(
-            html`<ak-notification-badge count="0"></ak-notification-badge>`
+            html`<ak-notification-badge count="0"></ak-notification-badge>`,
         );
 
         await expect(component).toHaveAttribute("aria-label", msg("No unread notifications"));
@@ -104,7 +104,7 @@ describe("ak-notification-badge component", () => {
 
     it("should have correct ARIA label for count 1", async () => {
         const { component } = await provide(
-            html`<ak-notification-badge count="1"></ak-notification-badge>`
+            html`<ak-notification-badge count="1"></ak-notification-badge>`,
         );
 
         await expect(component).toHaveAttribute("aria-label", msg("One unread notification"));
@@ -112,7 +112,7 @@ describe("ak-notification-badge component", () => {
 
     it("should have correct ARIA label for count > 1", async () => {
         const { component } = await provide(
-            html`<ak-notification-badge count="7"></ak-notification-badge>`
+            html`<ak-notification-badge count="7"></ak-notification-badge>`,
         );
 
         await expect(component).toHaveAttribute("aria-label", "7 unread notifications");
@@ -120,7 +120,7 @@ describe("ak-notification-badge component", () => {
 
     it("should update ARIA label when count changes", async () => {
         const { component } = await provide(
-            html`<ak-notification-badge count="3"></ak-notification-badge>`
+            html`<ak-notification-badge count="3"></ak-notification-badge>`,
         );
 
         await expect(component).toHaveAttribute("aria-label", "3 unread notifications");
@@ -135,7 +135,7 @@ describe("ak-notification-badge component", () => {
 
     it("should update ARIA label when count changes to 0", async () => {
         const { component } = await provide(
-            html`<ak-notification-badge count="5"></ak-notification-badge>`
+            html`<ak-notification-badge count="5"></ak-notification-badge>`,
         );
 
         await expect(component).toHaveAttribute("aria-label", "5 unread notifications");
@@ -169,7 +169,7 @@ describe("ak-notification-badge component", () => {
 
     it("should set tabindex=-1 when disabled", async () => {
         const { badge } = await provide(
-            html`<ak-notification-badge disabled></ak-notification-badge>`
+            html`<ak-notification-badge disabled></ak-notification-badge>`,
         );
 
         await expect(badge).toHaveAttribute("tabindex", "-1");
@@ -177,7 +177,7 @@ describe("ak-notification-badge component", () => {
 
     it("should dispatch click event when clicked", async () => {
         const { component, badge } = await provide(
-            html`<ak-notification-badge></ak-notification-badge>`
+            html`<ak-notification-badge></ak-notification-badge>`,
         );
 
         let clickFired = false;
@@ -196,7 +196,7 @@ describe("ak-notification-badge component", () => {
 
     it("should dispatch click event on Enter key", async () => {
         const { component, badge } = await provide(
-            html`<ak-notification-badge></ak-notification-badge>`
+            html`<ak-notification-badge></ak-notification-badge>`,
         );
 
         let clickFired = false;
@@ -216,7 +216,7 @@ describe("ak-notification-badge component", () => {
 
     it("should dispatch click event on Space key", async () => {
         const { component, badge } = await provide(
-            html`<ak-notification-badge></ak-notification-badge>`
+            html`<ak-notification-badge></ak-notification-badge>`,
         );
 
         let clickFired = false;
