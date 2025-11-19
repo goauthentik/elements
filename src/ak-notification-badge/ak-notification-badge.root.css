@@ -52,7 +52,6 @@
     );
 }
 
-
 :where(html[theme="dark"]) {
     --pf-v5-c-notification-badge--m-read--m-expanded--after--BackgroundColor: var(
         --pf-v5-global--BackgroundColor--400
