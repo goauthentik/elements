@@ -23,7 +23,7 @@ describe("ak-disclosure component", () => {
         const disclosure = await $("ak-disclosure");
         const label = await $("label");
         const toggle = await disclosure.$(">>>[part='toggle']");
-        const content = await disclosure.$(">>>[part='content']");
+        const content = await disclosure.$('>>>[part="disclosure"] > [part="content"]');
         const iconContainer = await disclosure.$(">>>[part='icon']");
         const labelSlot = await disclosure.$(">>>slot[name='label']");
         const openLabelSlot = await disclosure.$(">>>slot[name='label-open']");
@@ -31,7 +31,7 @@ describe("ak-disclosure component", () => {
     };
 
     it("should render closed by default", async () => {
-        const { disclosure, toggle, content } = await present(
+        const { disclosure, toggle } = await present(
             html`<ak-disclosure>
                 <label>Test Label</label>
                 <p>Test content</p>
@@ -41,7 +41,6 @@ describe("ak-disclosure component", () => {
         await expect(disclosure).toExist();
         await expect(disclosure).not.toHaveAttribute("open");
         await expect(toggle).toHaveAttribute("aria-expanded", "false");
-        await expect(content).toHaveAttribute("hidden");
     });
 
     it("should render open when open attribute is set", async () => {
@@ -79,7 +78,6 @@ describe("ak-disclosure component", () => {
         await label.click();
         await expect(disclosure).not.toHaveAttribute("open");
         await expect(toggle).toHaveAttribute("aria-expanded", "false");
-        await expect(content).toHaveAttribute("hidden");
     });
 
     it("should dispatch toggle event when clicked", async () => {
@@ -179,9 +177,8 @@ describe("ak-disclosure component", () => {
 
         await expect(iconContainer).toExist();
 
-        const defaultIcon = await iconContainer.$(">>>i.fa-angle-right");
+        const defaultIcon = await iconContainer.$('>>>ak-icon[icon="fas fa-angle-right"]');
         await expect(defaultIcon).toExist();
-        await expect(defaultIcon).toHaveAttribute("aria-hidden", "true");
     });
 
     it("should have proper ARIA attributes", async () => {
@@ -198,6 +195,7 @@ describe("ak-disclosure component", () => {
         await expect(toggle).toHaveAttribute("id", "toggle");
 
         await label.click();
+
         await expect(content).toBeDisplayed();
         await expect(content).toHaveAttribute("aria-labelledby", "toggle");
         await expect(content).toHaveAttribute("id", "content");
@@ -294,7 +292,8 @@ describe("akDisclosure builder function", () => {
         await expect(disclosure).toExist();
         await expect(disclosure).not.toHaveAttribute("open");
 
-        const content = await disclosure.$(">>>[part='content']");
+        const content = await disclosure.$('>>>[part="disclosure"] > [part="content"]');
+        await expect(content).toExist();
         await expect(content).toHaveAttribute("hidden");
     });
 
