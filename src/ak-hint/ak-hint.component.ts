@@ -1,8 +1,7 @@
-import { html, nothing } from "lit";
-
+import { AkLitElement } from "../component-base.js";
 import styles from "./ak-hint.css";
 
-import { AkLitElement } from "../component-base.js";
+import { html, nothing } from "lit";
 
 /**
  * @element ak-hint
@@ -39,7 +38,7 @@ export class Hint extends AkLitElement {
 
     render() {
         const [hasTitle, hasBody, hasFooter] = ["title", null, "footer"].map(
-            this.hasSlotted.bind(this)
+            this.hasSlotted.bind(this),
         );
 
         return html`

@@ -1,11 +1,10 @@
-import { MutationController } from "@lit-labs/observers/mutation-controller.js";
-import { PropertyValues, TemplateResult, html } from "lit";
-import { property } from "lit/decorators.js";
-
+import { AkLitElement } from "../component-base.js";
 import { styles as icons } from "../css/base/fa-icons.css";
 import { styles } from "./ak-disclosure.css";
 
-import { AkLitElement } from "../component-base.js";
+import { MutationController } from "@lit-labs/observers/mutation-controller.js";
+import { html, PropertyValues, TemplateResult } from "lit";
+import { property } from "lit/decorators.js";
 
 export interface IDisclosure {
     name?: string;
@@ -171,7 +170,7 @@ export class Disclosure extends AkLitElement implements IDisclosure {
             new Event("toggle", {
                 bubbles: true,
                 composed: true,
-            })
+            }),
         );
     };
 

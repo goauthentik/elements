@@ -1,6 +1,6 @@
-import { TemplateResult, html } from "lit";
-
 import { Hint } from "./ak-hint.component.js";
+
+import { html, TemplateResult } from "lit";
 
 export type AkHintProps = {
     title?: string | TemplateResult;

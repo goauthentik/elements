@@ -6,7 +6,6 @@ import { styles as mediaStyles } from "./ak-avatar.media.css";
 
 import { html, LitElement, PropertyValues, TemplateResult } from "lit";
 import { property, state } from "lit/decorators.js";
-import { property } from "lit/decorators/property.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 
 export interface IAvatar {
@@ -77,19 +76,19 @@ export class Avatar extends LitElement implements IAvatar {
 
     #renderAvatar(src: string) {
         return this.#maybeWithTooltip(
-            html`<img part="avatar" src=${src} @error=${this.#onImageFail} />`
+            html`<img part="avatar" src=${src} @error=${this.#onImageFail} />`,
         );
     }
 
     #renderIcon(icon: string) {
         return this.#maybeWithTooltip(
-            html`<ak-icon part="avatar-icon" icon=${icon} size=${ifDefined(this.size)}></ak-icon>`
+            html`<ak-icon part="avatar-icon" icon=${icon} size=${ifDefined(this.size)}></ak-icon>`,
         );
     }
 
     #renderInitials(initials: string) {
         return this.#maybeWithTooltip(
-            html`<div part="avatar-initials">${this.initials.trim().substr(0, 3)}</div>`
+            html`<div part="avatar-initials">${this.initials.trim().substr(0, 3)}</div>`,
         );
     }
 

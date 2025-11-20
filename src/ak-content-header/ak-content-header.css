@@ -4,10 +4,10 @@
     --ak-v1-c--content-header__subtitle--Display: none;
     --ak-v1-c--content-header__subtitle--Display-Webkit: none;
     --ak-v1-c--content-header__subtitle--LineClamp: 2;
-    
+
     --pf-v5-c-content-header--title--FontSize: var(--pf-v5-global--FontSize--2xl, 1.5rem);
     --pf-v5-c-content-header--title--FontWeight: var(--pf-v5-global--FontWeight--normal, 400);
-    --pf-v5-c-content-header--title--LineHeight: var(--pf-v5-global--LineHeight--xs, 1.0);
+    --pf-v5-c-content-header--title--LineHeight: var(--pf-v5-global--LineHeight--xs, 1);
 
     --pf-v5-c-content-header--subtitle--FontSize: var(--pf-v5-global--FontSize--md, 1rem);
     --pf-v5-c-content-header--subtitle--FontWeight: var(--pf-v5-global--FontWeight--normal, 400);
@@ -52,7 +52,7 @@
     font-size: var(--pf-v5-c-content-header--subtitle--FontSize);
     font-weight: var(--pf-v5-c-content-header--subtitle--FontWeight);
     line-height: var(--pf-v5-c-content-header--subtitle--LineHeight);
-    line-clamp:  var(--ak-v1-c--content-header__subtitle--LineClamp);
+    line-clamp: var(--ak-v1-c--content-header__subtitle--LineClamp);
     -webkit-line-clamp: var(--ak-v1-c--content-header__subtitle--LineClamp);
     box-orient: vertical;
     -webkit-box-orient: vertical;
@@ -60,13 +60,11 @@
     text-wrap-style: balance;
 }
 
-
 [part="title"] {
     font-size: var(--pf-v5-c-content-header--title--FontSize);
     font-weight: var(--pf-v5-c-content-header--title--FontWeight);
     line-height: var(--pf-v5-c-content-header--title--LineHeight);
 }
-
 
 @container header (min-width: 360px) {
     [part="content-header"] {

@@ -2,7 +2,7 @@ import { customElement } from "../utils/customElement.js";
 import { akHint, type AkHintProps } from "./ak-hint.builder.js";
 import { Hint } from "./ak-hint.component.js";
 
-export { Hint, akHint, AkHintProps };
+export { akHint, AkHintProps, Hint };
 
 customElement("ak-hint", Hint);
 

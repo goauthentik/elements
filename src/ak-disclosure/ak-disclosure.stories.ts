@@ -1,9 +1,10 @@
+import "./ak-disclosure.js";
+
+import { akDisclosure, IDisclosure } from "./ak-disclosure.js";
+
 import { Meta, StoryObj } from "@storybook/web-components";
 
 import { html } from "lit";
-
-import { IDisclosure, akDisclosure } from "./ak-disclosure.js";
-import "./ak-disclosure.js";
 
 type StoryProps = IDisclosure & { indent: boolean; noHighlight: boolean };
 

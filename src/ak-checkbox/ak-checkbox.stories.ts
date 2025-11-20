@@ -252,7 +252,7 @@ export const FormIntegration: Story = {
                         Array.from(formData.entries())
                             .map(([k, v]) => `${k}=${v}`)
                             .join(", ") || "no data"
-                    }`
+                    }`,
                 );
             }}
         >

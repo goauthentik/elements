@@ -1,11 +1,10 @@
 import "./ak-stack.js";
 
-import { akStack, Stack } from "./ak-stack.js";
+import { akStack } from "./ak-stack.js";
 
 import { Meta, StoryObj } from "@storybook/web-components";
 
 import { html, TemplateResult } from "lit";
-import { ifDefined } from "lit/directives/if-defined.js";
 
 type StoryProps = {
     wrap: boolean;
@@ -156,7 +155,7 @@ export const GutterSizes: Story = {
 // Stack with fill item (most important for vertical layouts)
 export const WithFillItem: Story = {
     ...describe(
-        "One item has the stack-fill attribute to grow and fill available vertical space - crucial for layout components."
+        "One item has the stack-fill attribute to grow and fill available vertical space - crucial for layout components.",
     ),
     render: () => html`
         <ak-stack gutter="sm">
@@ -436,7 +435,7 @@ export const HelperFunction: Story = {
                         Footer
                     </div>
                 `,
-                { gutter: "sm", align: "center" }
+                { gutter: "sm", align: "center" },
             )}
             ${akStack(
                 html`
@@ -452,7 +451,7 @@ export const HelperFunction: Story = {
                         Dynamic Content Area
                     </div>
                 `,
-                { gutter: "md" }
+                { gutter: "md" },
             )}
         </div>
     `,

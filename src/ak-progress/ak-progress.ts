@@ -1,21 +1,21 @@
 import { customElement } from "../utils/customElement.js";
 import { akProgress, type ProgressProps } from "./ak-progress.builder.js";
 import {
-    Progress,
     type IProgress,
-    type ProgressBarVariant,
+    Progress,
     type ProgressBarSeverity,
     type ProgressBarSize,
+    type ProgressBarVariant,
 } from "./ak-progress.component.js";
 
 export {
     akProgress,
-    Progress,
     type IProgress,
-    type ProgressProps,
-    type ProgressBarVariant,
+    Progress,
     type ProgressBarSeverity,
     type ProgressBarSize,
+    type ProgressBarVariant,
+    type ProgressProps,
 };
 
 customElement("ak-progress", Progress);

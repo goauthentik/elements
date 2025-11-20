@@ -3,6 +3,7 @@ import "./ak-notification-counter.js";
 import { akNotificationCounter, NotificationCounter } from "./ak-notification-counter.js";
 
 import { Meta, StoryObj } from "@storybook/web-components";
+
 import { html } from "lit";
 
 type StoryProps = Pick<Partial<NotificationCounter>, "count">;
@@ -72,7 +73,7 @@ export const NoNotifications: Story = {
 // Single notification
 export const SingleNotification: Story = {
     ...describe(
-        "When count is 1, the bell appearance inverts and a badge displays '1'. Screen readers announce 'One unread notification'."
+        "When count is 1, the bell appearance inverts and a badge displays '1'. Screen readers announce 'One unread notification'.",
     ),
     args: {
         count: 1,
@@ -87,7 +88,7 @@ export const SingleNotification: Story = {
 // Multiple notifications
 export const MultipleNotifications: Story = {
     ...describe(
-        "With count > 1, the badge displays the number. Screen readers announce the count with proper pluralization."
+        "With count > 1, the badge displays the number. Screen readers announce the count with proper pluralization.",
     ),
     args: {
         count: 5,
@@ -102,7 +103,7 @@ export const MultipleNotifications: Story = {
 // High notification count
 export const HighCount: Story = {
     ...describe(
-        "The component displays any count value, though visual overflow may occur with very large numbers (999+). Consider implementing a maximum display value like '99+' in production."
+        "The component displays any count value, though visual overflow may occur with very large numbers (999+). Consider implementing a maximum display value like '99+' in production.",
     ),
     args: {
         count: 142,
@@ -117,7 +118,7 @@ export const HighCount: Story = {
 // Size variants
 export const SizeVariants: Story = {
     ...describe(
-        "The component scales with the parent's font-size, maintaining its 1:1 aspect ratio. Set font-size on the parent container to control size."
+        "The component scales with the parent's font-size, maintaining its 1:1 aspect ratio. Set font-size on the parent container to control size.",
     ),
     render: () => html`
         <div style="display: flex; gap: 2rem; align-items: center;">
@@ -144,7 +145,7 @@ export const SizeVariants: Story = {
 // Interactive example with event handling
 export const InteractiveWithEvents: Story = {
     ...describe(
-        "Click the notification counter to see the ak-notification-toggle event. In a real application, this would open a notification panel or drawer."
+        "Click the notification counter to see the ak-notification-toggle event. In a real application, this would open a notification panel or drawer.",
     ),
     args: {
         count: 8,
@@ -167,7 +168,7 @@ export const InteractiveWithEvents: Story = {
 // Using the builder function
 export const UsingBuilder: Story = {
     ...describe(
-        "The akNotificationCounter builder function provides a programmatic way to create instances with type safety."
+        "The akNotificationCounter builder function provides a programmatic way to create instances with type safety.",
     ),
     render: () => html`
         <div style="display: flex; gap: 2rem; align-items: center;">
@@ -182,7 +183,7 @@ export const UsingBuilder: Story = {
 // In context example
 export const InNavigationBar: Story = {
     ...describe(
-        "Typical usage in a navigation bar or toolbar. The counter integrates naturally with other navigation elements."
+        "Typical usage in a navigation bar or toolbar. The counter integrates naturally with other navigation elements.",
     ),
     render: () => html`
         <nav

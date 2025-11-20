@@ -135,7 +135,7 @@ export class CheckboxInput
                 .with([true, P._], () => "mixed")
                 .with([false, true], () => "true")
                 .with([false, false], () => "false")
-                .exhaustive()
+                .exhaustive(),
         );
     }
 }

@@ -1,4 +1,5 @@
 import { NotificationCounter } from "./ak-notification-counter.component.js";
+
 import { html } from "lit";
 
 export type AkNotificationCounterProps = Partial<Pick<NotificationCounter, "count">>;

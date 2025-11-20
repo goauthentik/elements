@@ -1,7 +1,7 @@
-import { TemplateResult, html } from "lit";
-import { ifDefined } from "lit/directives/if-defined.js";
-
 import { Disclosure } from "./ak-disclosure.component.js";
+
+import { html, TemplateResult } from "lit";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 export type AkDisclosureProps = Partial<Pick<Disclosure, "open" | "name" | "icon">> & {
     content?: string | TemplateResult;

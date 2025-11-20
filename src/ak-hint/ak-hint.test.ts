@@ -1,10 +1,11 @@
+import "./ak-hint.js";
+
+import { akHint } from "./ak-hint.builder.js";
+
 import { spread } from "@open-wc/lit-helpers";
 import { $, browser, expect } from "@wdio/globals";
 
-import { TemplateResult, html, nothing, render } from "lit";
-
-import { akHint } from "./ak-hint.builder.js";
-import "./ak-hint.js";
+import { html, render, TemplateResult } from "lit";
 
 describe("ak-hint component", () => {
     afterEach(async () => {
@@ -20,11 +21,11 @@ describe("ak-hint component", () => {
 
     const renderComponent = async (
         content: string | TemplateResult = html`<span>Test content</span>`,
-        properties = {}
+        properties = {},
     ) => {
         const root = render(
             html`<ak-hint ${spread(properties)}>${content}</ak-hint>`,
-            document.body
+            document.body,
         );
         await browser.pause(100);
         return root;
@@ -253,7 +254,7 @@ describe("akHint helper function", () => {
                 title: "Complete Title",
                 footer: "Complete footer with details",
             }),
-            document.body
+            document.body,
         );
 
         const hint = await $("ak-hint");
@@ -277,7 +278,7 @@ describe("akHint helper function", () => {
                 title: html`<h3>HTML Title</h3>`,
                 footer: html`<div>Footer with <a href="#">link</a></div>`,
             }),
-            document.body
+            document.body,
         );
 
         const hint = await $("ak-hint");

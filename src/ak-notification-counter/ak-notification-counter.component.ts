@@ -1,11 +1,13 @@
 import styles from "./ak-notification-counter.css";
+import { NotificationToggleEvent } from "./ak-notification-counter.events";
+import { template } from "./ak-notification-counter.template.js";
+import type { INotificationCounter } from "./ak-notification-counter.types.js";
+
 import { match } from "ts-pattern";
+
 import { msg, str } from "@lit/localize";
 import { LitElement, PropertyValues } from "lit";
 import { property } from "lit/decorators.js";
-import { template } from "./ak-notification-counter.template.js";
-import type { INotificationCounter } from "./ak-notification-counter.types.js";
-import { NotificationToggleEvent } from "./ak-notification-counter.events";
 
 /**
  * @element ak-notification-counter

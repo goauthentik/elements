@@ -1,5 +1,6 @@
-import { html, nothing } from "lit";
 import type { INotificationCounter } from "./ak-notification-counter.types.js";
+
+import { html, nothing } from "lit";
 
 // The `part="bell"` is used in multiple places because the expectation is that its only use will be
 // to control the color of the bell element itself; in a better world, we would be able to limit CSS

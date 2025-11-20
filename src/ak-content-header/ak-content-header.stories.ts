@@ -4,6 +4,7 @@ import "../ak-icon/ak-icon.js";
 import { ContentHeader } from "./ak-content-header.js";
 
 import { Meta, StoryObj } from "@storybook/web-components";
+
 import { html, nothing, TemplateResult } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
@@ -156,7 +157,7 @@ export const LongSubtitle: Story = {
 // Container query responsive behavior
 export const ResponsiveBehavior: Story = {
     ...describe(
-        "Demonstrates how the component adapts to different container widths. Icon and subtitle are hidden below 360px."
+        "Demonstrates how the component adapts to different container widths. Icon and subtitle are hidden below 360px.",
     ),
     render: () => html`
         <div style="display: flex; flex-direction: column; gap: 2rem;">

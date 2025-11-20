@@ -1,7 +1,7 @@
 import "./ak-progress.js";
 import "../ak-icon/ak-icon.js";
 
-import { Progress, ProgressBarSeverity, ProgressBarSize, akProgress } from "./ak-progress.js";
+import { akProgress, Progress, ProgressBarSeverity, ProgressBarSize } from "./ak-progress.js";
 
 import type { Meta, StoryObj } from "@storybook/web-components";
 
@@ -536,7 +536,7 @@ export const BuilderDynamic: Story = {
                                 </small>
                             </div>
                         `,
-                    })
+                    }),
                 )}
             </div>
         `;
@@ -644,7 +644,7 @@ export const BuilderReactive: Story = {
             // Simulate fluctuating normal progress
             normalProgress = Math.max(
                 0,
-                Math.min(100, normalProgress + (Math.random() - 0.5) * 20)
+                Math.min(100, normalProgress + (Math.random() - 0.5) * 20),
             );
 
             // Simulate only increasing one-way progress

@@ -2,19 +2,24 @@
     --ak-v1-c-notification-counter--BackgroundColor: inherit;
     --ak-v1-c-notification-counter--BorderRadius: var(--pf-v5-global--BorderRadius--sm, 3px);
     --ak-v1-c-notification-counter__icon--Color: var(--ak-v1-global--Color, #151515);
-    --ak-v1-c-notification-counter__counter--BackgroundColor: var(--pf-v5-global--primary-color--100, #0066cc);
+    --ak-v1-c-notification-counter__counter--BackgroundColor: var(
+        --pf-v5-global--primary-color--100,
+        #0066cc
+    );
     --ak-v1-c-notification-counter__counter--Color: var(--pf-v5-global--palette--white, #ffffff);
     display: inline-block;
     aspect-ratio: 1 / 1;
 }
 
 :host(:has([part="counter"])) {
-    --ak-v1-c-notification-counter--BackgroundColor: var(--pf-v5-global--primary-color--100, #0066cc);
+    --ak-v1-c-notification-counter--BackgroundColor: var(
+        --pf-v5-global--primary-color--100,
+        #0066cc
+    );
     --ak-v1-c-notification-counter__icon--Color: var(--pf-v5-global--palette--white, #ffffff);
     --ak-v1-c-notification-counter__counter--BackgroundColor: var(--ak-v1-global--Color, #151515);
     --ak-v1-c-notification-counter__counter--Color: var(--pf-v5-global--palette--white, #ffffff);
 }
-
 
 [part="notification-counter"] {
     background-color: var(--ak-v1-c-notification-counter--BackgroundColor);
@@ -25,7 +30,6 @@
     height: 100%;
 }
 
-
 [part="bell"] {
     position: relative;
     display: block;
@@ -35,7 +39,6 @@
     fill: var(--ak-v1-c-notification-counter__icon--Color);
     stroke: var(--ak-v1-c-notification-counter__icon--Color);
 }
-
 
 [part="counter"] {
     display: grid;
@@ -55,7 +58,6 @@
     background-color: var(--ak-v1-c-notification-counter__counter--BackgroundColor);
     color: var(--ak-v1-c-notification-counter__counter--Color);
 }
-
 
 [part="number"] {
     padding-top: 0.1em;
