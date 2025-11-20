@@ -1,7 +1,7 @@
-import { TemplateResult, html } from "lit";
-import { ifDefined } from "lit/directives/if-defined.js";
-
 import { Disclosure } from "./ak-disclosure.component.js";
+
+import { html, TemplateResult } from "lit";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 export type AkDisclosureProps = Partial<Pick<Disclosure, "open" | "name" | "icon">> & {
     content?: string | TemplateResult;
@@ -24,7 +24,7 @@ export function akDisclosure(options: AkDisclosureProps = {}) {
     const { name, open, label, labelOpen, icon, content } = options;
 
     return html`
-        <ak-disclosure ?open=${open} name=${ifDefined(name)} .icon=${ifDefined(icon)}>
+        <ak-disclosure ?open=${open} name=${ifDefined(name)} icon=${ifDefined(icon)}>
             ${label ? html`<div slot="label">${label}</div>` : ""}
             ${labelOpen ? html`<div slot="label-open">${labelOpen}</div>` : ""} ${content}
         </ak-disclosure>

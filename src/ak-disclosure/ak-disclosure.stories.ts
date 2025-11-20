@@ -1,9 +1,10 @@
+import "./ak-disclosure.js";
+
+import { akDisclosure, IDisclosure } from "./ak-disclosure.js";
+
 import { Meta, StoryObj } from "@storybook/web-components";
 
 import { html } from "lit";
-
-import { IDisclosure, akDisclosure } from "./ak-disclosure.js";
-import "./ak-disclosure.js";
 
 type StoryProps = IDisclosure & { indent: boolean; noHighlight: boolean };
 
@@ -666,7 +667,7 @@ export const CustomIcons: Story = {
     render: () => html`
         <div style="display: flex; flex-direction: column; gap: 2rem;">
             <div>
-                <ak-disclosure .icon=${html`<i class="fas fa-plus" aria-hidden="true"></i>`}>
+                <ak-disclosure icon="fas fa-plus">
                     <label>Expand section</label>
                     <p>This disclosure uses a plus icon instead of the default angle-right.</p>
                     <p>
@@ -677,29 +678,9 @@ export const CustomIcons: Story = {
             </div>
 
             <div>
-                <ak-disclosure .icon=${html`<i class="fa fa-child" aria-hidden="true"></i>`}>
+                <ak-disclosure icon="fa fa-child">
                     <label>Go to bed</label>
                     <p>Any common icon in the collection can be used here.</p>
-                </ak-disclosure>
-            </div>
-
-            <div>
-                <h3>Custom SVG Icon</h3>
-                <ak-disclosure
-                    .icon=${html`
-                        <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor">
-                            <path
-                                d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"
-                            />
-                        </svg>
-                    `}
-                >
-                    <label>Technical Documentation</label>
-                    <p>This example uses a custom SVG icon instead of FontAwesome.</p>
-                    <p>
-                        SVG icons give you complete control over the icon design and don't require
-                        external font dependencies.
-                    </p>
                 </ak-disclosure>
             </div>
 

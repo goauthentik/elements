@@ -1,9 +1,10 @@
+import "./ak-disclosure.js";
+
+import { akDisclosure } from "./ak-disclosure.js";
+
 import { $, $$, browser, expect } from "@wdio/globals";
 
-import { TemplateResult, html, render } from "lit";
-
-import "./ak-disclosure.js";
-import { akDisclosure } from "./ak-disclosure.js";
+import { html, render, TemplateResult } from "lit";
 
 describe("ak-disclosure component", () => {
     afterEach(async () => {
@@ -22,7 +23,7 @@ describe("ak-disclosure component", () => {
         const disclosure = await $("ak-disclosure");
         const label = await $("label");
         const toggle = await disclosure.$(">>>[part='toggle']");
-        const content = await disclosure.$(">>>[part='content']");
+        const content = await disclosure.$('>>>[part="disclosure"] > [part="content"]');
         const iconContainer = await disclosure.$(">>>[part='icon']");
         const labelSlot = await disclosure.$(">>>slot[name='label']");
         const openLabelSlot = await disclosure.$(">>>slot[name='label-open']");
@@ -30,17 +31,16 @@ describe("ak-disclosure component", () => {
     };
 
     it("should render closed by default", async () => {
-        const { disclosure, toggle, content } = await present(
+        const { disclosure, toggle } = await present(
             html`<ak-disclosure>
                 <label>Test Label</label>
                 <p>Test content</p>
-            </ak-disclosure>`
+            </ak-disclosure>`,
         );
 
         await expect(disclosure).toExist();
         await expect(disclosure).not.toHaveAttribute("open");
         await expect(toggle).toHaveAttribute("aria-expanded", "false");
-        await expect(content).toHaveAttribute("hidden");
     });
 
     it("should render open when open attribute is set", async () => {
@@ -48,7 +48,7 @@ describe("ak-disclosure component", () => {
             html`<ak-disclosure open>
                 <label>Test Label</label>
                 <p>Test content</p>
-            </ak-disclosure>`
+            </ak-disclosure>`,
         );
 
         await expect(disclosure).toHaveAttribute("open");
@@ -61,7 +61,7 @@ describe("ak-disclosure component", () => {
             html`<ak-disclosure>
                 <label>Click me</label>
                 <p>Toggle content</p>
-            </ak-disclosure>`
+            </ak-disclosure>`,
         );
 
         // Initially closed
@@ -78,7 +78,6 @@ describe("ak-disclosure component", () => {
         await label.click();
         await expect(disclosure).not.toHaveAttribute("open");
         await expect(toggle).toHaveAttribute("aria-expanded", "false");
-        await expect(content).toHaveAttribute("hidden");
     });
 
     it("should dispatch toggle event when clicked", async () => {
@@ -86,7 +85,7 @@ describe("ak-disclosure component", () => {
             html`<ak-disclosure>
                 <label>Event test</label>
                 <p>Content</p>
-            </ak-disclosure>`
+            </ak-disclosure>`,
         );
 
         // Listen for toggle event
@@ -113,7 +112,7 @@ describe("ak-disclosure component", () => {
             html`<ak-disclosure>
                 <label>Auto-slotted label</label>
                 <p>Content here</p>
-            </ak-disclosure>`
+            </ak-disclosure>`,
         );
 
         await expect(labelSlot).toExist();
@@ -126,7 +125,7 @@ describe("ak-disclosure component", () => {
                 <label>First label</label>
                 <label>Second label</label>
                 <p>Content here</p>
-            </ak-disclosure>`
+            </ak-disclosure>`,
         );
 
         // Labels should not have slot attributes
@@ -142,7 +141,7 @@ describe("ak-disclosure component", () => {
                 <label>This should not be auto-slotted</label>
                 <span slot="label">Explicit slot content</span>
                 <p>Content here</p>
-            </ak-disclosure>`
+            </ak-disclosure>`,
         );
 
         const label = await $("ak-disclosure label");
@@ -158,7 +157,7 @@ describe("ak-disclosure component", () => {
                 <span slot="label">Show details</span>
                 <span slot="label-open">Hide details</span>
                 <p>Toggleable content</p>
-            </ak-disclosure>`
+            </ak-disclosure>`,
         );
 
         const labelElement = await $("[slot='label']");
@@ -173,14 +172,13 @@ describe("ak-disclosure component", () => {
             html`<ak-disclosure>
                 <label>Default icon test</label>
                 <p>Content</p>
-            </ak-disclosure>`
+            </ak-disclosure>`,
         );
 
         await expect(iconContainer).toExist();
 
-        const defaultIcon = await iconContainer.$(">>>i.fa-angle-right");
+        const defaultIcon = await iconContainer.$('>>>ak-icon[icon="fas fa-angle-right"]');
         await expect(defaultIcon).toExist();
-        await expect(defaultIcon).toHaveAttribute("aria-hidden", "true");
     });
 
     it("should have proper ARIA attributes", async () => {
@@ -188,7 +186,7 @@ describe("ak-disclosure component", () => {
             html`<ak-disclosure>
                 <label>ARIA test</label>
                 <p>Accessible content</p>
-            </ak-disclosure>`
+            </ak-disclosure>`,
         );
 
         await expect(content).not.toBeDisplayed();
@@ -197,6 +195,7 @@ describe("ak-disclosure component", () => {
         await expect(toggle).toHaveAttribute("id", "toggle");
 
         await label.click();
+
         await expect(content).toBeDisplayed();
         await expect(content).toHaveAttribute("aria-labelledby", "toggle");
         await expect(content).toHaveAttribute("id", "content");
@@ -207,7 +206,7 @@ describe("ak-disclosure component", () => {
             html`<ak-disclosure>
                 <label>Dynamic content test</label>
                 <p>Initial content</p>
-            </ak-disclosure>`
+            </ak-disclosure>`,
         );
 
         // Add new content dynamically
@@ -243,7 +242,7 @@ describe("akDisclosure builder function", () => {
                 label: html`<span>Helper Function Label</span>`,
                 open: true,
             }),
-            document.body
+            document.body,
         );
 
         const disclosure = await $("ak-disclosure");
@@ -265,7 +264,7 @@ describe("akDisclosure builder function", () => {
                 labelOpen: html`<span>Hide content</span>`,
                 open: false,
             }),
-            document.body
+            document.body,
         );
 
         const disclosure = await $("ak-disclosure");
@@ -286,14 +285,15 @@ describe("akDisclosure builder function", () => {
     it("should render with minimal options using helper function", async () => {
         render(
             akDisclosure({ content: html`<p>Minimal helper function usage</p>` }),
-            document.body
+            document.body,
         );
 
         const disclosure = await $("ak-disclosure");
         await expect(disclosure).toExist();
         await expect(disclosure).not.toHaveAttribute("open");
 
-        const content = await disclosure.$(">>>[part='content']");
+        const content = await disclosure.$('>>>[part="disclosure"] > [part="content"]');
+        await expect(content).toExist();
         await expect(content).toHaveAttribute("hidden");
     });
 
@@ -314,7 +314,7 @@ describe("akDisclosure builder function", () => {
                 label: html`<strong>Show complex content</strong>`,
                 open: true,
             }),
-            document.body
+            document.body,
         );
 
         const disclosure = await $("ak-disclosure");

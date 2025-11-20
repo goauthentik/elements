@@ -1,19 +1,19 @@
-import { MutationController } from "@lit-labs/observers/mutation-controller.js";
-import { PropertyValues, TemplateResult, html } from "lit";
-import { property } from "lit/decorators.js";
-
-import { styles as icons } from "../css/base/fa-icons.css";
-import { styles } from "./ak-disclosure.css";
+import "../ak-icon/ak-icon.js";
 
 import { AkLitElement } from "../component-base.js";
+import { styles } from "./ak-disclosure.css";
+
+import { MutationController } from "@lit-labs/observers/mutation-controller.js";
+import { html, PropertyValues } from "lit";
+import { property } from "lit/decorators.js";
 
 export interface IDisclosure {
     name?: string;
     open?: boolean;
-    icon?: TemplateResult;
+    icon?: string;
 }
 
-const DEFAULT_ICON = html`<i class="fas fa-angle-right" aria-hidden="true"></i>`;
+const DEFAULT_ICON = "fas fa-angle-right";
 
 /**
  * @element ak-disclosure
@@ -96,7 +96,7 @@ const DEFAULT_ICON = html`<i class="fas fa-angle-right" aria-hidden="true"></i>`
  * @cssprop --pf-v5-c-expandable-section--m-truncate__toggle--MarginTop - Top margin for truncate variant toggle
  */
 export class Disclosure extends AkLitElement implements IDisclosure {
-    static readonly styles = [styles, icons];
+    static readonly styles = [styles];
 
     @property({ type: String })
     public name?: string;
@@ -104,7 +104,7 @@ export class Disclosure extends AkLitElement implements IDisclosure {
     @property({ type: Boolean, reflect: true })
     public open = false;
 
-    @property({ type: Object })
+    @property({ type: String })
     public icon = DEFAULT_ICON;
 
     public override connectedCallback() {
@@ -171,7 +171,7 @@ export class Disclosure extends AkLitElement implements IDisclosure {
             new Event("toggle", {
                 bubbles: true,
                 composed: true,
-            })
+            }),
         );
     };
 
@@ -189,7 +189,7 @@ export class Disclosure extends AkLitElement implements IDisclosure {
                 aria-expanded=${this.open ? "true" : "false"}
                 @click=${this.onToggle}
             >
-                <span id="icon" part="icon"> ${this.icon} </span>
+                <span id="icon" part="icon"><ak-icon icon="${this.icon}"></ak-icon></span>
                 <span id="toggle-text" part="label">${this.renderLabel()}</span>
             </button>
             <div id="content" part="content" aria-labelledby="toggle" ?hidden=${!this.open}>
