@@ -64,9 +64,8 @@ export class Battery extends LitElement implements BatteryProps {
     ouiaId?: string | number;
 
     get inlineTitle() {
-        return this.severity || this.label
-            ? `${this.severity ?? ""}${this.label ? ` ${this.label}` : ""}`
-            : nothing;
+        const label = this.label ?? "";
+        return this.severity || this.label ? `${this.severity ?? ""}${label}` : nothing;
     }
 
     get level() {
@@ -74,6 +73,8 @@ export class Battery extends LitElement implements BatteryProps {
     }
 
     public override render() {
+        const label = this.label && !this.hideLabel ? html`<span> ${this.label} </span>` : nothing;
+
         return html`<i
                 part="battery"
                 title=${ifDefined(this.inlineTitle)}
@@ -94,7 +95,7 @@ export class Battery extends LitElement implements BatteryProps {
                     ${this.level}
                 </svg>
             </i>
-            ${this.label && !this.hideLabel ? html`<span> ${this.label} </span>` : nothing}`;
+            ${label}`;
     }
 
     public firstUpdated() {
