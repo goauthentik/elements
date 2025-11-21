@@ -452,7 +452,9 @@ function buildStylesheets(transformationFiles: string[]) {
 
         const transformationsToPerform = Object.entries(transformation.host ?? {});
 
-        transrule: for (const [transSelector, transRequest] of transformationsToPerform) {
+        transrule: for (const [rawTransSelector, transRequest] of transformationsToPerform) {
+            // Hack to permit duplicate selectors with different 'from' lines.
+            const transSelector = rawTransSelector.replace(/%\d+$/, "");
             const selectorHasSubstitutions = /\\\d+/.test(transSelector);
             const customDeclarations = getCustomDeclarations(transRequest);
 

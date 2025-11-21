@@ -1,0 +1,33 @@
+:root {
+    --pf-v5-c-progress--GridGap: var(--pf-v5-global--spacer--md);
+    --pf-v5-c-progress__bar--before--BackgroundColor: var(--pf-v5-global--primary-color--100);
+    --pf-v5-c-progress__bar--Height: var(--pf-v5-global--spacer--md);
+    --pf-v5-c-progress__bar--BackgroundColor: var(--pf-v5-global--BackgroundColor--light-100);
+    --pf-v5-c-progress__measure--m-static-width--MinWidth: 4.5ch;
+    --pf-v5-c-progress__status--Gap: var(--pf-v5-global--spacer--sm);
+    --pf-v5-c-progress__status-icon--Color: var(--pf-v5-global--Color--100);
+    --pf-v5-c-progress__bar--before--Opacity: 0.2;
+    --pf-v5-c-progress__indicator--Height: var(--pf-v5-c-progress__bar--Height);
+    --pf-v5-c-progress__indicator--BackgroundColor: var(
+        --pf-v5-c-progress__bar--before--BackgroundColor
+    );
+    --pf-v5-c-progress__helper-text--MarginTop: var(
+        calc(--pf-v5-global--spacer--xs - --pf-v5-c-progress--GridGap)
+    );
+    --pf-v5-c-progress--m-success__bar--BackgroundColor: var(--pf-v5-global--success-color--100);
+    --pf-v5-c-progress--m-warning__bar--BackgroundColor: var(--pf-v5-global--warning-color--100);
+    --pf-v5-c-progress--m-danger__bar--BackgroundColor: var(--pf-v5-global--danger-color--100);
+    --pf-v5-c-progress--m-success__status-icon--Color: var(--pf-v5-global--success-color--100);
+    --pf-v5-c-progress--m-warning__status-icon--Color: var(--pf-v5-global--warning-color--100);
+    --pf-v5-c-progress--m-danger__status-icon--Color: var(--pf-v5-global--danger-color--100);
+    --pf-v5-c-progress--m-inside__indicator--MinWidth: var(--pf-v5-global--spacer--xl);
+    --pf-v5-c-progress--m-inside__measure--Color: var(--pf-v5-global--Color--light-100);
+    --pf-v5-c-progress--m-success--m-inside__measure--Color: var(--pf-v5-global--Color--light-100);
+    --pf-v5-c-progress--m-warning--m-inside__measure--Color: var(--pf-v5-global--Color--dark-100);
+    --pf-v5-c-progress--m-inside__measure--FontSize: var(--pf-v5-global--FontSize--sm);
+    --pf-v5-c-progress--m-outside__measure--FontSize: var(--pf-v5-global--FontSize--sm);
+    --pf-v5-c-progress--m-sm__bar--Height: var(--pf-v5-global--spacer--sm);
+    --pf-v5-c-progress--m-sm__description--FontSize: var(--pf-v5-global--FontSize--sm);
+    --pf-v5-c-progress--m-sm__measure--FontSize: var(--pf-v5-global--FontSize--sm);
+    --pf-v5-c-progress--m-lg__bar--Height: var(--pf-v5-global--spacer--lg);
+}
