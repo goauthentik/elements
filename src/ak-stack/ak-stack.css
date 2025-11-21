@@ -1,11 +1,11 @@
 :host {
-    --pf-v5-l-stack--m-gutter--gap--xs: var(--pf-v5-global--spacer--xs, 0.5rem);
-    --pf-v5-l-stack--m-gutter--gap--sm: var(--pf-v5-global--spacer--sm, 0.5rem);
-    --pf-v5-l-stack--m-gutter--gap--md: var(--pf-v5-global--spacer--md, 1rem);
-    --pf-v5-l-stack--m-gutter--gap--lg: var(--pf-v5-global--spacer--lg, 1.5rem);
-    --pf-v5-l-stack--m-gutter--gap--xl: var(--pf-v5-global--spacer--xl, 2rem);
-    --pf-v5-l-stack--gutter: none;
-    --pf-v5-l-stack--align: none;
+    --stack--m-gutter--gap--xs: var(--pf-v5-l-stack--m-gutter--gap--xs, 0.5rem);
+    --stack--m-gutter--gap--sm: var(--pf-v5-l-stack--m-gutter--gap--sm, 0.5rem);
+    --stack--m-gutter--gap--md: var(--pf-v5-l-stack--m-gutter--gap--md, 1rem);
+    --stack--m-gutter--gap--lg: var(--pf-v5-l-stack--m-gutter--gap--lg, 1.5rem);
+    --stack--m-gutter--gap--xl: var(--pf-v5-l-stack--m-gutter--gap--xl, 2rem);
+    --stack--gutter: var(--pf-v5-l-stack--gutter: none);
+    --stack--align: var(--pf-v5-l-stack--align, none);
     padding: 0;
     margin: 0;
 }
@@ -20,47 +20,47 @@
 }
 
 :host([gutter="xs"]) {
-    --pf-v5-l-stack--gutter: var(--pf-v5-l-stack--m-gutter--gap--xs);
+    --stack--gutter: var(--stack--m-gutter--gap--xs);
 }
 
 :host([gutter="sm"]) {
-    --pf-v5-l-stack--gutter: var(--pf-v5-l-stack--m-gutter--gap--sm);
+    --stack--gutter: var(--stack--m-gutter--gap--sm);
 }
 
 :host([gutter="md"]) {
-    --pf-v5-l-stack--gutter: var(--pf-v5-l-stack--m-gutter--gap--md);
+    --stack--gutter: var(--stack--m-gutter--gap--md);
 }
 
 :host([gutter="lg"]) {
-    --pf-v5-l-stack--gutter: var(--pf-v5-l-stack--m-gutter--gap--lg);
+    --stack--gutter: var(--stack--m-gutter--gap--lg);
 }
 
 :host([gutter="xl"]) {
-    --pf-v5-l-stack--gutter: var(--pf-v5-l-stack--m-gutter--gap--xl);
+    --stack--gutter: var(--stack--m-gutter--gap--xl);
 }
 
 :host([align="start"]) {
-    --pf-v5-l-stack--align: flex-start;
+    --stack--align: flex-start;
 }
 
 :host([align="center"]) {
-    --pf-v5-l-stack--align: center;
+    --stack--align: center;
 }
 
 :host([align="end"]) {
-    --pf-v5-l-stack--align: flex-end;
+    --stack--align: flex-end;
 }
 
 :host([align="baseline"]) {
-    --pf-v5-l-stack--align: baseline;
+    --stack--align: baseline;
 }
 
 [part="stack"] {
     display: flex;
     flex-direction: column;
     height: 100%;
-    gap: var(--pf-v5-l-stack--gutter);
-    align-items: var(--pf-v5-l-stack--align);
+    gap: var(--stack--gutter);
+    align-items: var(--stack--align);
     padding: 0;
     margin: 0;
 }
