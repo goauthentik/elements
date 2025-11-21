@@ -1,15 +1,22 @@
-import eslint from "@eslint/js";
+import { fileURLToPath } from "node:url";
+
+import { DefaultIgnorePatterns } from "@goauthentik/eslint-config";
 import { javaScriptConfig } from "@goauthentik/eslint-config/javascript-config";
 import { typescriptConfig } from "@goauthentik/eslint-config/typescript-config";
-import { DefaultIgnorePatterns } from "@goauthentik/eslint-config";
+
+import { includeIgnoreFile } from "@eslint/compat";
+import eslint from "@eslint/js";
 import * as litconf from "eslint-plugin-lit";
+import sonarjs from "eslint-plugin-sonarjs";
 import * as wcconf from "eslint-plugin-wc";
 import tseslint from "typescript-eslint";
-import sonarjs from "eslint-plugin-sonarjs";
+
+const gitignorePath = fileURLToPath(new URL(".gitignore", import.meta.url));
 
 // @ts-check
 
 export default tseslint.config(
+    includeIgnoreFile(gitignorePath, "Imported .gitignore patterns"),
     {
         ignores: DefaultIgnorePatterns,
     },
@@ -25,9 +32,13 @@ export default tseslint.config(
     {
         rules: {
             "no-console": "off",
+            "no-labels": "off",
+            "no-extra-label": "off",
+            "sonarjs/no-labels": "off",
         },
         files: [
             // ---
+            "**/tools-src/**/*",
             "**/scripts/**/*",
             "**/test/**/*",
             "**/tests/**/*",
@@ -56,5 +67,5 @@ export default tseslint.config(
             "prefer-arrow-callback": "off",
             "vars-on-top": "off",
         },
-    }
+    },
 );
