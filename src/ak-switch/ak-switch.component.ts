@@ -75,9 +75,6 @@ export class SwitchInput extends FormAssociatedBooleanMixin(AkLitElement) implem
     @property({ type: Boolean, attribute: "label" })
     public showLabel = false;
 
-    @property({ type: Boolean, attribute: "reverse" })
-    public reverse = false;
-
     protected renderIcon() {
         const useSlot = this.hasSlotted("icon");
         const [noIcon, useIcon] = [!(this.useCheck || useSlot), typeof this.checkIcon === "string"];
@@ -107,11 +104,8 @@ export class SwitchInput extends FormAssociatedBooleanMixin(AkLitElement) implem
     }
 
     private renderWithLabels() {
-        return this.reverse
-            ? html`<span part="label"> ${this.renderLabel()} </span>
-                  <div part="toggle">${this.renderIcon()}</div>`
-            : html`<div part="toggle">${this.renderIcon()}</div>
-                  <span part="label"> ${this.renderLabel()} </span>`;
+        return html`<div part="toggle">${this.renderIcon()}</div>
+            <span part="label"> ${this.renderLabel()} </span>`;
     }
 
     public override render() {
