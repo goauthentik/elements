@@ -72,26 +72,17 @@ const DOT_ICON = () => html`
  * @cssprop --pf-v5-c-checkbox--disabled__label--Color - Label color when disabled
  * @cssprop --pf-v5-c-checkbox__label--Color - Default label color
  */
-export class CheckboxInput
-    extends FormAssociatedBooleanMixin(AkLitElement)
-    implements ICheckboxInput
-{
+export class CheckboxInput extends FormAssociatedBooleanMixin(AkLitElement) implements ICheckboxInput {
     static readonly styles = [styles];
 
     @property({ type: Boolean, attribute: "label" })
     public showLabel = false;
 
-    @property({ type: Boolean, attribute: "reverse" })
-    public reverse = false;
-
     @property({ type: Boolean })
     public indeterminate = false;
 
     protected renderIcon() {
-        const [hasIndeterminate, hasIcon] = [
-            this.hasSlotted("indeterminate"),
-            this.hasSlotted("icon"),
-        ];
+        const [hasIndeterminate, hasIcon] = [this.hasSlotted("indeterminate"), this.hasSlotted("icon")];
         return match([this.indeterminate, this.checked, hasIndeterminate, hasIcon])
             .with([false, false, P._, P._], () => nothing)
             .with([true, P._, false, P._], () => DOT_ICON())
@@ -102,9 +93,7 @@ export class CheckboxInput
     }
 
     protected renderLabel() {
-        return this.hasSlotted("label-on") && this.checked
-            ? html`<slot name="label-on"></slot>`
-            : html`<slot name="label"></slot>`;
+        return this.hasSlotted("label-on") && this.checked ? html`<slot name="label-on"></slot>` : html`<slot name="label"></slot>`;
     }
 
     private renderCheckbox() {
@@ -117,11 +106,7 @@ export class CheckboxInput
     }
 
     public override render() {
-        return html`
-            <div part="checkbox" tabindex="${this.disabled ? -1 : 0}">
-                ${this.hasSlotted("label") ? this.renderWithLabels() : this.renderCheckbox()}
-            </div>
-        `;
+        return html` <div part="checkbox" tabindex="${this.disabled ? -1 : 0}">${this.hasSlotted("label") ? this.renderWithLabels() : this.renderCheckbox()}</div> `;
     }
 
     public override updated(changed: PropertyValues<this>) {
