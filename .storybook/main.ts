@@ -4,11 +4,10 @@ const config: StorybookConfig = {
     stories: ["../dist/**/*.stories.js"],
     staticDirs: ["../static", "../dist"],
     addons: [
-        "@storybook/addon-essentials",
-        "@chromatic-com/storybook",
-        "@storybook/addon-links",
-        "@storybook/addon-knobs",
+        "@storybook/addon-a11y",
+        "@wc-toolkit/storybook-helpers",
         "@storybook/addon-docs",
+        "@storybook/addon-themes",
     ],
     framework: {
         name: "@storybook/web-components-vite",
