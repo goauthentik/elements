@@ -8,6 +8,7 @@ import { match, P } from "ts-pattern";
 
 import { html, nothing, PropertyValues, TemplateResult } from "lit";
 import { property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 export interface ISwitchInput {
     name?: string;
@@ -69,7 +70,7 @@ export class SwitchInput extends FormAssociatedBooleanMixin(AkLitElement) implem
     public useCheck = false;
 
     @property({ type: Object, attribute: "check-icon" })
-    _checkIcon?: TemplateResult | string = CHECK_ICON;
+    public checkIcon?: TemplateResult | string = CHECK_ICON;
 
     @property({ type: Boolean, attribute: "label" })
     public showLabel = false;
@@ -79,18 +80,15 @@ export class SwitchInput extends FormAssociatedBooleanMixin(AkLitElement) implem
 
     protected renderIcon() {
         const useSlot = this.hasSlotted("icon");
-        const [noIcon, useIcon] = [
-            !(this.useCheck || useSlot),
-            typeof this._checkIcon === "string",
-        ];
+        const [noIcon, useIcon] = [!(this.useCheck || useSlot), typeof this.checkIcon === "string"];
 
         // prettier-ignore
         const icon = match([noIcon, useSlot, useIcon])
             .with([true, P._, P._], () => nothing)
             .with([false, true, P._], () => html`<slot name="icon"></slot>`)
             .with([false, false, true],
-                  () => html`<ak-icon size="sm" icon=${this._checkIcon}></ak-icon>`)
-            .otherwise(() => this._checkIcon);
+                () => html`<ak-icon size="sm" icon=${ifDefined(this.checkIcon)}></ak-icon>`)
+            .otherwise(() => this.checkIcon);
 
         return icon === nothing
             ? nothing
@@ -109,8 +107,11 @@ export class SwitchInput extends FormAssociatedBooleanMixin(AkLitElement) implem
     }
 
     private renderWithLabels() {
-        return html`<div part="toggle">${this.renderIcon()}</div>
-            <span part="label"> ${this.renderLabel()} </span>`;
+        return this.reverse
+            ? html`<span part="label"> ${this.renderLabel()} </span>
+                  <div part="toggle">${this.renderIcon()}</div>`
+            : html`<div part="toggle">${this.renderIcon()}</div>
+                  <span part="label"> ${this.renderLabel()} </span>`;
     }
 
     public override render() {
