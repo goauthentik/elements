@@ -1,0 +1,13 @@
+:root {
+    --pf-v5-c-badge--BorderRadius: var(--pf-v5-global--BorderRadius--lg);
+    --pf-v5-c-badge--FontSize: var(--pf-v5-global--FontSize--xs);
+    --pf-v5-c-badge--FontWeight: var(--pf-v5-global--FontWeight--bold);
+    --pf-v5-c-badge--PaddingRight: var(--pf-v5-global--spacer--sm);
+    --pf-v5-c-badge--PaddingLeft: var(--pf-v5-global--spacer--sm);
+    --pf-v5-c-badge--Color: var(--pf-v5-global--Color--dark-100);
+    --pf-v5-c-badge--MinWidth: var(--pf-v5-global--spacer--xl);
+    --pf-v5-c-badge--m-read--BackgroundColor: var(--pf-v5-global--BackgroundColor--200);
+    --pf-v5-c-badge--m-read--Color: var(--pf-v5-global--Color--dark-100);
+    --pf-v5-c-badge--m-unread--BackgroundColor: var(--pf-v5-global--primary-color--100);
+    --pf-v5-c-badge--m-unread--Color: var(--pf-v5-global--Color--light-100);
+}

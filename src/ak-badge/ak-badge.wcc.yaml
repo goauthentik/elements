@@ -1,0 +1,17 @@
+import: badge.css
+base: .pf-v5-c-badge
+host:
+    :host:
+        $from: $base
+        $include: min-width, font-size, font-weight, color
+        --badge--BackgroundColor: var(--pf-v5-c-badge--BackgroundColor, inherit)
+    :host(:not([hidden])):
+        $from: $base
+        $include: display
+    :host([read]):
+        $from: ".pf-m-read"
+    :host([unread]):
+        $from: ".pf-m-unread"
+    '[part="badge"]':
+        $from: $base
+        $include: color, display, min-width, padding-inline-start, padding-inline-end, text-align, white-space, border-radius, background-color
