@@ -40,13 +40,7 @@ const meta: Meta<AkBadgeProps> = {
         unread: false,
     },
     decorators: [
-        (story) => html`
-            <div
-                style="padding: 2rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;"
-            >
-                ${story()}
-            </div>
-        `,
+        (story) => html` <div style="padding: 2rem; align-items: center;">${story()}</div> `,
     ],
 };
 
@@ -334,8 +328,10 @@ export const StylingWithCssProps: Story = {
         <style>
             @scope (.colorful) {
                 ak-badge {
-                    --pf-v5-global--BackgroundColor--200: cyan;
-                    --pf-v5-global--primary-color--100: magenta;
+                    --pf-v5-c-badge--m-read--BackgroundColor: cyan;
+                    --pf-v5-c-badge--m-unread--BackgroundColor: darkkhaki;
+                    --pf-v5-c-badge--m-read--Color: magenta;
+                    --pf-v5-c-badge--m-unread--Color: lavender;
                 }
             }
         </style>
@@ -343,12 +339,12 @@ export const StylingWithCssProps: Story = {
             class="colorful"
             style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;"
         >
-            <ak-badge class="colorful" read>Read</ak-badge>
-            <ak-badge class="colorful" unread>Unread</ak-badge>
+            <ak-badge read>Read</ak-badge>
+            <ak-badge unread>Unread</ak-badge>
         </div>
-        <p>
-            Although these come later, they're out of the scope of the styled block, and should be
-            their normal colors.
+        <p style="padding: 0.75rem 0 0.75rem 0">
+            The source code for this demo has its own lovely demo of the <kbd>@scope</kbd> operator,
+            and these are out of that scope so the custom CSS properties don't affect them:
         </p>
         <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
             <ak-badge read>Read</ak-badge>

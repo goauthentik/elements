@@ -1,20 +1,20 @@
 :host {
-    --pf-v5-c-badge--BorderRadius: var(--pf-v5-global--BorderRadius--lg, 30em);
-    --pf-v5-c-badge--FontSize: var(--pf-v5-global--FontSize--xs, 0.75rem);
-    --pf-v5-c-badge--FontWeight: var(--pf-v5-global--FontWeight--bold, 700);
-    --pf-v5-c-badge--PaddingRight: var(--pf-v5-global--spacer--sm, 0.5rem);
-    --pf-v5-c-badge--PaddingLeft: var(--pf-v5-global--spacer--sm, 0.5rem);
-    --pf-v5-c-badge--Color: var(--pf-v5-global--Color--dark-100, #151515);
-    --pf-v5-c-badge--MinWidth: var(--pf-v5-global--spacer--xl, 2rem);
-    --pf-v5-c-badge--BackgroundColor: inherit;
-    --pf-v5-c-badge--m-read--BackgroundColor: var(--pf-v5-global--BackgroundColor--200, #f0f0f0);
-    --pf-v5-c-badge--m-read--Color: var(--pf-v5-global--Color--dark-100, #151515);
-    --pf-v5-c-badge--m-unread--BackgroundColor: var(--pf-v5-global--primary-color--100, #06c);
-    --pf-v5-c-badge--m-unread--Color: var(--pf-v5-global--Color--light-100, #fff);
-    min-width: var(--pf-v5-c-badge--MinWidth);
-    font-size: var(--pf-v5-c-badge--FontSize);
-    font-weight: var(--pf-v5-c-badge--FontWeight);
-    color: var(--pf-v5-c-badge--Color);
+    --badge--BorderRadius: var(--pf-v5-c-badge--BorderRadius, 30em);
+    --badge--FontSize: var(--pf-v5-c-badge--FontSize, 0.75rem);
+    --badge--FontWeight: var(--pf-v5-c-badge--FontWeight, 700);
+    --badge--PaddingRight: var(--pf-v5-c-badge--PaddingRight, 0.5rem);
+    --badge--PaddingLeft: var(--pf-v5-c-badge--PaddingLeft, 0.5rem);
+    --badge--Color: var(--pf-v5-c-badge--Color, #151515);
+    --badge--MinWidth: var(--pf-v5-c-badge--MinWidth, 2rem);
+    --badge--m-read--BackgroundColor: var(--pf-v5-c-badge--m-read--BackgroundColor, #f0f0f0);
+    --badge--m-read--Color: var(--pf-v5-c-badge--m-read--Color, #151515);
+    --badge--m-unread--BackgroundColor: var(--pf-v5-c-badge--m-unread--BackgroundColor, #06c);
+    --badge--m-unread--Color: var(--pf-v5-c-badge--m-unread--Color, #fff);
+    min-width: var(--badge--MinWidth);
+    font-size: var(--badge--FontSize);
+    font-weight: var(--badge--FontWeight);
+    color: var(--badge--Color);
+    --badge--BackgroundColor: var(--pf-v5-c-badge--BackgroundColor, inherit);
 }
 
 :host(:not([hidden])) {
@@ -22,23 +22,23 @@
 }
 
 :host([read]) {
-    --pf-v5-c-badge--Color: var(--pf-v5-c-badge--m-read--Color);
-    --pf-v5-c-badge--BackgroundColor: var(--pf-v5-c-badge--m-read--BackgroundColor);
+    --badge--Color: var(--badge--m-read--Color);
+    --badge--BackgroundColor: var(--badge--m-read--BackgroundColor);
 }
 
 :host([unread]) {
-    --pf-v5-c-badge--Color: var(--pf-v5-c-badge--m-unread--Color);
-    --pf-v5-c-badge--BackgroundColor: var(--pf-v5-c-badge--m-unread--BackgroundColor);
+    --badge--Color: var(--badge--m-unread--Color);
+    --badge--BackgroundColor: var(--badge--m-unread--BackgroundColor);
 }
 
 [part="badge"] {
-    color: var(--pf-v5-c-badge--Color);
     display: inline-block;
-    min-width: var(--pf-v5-c-badge--MinWidth);
-    padding-inline-start: var(--pf-v5-c-badge--PaddingLeft);
-    padding-inline-end: var(--pf-v5-c-badge--PaddingRight);
+    min-width: var(--badge--MinWidth);
+    padding-inline-start: var(--badge--PaddingLeft);
+    padding-inline-end: var(--badge--PaddingRight);
+    color: var(--badge--Color);
     text-align: center;
     white-space: nowrap;
-    background-color: var(--pf-v5-c-badge--BackgroundColor);
-    border-radius: var(--pf-v5-c-badge--BorderRadius);
+    background-color: var(--badge--BackgroundColor);
+    border-radius: var(--badge--BorderRadius);
 }
