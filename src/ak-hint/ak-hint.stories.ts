@@ -1,9 +1,10 @@
+import "./ak-hint.js";
+
+import { akHint, Hint } from "./ak-hint.js";
+
 import type { Meta, StoryObj } from "@storybook/web-components";
 
 import { html } from "lit";
-
-import "./ak-hint.js";
-import { Hint, akHint } from "./ak-hint.js";
 
 const meta: Meta<Hint> = {
     title: "Elements/Hint",

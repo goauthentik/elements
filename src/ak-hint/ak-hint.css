@@ -1,43 +1,40 @@
 :host {
-    --pf-v5-c-hint--GridRowGap: var(--pf-v5-global--spacer--md, 1rem);
-    --pf-v5-c-hint--PaddingTop: var(--pf-v5-global--spacer--lg, 1.5rem);
-    --pf-v5-c-hint--PaddingRight: var(--pf-v5-global--spacer--lg, 1.5rem);
-    --pf-v5-c-hint--PaddingBottom: var(--pf-v5-global--spacer--lg, 1.5rem);
-    --pf-v5-c-hint--PaddingLeft: var(--pf-v5-global--spacer--lg, 1.5rem);
-    --pf-v5-c-hint--BackgroundColor: var(--pf-v5-global--palette--blue-50, #e7f1fa);
-    --pf-v5-c-hint--BorderColor: var(--pf-v5-global--palette--blue-100, #bee1f4);
-    --pf-v5-c-hint--BorderWidth: var(--pf-v5-global--BorderWidth--sm, 1px);
-    --pf-v5-c-hint--BoxShadow: var(
-        --pf-v5-global--BoxShadow--sm,
+    --hint--GridRowGap: var(--pf-v5-c-hint--GridRowGap, 1rem);
+    --hint--PaddingTop: var(--pf-v5-c-hint--PaddingTop, 1.5rem);
+    --hint--PaddingRight: var(--pf-v5-c-hint--PaddingRight, 1.5rem);
+    --hint--PaddingBottom: var(--pf-v5-c-hint--PaddingBottom, 1.5rem);
+    --hint--PaddingLeft: var(--pf-v5-c-hint--PaddingLeft, 1.5rem);
+    --hint--BackgroundColor: var(--pf-v5-c-hint--BackgroundColor, #e7f1fa);
+    --hint--BorderColor: var(--pf-v5-c-hint--BorderColor, #bee1f4);
+    --hint--BorderWidth: var(--pf-v5-c-hint--BorderWidth, 1px);
+    --hint--BoxShadow: var(
+        --pf-v5-c-hint--BoxShadow,
         0 0.0625rem 0.125rem 0 rgba(3, 3, 3, 0.12),
         0 0 0.125rem 0 rgba(3, 3, 3, 0.06)
     );
-    --pf-v5-c-hint--Color: var(--pf-v5-global--Color--100, #151515);
-    --pf-v5-c-hint__title--FontSize: var(--pf-v5-global--FontSize--lg, 1.125rem);
-    --pf-v5-c-hint__body--FontSize: var(--pf-v5-global--FontSize--md, 1rem);
-    --pf-v5-c-hint__footer--child--MarginRight: var(--pf-v5-global--spacer--md, 1rem);
-    --pf-v5-c-hint__actions--MarginLeft: var(--pf-v5-global--spacer--2xl, 3rem);
-    --pf-v5-c-hint__actions--c-dropdown--MarginTop: calc(
-        var(--pf-v5-global--spacer--form-element, 0.375rem) * -1
+    --hint--Color: var(--pf-v5-c-hint--Color, #151515);
+    --hint__title--FontSize: var(--pf-v5-c-hint__title--FontSize, 1.125rem);
+    --hint__body--FontSize: var(--pf-v5-c-hint__body--FontSize, 1rem);
+    --hint__footer--child--MarginRight: var(--pf-v5-c-hint__footer--child--MarginRight, 1rem);
+    --hint__actions--MarginLeft: var(--pf-v5-c-hint__actions--MarginLeft, 3rem);
+    --hint__actions--c-dropdown--MarginTop: var(
+        --pf-v5-c-hint__actions--c-dropdown--MarginTop,
+        calc(0.375rem * -1)
     );
 }
 
 [part="hint"] {
     display: grid;
     grid-template-columns: 1fr auto;
-    grid-row-gap: var(--pf-v5-c-hint--GridRowGap);
-    padding: var(--pf-v5-c-hint--PaddingTop) var(--pf-v5-c-hint--PaddingRight)
-        var(--pf-v5-c-hint--PaddingBottom) var(--pf-v5-c-hint--PaddingLeft);
-    color: var(--pf-v5-c-hint--Color);
-    background-color: var(--pf-v5-c-hint--BackgroundColor);
-    border: var(--pf-v5-c-hint--BorderWidth) solid var(--pf-v5-c-hint--BorderColor);
-    box-shadow: var(--pf-v5-c-hint--BoxShadow);
-}
-
-[part="title"],
-[part="body"],
-[part="footer"] {
-    grid-column: 1/-1;
+    grid-row-gap: var(--hint--GridRowGap);
+    padding-block-start: var(--hint--PaddingTop);
+    padding-block-end: var(--hint--PaddingBottom);
+    padding-inline-start: var(--hint--PaddingLeft);
+    padding-inline-end: var(--hint--PaddingRight);
+    color: var(--hint--Color);
+    background-color: var(--hint--BackgroundColor);
+    border: var(--hint--BorderWidth) solid var(--hint--BorderColor);
+    box-shadow: var(--hint--BoxShadow);
 }
 
 [part="title"] ::slotted(*) {
@@ -50,4 +47,10 @@
 
 [name="footer"] ::slotted(*) {
     font-size: var(--pf-v5-c-hint__footer--FontSize) !important;
+}
+
+[part="title"],
+[part="body"],
+[part="footer"] {
+    grid-column: 1/-1;
 }

@@ -1,8 +1,7 @@
-import { html, nothing } from "lit";
-
+import { AkLitElement } from "../component-base.js";
 import styles from "./ak-hint.css";
 
-import { AkLitElement } from "../component-base.js";
+import { html, nothing } from "lit";
 
 /**
  * @element ak-hint
@@ -33,13 +32,11 @@ import { AkLitElement } from "../component-base.js";
  * @cssprop --pf-v5-c-hint__actions--MarginLeft - Left margin of action elements
  */
 export class Hint extends AkLitElement {
-    static get styles() {
-        return [styles];
-    }
+    static override readonly styles = [styles];
 
-    render() {
-        const [hasTitle, hasBody, hasFooter] = ["title", null, "footer"].map(
-            this.hasSlotted.bind(this)
+    public override render() {
+        const [hasTitle, hasBody, hasFooter] = ["title", null, "footer"].map((item) =>
+            this.hasSlotted(item),
         );
 
         return html`
