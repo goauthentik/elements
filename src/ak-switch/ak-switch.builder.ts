@@ -14,6 +14,7 @@ export type SwitchProps = Partial<
         | "required"
         | "disabled"
         | "value"
+        | "reverse"
         | "useCheck"
         | "showLabel"
         | "ariaLabel"
@@ -41,6 +42,7 @@ export function akSwitch(options: SwitchProps = {}): TemplateResult {
         useCheck,
         showLabel,
         ariaLabel,
+        reverse,
         label,
         labelOn,
         icon,
@@ -62,8 +64,9 @@ export function akSwitch(options: SwitchProps = {}): TemplateResult {
             ?checked=${Boolean(checked)}
             ?required=${Boolean(required)}
             ?disabled=${Boolean(disabled)}
-            icon=${ifDefined(typeof icon === "string" ? icon : undefined)}
-            value=${ifDefined(value)}
+            ?reverse=${Boolean(reverse)}
+            check-icon=${ifDefined(typeof icon === "string" ? icon : undefined)}
+            value=${ifDefined(value ?? undefined)}
             ?use-check=${Boolean(useCheck)}
             ?label=${Boolean(showLabel)}
             aria-label=${ifDefined(ariaLabel ?? undefined)}

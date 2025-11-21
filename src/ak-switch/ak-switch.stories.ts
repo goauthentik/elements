@@ -1,15 +1,16 @@
 import "./ak-switch.js";
 
-import { SwitchInput } from "./ak-switch.js";
+import { akSwitch, SwitchInput } from "./ak-switch.js";
 
 import type { Meta, StoryObj } from "@storybook/web-components";
 
 import { html, TemplateResult } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
-type Renderable = string | TemplateResult;
-
-type StoryArgs = SwitchInput;
+type StoryArgs = SwitchInput & {
+    label?: TemplateResult | string;
+    labelOn?: TemplateResult | string;
+};
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const metadata: Meta<StoryArgs> = {
@@ -22,7 +23,6 @@ const metadata: Meta<StoryArgs> = {
             description: "Whether the switch is checked/enabled",
             table: {
                 type: { summary: "boolean" },
-                defaultValue: { summary: false },
             },
         },
         disabled: {
@@ -30,7 +30,6 @@ const metadata: Meta<StoryArgs> = {
             description: "Whether the switch is disabled",
             table: {
                 type: { summary: "boolean" },
-                defaultValue: { summary: false },
             },
         },
         required: {
@@ -38,7 +37,6 @@ const metadata: Meta<StoryArgs> = {
             description: "Whether the input is required in a form",
             table: {
                 type: { summary: "boolean" },
-                defaultValue: { summary: false },
             },
         },
         name: {
@@ -55,20 +53,11 @@ const metadata: Meta<StoryArgs> = {
                 type: { summary: "string" },
             },
         },
-        showText: {
-            control: "boolean",
-            description: "Whether to show on/off text",
-            table: {
-                type: { summary: "boolean" },
-                defaultValue: { summary: false },
-            },
-        },
         useCheck: {
             control: "boolean",
             description: "Show a check icon in the empty space when 'on'",
             table: {
                 type: { summary: "boolean" },
-                defaultValue: { summary: false },
             },
         },
         labelOn: {
@@ -77,14 +66,6 @@ const metadata: Meta<StoryArgs> = {
             table: {
                 type: { summary: "string" },
                 defaultValue: { summary: "On" },
-            },
-        },
-        labelOff: {
-            control: "text",
-            description: "Text to show when switch is off",
-            table: {
-                type: { summary: "string" },
-                defaultValue: { summary: "Off" },
             },
         },
         ariaLabel: {
@@ -120,7 +101,6 @@ const Template = {
             ?disabled=${!!args.disabled}
             ?required=${!!args.required}
             ?reverse=${!!args.reverse}
-            ?show-text=${!!args.showText}
             ?use-check=${!!args.useCheck}
             name=${ifDefined(args.name)}
             value=${ifDefined(args.value)}
@@ -166,7 +146,6 @@ export const DisabledChecked: Story = {
 export const WithOnOffText: Story = {
     ...Template,
     args: {
-        showText: true,
         labelOn: "On",
         label: "Off",
     },
@@ -177,7 +156,6 @@ export const WithOnOffTextReversed: Story = {
     ...Template,
     args: {
         useCheck: true,
-        showText: true,
         reverse: true,
         labelOn: "On",
         label: "Off",
@@ -224,10 +202,12 @@ export const CustomStyling: Story = {
     render: (args) => html`
         <style>
             .custom-switch {
-                --pf-v5-c-switch--checked--BackgroundColor: #2ecc71;
+                --pf-v5-c-switch__input--checked__toggle--BackgroundColor: #2ecc71;
                 --pf-v5-c-switch__toggle--Width: 60px;
                 --pf-v5-c-switch__toggle--Height: 30px;
-                --pf-v5-c-switch__knob--Size: 24px;
+                --pf-v5-c-switch__toggle--before--Width: 20px;
+                --pf-v5-c-switch__toggle--before--Height: 20px;
+                --pf-v5-c-switch__input--checked__toggle--before--TranslateX: 30px;
                 --pf-v5-c-switch__toggle--BorderRadius: 6px;
                 --pf-v5-c-switch__knob--BorderRadius: 4px;
             }
@@ -242,11 +222,12 @@ export const MultipleSwitches: Story = {
     args: {},
     render: () => html`
         <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <ak-switch>Default option</ak-switch>
-            <ak-switch checked>Checked option</ak-switch>
-            <ak-switch disabled>Disabled option</ak-switch>
-            <ak-switch reverse>Reversed option</ak-switch>
-            <ak-switch show-text>Option with text</ak-switch>
+            ${[
+                ["", "Default option"],
+                ["checked", "Checked option"],
+                ["disabled", "Disabled option"],
+                ["reverse", "Reversed option"],
+            ].map(([attr, label]) => akSwitch({ [attr]: attr ? true : undefined, label }))}
         </div>
     `,
 };

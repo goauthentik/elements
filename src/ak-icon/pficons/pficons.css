@@ -5,7 +5,8 @@
         url("./pficon.woff") format("woff");
 }
 
-.pf {
+.pf,
+.pf-icon {
     font-family: "pficon";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -20,7 +21,8 @@
     width: var(--fa-width, 1.25em);
 }
 
-:is(.pf)::before {
+:is(.pf)::before,
+:is(.pf-icon)::before {
     content: var(--pf);
     content: var(--pf) / "";
 }
