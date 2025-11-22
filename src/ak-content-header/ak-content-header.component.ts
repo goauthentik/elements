@@ -1,9 +1,10 @@
+import "../ak-icon/ak-icon.js";
+
+import { DynamicSlotController } from "../controllers/dynamic-slot-controller.js";
 import styles from "./ak-content-header.css";
 
-import { LitElement, html, nothing } from "lit";
+import { html, LitElement, nothing } from "lit";
 import { property } from "lit/decorators.js";
-import { DynamicSlotController } from "../controllers/dynamic-slot-controller.js";
-import "../ak-icon/ak-icon.js";
 
 export interface IContentHeader {
     icon?: string;

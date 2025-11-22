@@ -1,0 +1,16 @@
+:root {
+    /* "Inherit" here is a null-op; this documents that these variables exist and can be
+     * styled, but it does not necessarily indicate that they should be. */
+    --ak-v1-c-content-header__icon--Display: inherit;
+    --ak-v1-c-content-header__subtitle--Display: inherit;
+    --ak-v1-c-content-header__subtitle--Display-Webkit: inherit;
+    --ak-v1-c-content-header__subtitle--LineClamp: inherit;
+    --ak-v1-c-content-header--Gap: calc(var(--pf-v5-global--spacer--sm, 0.25rem) * 1.5);
+    --ak-v1-c-content-header__icon--Gap: calc(var(--pf-v5-global--spacer--sm, 0.5rem) * 1.5);
+    --pf-v5-c-content-header--title--FontSize: var(--pf-v5-global--FontSize--2xl);
+    --pf-v5-c-content-header--title--FontWeight: var(--pf-v5-global--FontWeight--normal);
+    --pf-v5-c-content-header--title--LineHeight: var(--pf-v5-global--LineHeight--xs);
+    --pf-v5-c-content-header--subtitle--FontSize: var(--pf-v5-global--FontSize--md);
+    --pf-v5-c-content-header--subtitle--FontWeight: var(--pf-v5-global--FontWeight--normal);
+    --pf-v5-c-content-header--subtitle--LineHeight: var(--pf-v5-global--LineHeight--sm);
+}

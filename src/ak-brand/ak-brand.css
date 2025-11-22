@@ -1,153 +1,114 @@
 :host {
-    --pf-v5-c-brand--Width: var(--pf-v5-c-brand--Width, auto);
-    --pf-v5-c-brand--Height: var(--pf-v5-c-brand--Height, auto);
-    --pf-v5-c-brand--Width--base: var(--pf-v5-c-brand--Width);
-    --pf-v5-c-brand--Height--base: var(--pf-v5-c-brand--Height);
-}
+    --brand--Height-on-2xl: var(--ak-v1-c-brand--Height-on-2xl);
+    --brand--Height-on-xl: var(--ak-v1-c-brand--Height-on-xl);
+    --brand--Height-on-lg: var(--ak-v1-c-brand--Height-on-lg);
+    --brand--Height-on-md: var(--ak-v1-c-brand--Height-on-md);
+    --brand--Height-on-sm: var(--ak-v1-c-brand--Height-on-sm);
+    --brand--Width-on-2xl: var(--ak-v1-c-brand--Width-on-2xl);
+    --brand--Width-on-xl: var(--ak-v1-c-brand--Width-on-xl);
+    --brand--Width-on-lg: var(--ak-v1-c-brand--Width-on-lg);
+    --brand--Width-on-md: var(--ak-v1-c-brand--Width-on-md);
+    --brand--Width-on-sm: var(--ak-v1-c-brand--Width-on-sm);
 
+    /* "base" is the variable that controls the look and feel of the component itself. It's the variable
+     * we *actually* use for controlling the component and its internal image. */
 
-:host {
-    width: var(--pf-v5-c-brand--Width--base);
-    height: var(--pf-v5-c-brand--Height--base);
-}
+    --brand--Width--base: var(--brand--Width);
+    --brand--Height--base: var(--brand--Height);
 
-:host(:not([hidden])) {
-    display: inline;
+    --brand--Width: var(--ak-v1-c-brand--Width, auto);
+    --brand--Height: var(--ak-v1-c-brand--Height, auto);
 }
 
 :host([picture]) {
-    display: inline-flex;
+    display: flex;
 }
 
-@media (min-width: 576px) {
-    :host {
-        --pf-v5-c-brand--Width--base: var(
-            --pf-v5-c-brand--Width-on-sm,
-            var(--pf-v5-c-brand--Width)
-        );
-    }
-}
-
-@media (min-width: 768px) {
-    :host {
-        --pf-v5-c-brand--Width--base: var(
-            --pf-v5-c-brand--Width-on-md,
-            var(--pf-v5-c-brand--Width-on-sm, var(--pf-v5-c-brand--Width))
-        );
-    }
-}
-
-@media (min-width: 992px) {
-    :host {
-        --pf-v5-c-brand--Width--base: var(
-            --pf-v5-c-brand--Width-on-lg,
-            var(
-                --pf-v5-c-brand--Width-on-md,
-                var(--pf-v5-c-brand--Width-on-sm, var(--pf-v5-c-brand--Width))
-            )
-        );
-    }
-}
-
-@media (min-width: 1200px) {
-    :host {
-        --pf-v5-c-brand--Width--base: var(
-            --pf-v5-c-brand--Width-on-xl,
-            var(
-                --pf-v5-c-brand--Width-on-lg,
-                var(
-                    --pf-v5-c-brand--Width-on-md,
-                    var(--pf-v5-c-brand--Width-on-sm, var(--pf-v5-c-brand--Width))
-                )
-            )
-        );
-    }
-}
-
-@media (min-width: 1450px) {
-    :host {
-        --pf-v5-c-brand--Width--base: var(
-            --pf-v5-c-brand--Width-on-2xl,
-            var(
-                --pf-v5-c-brand--Width-on-xl,
-                var(
-                    --pf-v5-c-brand--Width-on-lg,
-                    var(
-                        --pf-v5-c-brand--Width-on-md,
-                        var(--pf-v5-c-brand--Width-on-sm, var(--pf-v5-c-brand--Width))
-                    )
-                )
-            )
-        );
-    }
-}
-
-@media (min-width: 576px) {
-    :host {
-        --pf-v5-c-brand--Height--base: var(
-            --pf-v5-c-brand--Height-on-sm,
-            var(--pf-v5-c-brand--Height)
-        );
-    }
-}
-
-@media (min-width: 768px) {
-    :host {
-        --pf-v5-c-brand--Height--base: var(
-            --pf-v5-c-brand--Height-on-md,
-            var(--pf-v5-c-brand--Height-on-sm, var(--pf-v5-c-brand--Height))
-        );
-    }
-}
-
-@media (min-width: 992px) {
-    :host {
-        --pf-v5-c-brand--Height--base: var(
-            --pf-v5-c-brand--Height-on-lg,
-            var(
-                --pf-v5-c-brand--Height-on-md,
-                var(--pf-v5-c-brand--Height-on-sm, var(--pf-v5-c-brand--Height))
-            )
-        );
-    }
-}
-
-@media (min-width: 1200px) {
-    :host {
-        --pf-v5-c-brand--Height--base: var(
-            --pf-v5-c-brand--Height-on-xl,
-            var(
-                --pf-v5-c-brand--Height-on-lg,
-                var(
-                    --pf-v5-c-brand--Height-on-md,
-                    var(--pf-v5-c-brand--Height-on-sm, var(--pf-v5-c-brand--Height))
-                )
-            )
-        );
-    }
-}
-
-@media (min-width: 1450px) {
-    :host {
-        --pf-v5-c-brand--Height--base: var(
-            --pf-v5-c-brand--Height-on-2xl,
-            var(
-                --pf-v5-c-brand--Height-on-xl,
-                var(
-                    --pf-v5-c-brand--Height-on-lg,
-                    var(
-                        --pf-v5-c-brand--Height-on-md,
-                        var(--pf-v5-c-brand--Height-on-sm, var(--pf-v5-c-brand--Height))
-                    )
-                )
-            )
-        );
-    }
+:host {
+    width: var(--brand--Width--base);
+    height: var(--brand--Height--base);
 }
 
 [part="brand"] {
     position: relative;
     object-fit: contain;
-    width: var(--pf-v5-c-brand--Width--base);
-    height: var(--pf-v5-c-brand--Height--base);
+    width: var(--brand--Width--base);
+    height: var(--brand--Height--base);
+}
+
+@media (min-width: 576px) {
+    :host {
+        --brand--Width--base: var(--brand--Width-on-sm, var(--brand--Width));
+    }
+    --brand--Height--base: var(--brand--Height-on-sm, var(--brand--Height));
+}
+
+@media (min-width: 768px) {
+    :host {
+        --brand--Width--base: var(
+            --brand--Width-on-md,
+            var(--brand--Width-on-sm, var(--brand--Width))
+        );
+        --brand--Height--base: var(
+            --brand--Height-on-md,
+            var(--brand--Height-on-sm, var(--brand--Height))
+        );
+    }
+}
+
+@media (min-width: 992px) {
+    :host {
+        --brand--Width--base: var(
+            --brand--Width-on-lg,
+            var(--brand--Width-on-md, var(--brand--Width-on-sm, var(--brand--Width)))
+        );
+        --brand--Height--base: var(
+            --brand--Height-on-lg,
+            var(--brand--Height-on-md, var(--brand--Height-on-sm, var(--brand--Height)))
+        );
+    }
+}
+
+@media (min-width: 1200px) {
+    :host {
+        --brand--Width--base: var(
+            --brand--Width-on-xl,
+            var(
+                --brand--Width-on-lg,
+                var(--brand--Width-on-md, var(--brand--Width-on-sm, var(--brand--Width)))
+            )
+        );
+        --brand--Height--base: var(
+            --brand--Height-on-xl,
+            var(
+                --brand--Height-on-lg,
+                var(--brand--Height-on-md, var(--brand--Height-on-sm, var(--brand--Height)))
+            )
+        );
+    }
+}
+
+@media (min-width: 1450px) {
+    :host {
+        --brand--Width--base: var(
+            --brand--Width-on-2xl,
+            var(
+                --brand--Width-on-xl,
+                var(
+                    --brand--Width-on-lg,
+                    var(--brand--Width-on-md, var(--brand--Width-on-sm, var(--brand--Width)))
+                )
+            )
+        );
+        --brand--Height--base: var(
+            --brand--Height-on-2xl,
+            var(
+                --brand--Height-on-xl,
+                var(
+                    --brand--Height-on-lg,
+                    var(--brand--Height-on-md, var(--brand--Height-on-sm, var(--brand--Height)))
+                )
+            )
+        );
+    }
 }
