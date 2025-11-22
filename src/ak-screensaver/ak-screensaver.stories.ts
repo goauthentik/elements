@@ -295,30 +295,31 @@ export const CustomStyling: Story = {
     render: () => html`
         <style>
             .purple-screensaver {
-                --pf-v5-c-screensaver--Background: linear-gradient(
+                --ak-v1-c-screensaver--Background: linear-gradient(
                     135deg,
-                    #667eea 0%,
-                    #764ba2 100%
+                    rgba(102, 126, 234, 1) 0%,
+                    rgba(118, 75, 162, 1) 50%,
+                    rgba(237, 221, 83, 1) 100%
                 );
-                --pf-v5-c-screensaver--Height: 5rem;
-                --pf-v5-c-screensaver--Color: #ffffff;
-                --pf-v5-c-screensaver--Transition: 2s cubic-bezier(0.4, 0, 0.2, 1);
+                --ak-v1-c-screensaver--Height: 5rem;
+                --ak-v1-c-screensaver--Color: #ffffff;
+                --ak-v1-c-screensaver--Transition: 2s cubic-bezier(0.4, 0, 0.2, 1);
             }
 
             .orange-screensaver {
-                --pf-v5-c-screensaver--Background: radial-gradient(
+                --ak-v1-c-screensaver--Background: radial-gradient(
                     circle,
                     #ff7e5f 0%,
                     #feb47b 100%
                 );
-                --pf-v5-c-screensaver--Height: 3rem;
-                --pf-v5-c-screensaver--Color: #8b4513;
+                --ak-v1-c-screensaver--Height: 3rem;
+                --ak-v1-c-screensaver--Color: #8b4513;
             }
 
             .minimal-screensaver {
-                --pf-v5-c-screensaver--Background: rgba(240, 240, 240, 0.95);
-                --pf-v5-c-screensaver--Height: 2.5rem;
-                --pf-v5-c-screensaver--Color: #333;
+                --ak-v1-c-screensaver--Background: rgba(240, 240, 240, 0.95);
+                --ak-v1-c-screensaver--Height: 2.5rem;
+                --ak-v1-c-screensaver--Color: #333;
             }
         </style>
 
