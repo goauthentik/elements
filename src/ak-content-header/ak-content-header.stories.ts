@@ -125,7 +125,7 @@ export const WithIcon: Story = {
     ...Template,
     args: {
         ...Template.args,
-        icon: "fa fa-dashboard",
+        icon: "fa fa-clipboard",
         titleText: "Welcome, authentik Default Admin",
         subtitleText: "General system status",
     },

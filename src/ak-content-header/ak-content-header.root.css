@@ -9,6 +9,7 @@
     --ak-v1-c-content-header__icon--Gap: calc(var(--pf-v5-global--spacer--sm, 0.5rem) * 1.5);
     --pf-v5-c-content-header--title--FontSize: var(--pf-v5-global--FontSize--2xl);
     --pf-v5-c-content-header--title--FontWeight: var(--pf-v5-global--FontWeight--normal);
+    /* Just to clarify, Patternfly 5 does not even _define_ a global LineHeight-xs */
     --pf-v5-c-content-header--title--LineHeight: var(--pf-v5-global--LineHeight--xs);
     --pf-v5-c-content-header--subtitle--FontSize: var(--pf-v5-global--FontSize--md);
     --pf-v5-c-content-header--subtitle--FontWeight: var(--pf-v5-global--FontWeight--normal);
