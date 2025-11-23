@@ -1,0 +1,25 @@
+@keyframes pf-v5-c-spinner-animation-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+@keyframes pf-v5-c-spinner-animation-dash {
+    0% {
+        stroke-dashoffset: 280;
+        transform: rotate(0);
+    }
+    15% {
+        stroke-width: calc(var(--pf-v5-c-spinner__path--StrokeWidth) - 4);
+    }
+    40% {
+        stroke-dasharray: 220;
+        stroke-dashoffset: 150;
+    }
+    100% {
+        stroke-dashoffset: 280;
+        transform: rotate(720deg);
+    }
+}

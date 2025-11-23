@@ -1,0 +1,68 @@
+:host {
+    --spinner--diameter: var(--pf-v5-c-spinner--diameter, 3.375rem);
+    --spinner--Color: var(--pf-v5-c-spinner--Color, #06c);
+    --spinner--m-sm--diameter: var(--pf-v5-c-spinner--m-sm--diameter, 0.75rem);
+    --spinner--m-md--diameter: var(--pf-v5-c-spinner--m-md--diameter, 1rem);
+    --spinner--m-lg--diameter: var(--pf-v5-c-spinner--m-lg--diameter, 1.5rem);
+    --spinner--m-xl--diameter: var(--pf-v5-c-spinner--m-xl--diameter, 3.375rem);
+    --spinner--m-inline--diameter: var(--pf-v5-c-spinner--m-inline--diameter, 1em);
+    --spinner--diameter: var(--pf-v5-global--icon--FontSize--xl);
+    --spinner__path--Stroke: var(--spinner--Color);
+    --spinner__path--StrokeWidth: var(--spinner--stroke-width);
+    --spinner__path--AnimationTimingFunction: ease-in-out;
+    --spinner--m-sm--diameter: var(--pf-v5-global--icon--FontSize--sm);
+    --spinner--m-md--diameter: var(--pf-v5-global--icon--FontSize--md);
+    --spinner--m-lg--diameter: var(--pf-v5-global--icon--FontSize--lg);
+    --spinner--m-xl--diameter: var(--pf-v5-global--icon--FontSize--xl);
+
+    /*
+     * These next lines are either not supplied by default in the root file or are read incorrectly
+     * by the Patternfly 5 pattern matcher; The only way to get the desired behavior was to edit the
+     * produced file to repair or supply the imported globals with this edit. Upgrading to
+     * Patternfly 6 will entail the same decisions.
+     */
+    --spinner--AnimationDuration: var(--pf-v5-c-spinner--AnimationDuration, 1.4s);
+    --spinner--stroke-width: var(--pf-v5-c-spinner--stroke-width, 10);
+    --spinner--Width: var(--spinner--diameter);
+    --spinner--Height: var(--spinner--diameter);
+}
+
+[part="spinner"] {
+    width: var(--spinner--Width);
+    height: var(--spinner--Height);
+    animation: pf-v5-c-spinner-animation-rotate calc(var(--spinner--AnimationDuration) * 2)
+        var(--spinner--AnimationTimingFunction) infinite;
+}
+
+:host([inline]) {
+    --spinner--diameter: var(--spinner--m-inline--diameter);
+}
+
+:host([size="sm"]) {
+    --spinner--diameter: var(--spinner--m-sm--diameter);
+}
+
+:host([size="md"]) {
+    --spinner--diameter: var(--spinner--m-md--diameter);
+}
+
+:host([size="lg"]) {
+    --spinner--diameter: var(--spinner--m-lg--diameter);
+}
+
+:host([size="xl"]) {
+    --spinner--diameter: var(--spinner--m-xl--diameter);
+}
+
+[part="circle"] {
+    width: 100%;
+    height: 100%;
+    stroke: var(--spinner--Color);
+    stroke-dasharray: 283;
+    stroke-dashoffset: 280;
+    stroke-linecap: round;
+    stroke-width: var(--spinner--stroke-width);
+    transform-origin: 50% 50%;
+    animation: pf-v5-c-spinner-animation-dash var(--spinner--AnimationDuration)
+        var(--spinner__path--AnimationTimingFunction) infinite;
+}

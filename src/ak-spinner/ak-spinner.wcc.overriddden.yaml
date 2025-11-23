@@ -1,0 +1,24 @@
+# See the comment in the CSS file.
+import: spinner.css
+base: .pf-v5-c-spinner
+host:
+    :host:
+        $from: $base
+        $include: position, display
+        --spinner--Width: var(--pf-v5-c-spinner--Width, --spinner--diameter);
+        --spinner--Height: var(--pf-v5-c-spinner--Height, --spinner--diameter);
+    :host%:
+        $from: "svg.pf-v5-c-spinner"
+        $include: /^--/
+    '[part="spinner"]':
+        $from: $base
+        $include: width, height, owerflow
+    '[part="spinner"]%':
+        $from: "svg.pf-v5-c-spinner"
+        $include: animation
+    :host([inline]):
+        $from: ".pf-m-inline"
+    :host([size="\1"]):
+        $from: /\.pf-m-(sm|md|lg|xl)/
+    '[part="circle"]':
+        $from: "__path"
