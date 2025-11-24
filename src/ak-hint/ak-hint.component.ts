@@ -36,7 +36,7 @@ export class Hint extends AkLitElement {
 
     public override render() {
         const [hasTitle, hasBody, hasFooter] = ["title", null, "footer"].map((item) =>
-            this.hasSlotted(item)
+            this.hasSlotted(item),
         );
 
         return html`
