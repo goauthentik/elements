@@ -2,7 +2,7 @@ import { Hint } from "./ak-hint.component.js";
 
 import { html, TemplateResult } from "lit";
 
-export type AkHintProps = {
+export type HintProps = {
     title?: string | TemplateResult;
     footer?: string | TemplateResult;
     body?: string | TemplateResult;
@@ -16,7 +16,7 @@ export type AkHintProps = {
  * @see {@link Hint} - The underlying web component
  */
 
-export function akHint(options: AkHintProps = {}) {
+export function akHint(options: HintProps = {}) {
     const { title, body, footer } = options;
 
     return html`
