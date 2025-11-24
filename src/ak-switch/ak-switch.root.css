@@ -1,0 +1,54 @@
+:root {
+    --pf-v5-c-switch--FontSize: var(--pf-v5-global--FontSize--md);
+    --pf-v5-c-switch__label--PaddingLeft: var(--pf-v5-global--spacer--md);
+    --pf-v5-c-switch--ColumnGap: var(--pf-v5-c-switch__label--PaddingLeft);
+    --pf-v5-c-switch__toggle-icon--FontSize: var(calc(--pf-v5-c-switch--FontSize * 0.625));
+    --pf-v5-c-switch__toggle-icon--Color: var(--pf-v5-global--Color--light-100);
+    --pf-v5-c-switch__toggle-icon--Left: var(calc(--pf-v5-c-switch--FontSize * 0.4));
+    --pf-v5-c-switch__toggle-icon--Offset: 0.125rem;
+    --pf-v5-c-switch__input--disabled__toggle-icon--Color: var(--pf-v5-global--palette--black-150);
+    --pf-v5-c-switch--LineHeight: var(--pf-v5-global--LineHeight--md);
+    --pf-v5-c-switch--Height: auto;
+    --pf-v5-c-switch__input--checked__toggle--BackgroundColor: var(
+        --pf-v5-global--primary-color--100
+    );
+    --pf-v5-c-switch__input--checked__toggle--before--TranslateX: var(
+        calc(100% + --pf-v5-c-switch__toggle-icon--Offset)
+    );
+    --pf-v5-c-switch__input--checked__label--Color: var(--pf-v5-global--Color--dark-100);
+    --pf-v5-c-switch__input--not-checked__label--Color: var(--pf-v5-global--disabled-color--100);
+    --pf-v5-c-switch__input--disabled__label--Color: var(--pf-v5-global--disabled-color--100);
+    --pf-v5-c-switch__input--disabled__toggle--BackgroundColor: var(
+        --pf-v5-global--disabled-color--200
+    );
+    --pf-v5-c-switch__input--disabled__toggle--before--BackgroundColor: var(
+        --pf-v5-global--palette--black-150
+    );
+    --pf-v5-c-switch__input--focus__toggle--OutlineWidth: var(--pf-v5-global--BorderWidth--md);
+    --pf-v5-c-switch__input--focus__toggle--OutlineOffset: var(--pf-v5-global--spacer--sm);
+    --pf-v5-c-switch__input--focus__toggle--OutlineColor: var(--pf-v5-global--primary-color--100);
+    --pf-v5-c-switch__toggle--Height: var(
+        calc(--pf-v5-c-switch--FontSize * --pf-v5-c-switch--LineHeight)
+    );
+    --pf-v5-c-switch__toggle--BackgroundColor: var(--pf-v5-global--palette--black-500);
+    --pf-v5-c-switch__toggle--BorderRadius: var(--pf-v5-c-switch__toggle--Height);
+    --pf-v5-c-switch__toggle--before--Width: var(
+        calc(--pf-v5-c-switch--FontSize - --pf-v5-c-switch__toggle-icon--Offset)
+    );
+    --pf-v5-c-switch__toggle--before--Height: var(--pf-v5-c-switch__toggle--before--Width);
+    --pf-v5-c-switch__toggle--before--Top: var(
+        calc((--pf-v5-c-switch__toggle--Height - --pf-v5-c-switch__toggle--before--Height) / 2)
+    );
+    --pf-v5-c-switch__toggle--before--Left: var(--pf-v5-c-switch__toggle--before--Top);
+    --pf-v5-c-switch__toggle--before--BackgroundColor: var(--pf-v5-global--BackgroundColor--100);
+    --pf-v5-c-switch__toggle--before--BorderRadius: var(--pf-v5-global--BorderRadius--lg);
+    --pf-v5-c-switch__toggle--before--BoxShadow: var(--pf-v5-global--BoxShadow--md);
+    --pf-v5-c-switch__toggle--before--Transition: transform 0.25s ease 0s;
+    --pf-v5-c-switch__toggle--Width: var(
+        calc(
+            --pf-v5-c-switch__toggle--Height + --pf-v5-c-switch__toggle-icon--Offset +
+                --pf-v5-c-switch__toggle--before--Width
+        )
+    );
+    --pf-v5-c-switch__label--Color: var(--pf-v5-global--Color--dark-100);
+}

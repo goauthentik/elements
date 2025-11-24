@@ -22,6 +22,7 @@ export type SwitchProps = Partial<
     label?: TemplateResult | string;
     labelOn?: TemplateResult | string;
     icon?: TemplateResult | string;
+    reverse?: boolean;
 };
 
 /**
@@ -41,6 +42,7 @@ export function akSwitch(options: SwitchProps = {}): TemplateResult {
         useCheck,
         showLabel,
         ariaLabel,
+        reverse,
         label,
         labelOn,
         icon,
@@ -51,7 +53,7 @@ export function akSwitch(options: SwitchProps = {}): TemplateResult {
 
     // The icon handling looks odd, but bear with it:
     // - If icon is a string, we pass it as an attribute to switch,
-    //   so switch can look up the icon itself.
+    //   so switch can look up the icon itself.a
     // - If icon is nullish, we put nothing into the template.
     // - Otherwise, we assume icon is some renderable thing of
     //   TemplateResultwith the proper `slot="icon"` attribute.
@@ -62,8 +64,9 @@ export function akSwitch(options: SwitchProps = {}): TemplateResult {
             ?checked=${Boolean(checked)}
             ?required=${Boolean(required)}
             ?disabled=${Boolean(disabled)}
-            icon=${ifDefined(typeof icon === "string" ? icon : undefined)}
-            value=${ifDefined(value)}
+            ?reverse=${Boolean(reverse)}
+            check-icon=${ifDefined(typeof icon === "string" ? icon : undefined)}
+            value=${ifDefined(value ?? undefined)}
             ?use-check=${Boolean(useCheck)}
             ?label=${Boolean(showLabel)}
             aria-label=${ifDefined(ariaLabel ?? undefined)}

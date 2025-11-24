@@ -32,8 +32,7 @@
         "storybook": "run-s clean analyze build storybook:main",
         "storybook:main": "storybook dev -p 6006",
         "test": "run-s clean analyze build test:unit",
-        "test:unit": "wdio run ./config/wdio.conf.mjs --logLevel=warn",
-        "wccss": "wccss"
+        "test:unit": "wdio run ./config/wdio.conf.mjs --logLevel=warn"
     },
     "type": "module",
     "dependencies": {
