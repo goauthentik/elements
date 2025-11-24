@@ -1,0 +1,13 @@
+:root {
+    --pf-v5-c-spinner--diameter: var(--pf-v5-global--icon--FontSize--xl);
+    --pf-v5-c-spinner--Width: var(--pf-v5-c-spinner--diameter);
+    --pf-v5-c-spinner--Height: var(--pf-v5-c-spinner--diameter);
+    --pf-v5-c-spinner--Color: var(--pf-v5-global--primary-color--100);
+    --pf-v5-c-spinner--m-sm--diameter: var(--pf-v5-global--icon--FontSize--sm);
+    --pf-v5-c-spinner--m-md--diameter: var(--pf-v5-global--icon--FontSize--md);
+    --pf-v5-c-spinner--m-lg--diameter: var(--pf-v5-global--icon--FontSize--lg);
+    --pf-v5-c-spinner--m-xl--diameter: var(--pf-v5-global--icon--FontSize--xl);
+    --pf-v5-c-spinner--m-inline--diameter: 1em;
+    --pf-v5-c-spinner--AnimationDuration: 1.4s;
+    --pf-v5-c-spinner--stroke-width: 10;
+}
