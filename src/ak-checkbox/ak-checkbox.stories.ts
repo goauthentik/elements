@@ -4,12 +4,13 @@ import { CheckboxInput } from "./ak-checkbox.js";
 
 import type { Meta, StoryObj } from "@storybook/web-components";
 
-import { html } from "lit";
+import { html, nothing } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
 type StoryArgs = CheckboxInput & {
     label?: string;
     labelOn?: string;
+    reverse?: boolean;
 };
 
 const metadata: Meta<StoryArgs> = {
@@ -22,7 +23,6 @@ const metadata: Meta<StoryArgs> = {
             description: "Whether the checkbox is checked",
             table: {
                 type: { summary: "boolean" },
-                defaultValue: { summary: false },
             },
         },
         indeterminate: {
@@ -30,7 +30,6 @@ const metadata: Meta<StoryArgs> = {
             description: "Whether the checkbox is in indeterminate state (mixed)",
             table: {
                 type: { summary: "boolean" },
-                defaultValue: { summary: false },
             },
         },
         disabled: {
@@ -38,7 +37,6 @@ const metadata: Meta<StoryArgs> = {
             description: "Whether the checkbox is disabled",
             table: {
                 type: { summary: "boolean" },
-                defaultValue: { summary: false },
             },
         },
         required: {
@@ -46,7 +44,6 @@ const metadata: Meta<StoryArgs> = {
             description: "Whether the checkbox is required in a form",
             table: {
                 type: { summary: "boolean" },
-                defaultValue: { summary: false },
             },
         },
         name: {
@@ -68,7 +65,6 @@ const metadata: Meta<StoryArgs> = {
             description: "Whether to reverse the checkbox and label positions",
             table: {
                 type: { summary: "boolean" },
-                defaultValue: { summary: false },
             },
         },
         showLabel: {
@@ -76,7 +72,6 @@ const metadata: Meta<StoryArgs> = {
             description: "Whether to show label content alongside the checkbox",
             table: {
                 type: { summary: "boolean" },
-                defaultValue: { summary: false },
             },
         },
         ariaLabel: {
@@ -263,7 +258,7 @@ export const FormIntegration: Story = {
                     name=${ifDefined(args.name)}
                     value=${ifDefined(args.value)}
                 >
-                    ${args.label}
+                    ${args.label ? html`<span slot="label">${args.label}</span>` : nothing}
                 </ak-checkbox>
             </div>
             <button type="submit">Submit Form</button>
@@ -289,7 +284,7 @@ export const CustomIcons: Story = {
                         d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
                     />
                 </svg>
-                Custom check icon
+                <label slot="label">Custom check icon</label>
             </ak-checkbox>
 
             <ak-checkbox indeterminate>
@@ -305,12 +300,14 @@ export const CustomIcons: Story = {
                         d="M12 10a2 2 0 0 0-2 2a2 2 0 0 0 2 2c1.11 0 2-.89 2-2a2 2 0 0 0-2-2"
                     />
                 </svg>
-                Custom indeterminate icon
+                <span slot="label">Custom indeterminate icon</span>
             </ak-checkbox>
 
             <ak-checkbox>
-                <span style="font-weight: bold; color: #28a745;">✓</span>
-                <div slot="icon">Text-based check</div>
+                <span slot="label" style="font-weight: bold; color: #28a745;"
+                    >Text-based icon (also, slotted labels can be styled)</span
+                >
+                <div slot="icon">☂</div>
             </ak-checkbox>
         </div>
     `,
@@ -329,15 +326,11 @@ export const MultipleCheckboxes: Story = {
         <fieldset style="border: 1px solid #ccc; padding: 1rem; border-radius: 4px;">
             <legend>Preferences</legend>
             <div style="display: flex; flex-direction: column; gap: 1rem;">
-                <ak-checkbox name="notifications" value="email"> Email notifications </ak-checkbox>
-                <ak-checkbox name="notifications" value="sms" checked>
-                    SMS notifications
-                </ak-checkbox>
-                <ak-checkbox name="marketing" value="yes"> Marketing emails </ak-checkbox>
-                <ak-checkbox name="newsletter" value="weekly" indeterminate>
-                    Weekly newsletter (some topics selected)
-                </ak-checkbox>
-                <ak-checkbox disabled> Premium features (upgrade required) </ak-checkbox>
+                <ak-checkbox name="notifications" value="email"> <span slot="label">Email notifications</span> </ak-checkbox>
+    <ak-checkbox name="notifications" value="sms" checked> <span slot="label">SMS notifications </span></ak-checkbox>
+    <ak-checkbox reverse name="marketing" value="yes"> <span slot="label"> Marketing emails </span> </ak-checkbox>
+    <ak-checkbox name="newsletter" value="weekly" indeterminate> <span slot="label">Weekly newsletter (some topics selected) </slot></ak-checkbox>
+    <ak-checkbox disabled> <span slot="label">Premium features (upgrade required)</slot> </ak-checkbox>
             </div>
         </fieldset>
     `,
@@ -391,11 +384,15 @@ export const LabelAssociation: Story = {
                 <ak-checkbox id="external-checkbox" name="external" value="yes"> </ak-checkbox>
             </div>
 
-            <ak-checkbox name="internal"> Internal label content </ak-checkbox>
+            <ak-checkbox name="internal">
+                <span slot="label">Internal label (click me!)</span>
+            </ak-checkbox>
 
-            <ak-checkbox name="both" id="both-checkbox"> Internal content </ak-checkbox>
+            <ak-checkbox name="both" id="both-checkbox">
+                <span slot="label">Third Checkbox (yes, this is clickable too)</span>
+            </ak-checkbox>
             <label for="both-checkbox" style="font-size: 0.9em; color: #666;">
-                Additional external label
+                External Label for Third Checkbox (click me!)
             </label>
         </div>
     `,
@@ -426,7 +423,7 @@ export const SizeVariants: Story = {
 
             <div>
                 <h4 style="margin: 0 0 0.5rem 0;">Large</h4>
-                <ak-checkbox checked style="--pf-v5-c-checkbox--FontSize: 1.25rem;">
+                <ak-checkbox checked style="--pf-v5-c-checkbox--FontSize: 2.4rem;">
                     Large checkbox
                 </ak-checkbox>
             </div>

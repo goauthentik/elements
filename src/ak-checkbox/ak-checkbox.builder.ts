@@ -15,7 +15,6 @@ export type CheckboxProps = Partial<
         | "required"
         | "disabled"
         | "value"
-        | "reverse"
         | "showLabel"
         | "ariaLabel"
     >
@@ -24,6 +23,7 @@ export type CheckboxProps = Partial<
     labelOn?: TemplateResult | string;
     icon?: TemplateResult | string;
     indeterminateIcon?: TemplateResult | string;
+    reverse?: boolean;
 };
 
 /**

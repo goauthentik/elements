@@ -1,43 +1,52 @@
+/* Checkbox is a wholly custom component, so there's no WCCSS file. */
+
 :host {
-    --pf-v5-c-checkbox--FontSize: var(--pf-v5-global--FontSize--md, 1rem);
-    --pf-v5-c-checkbox__label--PaddingLeft: var(--pf-v5-global--spacer--md, 1rem);
-    --pf-v5-c-checkbox--ColumnGap: var(--pf-v5-c-checkbox__label--PaddingLeft);
-    --pf-v5-c-checkbox--LineHeight: var(--pf-v5-global--LineHeight--md, 1.5);
-    --pf-v5-c-checkbox--Height: calc(
-        var(--pf-v5-c-checkbox--FontSize) * var(--pf-v5-c-checkbox--LineHeight)
-    );
-    --pf-v5-c-checkbox--Width: auto;
+    --checkbox--FontSize: var(--pf-v5-c-checkbox--FontSize, 1rem);
+    --checkbox__label--PaddingLeft: var(--pf-v5-c-checkbox__label--PaddingLeft, 1rem);
+    --checkbox--ColumnGap: var(--checkbox__label--PaddingLeft);
+    --checkbox--LineHeight: var(--pf-v5-c-checkbox--LineHeight, 1.5);
 
-    --pf-v5-c-checkbox__toggle--Color: var(--pf-v5-global--Color--dark-100, #151515);
-    --pf-v5-c-checkbox__toggle--BorderRadius: var(--pf-v5-global--BorderRadius--sm, 3px);
-    --pf-v5-c-checkbox__toggle--BorderColor: var(--pf-v5-c-checkbox__toggle--Color);
-    --pf-v5-c-checkbox__toggle--BorderWidth: var(--pf-v5-global--BorderWidth--md, 2px);
-    --pf-v5-c-checkbox__toggle--Height: var(--pf-v5-c-checkbox--FontSize);
-    --pf-v5-c-checkbox__toggle--Width: var(--pf-v5-c-checkbox__toggle--Height);
-    --pf-v5-c-checkbox__toggle--BackgroundColor: inherit;
-    --pf-v5-c-checkbox__toggle--Padding: 1px;
+    --checkbox--Height: calc(var(--checkbox--FontSize) * var(--checkbox--LineHeight));
+    --checkbox--Width: auto
+        --checkbox__toggle--Color: var(--pf-v5-c-checkbox__toggle--Color, #151515);
+    --checkbox__toggle--BorderRadius: var(--pf-v5-c-checkbox__toggle--BorderRadius, 3px);
+    --checkbox__toggle--BorderColor: var(--checkbox__toggle--Color);
+    --checkbox__toggle--BorderWidth: var(--pf-v5-c-checkbox__toggle--BorderWidth, 2px);
+    --checkbox__toggle--Height: var(--checkbox--FontSize);
+    --checkbox__toggle--Width: var(--checkbox__toggle--Height);
+    --checkbox__toggle--BackgroundColor: inherit;
+    --checkbox__toggle--Padding: 1px;
 
-    --pf-v5-c-checkbox--disabled__toggle--Color: var(--pf-v5-global--disabled-color--100, #6a6e73);
-    --pf-v5-c-checkbox--disabled__toggle--BorderColor: var(
-        --pf-v5-global--disabled-color--200,
+    --checkbox--disabled__toggle--Color: var(--pf-v5-c-checkbox--disabled__toggle--Color, #6a6e73);
+    --checkbox--disabled__toggle--BorderColor: var(
+        --pf-v5-c-checkbox--disabled__toggle--BorderColor,
         #d2d2d2
     );
-    --pf-v5-c-checkbox--disabled__toggle--BackgroundColor: var(
-        --pf-v5-global--palette--black-150,
+    --checkbox--disabled__toggle--BackgroundColor: var(
+        --pf-v5-c-checkbox--disabled__toggle--BackgroundColor,
         #f5f5f5
     );
-    --pf-v5-c-checkbox--disabled__label--Color: var(--pf-v5-global--disabled-color--100, #6a6e73);
+    --checkbox--disabled__label--Color: var(--pf-v5-c-checkbox--disabled__label--Color, #6a6e73);
 
-    --pf-v5-c-checkbox--focus__toggle--OutlineWidth: var(--pf-v5-global--BorderWidth--md, 2px);
-    --pf-v5-c-checkbox--focus__toggle--OutlineOffset: var(--pf-v5-global--spacer--sm, 0.5rem);
-    --pf-v5-c-checkbox--focus__toggle--OutlineColor: var(--pf-v5-global--primary-color--100, #06c);
+    --checkbox--focus__toggle--OutlineWidth: var(
+        --pf-v5-c-checkbox--focus__toggle--OutlineWidth,
+        2px
+    );
+    --checkbox--focus__toggle--OutlineOffset: var(
+        --pf-v5-c-checkbox--focus__toggle--OutlineOffset,
+        0.5rem
+    );
+    --checkbox--focus__toggle--OutlineColor: var(
+        --pf-v5-c-checkbox--focus__toggle--OutlineColor,
+        #06c
+    );
 
-    --pf-v5-c-checkbox__input--checked__label--Color: var(--pf-v5-c-checkbox__toggle--Color);
-    --pf-v5-c-checkbox__input--not-checked__label--Color: var(
-        --pf-v5-global--disabled-color--100,
+    --checkbox__input--checked__label--Color: var(--pf-v5-c-checkbox__toggle--Color);
+    --checkbox__input--not-checked__label--Color: var(
+        --pf-v5-c-checkbox__input--not-checked__label--Color,
         #6a6e73
     );
-    --pf-v5-c-checkbox__label--Color: var(--pf-v5-global--Color--dark-100, #151515);
+    --checkbox__label--Color: var(--pf-v5-c-checkbox__label--Color, #151515);
     position: relative;
     display: inline;
 }
@@ -46,19 +55,32 @@
     position: relative;
     grid-template-columns: auto;
     grid-auto-columns: 1fr;
-    column-gap: var(--pf-v5-c-checkbox--ColumnGap);
-    height: var(--pf-v5-c-checkbox--Height);
-    font-size: var(--pf-v5-c-checkbox--FontSize);
-    line-height: var(--pf-v5-c-checkbox--LineHeight);
+    column-gap: var(--checkbox--ColumnGap);
+    height: var(--checkbox--Height);
+    font-size: var(--checkbox--FontSize);
+    line-height: var(--checkbox--LineHeight);
     vertical-align: middle;
     cursor: pointer;
     display: grid;
 }
 
+:host([reverse]) [part="label"] {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+:host([reverse]) [part="toggle"] {
+    grid-column: 2;
+}
+
+:host([checked]) [part="label"] {
+    color: var(--checkbox__input--checked__label--Color);
+}
+
 [part="checkbox"]:focus-visible [part="toggle"] {
-    outline: var(--pf-v5-c-checkbox--focus__toggle--OutlineWidth) solid
-        var(--pf-v5-c-checkbox--focus__toggle--OutlineColor);
-    outline-offset: var(--pf-v5-c-checkbox--focus__toggle--OutlineOffset);
+    outline: var(--checkbox--focus__toggle--OutlineWidth) solid
+        var(--checkbox--focus__toggle--OutlineColor);
+    outline-offset: var(--checkbox--focus__toggle--OutlineOffset);
 }
 
 [part="toggle"] {
@@ -66,39 +88,22 @@
     display: inline-flex;
     justify-content: center; /* Centers horizontally */
     align-items: center; /* Centers vertically */
-    width: var(--pf-v5-c-checkbox__toggle--Width);
-    height: var(--pf-v5-c-checkbox__toggle--Height);
+    width: var(--checkbox__toggle--Width);
+    height: var(--checkbox__toggle--Height);
     border-style: solid;
-    border-radius: var(--pf-v5-c-checkbox__toggle--BorderRadius);
-    border-color: var(--pf-v5-c-checkbox__toggle--BorderColor);
-    border-width: var(--pf-v5-c-checkbox__toggle--BorderWidth);
+    border-radius: var(--checkbox__toggle--BorderRadius);
+    border-color: var(--checkbox__toggle--BorderColor);
+    border-width: var(--checkbox__toggle--BorderWidth);
 }
 
 [part="toggle"] > svg {
-    width: calc(
-        var(--pf-v5-c-checkbox__toggle--Width) - 2 * var(--pf-v5-c-checkbox__toggle--Padding)
-    );
-    height: calc(
-        var(--pf-v5-c-checkbox__toggle--Height) - 2 * var(--pf-v5-c-checkbox__toggle--Padding)
-    );
-    fill: var(--pf-v5-c-checkbox__toggle--Color);
+    width: calc(var(--checkbox__toggle--Width) - 2 * var(--checkbox__toggle--Padding));
+    height: calc(var(--checkbox__toggle--Height) - 2 * var(--checkbox__toggle--Padding));
+    fill: var(--checkbox__toggle--Color);
 }
 
 [part="toggle"] > svg > path {
-    fill: var(--pf-v5-c-checkbox__toggle--Color);
-}
-
-:host([reverse]) [part="label"],
-:host([reverse]) [part="toggle"] {
-    grid-row: 1;
-}
-
-:host([reverse]) [part="label"] {
-    grid-column: 1;
-}
-
-:host([checked]) [part="label"] {
-    color: var(--pf-v5-c-checkbox__input--checked__label--Color);
+    fill: var(--checkbox__toggle--Color);
 }
 
 :host(:disabled),
@@ -108,38 +113,25 @@
 
 :host(:disabled) [part="label"],
 :host([disabled]) [part="label"] {
-    color: var(--pf-v5-c-checkbox--disabled__label--Color);
+    color: var(--checkbox--disabled__label--Color);
     cursor: not-allowed;
 }
 
 :host(:disabled) [part="toggle"],
 :host([disabled]) [part="toggle"] {
-    --pf-v5-c-checkbox__toggle--BorderColor: var(--pf-v5-c-checkbox--disabled__toggle--BorderColor);
+    --checkbox__toggle--BorderColor: var(--checkbox--disabled__toggle--BorderColor);
     cursor: not-allowed;
-    background-color: var(--pf-v5-c-checkbox--disabled__toggle--BackgroundColor);
+    background-color: var(--checkbox--disabled__toggle--BackgroundColor);
 }
 
 :host(:disabled) [part="toggle"],
 :host([disabled]) [part="toggle"] {
-    --pf-v5-c-checkbox__toggle--Color: var(--pf-v5-c-checkbox--disabled__toggle--Color);
+    --checkbox__toggle--Color: var(--checkbox--disabled__toggle--Color);
 }
 
 [part="label"] {
     display: inline-block;
     grid-column: 2;
-    color: var(--pf-v5-c-checkbox__label--Color);
+    color: var(--checkbox__label--Color);
     vertical-align: top;
-}
-
-:host([theme="dark"]) {
-    --pf-v5-c-checkbox__toggle--Color: var(--pf-v5-global--BackgroundColor--100, #fff);
-    --pf-v5-c-checkbox--not-checked__label--Color: var(--pf-v5-global--Color--100, #151515);
-    --pf-v5-c-checkbox--disabled__toggle--before--BackgroundColor: var(
-        --pf-v5-global--disabled-color--100,
-        #6a6e73
-    );
-    --pf-v5-c-checkbox--disabled__toggle-icon--Color: var(
-        --pf-v5-global--disabled-color--100,
-        #6a6e73
-    );
 }

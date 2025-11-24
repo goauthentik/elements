@@ -81,9 +81,6 @@ export class CheckboxInput
     @property({ type: Boolean, attribute: "label" })
     public showLabel = false;
 
-    @property({ type: Boolean, attribute: "reverse" })
-    public reverse = false;
-
     @property({ type: Boolean })
     public indeterminate = false;
 

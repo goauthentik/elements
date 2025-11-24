@@ -1,0 +1,41 @@
+:root {
+    --pf-v5-c-checkbox--FontSize: var(--pf-v5-global--FontSize--md);
+    --pf-v5-c-checkbox__label--PaddingLeft: var(--pf-v5-global--spacer--md);
+    --pf-v5-c-checkbox--ColumnGap: var(--pf-v5-c-checkbox__label--PaddingLeft);
+    --pf-v5-c-checkbox--LineHeight: var(--pf-v5-global--LineHeight--md);
+    --pf-v5-c-checkbox--Height: calc(
+        var(--pf-v5-c-checkbox--FontSize) * var(--pf-v5-c-checkbox--LineHeight)
+    );
+    --pf-v5-c-checkbox--Width: auto;
+
+    --pf-v5-c-checkbox__toggle--Color: var(--pf-v5-global--Color--dark-100);
+    --pf-v5-c-checkbox__toggle--BorderRadius: var(--pf-v5-global--BorderRadius--sm);
+    --pf-v5-c-checkbox__toggle--BorderColor: var(--pf-v5-c-checkbox__toggle--Color);
+    --pf-v5-c-checkbox__toggle--BorderWidth: var(--pf-v5-global--BorderWidth--md);
+    --pf-v5-c-checkbox__toggle--Height: var(--pf-v5-c-checkbox--FontSize);
+    --pf-v5-c-checkbox__toggle--Width: var(--pf-v5-c-checkbox__toggle--Height);
+    --pf-v5-c-checkbox__toggle--BackgroundColor: inherit;
+    --pf-v5-c-checkbox__toggle--Padding: 1px;
+
+    --pf-v5-c-checkbox--disabled__toggle--Color: var(--pf-v5-global--disabled-color--100);
+    --pf-v5-c-checkbox--disabled__toggle--BorderColor: var(--pf-v5-global--disabled-color--200);
+    --pf-v5-c-checkbox--disabled__toggle--BackgroundColor: var(--pf-v5-global--palette--black-150);
+    --pf-v5-c-checkbox--disabled__label--Color: var(--pf-v5-global--disabled-color--100);
+
+    --pf-v5-c-checkbox--focus__toggle--OutlineWidth: var(--pf-v5-global--BorderWidth--md);
+    --pf-v5-c-checkbox--focus__toggle--OutlineOffset: var(--pf-v5-global--spacer--sm);
+    --pf-v5-c-checkbox--focus__toggle--OutlineColor: var(--pf-v5-global--primary-color--100);
+
+    --pf-v5-c-checkbox__input--checked__label--Color: var(--pf-v5-c-checkbox__toggle--Color);
+    --pf-v5-c-checkbox__input--not-checked__label--Color: var(--pf-v5-global--disabled-color--100);
+    --pf-v5-c-checkbox__label--Color: var(--pf-v5-global--Color--dark-100);
+}
+
+html[theme="dark"] {
+    --pf-v5-c-checkbox__toggle--Color: var(--pf-v5-global--BackgroundColor--100);
+    --pf-v5-c-checkbox--not-checked__label--Color: var(--pf-v5-global--Color--100);
+    --pf-v5-c-checkbox--disabled__toggle--before--BackgroundColor: var(
+        --pf-v5-global--disabled-color--100
+    );
+    --pf-v5-c-checkbox--disabled__toggle-icon--Color: var(--pf-v5-global--disabled-color--100);
+}
