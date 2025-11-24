@@ -160,7 +160,7 @@ describe("ak-screensaver component", () => {
     });
 
     it("should position screensaver content absolutely", async () => {
-        const { screensaver, content } = await present(
+        const { content } = await present(
             html`<ak-screensaver>
                 <div>Position test</div>
             </ak-screensaver>`,
@@ -217,6 +217,7 @@ describe("akScreensaver builder function", () => {
         });
     });
 
+    // eslint-disable-next-line sonarjs/no-identical-functions
     const present = async (element: TemplateResult) => {
         await render(element, document.body);
         const screensaver = await $("ak-screensaver");

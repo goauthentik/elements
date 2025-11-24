@@ -73,7 +73,9 @@ export class AnimationReducedMotion extends ScreensaverAnimation {
         const maxX = container.width - screensaver.width;
         const maxY = container.height - screensaver.height;
 
+        // eslint-disable-next-line sonarjs/pseudo-random
         const newX = Math.max(0, Math.min(maxX, Math.random() * maxX));
+        // eslint-disable-next-line sonarjs/pseudo-random
         const newY = Math.max(0, Math.min(maxY, Math.random() * maxY));
 
         this.position = { x: newX, y: newY };

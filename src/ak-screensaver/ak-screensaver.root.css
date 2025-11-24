@@ -1,0 +1,6 @@
+:root {
+    --ak-v1-c-screensaver--Background: black;
+    --ak-v1-c-screensaver--Height: 4rem;
+    --ak-v1-c-screensaver--Transition: 1s ease-in-out;
+    --ak-v1-c-screensaver--Color: var(--pf-v5-global--primary-color--100);
+}
