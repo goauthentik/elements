@@ -1,6 +1,7 @@
 import { MutationController } from "@lit-labs/observers/mutation-controller.js";
 import { LitElement, ReactiveController, ReactiveControllerHost } from "lit";
 
+/* eslint-disable-next-line sonarjs/pseudo-random */
 const slotBaseId = () => `${new Date().getTime()}${Math.random().toString(36).slice(2)}`;
 
 const [REQUEST, DONT_REQUEST] = [true, false];

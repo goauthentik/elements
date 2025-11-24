@@ -1,0 +1,9 @@
+:root {
+    --pf-v5-l-split--m-gutter--gap--xs: var(--pf-v5-global--spacer--xs);
+    --pf-v5-l-split--m-gutter--gap--sm: var(--pf-v5-global--spacer--sm);
+    --pf-v5-l-split--m-gutter--gap--md: var(--pf-v5-global--spacer--md);
+    --pf-v5-l-split--m-gutter--gap--lg: var(--pf-v5-global--spacer--lg);
+    --pf-v5-l-split--m-gutter--gap--xl: var(--pf-v5-global--spacer--xl);
+    --pf-v5-l-split--gutter: none;
+    --pf-v5-l-split--align: none;
+}
