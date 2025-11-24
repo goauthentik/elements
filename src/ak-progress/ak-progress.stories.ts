@@ -1,3 +1,5 @@
+/* eslint-disable sonarjs/no-nested-conditional, sonarjs/pseudo-random */
+
 import "./ak-progress.js";
 import "../ak-icon/ak-icon.js";
 

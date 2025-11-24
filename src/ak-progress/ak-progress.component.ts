@@ -1,7 +1,6 @@
 import "../ak-icon/ak-icon.js";
 
 import { AkLitElement } from "../component-base.js";
-import { styles as icons } from "../css/base/fa-icons.css";
 import styles from "./ak-progress.css";
 
 import { html, nothing } from "lit";
@@ -85,15 +84,10 @@ const SEVERITY_ICONS = new Map<ProgressBarSeverity, string>([
  * @cssprop --pf-v5-c-progress--m-lg__bar--Height - Height for large size variant
  */
 export class Progress extends AkLitElement implements IProgress {
-    static readonly styles = [styles, icons];
+    static readonly styles = [styles];
 
     @property({ type: String })
     public variant: ProgressBarVariant = "top";
-
-    // Underscored because it's not used, but we still want it shown to clients and we still want it
-    // type-checked.
-    @property({ type: String, attribute: "size" })
-    public _size?: ProgressBarSize;
 
     @property({ reflect: true })
     public severity?: ProgressBarSeverity;

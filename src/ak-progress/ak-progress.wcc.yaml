@@ -1,0 +1,25 @@
+import: progress.css
+base: .pf-v5-c-progress
+host:
+    :host(:not([hidden])):
+        $from: $base
+        $exclude: /./
+        display: block
+        --progress__indicator--Height: var(--progress__bar--Height);
+    '[part="main"]':
+        $from: $base
+        $exclude: /^--/
+    :host([size="\1"]):
+        $from: /\.pf-m-(sm|lg)/
+    :host([size="\1"]) [part="\2"]:
+        $from: /\.pf-m-(sm) .pf-v5-c-progress__(description|measure)/
+    :host([variant="\1"]) [part="\2"]:
+        $from: /\.pf-m-(inside|outside) \.pf-v5-c-progress__(indicator|measure|description)/
+    ':host([variant="\1"]) [part="\2"]%2':
+        $from: /\.pf-m-(outside) \.pf-v5-c-progress__(bar|indicator)/
+    :host([severity="\1"]):
+        $from: /\.pf-m-(success|warning|danger)/
+    '[part="\1"]':
+        $from: /__(bar|indicator|status-icon|status)/
+    '[part="\1"]::\2':
+        $from: /__(bar)::(before)/
