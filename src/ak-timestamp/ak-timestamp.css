@@ -39,12 +39,16 @@
         #151515
     );
     display: inline-block;
+    --timestamp--Gap: var(--pf-v5-c-timestamp--Gap, 0.5rem);
 }
 
 [part="timestamp"] {
     font-size: var(--timestamp--FontSize);
     color: var(--timestamp--Color);
     outline-offset: var(--timestamp--OutlineOffset);
+    display: flex;
+    flex-direction: row;
+    gap: var(--timestamp--Gap);
 }
 
 [part="warning"] {

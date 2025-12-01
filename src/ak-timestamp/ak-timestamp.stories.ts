@@ -63,6 +63,13 @@ message instead of the timestamp.
                 defaultValue: { summary: "undefined (locale default)" },
             },
         },
+        showElapsed: {
+            control: "boolean",
+            description: "Show the time elapsed since the date set",
+            table: {
+                defaultValue: { summary: "undefined (locale default)" },
+            },
+        },
         locale: {
             control: "text",
             description: "Locale for formatting the date/time",
@@ -97,6 +104,7 @@ const template: Story = {
                 locale=${ifDefined(args.locale)}
                 display-suffix=${ifDefined(args.displaySuffix)}
                 ?display-utc=${args.shouldDisplayUTC}
+                ?show-elapsed=${args.showElapsed}
             ></ak-timestamp>
         `;
     },
@@ -219,6 +227,34 @@ export const Using24HourFormat: Story = {
         timeFormat: "medium",
         is12Hour: false,
     },
+};
+
+const moreRecentDemoDate = new Date(Date.now() - 4000);
+
+export const UsingElapsed: Story = {
+    render: () => html`
+        <p><kbd>show-elapsed</kbd> using the standard date</p>
+        <ak-timestamp
+            date=${demoDate}
+            date-format="long"
+            time-format="short"
+            locale="en-US"
+            is-12-hour
+            show-elapsed
+        ></ak-timestamp>
+        <p>
+            <kbd>show-elapsed</kbd> using a date just a few seconds ago, to show the elapsed ticker
+        </p>
+        <ak-timestamp
+            date=${moreRecentDemoDate.toISOString()}
+            date-format="long"
+            time-format="short"
+            locale="en-US"
+            is-12-hour
+            show-elapsed
+        ></ak-timestamp>
+        <p>Hint: Try stopping the ticker by setting 'prefers-reduced-motion' to true.</p>
+    `,
 };
 
 export const DifferentLocales: Story = {

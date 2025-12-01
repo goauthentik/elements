@@ -1,3 +1,6 @@
+import { intersectionObserver } from "../observers/intersection-observer.js";
+import { mediaQuery } from "../observers/mediaquery-observer.js";
+import { formatElapsedTime } from "../utils/temporal.js";
 import styles from "./ak-timestamp.css";
 
 import { observed } from "@patternfly/pfe-core/decorators/observed.js";
@@ -5,7 +8,7 @@ import { parseISO } from "date-fns";
 import { match } from "ts-pattern";
 
 import { msg } from "@lit/localize";
-import { html, LitElement } from "lit";
+import { html, LitElement, nothing, PropertyValues } from "lit";
 import { property } from "lit/decorators.js";
 
 /**
@@ -20,6 +23,21 @@ export const isValidDate = (date: Date | null): boolean => Boolean(date && !isNa
 const convertToUTCString = (date: Date) => date.toUTCString().slice(0, -3);
 
 const checkAndValidate = (d: Date | null) => (isValidDate(d) ? d : null);
+
+// For times less than a minute, check every quarter second, to avoid the "6 seconds"... "8 seconds"
+// phenom.  Only update when it *actually* changes.
+const SHORT_INTERVAL = 250;
+
+// For times more than a minute, just check every 30 seconds.
+const LONG_INTERVAL = 30 * 1000;
+
+const ONE_MINUTE = 60 * 1000;
+
+const mapHas = (
+    changed: Map<PropertyKey, unknown>,
+    keys: PropertyKey | PropertyKey[],
+    ...rest: PropertyKey[]
+) => (Array.isArray(keys) ? [...keys, ...rest] : [keys, ...rest]).some((key) => changed.has(key));
 
 /**
  * Interface for TimestampOptions
@@ -69,9 +87,7 @@ export interface ITimestamp {
  *
  */
 export class Timestamp extends LitElement implements ITimestamp {
-    static get styles() {
-        return [styles];
-    }
+    public static readonly styles = [styles];
 
     /**
      * The date as a string. May also be a timestamp number from the epoch, in milliseconds.
@@ -128,16 +144,32 @@ export class Timestamp extends LitElement implements ITimestamp {
      *
      * @attr
      */
-    @property({ type: String, reflect: true })
+    @property({ type: String })
     public locale?: string;
 
     /**
      * @attr
      */
-    @property({ type: Boolean, attribute: "display-utc", reflect: true })
+    @property({ type: Boolean, attribute: "display-utc" })
     public displayUTC = false;
 
+    /**
+     * @attr
+     */
+    @property({ type: Boolean, attribute: "show-elapsed" })
+    public showElapsed = false;
+
+    @intersectionObserver()
+    public visible = false;
+
+    @mediaQuery("(prefers-reduced-motion: reduce)")
+    public prefersReducedMotion = false;
+
     #date: Date | null = null;
+
+    #timeoutID: ReturnType<typeof setTimeout> | null = null;
+
+    #interval = -1;
 
     protected _rawChanged() {
         const checkedDate = checkAndValidate(this.raw);
@@ -157,8 +189,52 @@ export class Timestamp extends LitElement implements ITimestamp {
                 (d: string) => typeof d === "string",
                 (d: string) => checkAndValidate(parseISO(d)),
             )
-            .otherwise(() => null);
+            .otherwise(() => {
+                console.warn(`Unable to validate date ${this.date}`);
+                return null;
+            });
     }
+
+    public override disconnectedCallback() {
+        super.disconnectedCallback();
+        this.stopElapsedCounter();
+    }
+
+    public get isVisible() {
+        return Boolean(this.#date || document.visibilityState === "visible" || this.visible);
+    }
+
+    public get runElapsed() {
+        return this.#date && this.isVisible && this.showElapsed;
+    }
+
+    public stopElapsedCounter = () => {
+        if (this.#timeoutID !== null) {
+            clearTimeout(this.#timeoutID);
+            this.#timeoutID = null;
+        }
+        this.#interval = -1;
+    };
+
+    #tick = () => {
+        if (!this.runElapsed) {
+            return;
+        }
+        this.requestUpdate();
+        this.startElapsedCounter();
+    };
+
+    public startElapsedCounter = () => {
+        this.stopElapsedCounter();
+        if (!(this.runElapsed && this.#date)) {
+            return;
+        }
+
+        const timeSince = Date.now() - this.#date.getTime();
+        this.#interval =
+            timeSince < ONE_MINUTE && !this.prefersReducedMotion ? SHORT_INTERVAL : LONG_INTERVAL;
+        this.#timeoutID = setTimeout(this.#tick, this.#interval);
+    };
 
     private get formattingOptions(): Intl.DateTimeFormatOptions {
         const { dateFormat, is12Hour } = this;
@@ -192,9 +268,24 @@ export class Timestamp extends LitElement implements ITimestamp {
         return this.displayUTC ? this.utcDate(date) : this.localeDate(date);
     }
 
+    public updated(changed: PropertyValues<this>): void {
+        super.updated(changed);
+        if (mapHas(changed, "date", "raw", "visible", "showElapsed")) {
+            this.startElapsedCounter();
+        }
+    }
+
+    renderElapsedTime(date: Date) {
+        if (!this.showElapsed) {
+            return nothing;
+        }
+        const elapsed = formatElapsedTime(date);
+        return html`<span part="elapsed">(${elapsed})</span>`;
+    }
+
     renderDate(date: Date) {
         return html` <time part="timestamp" datetime="${date.toISOString()}"
-            >${this.formattedDate(date)}</time
+            >${this.formattedDate(date)}${this.renderElapsedTime(date)}</time
         >`;
     }
 
