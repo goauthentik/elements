@@ -1,0 +1,17 @@
+import: timestamp.css
+base: .pf-v5-c-timestamp
+host:
+    :host:
+        $from: $base
+        $include: display
+        --timestamp--Gap: var(--pf-v5-c-timestamp--Gap, 0.5rem);
+    '[part="timestamp"]':
+        $from: $base
+        $include: font-size, color, outline-offset
+        display: flex;
+        flex-direction: row;
+        gap: var(--timestamp--Gap);
+    '[part="warning"]':
+        $from: .pf-m-help-text
+    '[part="warning"]:\1':
+        $from: /\.pf-m-help-text:(hover|focus)/

@@ -1,0 +1,14 @@
+:root {
+    --pf-v5-c-timestamp--FontSize: var(--pf-v5-global--FontSize--sm);
+    --pf-v5-c-timestamp--Color: var(--pf-v5-global--Color--200);
+    --pf-v5-c-timestamp--OutlineOffset: 0.1875rem;
+    --pf-v5-c-timestamp--m-help-text--TextDecorationLine: underline;
+    --pf-v5-c-timestamp--m-help-text--TextDecorationStyle: dashed;
+    --pf-v5-c-timestamp--m-help-text--TextDecorationThickness: var(--pf-v5-global--BorderWidth--sm);
+    --pf-v5-c-timestamp--m-help-text--TextUnderlineOffset: 0.25rem;
+    --pf-v5-c-timestamp--m-help-text--TextDecorationColor: var(--pf-v5-global--BorderColor--200);
+    --pf-v5-c-timestamp--m-help-text--hover--Color: var(--pf-v5-global--Color--100);
+    --pf-v5-c-timestamp--m-help-text--focus--Color: var(--pf-v5-global--Color--100);
+    --pf-v5-c-timestamp--m-help-text--hover--TextDecorationColor: var(--pf-v5-global--Color--100);
+    --pf-v5-c-timestamp--m-help-text--focus--TextDecorationColor: var(--pf-v5-global--Color--100);
+}
