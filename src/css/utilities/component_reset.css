@@ -113,12 +113,15 @@ h4 {
     height: 5px;
     background-color: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
     background-color: var(--ak-accent);
 }
+
 ::-webkit-scrollbar-track {
     background-color: transparent;
 }
+
 ::-webkit-scrollbar-corner {
     background-color: transparent;
 }
