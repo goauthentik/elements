@@ -116,7 +116,7 @@
             "npm run lint:eslint",
             "npm run prettier"
         ],
-        "*.{css,scss,yaml}": [
+        "*.{css,scss,json,yaml}": [
             "npm run prettier"
         ]
     },
