@@ -6,10 +6,11 @@ base: .pf-v5-c-button
 host:
     ":host":
         $from: $base
-        $include: /^--/, position, display
+        $include: position, display
     '[part="button"]':
         $from: $base
         $exclude: /^--/, position, display
+        position: relative;
     '[part="button"]::after':
         $from: "::after"
     '[part="anchor"]':
@@ -26,7 +27,11 @@ host:
     ':host([size="lg"])':
         $from: /\.pf-m-(primary|secondary|tertiary|link)\.pf-m-display-lg/
     ':host([variant="\1"]) #main':
-        $from: /\.pf-m-(primary|secondary|tertiary|link|control|plain)/
+        $from: /\.pf-m-(primary|secondary|tertiary|link|plain)/
+    ':host([variant="control"]) #main':
+        $from: /\.pf-m-(control)/
+        $exclude: "--button--after--BorderColor"
+        "--button--after--BorderColor": "var(--button--m-control--after--BorderTopColor) var(--button--m-control--after--BorderRightColor) var(--button--m-control--after--BorderBottomColor) var(--button--m-control--after--BorderLeftColor)"
     ':host([variant="\1"]:\2) #main':
         $from: /\.pf-m-(primary|secondary|tertiary|link|control|plain):(hover|focus|active)/
     ':host([variant="\1"][active]) #main':
@@ -66,7 +71,7 @@ host:
         $from: ":disabled::after"
     ":host([disabled]) #main::after":
         $from: /(pf-m-disabled|pf-m-aria-disabled)::after/
-    ':host([variant="link"]:not[inline]):\2 #main':
+    ':host([variant="link"]:not[inline]):\1 #main':
         $from: /\.pf-m-link:not\(\.pf-m-inline\):(hover|focus|active)/
     ':host([variant="link"][active]:not[inline]) #main':
         $from: /\.pf-m-link:not\(\.pf-m-inline\)\.pf-m-active/

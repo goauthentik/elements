@@ -19,7 +19,7 @@
     height: 1px;
     padding: 0;
     overflow: hidden;
-    clip: inset(50%);
+    clip-path: inset(50%);
     border: 0;
 }
 
