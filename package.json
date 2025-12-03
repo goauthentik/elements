@@ -80,6 +80,7 @@
         "baseline-browser-mapping": "^2.9.0",
         "chokidar": "^4.0.3",
         "css": "^3.0.0",
+        "eslint-plugin-compat": "^6.0.2",
         "eslint-plugin-sonarjs": "^3.0.5",
         "eslint-plugin-yaml": "^1.1.3",
         "glob": "^11.0.3",
@@ -118,6 +119,9 @@
     "homepage": "https://github.com/goauthentik/elements#readme",
     "bugs": "https://github.com/goauthentik/elements/issues",
     "repository": "goauthentik/elements.git",
+    "browserslist": [
+        "baseline widely available"
+    ],
     "prettier": "@goauthentik/prettier-config",
     "eslintConfig": {
         "extends": [
