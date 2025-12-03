@@ -20,9 +20,5 @@ export default {
         // fight it now.
         "no-descending-specificity": null,
         "no-duplicate-selectors": null,
-
-        // "custom-property-empty-line-before": null,
-        // "declaration-empty-line-before": null,
-        // "declaration-block-no-redundant-longhand-properties": null,
     },
 };
