@@ -1,5 +1,6 @@
 import "./ak-tooltip.js";
 
+import { akTooltip } from "./ak-tooltip.builder.js";
 import type { Tooltip } from "./ak-tooltip.component.js";
 
 import { placements } from "@floating-ui/utils";
@@ -53,10 +54,6 @@ const metadata: Meta<Tooltip> = {
             control: "number",
             description: "Delay in ms before hiding tooltip",
         },
-        offsetDistance: {
-            control: "number",
-            description: "Distance from anchor in pixels",
-        },
         noArrow: {
             control: "boolean",
             description: "Hide the arrow pointing to the anchor",
@@ -83,7 +80,6 @@ const Template: Story = {
                 trigger=${ifDefined(args.trigger)}
                 show-delay=${ifDefined(args.showDelay)}
                 hide-delay=${ifDefined(args.hideDelay)}
-                offset=${ifDefined(args.offsetDistance)}
                 ?no-arrow=${!!args.noArrow}
                 >${args.content}
             </ak-tooltip>
@@ -101,7 +97,6 @@ export const Default: Story = {
         trigger: "hover",
         showDelay: 500,
         hideDelay: 100,
-        offsetDistance: 8,
         noArrow: false,
     },
 };
@@ -202,4 +197,51 @@ export const OverflowContainer: Story = {
             >
         </div>
     `,
+};
+
+export const OverflowContainerViaBuilder: Story = {
+    render: () => {
+        const tooltipContent = {
+            content: html`<div style="white-space: nowrap; font-weight: bold; color: black;">
+                [Keanu Reeves voice] "Whoa."
+            </div>`,
+            htmlFor: "overflow-button-2",
+            placement: "top",
+            class: "creature",
+        };
+
+        return html`
+            <div style="padding: 100px;">
+                <p style="margin-bottom: 20px;">
+                    <strong>Overflow test:</strong> The tooltip escapes the overflow:hidden
+                    container thanks to the dialog element's top layer. This also demonstrates how
+                    to override the tooltip's styling with a <code>class</code> attribute on the
+                    component.
+                </p>
+                <div
+                    style="overflow: hidden; border: 2px solid #ddd; padding: 20px; max-width: 300px;"
+                >
+                    <p>This container has <code>overflow: hidden</code></p>
+                    <button id="overflow-button-2" style="padding: 10px 20px; margin-top: 10px;">
+                        Hover me
+                    </button>
+                </div>
+
+                <style>
+                    .creature {
+                        --pf-v5-c-tooltip__content--BackgroundColor: linear-gradient(
+                            132deg,
+                            #000000,
+                            #00ff00,
+                            #0000ff,
+                            #e60073,
+                            #ff0000,
+                            #ffffff
+                        );
+                    }
+                </style>
+                ${akTooltip(tooltipContent)}
+            </div>
+        `;
+    },
 };

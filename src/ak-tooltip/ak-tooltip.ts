@@ -1,4 +1,4 @@
-import { akTooltip } from "./ak-tooltip.builder.js";
+import { akTooltip, type TooltipProps } from "./ak-tooltip.builder.js";
 import { Tooltip } from "./ak-tooltip.component.js";
 
 // window.customElements.define("ak-tooltip", Tooltip);
@@ -11,7 +11,7 @@ import { Tooltip } from "./ak-tooltip.component.js";
 
 window.customElements.define("ak-tooltip", Tooltip);
 
-export { akTooltip, Tooltip };
+export { akTooltip, Tooltip, type TooltipProps };
 
 declare global {
     interface HTMLElementTagNameMap {
