@@ -14,7 +14,11 @@ import {
     writeFile,
 } from "./lib/utilities.mjs";
 
+// @ts-expect-error no types provided
+import authentikPrettierConfig from "@goauthentik/prettier-config";
+
 import css, { Declaration, Rule } from "css";
+import * as prettier from "prettier";
 import yaml from "yaml";
 
 type WccssInstructions = {
@@ -82,6 +86,8 @@ type HardRule = Required<Pick<Rule, "type" | "selectors">> & { declarations: Har
 checkIsInPackageRoot();
 
 const COMPONENT_PREFIX = new RegExp("^--pf-v5-c-");
+
+const prettierConfig = { ...authentikPrettierConfig, parser: "css" };
 
 /*
  * In order to make life easier, for each Block Indentifier in our CSS, we *strip* it from the
@@ -339,8 +345,8 @@ function getHostRules(sourceDeclarations: TokenDeclarations, base: string): GetH
  * If we get a transformation with no $from, we have to check that it has no
  * features that might hint that it should.
  */
-const isValidStandalone = (hasSubstitutions: boolean, request: Record<string, string>) =>
-    hasSubstitutions || "$include" in request || "$exclude" in request;
+const derivedFromTokens = (hasSubstitutions: boolean, request: Record<string, string>) =>
+    hasSubstitutions || ["$include", "$exclude"].some((key) => key in request);
 
 /**
  * Named types for parameters of the function following
@@ -409,7 +415,7 @@ function buildSubstitutedRules(
         });
 }
 
-function buildStylesheets(transformationFiles: string[]) {
+async function buildStylesheets(transformationFiles: string[]) {
     const sourceStylesheet: TokenComponents = generateTokens();
 
     for (const transformationFile of transformationFiles) {
@@ -458,7 +464,7 @@ function buildStylesheets(transformationFiles: string[]) {
 
             // New rule not derived from the source material.
             if (!("$from" in transRequest)) {
-                if (!isValidStandalone(selectorHasSubstitutions, transRequest)) {
+                if (derivedFromTokens(selectorHasSubstitutions, transRequest)) {
                     throw new Error(
                         "A rule with no $from may not have substitutions or inclusion rules",
                     );
@@ -499,32 +505,36 @@ function buildStylesheets(transformationFiles: string[]) {
             transformationFile.replace(/\.wcc\.\w+$/, ".css"),
         );
 
-        writeFile(
-            newHostPath,
+        const hostContent = await prettier.format(
             css.stringify({
                 type: "stylesheet",
                 stylesheet: {
                     rules: hostRules.rules,
                 },
             }),
+            prettierConfig,
         );
+
+        writeFile(newHostPath, hostContent);
 
         const newRootPath = path.join(
             SOURCE_DIR,
             transformationFile.replace(/\.wcc\.\w+$/, ".root.css"),
         );
 
-        writeFile(
-            newRootPath,
+        const rootContent = await prettier.format(
             css.stringify({
                 type: "stylesheet",
                 stylesheet: {
                     rules: rootRules.rules,
                 },
             }),
+            prettierConfig,
         );
+
+        writeFile(newRootPath, rootContent);
     }
 }
 
 const transformationFiles: string[] = globSrc("**/*.wcc.yaml");
-buildStylesheets(transformationFiles);
+await buildStylesheets(transformationFiles);

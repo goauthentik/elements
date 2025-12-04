@@ -1,5 +1,10 @@
-/* The rules for what's inherited, and what we *want* to be inherited, are different from those of
- * the global reset. */
+/*
+ * The rules for what's inherited, and what we *want* to be inherited, are different from those of
+ * the global reset.
+ *
+ * The `stylelint-disable` rules prevent stylelint from removing progressive enhancements which we
+ * regard as both minor and valuable.
+ */
 
 :where(
     html,
@@ -40,7 +45,9 @@ h1,
 h2,
 h3,
 h4 {
+    /* stylelint-disable plugin/browser-compat */
     text-wrap: balance;
+    /* stylelint-enable plugin/browser-compat */
 }
 
 :where(ul) {
@@ -101,24 +108,31 @@ h4 {
 /* An estimate of "5 lines or so" */
 :where(textarea:not([rows])) {
     min-height: 10ex;
+    /* stylelint-disable plugin/browser-compat */
     min-height: 5lh;
+    /* stylelint-enable plugin/browser-compat */
 }
 
 :target {
     scroll-margin-block: 5ex;
 }
 
+/* stylelint-disable plugin/browser-compat */
 ::-webkit-scrollbar {
     width: 5px;
     height: 5px;
     background-color: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
     background-color: var(--ak-accent);
 }
+
 ::-webkit-scrollbar-track {
     background-color: transparent;
 }
+
 ::-webkit-scrollbar-corner {
     background-color: transparent;
 }
+/* stylelint-enable plugin/browser-compat */

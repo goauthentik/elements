@@ -6,9 +6,11 @@ import { typescriptConfig } from "@goauthentik/eslint-config/typescript-config";
 
 import { includeIgnoreFile } from "@eslint/compat";
 import eslint from "@eslint/js";
+import compat from "eslint-plugin-compat";
 import * as litconf from "eslint-plugin-lit";
 import sonarjs from "eslint-plugin-sonarjs";
 import * as wcconf from "eslint-plugin-wc";
+import pluginYaml from "eslint-plugin-yaml";
 import tseslint from "typescript-eslint";
 
 const gitignorePath = fileURLToPath(new URL(".gitignore", import.meta.url));
@@ -21,8 +23,10 @@ export default tseslint.config(
         ignores: DefaultIgnorePatterns,
     },
 
+    compat.configs["flat/recommended"],
     eslint.configs.recommended,
     sonarjs.configs.recommended,
+    pluginYaml.configs.recommended,
     javaScriptConfig,
     wcconf.configs["flat/recommended"],
     litconf.configs["flat/recommended"],
