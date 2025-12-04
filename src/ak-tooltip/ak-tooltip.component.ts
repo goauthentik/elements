@@ -1,7 +1,8 @@
+import { parseLength } from "../utils/parseSize.js";
 import styles from "./ak-tooltip.css";
 
 import type { Middleware, Placement } from "@floating-ui/dom";
-import { arrow, autoUpdate, computePosition, flip, offset, shift } from "@floating-ui/dom";
+import { autoUpdate, computePosition, flip, offset, shift } from "@floating-ui/dom";
 
 import { html, LitElement, nothing, PropertyValues } from "lit";
 import { property, query, state } from "lit/decorators.js";
@@ -229,12 +230,6 @@ export class Tooltip extends LitElement {
     trigger: Trigger = "hover";
 
     /**
-     * @attr { number } offsetDistance - Distance from the anchor in pixels
-     */
-    @property({ type: Number, attribute: "offset" })
-    offsetDistance = 8;
-
-    /**
      * @attr { string } placement - Where should we place the tooltip?
      */
     @property({ type: String })
@@ -363,10 +358,10 @@ export class Tooltip extends LitElement {
     public override willUpdate(changed: PropertyValues<this>) {
         super.willUpdate(changed);
         this.hideDelay = parseDelay(
-            getComputedStyle(this).getPropertyValue("--tooltip--HideDelay"),
+            getComputedStyle(this)?.getPropertyValue("--tooltip--HideDelay") ?? "150ms",
         );
         this.showDelay = parseDelay(
-            getComputedStyle(this).getPropertyValue("--tooltip--ShowDelay"),
+            getComputedStyle(this)?.getPropertyValue("--tooltip--ShowDelay") ?? "100ms",
         );
     }
 
@@ -374,8 +369,8 @@ export class Tooltip extends LitElement {
         const fromSlot = this.textContent?.trim() || this.childNodes.length > 0;
         const content = fromSlot ? html`<slot></slot>` : this.content;
         return html`<dialog ${ref(this.dialog)} part="tooltip" role="tooltip" aria-live="polite">
-            <div part="content">${content}</div>
             ${this.noArrow ? nothing : html`<div part="arrow"></div>`}
+            <div part="content">${content}</div>
         </dialog>`;
     }
 
@@ -399,20 +394,16 @@ export class Tooltip extends LitElement {
     }
 
     #updatePosition = async () => {
+        const offsetDistance = parseLength(
+            getComputedStyle(this).getPropertyValue("--tooltip--Offset"),
+        );
+
         const [anchor, dialog] = [this.anchor, this.dialog.value];
         if (!(anchor && dialog)) {
             return;
         }
 
-        const middleware: Middleware[] = [
-            offset(this.offsetDistance),
-            flip(),
-            shift({ padding: 8 }),
-        ];
-
-        if (this.arrow && !this.noArrow) {
-            middleware.push(arrow({ element: this.arrow }));
-        }
+        const middleware: Middleware[] = [offset(offsetDistance), flip(), shift()];
 
         const { x, y, placement, middlewareData } = await computePosition(anchor, dialog, {
             placement: this.placement,
@@ -424,18 +415,9 @@ export class Tooltip extends LitElement {
             top: `${y}px`,
         });
 
-        if (this.arrow && !this.noArrow && middlewareData.arrow) {
-            const { x, y } = middlewareData.arrow;
-            const side = placement.split("-")[0];
-            const staticSide = oppositeSideMap[side]!;
-            const arrowOffset = -1 * (this.arrow.offsetWidth - 1);
-            Object.assign(this.arrow.style, {
-                left: x !== null ? `${x}px` : "",
-                top: y !== null ? `${y}px` : "",
-                right: "",
-                bottom: "",
-                [staticSide]: `${arrowOffset}px`,
-            });
+        if (this.arrow && !this.noArrow) {
+            this.arrow.classList.remove(...this.arrow.classList);
+            this.arrow.classList.add(`m-${placement}`);
         }
     };
 

@@ -5,8 +5,8 @@
 :host {
     --tooltip--BoxShadow: var(
         --pf-v5-c-tooltip--BoxShadow,
-        0 0.25rem 0.5rem 0rem rgba(3, 3, 3, 0.12),
-        0 0 0.25rem 0 rgba(3, 3, 3, 0.06)
+        0 0.25rem 0.5rem 0rem rgb(3 3 3 / 12%),
+        0 0 0.25rem 0 rgb(3 3 3 / 6%)
     );
     --tooltip__content--PaddingTop: var(--pf-v5-c-tooltip__content--PaddingTop, 0.5rem);
     --tooltip__content--PaddingRight: var(--pf-v5-c-tooltip__content--PaddingRight, 0.5rem);
@@ -18,8 +18,8 @@
     --tooltip__arrow--BackgroundColor: var(--pf-v5-c-tooltip__arrow--BackgroundColor, #151515);
     --tooltip__arrow--BoxShadow: var(
         --pf-v5-c-tooltip__arrow--BoxShadow,
-        0 0.25rem 0.5rem 0rem rgba(3, 3, 3, 0.12),
-        0 0 0.25rem 0 rgba(3, 3, 3, 0.06)
+        0 0.25rem 0.5rem 0rem rgb(3 3 3 / 12%),
+        0 0 0.25rem 0 rgb(3 3 3 / 6%)
     );
     --tooltip__arrow--m-top--TranslateX: var(--pf-v5-c-tooltip__arrow--m-top--TranslateX, -50%);
     --tooltip__arrow--m-top--TranslateY: var(--pf-v5-c-tooltip__arrow--m-top--TranslateY, 50%);
@@ -42,7 +42,7 @@
 
     /* These have been modified to work better with floating and the `<dialog>` component. */
     --tooltip--MaxWidth: fit-content;
-    --tooltip__arrow--Size: var(--ak-v1-c-tooltip--ArrowSize, 0.5rem);
+    --tooltip__arrow--Size: var(--ak-v1-c-tooltip--ArrowSize, 0.9375rem);
 
     /* These control the fade in/fade out animations */
     --tooltip--TimingFunction: var(
@@ -55,6 +55,9 @@
      * after the anchor has been triggered. */
     --tooltip--ShowDelay: var(--ak-v1-c-tooltip--ShowDelay, 100ms);
     --tooltip--HideDelay: var(--ak-v1-c-tooltip--HideDelay, 150ms);
+    --tooltip--Offset: var(--ak-v1-c-tooltip--Offset, 0.75rem);
+    --tooltip__arrow--Width: var(--ak-v1-c-tooltip--ArrowWidth, var(--tooltip__arrow--Size));
+    --tooltip__arrow--Height: var(--ak-v1-c-tooltip--ArrowHeight, var(--tooltip__arrow--Size));
 }
 
 @media (prefers-reduced-motion) {
@@ -85,33 +88,106 @@
 }
 
 [part="arrow"] {
-    z-index: 5;
-    width: var(--tooltip__arrow--Size);
-    height: var(--tooltip__arrow--Size);
     position: absolute;
+    top: var(--tooltip__arrow--Top, auto);
+    right: var(--tooltip__arrow--Right, auto);
+    bottom: var(--tooltip__arrow--Bottom, auto);
+    left: var(--tooltip__arrow--Left, auto);
+    width: var(--tooltip__arrow--Width);
+    height: var(--tooltip__arrow--Height);
+    pointer-events: none;
     background-color: var(--tooltip__arrow--BackgroundColor);
-    transform-origin: center;
-    transform: rotate(45deg);
+    box-shadow: var(--tooltip__arrow--BoxShadow);
+    transform: translateX(var(--tooltip__arrow--TranslateX, 0))
+        translateY(var(--tooltip__arrow--TranslateY, 0)) rotate(var(--tooltip__arrow--Rotate, 0));
+}
+
+.m-top,
+.m-top-start,
+.m-top-end {
+    --tooltip__arrow--Bottom: var(--tooltip--m-top--Bottom, 0);
+    --tooltip__arrow--Left: var(--tooltip--m-top--Left, 50%);
+    --tooltip__arrow--TranslateX: var(--tooltip__arrow--m-top--TranslateX);
+    --tooltip__arrow--TranslateY: var(--tooltip__arrow--m-top--TranslateY);
+    --tooltip__arrow--Rotate: var(--tooltip__arrow--m-top--Rotate);
+}
+
+.m-bottom,
+.m-bottom-start,
+.m-bottom-end {
+    --tooltip__arrow--Top: var(--tooltip--m-bottom--Top, 0);
+    --tooltip__arrow--Left: var(--tooltip--m-bottom--Left, 50%);
+    --tooltip__arrow--TranslateX: var(--tooltip__arrow--m-bottom--TranslateX);
+    --tooltip__arrow--TranslateY: var(--tooltip__arrow--m-bottom--TranslateY);
+    --tooltip__arrow--Rotate: var(--tooltip__arrow--m-bottom--Rotate);
+}
+
+.m-left,
+.m-left-start,
+.m-left-end {
+    --tooltip__arrow--Top: var(--tooltip--m-left--Top, 50%);
+    --tooltip__arrow--Right: var(--tooltip--m-left--Right, 0);
+    --tooltip__arrow--TranslateX: var(--tooltip__arrow--m-left--TranslateX);
+    --tooltip__arrow--TranslateY: var(--tooltip__arrow--m-left--TranslateY);
+    --tooltip__arrow--Rotate: var(--tooltip__arrow--m-left--Rotate);
+}
+
+.m-right,
+.m-right-start,
+.m-right-end {
+    --tooltip__arrow--Top: var(--tooltip--m-right--Top, 50%);
+    --tooltip__arrow--Left: var(--tooltip--m-right--Left, 0);
+    --tooltip__arrow--TranslateX: var(--tooltip__arrow--m-right--TranslateX);
+    --tooltip__arrow--TranslateY: var(--tooltip__arrow--m-right--TranslateY);
+    --tooltip__arrow--Rotate: var(--tooltip__arrow--m-right--Rotate);
+}
+
+.m-left-start,
+.m-right-start {
+    --tooltip__arrow--Top: 0;
+    --tooltip__arrow--TranslateY: var(--tooltip__arrow--m-top--TranslateY);
+}
+
+.m-left-end,
+.m-right-end {
+    --tooltip__arrow--Top: auto;
+    --tooltip__arrow--Bottom: 0;
+}
+
+.m-top-start,
+.m-bottom-start {
+    --tooltip__arrow--Left: 0;
+    --tooltip__arrow--TranslateX: var(--tooltip__arrow--m-left--TranslateX);
+}
+
+.m-top-end,
+.m-bottom-end {
+    --tooltip__arrow--Right: 0;
+    --tooltip__arrow--Left: auto;
 }
 
 [part="content"] {
-    z-index: 10;
     position: relative;
-    background: var(--tooltip__content--BackgroundColor);
     padding-block-start: var(--tooltip__content--PaddingTop);
     padding-block-end: var(--tooltip__content--PaddingBottom);
     padding-inline-start: var(--tooltip__content--PaddingLeft);
     padding-inline-end: var(--tooltip__content--PaddingRight);
+    background: var(--tooltip__content--BackgroundColor);
     font-size: var(--tooltip__content--FontSize);
     color: var(--tooltip__content--Color);
     text-align: center;
-    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+:host([left-aligned]) [part="content"] {
+    text-align: start;
 }
 
 @keyframes open {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -121,6 +197,7 @@
     from {
         opacity: 1;
     }
+
     to {
         opacity: 0;
     }
