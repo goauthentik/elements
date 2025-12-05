@@ -151,8 +151,8 @@ class TooltipShown extends TooltipEvents {
     };
 }
 
-// One of the elements scheduled a hide. The tooltip will told to hide the tooltip after the delay,
-// unless one of the visible elements cancels the hide due to an activation event.
+// One of the elements scheduled a hide. The tooltip will be told to hide the tooltip after the
+// delay, unless one of the visible elements cancels the hide due to an activation event.
 class ScheduledHide extends TooltipEvents {
     readonly type = "hide-scheduled";
 
