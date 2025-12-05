@@ -1,4 +1,5 @@
 import { parseLength } from "../utils/parseSize.js";
+import { TooltipInitialState, type TooltipState } from "./ak-tooltip-state-machine.js";
 import styles from "./ak-tooltip.css";
 
 import type { Middleware, Placement } from "@floating-ui/dom";
@@ -7,6 +8,8 @@ import { autoUpdate, computePosition, flip, offset, shift } from "@floating-ui/d
 import { html, LitElement, nothing, PropertyValues } from "lit";
 import { property, query, state } from "lit/decorators.js";
 import { createRef, ref, Ref } from "lit/directives/ref.js";
+
+export type Trigger = "hover" | "focus";
 
 const DEFAULT_SHOW_DELAY = "100ms";
 const DEFAULT_HIDE_DELAY = "150ms";
@@ -29,154 +32,82 @@ const oppositeSideMap: Record<string, string> = {
     top: "bottom",
 };
 
-// Getting a better tooltip required meeting the goal that moving across the anchor quickly
-// shouldn't cause the tooltip to show up immediately, as that would spam a display with a lot of
-// tooltips. It also shouldn't fade out when the pointer transitions from the anchor to the tooltip
-// itself.
-//
-// So when you hover or focus an anchor element, the tooltip is *scheduled to show*, which can be
-// cancelled by leaving the anchor before it becomes visible. Likewise, when the tooltip is visible,
-// the tooltip is *scheduled to hide* when the pointer transitions away, which can be cancelled
-// by the pointer returning to hover or focus either element.
-//
-// This then becomes a state machine:
-//
-// - Hidden -> (mouseover anchor): Scheduled to Show
-// - Scheduled to Show -> [(mouseout anchor): Show canceled: Hidden, otherwise: Show not cancelled: Showing]
-// - Showing -> [Scheduled to hide]
-// - Scheduled to Hide -> [(mouseover anchor or tooltip): Hide canceled: Showing,
-//                          otherwise: Hide not cancelled: Hidden]
-//
-// The `TooltipEvent` class contains the API needed to support transitions from one state to another
-// inside a `Tooltip`, and the four states inherit from it. It's completely self- contained, there's
-// no "state manager"; a transition results in calls to the Tooltip API to show or hide, but
-// timeouts are dependent on the state being live so they live on the state itself.
-
-export type Trigger = "hover" | "focus";
-type Timeout = ReturnType<typeof setTimeout> | null;
-
-abstract class TooltipEvents {
-    type: string = "";
-    timer: Timeout = null;
-    host: Tooltip;
-
-    constructor(host: Tooltip) {
-        this.host = host;
-    }
-
-    onTooltipEnter = () => {
-        /* no op */
-    };
-
-    onTooltipLeave = () => {
-        /* no op */
-    };
-
-    onAnchorEnter = () => {
-        /* no op */
-    };
-
-    onAnchorLeave = () => {
-        /* no op */
-    };
-
-    // A little type magic means that we can avoid making an error with this call;
-    setState<T extends TooltipState>(State: TooltipStateConstructor<T>) {
-        this.clearTimeout();
-        this.host.setState(new State(this.host));
-    }
-
-    clearTimeout() {
-        if (this.timer !== null) {
-            clearTimeout(this.timer);
-        }
-    }
-}
-
-type TooltipStateConstructor<T extends TooltipState> = new (host: Tooltip) => T;
-
-// The possible states that the system could be in, and the events that they can handle while in
-// those states. Each state is responsible for one of two things: *scheduling* a timeout while
-// waiting for any event that will cancel that timeout, or *transitioning* the dialog from hide to
-// show.
-
-// The tooltip isn't being shown, nor is anyone hovering near the anchor.
-class TooltipInitial extends TooltipEvents {
-    readonly type = "tooltip-hidden";
-
-    constructor(host: Tooltip) {
-        super(host);
-        host.isOpen = false;
-    }
-
-    onAnchorEnter = () => {
-        this.setState(ScheduledShow);
-    };
-}
-
-// The tooltip is waiting to to be shown. This delay allows the user to cross the screen without
-// spamming the user with tooltips popping up and hiding like some annoying cartoon.  Either
-// the tooltip will be shown, or the show will be cancelled.
-class ScheduledShow extends TooltipEvents {
-    readonly type = "scheduled-show";
-
-    constructor(host: Tooltip) {
-        super(host);
-        this.timer = setTimeout(() => {
-            this.setState(TooltipShown);
-        }, host.showDelay);
-    }
-
-    onAnchorLeave = () => {
-        this.setState(TooltipInitial);
-    };
-}
-
-// The tooltip is now shown. The pointer or focus has activated one of the elements. If either
-// issues a leave event, we schedule a hide.
-class TooltipShown extends TooltipEvents {
-    readonly type = "tooltip-shown";
-
-    constructor(host: Tooltip) {
-        super(host);
-        host.isOpen = true;
-    }
-
-    onAnchorLeave = () => {
-        this.setState(ScheduledHide);
-    };
-
-    onTooltipLeave = () => {
-        this.onAnchorLeave();
-    };
-}
-
-// One of the elements scheduled a hide. The tooltip will be told to hide the tooltip after the
-// delay, unless one of the visible elements cancels the hide due to an activation event.
-class ScheduledHide extends TooltipEvents {
-    readonly type = "hide-scheduled";
-
-    constructor(host: Tooltip) {
-        super(host);
-        this.timer = setTimeout(() => {
-            this.setState(TooltipInitial);
-        }, host.hideDelay);
-    }
-
-    onTooltipEnter = () => {
-        this.setState(TooltipShown);
-    };
-
-    onAnchorEnter = () => {
-        this.onTooltipEnter();
-    };
-}
-
-type TooltipState = TooltipInitial | ScheduledShow | TooltipShown | ScheduledHide;
-
 /**
+ * @class Tooltip
+ * @element ak-tooltip
+ *
  * @summary A **tooltip** is a an element that appears on hover to provide additional information
+ *
+ * @description
+ * A tooltip displays additional information when users hover over or focus on an anchor element
+ * in order to provide context or to provide a textual label for icons and pictograms.
+ *
+ * ## Attributes
+ *
+ * - @attr {string} for - ID or CSS selector of the anchor element. Must be in the same context as
+ *   the tooltip
+ * - @attr {HTMLElement} target - Direct reference to the anchor element. Takes precedence over
+ *   "for" attribute. The anchor must be in same or a sibling context of the tooltip.
+ * - @attr {"hover"|"focus"} trigger - Event type that triggers tooltip display (default: "hover")
+ *   - "hover": Shows on mouseenter/mouseleave events
+ *   - "focus": Shows on focus/blur events
+ * - @attr {Placement} placement - Positioning relative to anchor: "top", "top-start", "top-end",
+ *   "right", "right-start", "right-end", "bottom", "bottom-start", "bottom-end", "left",
+ *   "left-start", "left-end" (default: "top")
+ * - @attr {boolean} no-arrow - Don't show the arrow
+ *
+ * ### Deprecated attributes (try not to use these):
+ *
+ * - @attr {string} content - Text content of the tooltip. DEPRECATED: prefer using the slot
+ *
+ * ## Slots
+ *
+ * @slot - Slot for tooltip content. Anonymous, no `slot` attribute required. Prefer using this
+ * over the `content` attribute.
+ *
+ * ## Component elements that can be customized via the `::part()` pseudo-selector
+ *
+ * @csspart tooltip - The dialog element containing the tooltip
+ * @csspart arrow - The arrow element pointing toward the anchor
+ * @csspart content - The content wrapper element inside the tooltip
+ *
+ * ## Tooltip content and border properties
+ *
+ * - @cssprop --pf-v5-c-tooltip--MaxWidth
+ * - @cssprop --pf-v5-c-tooltip--BoxShadow
+ * - @cssprop --pf-v5-c-tooltip__content--PaddingTop
+ * - @cssprop --pf-v5-c-tooltip__content--PaddingRight
+ * - @cssprop --pf-v5-c-tooltip__content--PaddingBottom
+ * - @cssprop --pf-v5-c-tooltip__content--PaddingLeft
+ * - @cssprop --pf-v5-c-tooltip__content--Color
+ * - @cssprop --pf-v5-c-tooltip__content--BackgroundColor
+ * - @cssprop --pf-v5-c-tooltip__content--FontSize
+ *
+ * ## Custom CSS properties that control the animation behavior and distance from the target.
+ *
+ * - @cssprop --ak-v1-c-tooltip--ShowDelay - Delay before showing tooltip after trigger. Stops the
+ *   tooltip from showing up until it's sure you weren't just skating past. Honors
+ *   prefers-reduced-motion. (default: 100ms)
+ * - @cssprop --ak-v1-c-tooltip--HideDelay - Delay before hiding tooltip after leaving the Tooltip
+     or the anchor.
+ *   150ms). Allows smooth transition from anchor to tooltip. Overridden to 1s when
+ * - @cssprop --ak-v1-c-tooltip--Offset - Distance offset between tooltip and anchor element
+ *   (default: 0.75rem)
+ *
+ * ## Arrow Look and Feel.  Change these carefully.
+ *
+ * Don't try to disable the arrow from here. If you don't want an arrow, there is a `no-arrow`
+ * attribute for that.
+ *
+ * - @cssprop --pf-v5-c-tooltip__arrow--Width - Width of the arrow element (default: 0.9375rem)
+ * - @cssprop --pf-v5-c-tooltip__arrow--Height - Height of the arrow element (default: 0.9375rem)
+ * - @cssprop --pf-v5-c-tooltip__arrow--BackgroundColor - Background color of the arrow
+ * - @cssprop --pf-v5-c-tooltip__arrow--BoxShadow - Box shadow applied to the arrow
+ * - @cssprop --ak-v1-c-tooltip--ArrowSize - Unified size for arrow width and height
+ * - @cssprop --ak-v1-c-tooltip--ArrowWidth - Arrow width, overrides --ak-v1-c-tooltip--ArrowSize
+ * - @cssprop --ak-v1-c-tooltip--ArrowHeight - Arrow height, overrides --ak-v1-c-tooltip--ArrowSize
  */
+
 export class Tooltip extends LitElement {
     static readonly styles = [styles];
 
@@ -223,7 +154,7 @@ export class Tooltip extends LitElement {
     @state()
     isOpen = false;
 
-    protected state: TooltipState = new TooltipInitial(this);
+    protected state: TooltipState = new TooltipInitialState(this);
 
     protected dialog: Ref<HTMLDialogElement> = createRef();
 
