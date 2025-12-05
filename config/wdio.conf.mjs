@@ -16,6 +16,7 @@ const runHeadless = !!process.env.CI;
 const capabilities = [
     {
         "browserName": "chrome", // or "firefox", "microsoftedge", "safari"
+        "browserVersion": "stable",
         "goog:chromeOptions": {
             args: [
                 "--disable-search-engine-choice-screen",

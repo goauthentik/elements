@@ -1,0 +1,10 @@
+import: tooltip.css
+base: .pf-v5-c-tooltip
+host:
+    '[part="tooltip"]':
+        $from: $base
+        $include: max-width, box-shadow
+        margin: 0
+        position: absolute
+    '[part="content"]':
+        $from: "__content"
