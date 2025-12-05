@@ -20,7 +20,6 @@ export type TooltipProps = Partial<Pick<Tooltip, "htmlFor" | "placement">> & {
  */
 export function akTooltip(options: TooltipProps) {
     const { content, htmlFor, trigger, placement, noArrow, ...rest } = options;
-    console.log(rest);
 
     return html`
         <ak-tooltip
