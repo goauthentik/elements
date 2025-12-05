@@ -7,7 +7,7 @@ const localDimensions = (container: Element, styles?: MaybeStyles, content?: str
     Object.assign(element.style, {
         ...element.style,
         position: "absolute",
-        zIndex: Number.MIN_SAFE_INTEGER,
+        zIndex: Number.MIN_SAFE_INTEGER, // -9007199254740991
         left: 0,
         top: 0,
         visibility: "hidden",
@@ -45,6 +45,7 @@ export const convert = {
 export function parseLength(length: string, element?: Element) {
     const g = /^([.]\d+|\d+[.]?\d*)\s*(rem|em|ch|px)/i.exec(length.trim());
     if (!g) {
+        console.warn(`${length} is not a supported unit in our parseLength() function`);
         return 0;
     }
     try {
@@ -57,7 +58,7 @@ export function parseLength(length: string, element?: Element) {
             .with(["rem", P._], () => convert.fromRem(value))
             .otherwise(() => value);
     } catch (e: unknown) {
-        console.log(`Error parsing length value: ${String(e)}`);
+        console.warn(`Error parsing length value: ${String(e)}`);
         return 0;
     }
 }
