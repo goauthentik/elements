@@ -175,22 +175,7 @@ class ScheduledHide extends TooltipEvents {
 type TooltipState = TooltipInitial | ScheduledShow | TooltipShown | ScheduledHide;
 
 /**
- * @summary A **tooltip** is an image used to identify an organization, corporation or project.
- *
- * @csspart tooltip - The image element within the component
- *
- * @cssprop --pf-v5-c-tooltip--Width - Base width of the tooltip image (default: auto)
- * @cssprop --pf-v5-c-tooltip--Height - Base height of the tooltip image (default: auto)
- * @cssprop --pf-v5-c-tooltip--Width-on-sm - Width on small screens (≥576px)
- * @cssprop --pf-v5-c-tooltip--Width-on-md - Width on medium screens (≥768px)
- * @cssprop --pf-v5-c-tooltip--Width-on-lg - Width on large screens (≥992px)
- * @cssprop --pf-v5-c-tooltip--Width-on-xl - Width on extra large screens (≥1200px)
- * @cssprop --pf-v5-c-tooltip--Width-on-2xl - Width on 2x large screens (≥1450px)
- * @cssprop --pf-v5-c-tooltip--Height-on-sm - Height on small screens (≥576px)
- * @cssprop --pf-v5-c-tooltip--Height-on-md - Height on medium screens (≥768px)
- * @cssprop --pf-v5-c-tooltip--Height-on-lg - Height on large screens (≥992px)
- * @cssprop --pf-v5-c-tooltip--Height-on-xl - Height on extra large screens (≥1200px)
- * @cssprop --pf-v5-c-tooltip--Height-on-2xl - Height on 2x large screens (≥1450px)
+ * @summary A **tooltip** is a an element that appears on hover to provide additional information
  */
 export class Tooltip extends LitElement {
     static readonly styles = [styles];
@@ -218,7 +203,7 @@ export class Tooltip extends LitElement {
 
     /**
      * @attr {object} target: A reference to the target. Must be in the same or in a sibling context
-       of the tooltip.
+       of the tooltip.  `.target` takes precedence over `for`
      */
     @property({ type: Object, attribute: "target" })
     target?: HTMLElement;
@@ -243,7 +228,7 @@ export class Tooltip extends LitElement {
     protected dialog: Ref<HTMLDialogElement> = createRef();
 
     @query('[part="arrow"]')
-    arrow?: HTMLElement;
+    private arrow?: HTMLElement;
 
     public showDelay = parseDelay(DEFAULT_SHOW_DELAY);
     public hideDelay = parseDelay(DEFAULT_HIDE_DELAY);
@@ -258,11 +243,12 @@ export class Tooltip extends LitElement {
         this.state = state;
     }
 
-    onAnchorEnter = () => {
+    // To enable the debugging variant, these cannot be made private.
+    protected onAnchorEnter = () => {
         this.state.onAnchorEnter();
     };
 
-    onAnchorLeave = () => {
+    protected onAnchorLeave = () => {
         this.state.onAnchorLeave();
     };
 
@@ -290,9 +276,7 @@ export class Tooltip extends LitElement {
 
         if (this.target) {
             if (!(this.target instanceof HTMLElement)) {
-                console.warn(
-                    `ak-tooltip: element '${this.htmlFor}' does not resolve to an HTMLElement`,
-                );
+                console.warn("ak-tooltip: '.target' prop does not resolve to an HTMLElement");
                 return null;
             }
             return this.target;
