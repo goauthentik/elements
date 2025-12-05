@@ -170,7 +170,7 @@ export class Tooltip extends LitElement {
     #anchorAbortController = new AbortController();
     #tooltipAbortController = new AbortController();
 
-    setState(state: TooltipState) {
+    public setState(state: TooltipState) {
         this.state = state;
     }
 
@@ -273,10 +273,10 @@ export class Tooltip extends LitElement {
     public override willUpdate(changed: PropertyValues<this>) {
         super.willUpdate(changed);
         this.hideDelay = parseDelay(
-            getComputedStyle(this)?.getPropertyValue("--tooltip--HideDelay") ?? "150ms",
+            getComputedStyle(this)?.getPropertyValue("--tooltip--HideDelay") ?? DEFAULT_HIDE_DELAY,
         );
         this.showDelay = parseDelay(
-            getComputedStyle(this)?.getPropertyValue("--tooltip--ShowDelay") ?? "100ms",
+            getComputedStyle(this)?.getPropertyValue("--tooltip--ShowDelay") ?? DEFAULT_SHOW_DELAY,
         );
     }
 

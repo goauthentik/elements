@@ -26,37 +26,37 @@ import type { Tooltip } from "./ak-tooltip.component.js";
 type Timeout = ReturnType<typeof setTimeout> | null;
 
 abstract class TooltipEvents {
-    type: string = "";
-    timer: Timeout = null;
-    host: Tooltip;
+    protected type: string = "";
+    protected timer: Timeout = null;
+    protected host: Tooltip;
 
     constructor(host: Tooltip) {
         this.host = host;
     }
 
-    onTooltipEnter = () => {
+    public onTooltipEnter = () => {
         /* no op */
     };
 
-    onTooltipLeave = () => {
+    public onTooltipLeave = () => {
         /* no op */
     };
 
-    onAnchorEnter = () => {
+    public onAnchorEnter = () => {
         /* no op */
     };
 
-    onAnchorLeave = () => {
+    public onAnchorLeave = () => {
         /* no op */
     };
 
     // A little type magic means that we can avoid making an error with this call;
-    setState<T extends TooltipState>(State: TooltipStateConstructor<T>) {
+    protected setState<T extends TooltipState>(State: TooltipStateConstructor<T>) {
         this.clearTimeout();
         this.host.setState(new State(this.host));
     }
 
-    clearTimeout() {
+    public clearTimeout() {
         if (this.timer !== null) {
             clearTimeout(this.timer);
         }
@@ -79,7 +79,7 @@ export class TooltipInitialState extends TooltipEvents {
         host.isOpen = false;
     }
 
-    onAnchorEnter = () => {
+    public onAnchorEnter = () => {
         this.setState(ScheduledShow);
     };
 }
@@ -97,7 +97,7 @@ class ScheduledShow extends TooltipEvents {
         }, host.showDelay);
     }
 
-    onAnchorLeave = () => {
+    public onAnchorLeave = () => {
         this.setState(TooltipInitialState);
     };
 }
@@ -112,11 +112,11 @@ class TooltipShown extends TooltipEvents {
         host.isOpen = true;
     }
 
-    onAnchorLeave = () => {
+    public onAnchorLeave = () => {
         this.setState(ScheduledHide);
     };
 
-    onTooltipLeave = () => {
+    public onTooltipLeave = () => {
         this.onAnchorLeave();
     };
 }
@@ -133,11 +133,11 @@ class ScheduledHide extends TooltipEvents {
         }, host.hideDelay);
     }
 
-    onTooltipEnter = () => {
+    public onTooltipEnter = () => {
         this.setState(TooltipShown);
     };
 
-    onAnchorEnter = () => {
+    public onAnchorEnter = () => {
         this.onTooltipEnter();
     };
 }
