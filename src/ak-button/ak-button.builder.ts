@@ -1,24 +1,25 @@
 import { Button, ButtonSeverity, ButtonSize } from "./ak-button.component.js";
 
+import { spread } from "@open-wc/lit-helpers";
+
 import { html, nothing, TemplateResult } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
 /**
  * Configuration options for the akButton helper function
  */
-export type AkButtonProps = Partial<
-    Pick<Button, "type" | "variant" | "label" | "value" | "href" | "target" | "name">
-> & {
-    content?: string | TemplateResult | typeof nothing;
-    disabled?: boolean;
-    severity?: ButtonSeverity;
-    size?: ButtonSize;
-    theme?: "light" | "dark";
-    block?: boolean;
-    inline?: boolean;
-    active?: boolean;
-    expanded?: boolean;
-};
+export type ButtonProps = Partial<HTMLElement> &
+    Partial<Pick<Button, "type" | "variant" | "label" | "value" | "href" | "target" | "name">> & {
+        content?: string | TemplateResult | typeof nothing;
+        disabled?: boolean;
+        severity?: ButtonSeverity;
+        size?: ButtonSize;
+        theme?: "light" | "dark";
+        block?: boolean;
+        inline?: boolean;
+        active?: boolean;
+        expanded?: boolean;
+    };
 
 /**
  * @summary Helper function to create a Button component programmatically
@@ -27,7 +28,7 @@ export type AkButtonProps = Partial<
  *
  * @see {@link Button} - The underlying web component
  */
-export function akButton(options: AkButtonProps = {}): TemplateResult {
+export function akButton(options: ButtonProps = {}) {
     const {
         type,
         variant,
@@ -45,10 +46,12 @@ export function akButton(options: AkButtonProps = {}): TemplateResult {
         active,
         expanded,
         content = nothing,
+        ...rest
     } = options;
 
     return html`
         <ak-button
+            ${spread(rest)}
             type=${ifDefined(type)}
             variant=${ifDefined(variant)}
             severity=${ifDefined(severity)}

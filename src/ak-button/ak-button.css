@@ -459,8 +459,10 @@
 }
 
 [part="button"] {
-    padding-block: var(--button--PaddingTop) var(--button--PaddingBottom);
-    padding-inline: var(--button--PaddingLeft) var(--button--PaddingRight);
+    padding-block-start: var(--button--PaddingTop);
+    padding-block-end: var(--button--PaddingBottom);
+    padding-inline-start: var(--button--PaddingLeft);
+    padding-inline-end: var(--button--PaddingRight);
     font-size: var(--button--FontSize);
     font-weight: var(--button--FontWeight);
     line-height: var(--button--LineHeight);
@@ -474,8 +476,10 @@
 
 [part="button"]::after {
     position: absolute;
-    inset-block: 0;
-    inset-inline: 0;
+    inset-block-start: 0;
+    inset-block-end: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
     pointer-events: none;
     content: "";
     border: var(--button--after--BorderWidth) solid;
@@ -484,8 +488,10 @@
 }
 
 [part="anchor"] {
-    padding-block: var(--button--PaddingTop) var(--button--PaddingBottom);
-    padding-inline: var(--button--PaddingLeft) var(--button--PaddingRight);
+    padding-block-start: var(--button--PaddingTop);
+    padding-block-end: var(--button--PaddingBottom);
+    padding-inline-start: var(--button--PaddingLeft);
+    padding-inline-end: var(--button--PaddingRight);
     font-size: var(--button--FontSize);
     font-weight: var(--button--FontWeight);
     line-height: var(--button--LineHeight);
@@ -498,8 +504,10 @@
 
 [part="anchor"]::after {
     position: absolute;
-    inset-block: 0;
-    inset-inline: 0;
+    inset-block-start: 0;
+    inset-block-end: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
     pointer-events: none;
     content: "";
     border: var(--button--after--BorderWidth) solid;
@@ -842,10 +850,10 @@
     --button__progress--Left: var(--button--m-link--m-inline__progress--Left);
 
     display: inline;
-    padding-block: var(--button--m-link--m-inline--PaddingTop)
-        var(--button--m-link--m-inline--PaddingBottom);
-    padding-inline: var(--button--m-link--m-inline--PaddingLeft)
-        var(--button--m-link--m-inline--PaddingRight);
+    padding-block-start: var(--button--m-link--m-inline--PaddingTop);
+    padding-block-end: var(--button--m-link--m-inline--PaddingBottom);
+    padding-inline-start: var(--button--m-link--m-inline--PaddingLeft);
+    padding-inline-end: var(--button--m-link--m-inline--PaddingRight);
     text-align: start;
     white-space: normal;
     cursor: pointer;
