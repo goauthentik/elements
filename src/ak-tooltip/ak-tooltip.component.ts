@@ -113,7 +113,7 @@ export class Tooltip extends LitElement {
     /**
      * @attr {string} content: What to show in the tooltip
      *
-     * DEPRECATED. prefer using slots.
+     * @deprecated prefer using slots.
      */
     @property({ type: String })
     content = "";
