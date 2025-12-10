@@ -30,9 +30,7 @@ abstract class TooltipEvents {
     protected timer: Timeout = null;
     protected host: Tooltip;
 
-    constructor(host: Tooltip) {
-        this.host = host;
-    }
+    constructor(protected host: Tooltip) {}
 
     public onTooltipEnter = () => {
         /* no op */
