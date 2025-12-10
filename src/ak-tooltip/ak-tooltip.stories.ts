@@ -144,27 +144,51 @@ export const AllPlacements: Story = {
             <ak-tooltip
                 for="top-left-btn"
                 content="Top left placement"
+                tabindex="0"
                 placement="top-start"
             ></ak-tooltip>
-            <ak-tooltip for="top-btn" content="Top placement" placement="top"></ak-tooltip>
+            <ak-tooltip
+                for="top-btn"
+                content="Top placement"
+                tabindex="0"
+                placement="top"
+            ></ak-tooltip>
             <ak-tooltip
                 for="top-right-btn"
                 content="Top right placement"
+                tabindex="0"
                 placement="top-end"
             ></ak-tooltip>
 
-            <ak-tooltip for="left-btn" content="Left placement" placement="left"></ak-tooltip>
-            <ak-tooltip for="right-btn" content="Right placement" placement="right"></ak-tooltip>
+            <ak-tooltip
+                for="left-btn"
+                content="Left placement"
+                tabindex="0"
+                placement="left"
+            ></ak-tooltip>
+            <ak-tooltip
+                for="right-btn"
+                content="Right placement"
+                tabindex="0"
+                placement="right"
+            ></ak-tooltip>
 
             <ak-tooltip
                 for="bottom-left-btn"
                 content="Bottom left placement"
+                tabindex="0"
                 placement="bottom-start"
             ></ak-tooltip>
-            <ak-tooltip for="bottom-btn" content="Bottom placement" placement="bottom"></ak-tooltip>
+            <ak-tooltip
+                for="bottom-btn"
+                content="Bottom placement"
+                tabindex="0"
+                placement="bottom"
+            ></ak-tooltip>
             <ak-tooltip
                 for="bottom-right-btn"
                 content="Bottom right placement"
+                tabindex="0"
                 placement="bottom-end"
             ></ak-tooltip>
         </div>

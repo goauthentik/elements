@@ -1,34 +1,43 @@
 import type { Tooltip } from "./ak-tooltip.component.js";
 
-// Getting a better tooltip required meeting the goal that moving across the anchor quickly
-// shouldn't cause the tooltip to show up immediately, as that would spam a display with a lot of
-// tooltips. It also shouldn't fade out when the pointer transitions from the anchor to the tooltip
-// itself.
-//
-// So when you hover or focus an anchor element, the tooltip is *scheduled to show*, which can be
-// cancelled by leaving the anchor before it becomes visible. Likewise, when the tooltip is visible,
-// the tooltip is *scheduled to hide* when the pointer transitions away, which can be cancelled
-// by the pointer returning to hover or focus either element.
-//
-// This then becomes a state machine:
-//
-// - Hidden -> (mouseover anchor): Scheduled to Show
-// - Scheduled to Show -> [(mouseout anchor): Show canceled: Hidden, otherwise: Show not cancelled: Showing]
-// - Showing -> [Scheduled to hide]
-// - Scheduled to Hide -> [(mouseover anchor or tooltip): Hide canceled: Showing,
-//                          otherwise: Hide not cancelled: Hidden]
-//
-// The `TooltipEvent` class contains the API needed to support transitions from one state to another
-// inside a `Tooltip`, and the four states inherit from it. It's completely self- contained, there's
-// no "state manager"; a transition results in calls to the Tooltip API to show or hide, but
-// timeouts are dependent on the state being live so they live on the state itself.
+/**
+ * @fileoverview This module implements a state machine for tooltip behavior that ensures smooth
+ * user interactions by preventing tooltip spam when moving across anchor elements quickly, while
+ * allowing seamless transitions between anchor and tooltip elements.
+ *
+ * The `TooltipEvent` class contains the API needed to support transitions from one state to another
+ * inside a `Tooltip`, and the four states inherit from it. It's completely self- contained, there's
+ * no "state manager"; a transition results in calls to the Tooltip API to show or hide, but
+ * timeouts are dependent on the state being live so they live on the state itself.
+ *
+ * Getting a better tooltip required meeting the goal that moving across the anchor quickly
+ * shouldn't cause the tooltip to show up immediately, as that would spam a display with a lot of
+ * tooltips. It also shouldn't fade out when the pointer transitions from the anchor to the tooltip
+ * itself.
+ *
+ * When you hover or focus an anchor element, the tooltip is *scheduled to show*, which can be
+ * canceled by leaving the anchor before it becomes visible. Likewise, when the tooltip is visible,
+ * the tooltip is *scheduled to hide* when the pointer transitions away, which can be canceled by
+ * the pointer returning to hover or focus either element.
+ *
+ * The state machine handles four distinct states:
+ * - **Hidden**: Initial state, tooltip is not visible
+ * - **Scheduled to Show**: Tooltip is queued to appear after hover/focus on anchor
+ * - **Showing**: Tooltip is currently visible to the user
+ * - **Scheduled to Hide**: Tooltip is queued to disappear after pointer leaves elements
+ *
+ * State transitions:
+ * - Hidden → Scheduled to Show (on anchor mouseover/focus)
+ * - Scheduled to Show → Hidden (on anchor mouseout before timeout) OR Showing (timeout completes)
+ * - Showing → Scheduled to Hide (on pointer leave)
+ * - Scheduled to Hide → Showing (on pointer return) OR Hidden (timeout completes)
+ */
 
 type Timeout = ReturnType<typeof setTimeout> | null;
 
 abstract class TooltipEvents {
     protected type: string = "";
     protected timer: Timeout = null;
-    protected host: Tooltip;
 
     constructor(protected host: Tooltip) {}
 
@@ -57,6 +66,7 @@ abstract class TooltipEvents {
     public clearTimeout() {
         if (this.timer !== null) {
             clearTimeout(this.timer);
+            this.timer = null;
         }
     }
 }
@@ -74,7 +84,7 @@ export class TooltipInitialState extends TooltipEvents {
 
     constructor(host: Tooltip) {
         super(host);
-        host.isOpen = false;
+        host.expanded = false;
     }
 
     public onAnchorEnter = () => {
@@ -107,7 +117,7 @@ class TooltipShown extends TooltipEvents {
 
     constructor(host: Tooltip) {
         super(host);
-        host.isOpen = true;
+        host.expanded = true;
     }
 
     public onAnchorLeave = () => {

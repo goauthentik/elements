@@ -13,7 +13,13 @@ const validHtmlId = /^[A-Za-z][.\w\-:]*$/;
 // component for `:hover` 20 times a second. This is hideously inefficient, but it allows DevTools
 // to set the `:hov` pseudo-pseudo-class and keep the tooltip on the screen.
 
-// See the barrel file (`ak-tooltip.ts`) for instructions on how to use this.
+// To use this, import this module into the barrel file `ak-tooltip.ts` and replace the
+// customElements call with:
+//
+// ```
+// import { TooltipWithHover } from "./ak-tooltip.debug.js";
+// window.customElements.define("ak-tooltip", TooltipWithHover(Tooltip));
+// ```
 
 export function TooltipWithHover<Base extends TooltipConstructor>(Superclass: Base) {
     class TooltipWithHover extends Superclass {

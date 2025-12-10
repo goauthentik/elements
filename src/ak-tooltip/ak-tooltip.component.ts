@@ -1,3 +1,4 @@
+import { getDeepActiveElement } from "../utils/getDeepActiveElement.js";
 import { parseLength } from "../utils/parseSize.js";
 import { TooltipInitialState, type TooltipState } from "./ak-tooltip-state-machine.js";
 import styles from "./ak-tooltip.css";
@@ -6,7 +7,7 @@ import type { Middleware, Placement } from "@floating-ui/dom";
 import { autoUpdate, computePosition, flip, offset, shift } from "@floating-ui/dom";
 
 import { html, LitElement, nothing, PropertyValues } from "lit";
-import { property, query, state } from "lit/decorators.js";
+import { property, query } from "lit/decorators.js";
 import { createRef, ref, Ref } from "lit/directives/ref.js";
 
 export type Trigger = "hover" | "focus";
@@ -24,13 +25,6 @@ function parseDelay(delay: string) {
     }
     return parseInt(g[1], 10) * (g[2] === "ms" ? 1 : 1000);
 }
-
-const oppositeSideMap: Record<string, string> = {
-    left: "right",
-    right: "left",
-    bottom: "top",
-    top: "bottom",
-};
 
 /**
  * @class Tooltip
@@ -117,42 +111,42 @@ export class Tooltip extends LitElement {
      * DEPRECATED. prefer using slots.
      */
     @property({ type: String })
-    content = "";
+    public content = "";
 
     /**
      * @attr {boolean} noArrow: Don't show an arrow pointing toward the tooltip.
      */
     @property({ type: Boolean, attribute: "no-arrow" })
-    noArrow = false;
+    public noArrow = false;
 
     /**
      * @attr {string} for: The id or selector for the target. Must be in the same context as the
      * tooltip.
      */
     @property({ type: String, attribute: "for" })
-    htmlFor = "";
+    public htmlFor = "";
 
     /**
      * @attr {object} target: A reference to the target. Must be in the same or in a sibling context
        of the tooltip.  `.target` takes precedence over `for`
      */
     @property({ type: Object, attribute: "target" })
-    target?: HTMLElement;
+    public target?: HTMLElement;
 
     /**
      * @attr {string} trigger - What event causes the tooltip to show up.
      */
     @property({ type: String })
-    trigger: Trigger = "hover";
+    public trigger: Trigger = "hover";
 
     /**
      * @attr { string } placement - Where should we place the tooltip?
      */
     @property({ type: String })
-    placement: Placement = "top";
+    public placement: Placement = "top";
 
-    @state()
-    isOpen = false;
+    @property({ type: Boolean, reflect: true })
+    expanded = false;
 
     protected state: TooltipState = new TooltipInitialState(this);
 
@@ -175,11 +169,11 @@ export class Tooltip extends LitElement {
     }
 
     // To enable the debugging variant, these cannot be made private.
-    protected onAnchorEnter = () => {
+    protected onAnchorEnter = (ev?: Event) => {
         this.state.onAnchorEnter();
     };
 
-    protected onAnchorLeave = () => {
+    protected onAnchorLeave = (ev?: Event) => {
         this.state.onAnchorLeave();
     };
 
@@ -244,12 +238,14 @@ export class Tooltip extends LitElement {
         this.anchor.addEventListener("blur", this.onAnchorLeave, signal);
         if (this.trigger === "hover") {
             this.anchor.addEventListener("mouseenter", this.onAnchorEnter, signal);
+            this.anchor.addEventListener("touchstart", this.onAnchorEnter, signal);
             this.anchor.addEventListener("mouseleave", this.onAnchorLeave, signal);
+            this.anchor.addEventListener("touchend", this.onAnchorEnter, signal);
         }
     }
 
     #detachFromAnchor() {
-        if (this.isOpen) {
+        if (this.expanded) {
             this.#detachDialogListeners();
         }
         if (this.anchor) {
@@ -283,14 +279,20 @@ export class Tooltip extends LitElement {
     public override render() {
         const fromSlot = this.textContent?.trim() || this.childNodes.length > 0;
         const content = fromSlot ? html`<slot></slot>` : this.content;
-        return html`<dialog ${ref(this.dialog)} part="tooltip" role="tooltip" aria-live="polite">
+        return html`<dialog
+            ${ref(this.dialog)}
+            part="tooltip"
+            role="tooltip"
+            tabindex="-1"
+            aria-live="polite"
+        >
             ${this.noArrow ? nothing : html`<div part="arrow"></div>`}
             <div part="content">${content}</div>
         </dialog>`;
     }
 
     #attachDialogListeners() {
-        if (!this.isOpen) {
+        if (!this.expanded) {
             throw new Error("Can't happen.");
         }
 
@@ -300,6 +302,8 @@ export class Tooltip extends LitElement {
         if (this.trigger === "hover") {
             this.dialog.value?.addEventListener("mouseenter", this.#onTooltipEnter, signal);
             this.dialog.value?.addEventListener("mouseleave", this.#onTooltipLeave, signal);
+            this.dialog.value?.addEventListener("touchstart", this.#onTooltipEnter, signal);
+            this.dialog.value?.addEventListener("touchend", this.#onTooltipLeave, signal);
         }
     }
 
@@ -355,9 +359,35 @@ export class Tooltip extends LitElement {
         if (!dialog) {
             return;
         }
+
+        const elementWithFocus = getDeepActiveElement();
         dialog.inert = true;
         dialog.show();
         dialog.inert = false;
+
+        if (elementWithFocus && elementWithFocus !== document.body) {
+            let focusManagedLocally = false;
+
+            const restoreStolenFocus = (ev: FocusEvent) => {
+                if (ev.target === dialog) {
+                    focusManagedLocally = true;
+                    ev.preventDefault();
+                    ev.stopImmediatePropagation();
+                    elementWithFocus.focus();
+                }
+            };
+
+            dialog.addEventListener("focusin", restoreStolenFocus, { once: true });
+            requestAnimationFrame(() => {
+                if (getDeepActiveElement() === dialog) {
+                    elementWithFocus.focus();
+                }
+
+                if (!focusManagedLocally) {
+                    dialog.removeEventListener("focusin", restoreStolenFocus);
+                }
+            });
+        }
     }
 
     #hideTooltip() {
@@ -374,8 +404,8 @@ export class Tooltip extends LitElement {
             this.attachToAnchor();
         }
 
-        if (changed.has("isOpen")) {
-            if (this.isOpen) {
+        if (changed.has("expanded")) {
+            if (this.expanded) {
                 this.#attachDialogListeners();
                 this.#setPositioning();
                 this.#showTooltip();
