@@ -32,3 +32,5 @@ custom-elements.json
 tsconfig.tsbuildinfo
 tsconfig.tools.tsbuildinfo
 /tools/
+## We don't want it, and if you've got it, we don't want to store it
+.claude
