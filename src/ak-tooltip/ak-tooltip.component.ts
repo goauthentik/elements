@@ -169,11 +169,11 @@ export class Tooltip extends LitElement {
     }
 
     // To enable the debugging variant, these cannot be made private.
-    protected onAnchorEnter = (ev?: Event) => {
+    protected onAnchorEnter = () => {
         this.state.onAnchorEnter();
     };
 
-    protected onAnchorLeave = (ev?: Event) => {
+    protected onAnchorLeave = () => {
         this.state.onAnchorLeave();
     };
 
@@ -240,7 +240,7 @@ export class Tooltip extends LitElement {
             this.anchor.addEventListener("mouseenter", this.onAnchorEnter, signal);
             this.anchor.addEventListener("touchstart", this.onAnchorEnter, signal);
             this.anchor.addEventListener("mouseleave", this.onAnchorLeave, signal);
-            this.anchor.addEventListener("touchend", this.onAnchorEnter, signal);
+            this.anchor.addEventListener("touchend", this.onAnchorLeave, signal);
         }
     }
 
@@ -364,30 +364,6 @@ export class Tooltip extends LitElement {
         dialog.inert = true;
         dialog.show();
         dialog.inert = false;
-
-        if (elementWithFocus && elementWithFocus !== document.body) {
-            let focusManagedLocally = false;
-
-            const restoreStolenFocus = (ev: FocusEvent) => {
-                if (ev.target === dialog) {
-                    focusManagedLocally = true;
-                    ev.preventDefault();
-                    ev.stopImmediatePropagation();
-                    elementWithFocus.focus();
-                }
-            };
-
-            dialog.addEventListener("focusin", restoreStolenFocus, { once: true });
-            requestAnimationFrame(() => {
-                if (getDeepActiveElement() === dialog) {
-                    elementWithFocus.focus();
-                }
-
-                if (!focusManagedLocally) {
-                    dialog.removeEventListener("focusin", restoreStolenFocus);
-                }
-            });
-        }
     }
 
     #hideTooltip() {
