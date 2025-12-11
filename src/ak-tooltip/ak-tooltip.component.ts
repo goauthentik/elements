@@ -101,14 +101,13 @@ function parseDelay(delay: string) {
  * - @cssprop --ak-v1-c-tooltip--ArrowWidth - Arrow width, overrides --ak-v1-c-tooltip--ArrowSize
  * - @cssprop --ak-v1-c-tooltip--ArrowHeight - Arrow height, overrides --ak-v1-c-tooltip--ArrowSize
  */
-
 export class Tooltip extends LitElement {
     static readonly styles = [styles];
 
     /**
      * @attr {string} content: What to show in the tooltip
      *
-     * DEPRECATED. prefer using slots.
+     * @deprecated prefer using slots.
      */
     @property({ type: String })
     public content = "";
