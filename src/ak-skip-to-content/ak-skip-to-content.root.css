@@ -1,0 +1,7 @@
+:root {
+    --ak-v1-c-skip-to-content--Color: var(--ak-v1-global--Color--dark-foreground);
+    --ak-v1-c-skip-to-content--BackgroundColor: var(--ak-v1-global--Color--accent);
+    --ak-v1-c-skip-to-content--padding: var(--pf-v5-global--spacer--md);
+    --ak-v1-c-skip-to-content--BottomRight--BorderRadius: var(--pf-v5-global--BorderRadius--sm);
+    --ak-v1-c-skip-to-content--FontFamily: var(--pf-v5-global--FontFamily--heading);
+}

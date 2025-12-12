@@ -145,7 +145,7 @@ export class Tooltip extends LitElement {
     public placement: Placement = "top";
 
     @property({ type: Boolean, reflect: true })
-    expanded = false;
+    public expanded = false;
 
     protected state: TooltipState = new TooltipInitialState(this);
 

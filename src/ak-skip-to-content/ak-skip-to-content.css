@@ -1,16 +1,16 @@
 :host {
-    --ak-v1-c-skip-to-content--Color: var(--ak-v1-global--Color--dark-foreground, #fafafa);
-    --ak-v1-c-skip-to-content--BackgroundColor: var(--ak-v1-global--Color--accent, #fd4b2d);
-    --ak-v1-c-skip-to-content--padding: var(--ak-v1-global--Spacer--md, 1rem);
-    --ak-v1-c-skip-to-content--BottomRight--BorderRadius: var(
-        --ak-v1-global--BorderRadius--sm,
+    --skip-to-content--Color: var(--ak-v1-c-skip-to-content--Color, #fafafa);
+    --skip-to-content--BackgroundColor: var(--ak-v1-c-skip-to-content--BackgroundColor, #fd4b2d);
+    --skip-to-content--padding: var(--ak-v1-c-skip-to-content--padding, 1rem);
+    --skip-to-content--BottomRight--BorderRadius: var(
+        --ak-v1-c-skip-to-content--BottomRight--BorderRadius,
         3px
     );
-    --ak-v1-c-skip-to-content--FallbackFontFamily:
+    --skip-to-content-_FallbackFontFamily:
         "RedHatText", "Overpass", overpass, helvetica, arial, sans-serif;
-    --ak-v1-c-skip-to-content--FontFamily: var(
-        --pf-global--FontFamily--heading--sans-serif,
-        var(--ak-v1-c-skip-to-content--FallbackFontFamily)
+    --skip-to-content--FontFamily: var(
+        --ak-v1-c-skip-to-content--FontFamily,
+        var(--ak-v1-c-skip-to-content-_FallbackFontFamily)
     );
 }
 
@@ -26,9 +26,9 @@
 [part="skip-to-content"] {
     position: absolute;
     z-index: 99999;
-    color: var(--ak-v1-c-skip-to-content--Color);
-    background-color: var(--ak-v1-c-skip-to-content--BackgroundColor);
-    font-family: var(--ak-v1-c-skip-to-content--FontFamily);
-    padding: var(--ak-v1-c-skip-to-content--padding);
-    border-bottom-right-radius: var(--ak-v1-c-skip-to-content--BottomRight--BorderRadius);
+    color: var(--skip-to-content--Color);
+    background-color: var(--skip-to-content--BackgroundColor);
+    font-family: var(--skip-to-content--FontFamily);
+    padding: var(--skip-to-content--padding);
+    border-bottom-right-radius: var(--skip-to-content--BottomRight--BorderRadius);
 }

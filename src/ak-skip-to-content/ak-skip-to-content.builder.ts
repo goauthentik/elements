@@ -1,12 +1,15 @@
 import { SkipToContent } from "./ak-skip-to-content.component.js";
 
+import { spread } from "@open-wc/lit-helpers";
+
 import { html, TemplateResult } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
-export type SkipToContentProps = Partial<Pick<SkipToContent, "label">> & {
-    targetElement?: HTMLElement;
-    content?: string | TemplateResult;
-};
+export type SkipToContentProps = Partial<HTMLElement> &
+    Partial<Pick<SkipToContent, "label">> & {
+        targetElement?: HTMLElement;
+        content?: string | TemplateResult;
+    };
 
 /**
  * @summary Helper function to create a SkipToContent component programmatically
@@ -16,9 +19,13 @@ export type SkipToContentProps = Partial<Pick<SkipToContent, "label">> & {
  * @see {@link SkipToContent} - The underlying web component
  */
 export function akSkipToContent(options: SkipToContentProps = {}) {
-    const { targetElement, label, content } = options;
+    const { targetElement, label, content, ...rest } = options;
     return html`
-        <ak-skip-to-content .targetElement=${targetElement} label=${ifDefined(label)}>
+        <ak-skip-to-content
+            ${spread(rest)}
+            .targetElement=${targetElement}
+            label=${ifDefined(label)}
+        >
             ${content ? content : ""}
         </ak-skip-to-content>
     `;
