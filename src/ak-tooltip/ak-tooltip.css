@@ -14,6 +14,8 @@
     --tooltip__content--PaddingLeft: var(--pf-v5-c-tooltip__content--PaddingLeft, 0.5rem);
     --tooltip__content--Color: var(--pf-v5-c-tooltip__content--Color, #fff);
     --tooltip__content--BackgroundColor: var(--pf-v5-c-tooltip__content--BackgroundColor, #151515);
+    --tooltip-_FontFamily--fallback: redhattext, helvetica, arial, sans-serif;
+    --tooltip--FontFamily: var(--pf-v5-c-tooltip--FontFamily, var(--tooltip-_FontFamily--fallback));
     --tooltip__content--FontSize: var(--pf-v5-c-tooltip__content--FontSize, 0.875rem);
     --tooltip__arrow--BackgroundColor: var(--pf-v5-c-tooltip__arrow--BackgroundColor, #151515);
     --tooltip__arrow--BoxShadow: var(
@@ -70,6 +72,7 @@
 }
 
 [part="tooltip"] {
+    font-family: var(--tooltip--FontFamily);
     max-width: var(--tooltip--MaxWidth);
     box-shadow: var(--tooltip--BoxShadow);
     margin: 0;

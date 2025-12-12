@@ -3,6 +3,7 @@
     --pf-v5-c-button--PaddingRight: var(--pf-v5-global--spacer--md);
     --pf-v5-c-button--PaddingBottom: var(--pf-v5-global--spacer--form-element);
     --pf-v5-c-button--PaddingLeft: var(--pf-v5-global--spacer--md);
+    --pf-v5-c-button--FontFamily: var(--pf-v5-global--FontFamily--text);
     --pf-v5-c-button--LineHeight: var(--pf-v5-global--LineHeight--md);
     --pf-v5-c-button--FontWeight: var(--pf-v5-global--FontWeight--normal);
     --pf-v5-c-button--FontSize: var(--pf-v5-global--FontSize--md);
@@ -214,4 +215,61 @@
     --pf-v5-c-button--disabled__c-badge--BackgroundColor: var(--pf-v5-global--BackgroundColor--200);
     --pf-v5-c-button--m-primary__c-badge--BorderColor: var(--pf-v5-global--BorderColor--300);
     --pf-v5-c-button--m-primary__c-badge--BorderWidth: var(--pf-v5-global--BorderWidth--sm);
+}
+
+/* OVERRIDDEN Because WCC doesn't quite understand dark mode yet */
+
+.pf-v5-theme-dark,
+html[theme="dark"],
+html[data-theme="dark"] {
+    --pf-v5-c-button--disabled--Color: var(--pf-v5-global--disabled-color--300);
+    --pf-v5-c-button--m-primary--BackgroundColor: var(--pf-v5-global--primary-color--300);
+    --pf-v5-c-button--m-primary--Color: var(--pf-v5-global--primary-color--400);
+    --pf-v5-c-button--m-tertiary--after--BorderColor: var(--pf-v5-global--BorderColor--100);
+    --pf-v5-c-button--m-tertiary--Color: var(--pf-v5-global--palette--black-100);
+    --pf-v5-c-button--m-tertiary--hover--after--BorderColor: var(--pf-v5-global--BorderColor--100);
+    --pf-v5-c-button--m-tertiary--hover--Color: var(--pf-v5-global--palette--black-100);
+    --pf-v5-c-button--m-tertiary--focus--after--BorderColor: var(--pf-v5-global--BorderColor--100);
+    --pf-v5-c-button--m-tertiary--focus--Color: var(--pf-v5-global--palette--black-100);
+    --pf-v5-c-button--m-tertiary--active--after--BorderColor: var(--pf-v5-global--BorderColor--100);
+    --pf-v5-c-button--m-tertiary--active--Color: var(--pf-v5-global--palette--black-100);
+    --pf-v5-c-button--m-warning--Color: var(--pf-v5-global--palette--black-900);
+    --pf-v5-c-button--m-warning--hover--Color: var(--pf-v5-global--palette--black-900);
+    --pf-v5-c-button--m-warning--focus--Color: var(--pf-v5-global--palette--black-900);
+    --pf-v5-c-button--m-warning--active--Color: var(--pf-v5-global--palette--black-900);
+    --pf-v5-c-button--m-warning--hover--BackgroundColor: var(--pf-v5-global--warning-color--200);
+    --pf-v5-c-button--m-warning--focus--BackgroundColor: var(--pf-v5-global--warning-color--200);
+    --pf-v5-c-button--m-warning--active--BackgroundColor: var(--pf-v5-global--warning-color--200);
+    --pf-v5-c-button--m-danger--Color: var(--pf-v5-global--palette--black-900);
+    --pf-v5-c-button--m-danger--hover--Color: var(--pf-v5-global--palette--black-900);
+    --pf-v5-c-button--m-danger--focus--Color: var(--pf-v5-global--palette--black-900);
+    --pf-v5-c-button--m-danger--active--Color: var(--pf-v5-global--palette--black-900);
+    --pf-v5-c-button--m-link--disabled--Color: var(--pf-v5-global--disabled-color--100);
+    --pf-v5-c-button--m-control--BackgroundColor: var(--pf-v5-global--BackgroundColor--400);
+    --pf-v5-c-button--m-control--hover--BackgroundColor: var(--pf-v5-global--BackgroundColor--400);
+    --pf-v5-c-button--m-control--active--BackgroundColor: var(--pf-v5-global--BackgroundColor--400);
+    --pf-v5-c-button--m-control--focus--BackgroundColor: var(--pf-v5-global--BackgroundColor--400);
+    --pf-v5-c-button--m-control--m-expanded--BackgroundColor: var(
+        --pf-v5-global--BackgroundColor--400
+    );
+    --pf-v5-c-button--m-control--after--BorderTopColor: transparent;
+    --pf-v5-c-button--m-control--after--BorderRightColor: transparent;
+    --pf-v5-c-button--m-control--after--BorderBottomColor: var(--pf-v5-global--BorderColor--400);
+    --pf-v5-c-button--m-control--after--BorderLeftColor: transparent;
+    --pf-v5-c-button--m-control--hover--after--BorderBottomColor: var(
+        --pf-v5-global--primary-color--100
+    );
+    --pf-v5-c-button--m-control--active--after--BorderBottomColor: var(
+        --pf-v5-global--primary-color--100
+    );
+    --pf-v5-c-button--m-control--focus--after--BorderBottomColor: var(
+        --pf-v5-global--primary-color--100
+    );
+    --pf-v5-c-button--m-control--m-expanded--after--BorderBottomColor: var(
+        --pf-v5-global--primary-color--100
+    );
+    --pf-v5-c-button--m-control--disabled--BackgroundColor: var(
+        --pf-v5-global--disabled-color--200
+    );
+    --pf-v5-c-button--m-primary__c-badge--BorderColor: var(--pf-v5-global--Color--100);
 }

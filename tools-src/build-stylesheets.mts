@@ -22,7 +22,7 @@ import type { RawSourceMap } from "source-map";
 
 checkIsInPackageRoot();
 
-const SOURCE_FILES = ["./css/authentik.scss", "./css/theme-dark.scss", "./css/patternfly.css"];
+const SOURCE_FILES = ["./css/authentik.scss"];
 
 const hostEitherRe = /\.s?css$/;
 

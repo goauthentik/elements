@@ -6,11 +6,11 @@
         --ak-v1-c-skip-to-content--BottomRight--BorderRadius,
         3px
     );
-    --skip-to-content-_FallbackFontFamily:
+    --skip-to-content-_FontFamily--fallback:
         "RedHatText", "Overpass", overpass, helvetica, arial, sans-serif;
     --skip-to-content--FontFamily: var(
         --ak-v1-c-skip-to-content--FontFamily,
-        var(--ak-v1-c-skip-to-content-_FallbackFontFamily)
+        var(--ak-v1-c-skip-to-content-_FontFamily--fallback)
     );
 }
 

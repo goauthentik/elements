@@ -19,7 +19,6 @@ export function themeDecorator({ themes, defaultTheme, ...rest }) {
             document.documentElement.setAttribute("theme", selected);
         }, 0);
 
-        return html`<link rel="stylesheet" href="/css/authentik.css" />
-            <ak-storybook-theme-provider>${story()}</ak-storybook-theme-provider>`;
+        return html` <ak-storybook-theme-provider>${story()}</ak-storybook-theme-provider>`;
     };
 }

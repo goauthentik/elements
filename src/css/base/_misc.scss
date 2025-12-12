@@ -1,8 +1,8 @@
 /* Misc: Mostly supporting Storybook */
 
 :root {
-    --ak-palette--Black-900: hsl(0, 0%, 8.2%);
-    --ak-palette--Black--200: hsl(0, 0%, 94.1%);
+    --ak-palette--Black-900: hsl(0deg 0% 8.2%);
+    --ak-palette--Black--200: hsl(0deg 0% 94.1%);
 }
 
 :root {
@@ -14,13 +14,6 @@
     --ak-theme--LineHeight--md: 1.5;
 }
 
-:where(.pf-v5-theme-dark),
-:where(html[theme="dark"]),
-:where(html[data-theme="dark"]) {
-    --ak-theme--BackgroundColor--primary: var(--ak-palette--Black-900);
-    --ak-theme--TextColor--primary: var(--ak-palette--Black--200);
-}
-
 :where(body) {
     font-family: var(--ak-theme--FontFamily--text);
     font-size: var(--ak-theme--FontSize--md);
@@ -29,4 +22,11 @@
     color: var(--ak-theme--TextColor--primary);
     background-color: var(--ak-theme--BackgroundColor--primary);
     height: 100%;
+}
+
+.pf-v5-theme-dark,
+html[theme="dark"],
+html[data-theme="dark"] {
+    --ak-theme--BackgroundColor--primary: var(--ak-palette--Black-900);
+    --ak-theme--TextColor--primary: var(--ak-palette--Black--200);
 }

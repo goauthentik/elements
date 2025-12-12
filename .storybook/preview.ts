@@ -1,5 +1,4 @@
 import "../dist/css/authentik.css";
-import "../dist/css/patternfly.css";
 import "../dist/ak-storybook-theme-provider/ak-storybook-theme-provider.js";
 
 import customElements from "../custom-elements.json";

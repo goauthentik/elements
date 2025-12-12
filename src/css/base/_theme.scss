@@ -11,8 +11,8 @@
     --pf-v5-global--BackgroundColor--dark-200: #3c3f42;
     --pf-v5-global--BackgroundColor--dark-300: #212427;
     --pf-v5-global--BackgroundColor--dark-400: #4f5255;
-    --pf-v5-global--BackgroundColor--dark-transparent-100: rgba(3, 3, 3, 0.62);
-    --pf-v5-global--BackgroundColor--dark-transparent-200: rgba(3, 3, 3, 0.32);
+    --pf-v5-global--BackgroundColor--dark-transparent-100: rgb(3 3 3 / 62%);
+    --pf-v5-global--BackgroundColor--dark-transparent-200: rgb(3 3 3 / 32%);
     --pf-v5-global--Color--100: #151515;
     --pf-v5-global--Color--200: #6a6e73;
     --pf-v5-global--Color--300: #3c3f42;
@@ -47,30 +47,28 @@
     --pf-v5-global--danger-color--200: #a30000;
     --pf-v5-global--danger-color--300: #470000;
     --pf-v5-global--BoxShadow--sm:
-        0 0.0625rem 0.125rem 0 rgba(3, 3, 3, 0.12), 0 0 0.125rem 0 rgba(3, 3, 3, 0.06);
-    --pf-v5-global--BoxShadow--sm-top: 0 -0.125rem 0.25rem -0.0625rem rgba(3, 3, 3, 0.16);
-    --pf-v5-global--BoxShadow--sm-right: 0.125rem 0 0.25rem -0.0625rem rgba(3, 3, 3, 0.16);
-    --pf-v5-global--BoxShadow--sm-bottom: 0 0.125rem 0.25rem -0.0625rem rgba(3, 3, 3, 0.16);
-    --pf-v5-global--BoxShadow--sm-left: -0.125rem 0 0.25rem -0.0625rem rgba(3, 3, 3, 0.16);
+        0 0.0625rem 0.125rem 0 rgb(3 3 3 / 12%), 0 0 0.125rem 0 rgb(3 3 3 / 6%);
+    --pf-v5-global--BoxShadow--sm-top: 0 -0.125rem 0.25rem -0.0625rem rgb(3 3 3 / 16%);
+    --pf-v5-global--BoxShadow--sm-right: 0.125rem 0 0.25rem -0.0625rem rgb(3 3 3 / 16%);
+    --pf-v5-global--BoxShadow--sm-bottom: 0 0.125rem 0.25rem -0.0625rem rgb(3 3 3 / 16%);
+    --pf-v5-global--BoxShadow--sm-left: -0.125rem 0 0.25rem -0.0625rem rgb(3 3 3 / 16%);
     --pf-v5-global--BoxShadow--md:
-        0 0.25rem 0.5rem 0rem rgba(3, 3, 3, 0.12), 0 0 0.25rem 0 rgba(3, 3, 3, 0.06);
-    --pf-v5-global--BoxShadow--md-top: 0 -0.5rem 0.5rem -0.375rem rgba(3, 3, 3, 0.18);
-    --pf-v5-global--BoxShadow--md-right: 0.5rem 0 0.5rem -0.375rem rgba(3, 3, 3, 0.18);
-    --pf-v5-global--BoxShadow--md-bottom: 0 0.5rem 0.5rem -0.375rem rgba(3, 3, 3, 0.18);
-    --pf-v5-global--BoxShadow--md-left: -0.5rem 0 0.5rem -0.375rem rgba(3, 3, 3, 0.18);
-    --pf-v5-global--BoxShadow--lg:
-        0 0.5rem 1rem 0 rgba(3, 3, 3, 0.16), 0 0 0.375rem 0 rgba(3, 3, 3, 0.08);
-    --pf-v5-global--BoxShadow--lg-top: 0 -0.75rem 0.75rem -0.5rem rgba(3, 3, 3, 0.18);
-    --pf-v5-global--BoxShadow--lg-right: 0.75rem 0 0.75rem -0.5rem rgba(3, 3, 3, 0.18);
-    --pf-v5-global--BoxShadow--lg-bottom: 0 0.75rem 0.75rem -0.5rem rgba(3, 3, 3, 0.18);
-    --pf-v5-global--BoxShadow--lg-left: -0.75rem 0 0.75rem -0.5rem rgba(3, 3, 3, 0.18);
-    --pf-v5-global--BoxShadow--xl:
-        0 1rem 2rem 0 rgba(3, 3, 3, 0.16), 0 0 0.5rem 0 rgba(3, 3, 3, 0.1);
-    --pf-v5-global--BoxShadow--xl-top: 0 -1rem 1rem -0.5rem rgba(3, 3, 3, 0.2);
-    --pf-v5-global--BoxShadow--xl-right: 1rem 0 1rem -0.5rem rgba(3, 3, 3, 0.2);
-    --pf-v5-global--BoxShadow--xl-bottom: 0 1rem 1rem -0.5rem rgba(3, 3, 3, 0.2);
-    --pf-v5-global--BoxShadow--xl-left: -1rem 0 1rem -0.5rem rgba(3, 3, 3, 0.2);
-    --pf-v5-global--BoxShadow--inset: inset 0 0 0.625rem 0 rgba(3, 3, 3, 0.25);
+        0 0.25rem 0.5rem 0rem rgb(3 3 3 / 12%), 0 0 0.25rem 0 rgb(3 3 3 / 6%);
+    --pf-v5-global--BoxShadow--md-top: 0 -0.5rem 0.5rem -0.375rem rgb(3 3 3 / 18%);
+    --pf-v5-global--BoxShadow--md-right: 0.5rem 0 0.5rem -0.375rem rgb(3 3 3 / 18%);
+    --pf-v5-global--BoxShadow--md-bottom: 0 0.5rem 0.5rem -0.375rem rgb(3 3 3 / 18%);
+    --pf-v5-global--BoxShadow--md-left: -0.5rem 0 0.5rem -0.375rem rgb(3 3 3 / 18%);
+    --pf-v5-global--BoxShadow--lg: 0 0.5rem 1rem 0 rgb(3 3 3 / 16%), 0 0 0.375rem 0 rgb(3 3 3 / 8%);
+    --pf-v5-global--BoxShadow--lg-top: 0 -0.75rem 0.75rem -0.5rem rgb(3 3 3 / 18%);
+    --pf-v5-global--BoxShadow--lg-right: 0.75rem 0 0.75rem -0.5rem rgb(3 3 3 / 18%);
+    --pf-v5-global--BoxShadow--lg-bottom: 0 0.75rem 0.75rem -0.5rem rgb(3 3 3 / 18%);
+    --pf-v5-global--BoxShadow--lg-left: -0.75rem 0 0.75rem -0.5rem rgb(3 3 3 / 18%);
+    --pf-v5-global--BoxShadow--xl: 0 1rem 2rem 0 rgb(3 3 3 / 16%), 0 0 0.5rem 0 rgb(3 3 3 / 10%);
+    --pf-v5-global--BoxShadow--xl-top: 0 -1rem 1rem -0.5rem rgb(3 3 3 / 20%);
+    --pf-v5-global--BoxShadow--xl-right: 1rem 0 1rem -0.5rem rgb(3 3 3 / 20%);
+    --pf-v5-global--BoxShadow--xl-bottom: 0 1rem 1rem -0.5rem rgb(3 3 3 / 20%);
+    --pf-v5-global--BoxShadow--xl-left: -1rem 0 1rem -0.5rem rgb(3 3 3 / 20%);
+    --pf-v5-global--BoxShadow--inset: inset 0 0 0.625rem 0 rgb(3 3 3 / 25%);
     --pf-v5-global--font-path: "./assets/fonts";
     --pf-v5-global--fonticon-path: "./assets/pficon";
     --pf-v5-global--spacer--xs: 0.25rem;
@@ -166,9 +164,9 @@
     --pf-v5-global--inverse--multiplier: 1;
 }
 
-:where(.pf-v5-theme-dark),
-:where(html[theme="dark"]),
-:where(html[data-theme="dark"]) {
+.pf-v5-theme-dark,
+html[theme="dark"],
+html[data-theme="dark"] {
     --pf-v5-global--palette--black-50: #e0e0e0;
     --pf-v5-global--palette--black-100: #c6c7c8;
     --pf-v5-global--palette--black-200: #aaabac;
@@ -236,28 +234,27 @@
     --pf-v5-global--BackgroundColor--dark-300: #26292d;
     --pf-v5-global--BackgroundColor--dark-400: #36373a;
     --pf-v5-global--BoxShadow--sm:
-        0 0.0625rem 0.125rem 0 rgba(3, 3, 3, 0.48), 0 0 0.125rem 0 rgba(3, 3, 3, 0.24);
-    --pf-v5-global--BoxShadow--sm-top: 0 -0.125rem 0.25rem -0.0625rem rgba(3, 3, 3, 0.64);
-    --pf-v5-global--BoxShadow--sm-right: 0.125rem 0 0.25rem -0.0625rem rgba(3, 3, 3, 0.64);
-    --pf-v5-global--BoxShadow--sm-bottom: 0 0.125rem 0.25rem -0.0625rem rgba(3, 3, 3, 0.64);
-    --pf-v5-global--BoxShadow--sm-left: -0.125rem 0 0.25rem -0.0625rem rgba(3, 3, 3, 0.64);
+        0 0.0625rem 0.125rem 0 rgb(3 3 3 / 48%), 0 0 0.125rem 0 rgb(3 3 3 / 24%);
+    --pf-v5-global--BoxShadow--sm-top: 0 -0.125rem 0.25rem -0.0625rem rgb(3 3 3 / 64%);
+    --pf-v5-global--BoxShadow--sm-right: 0.125rem 0 0.25rem -0.0625rem rgb(3 3 3 / 64%);
+    --pf-v5-global--BoxShadow--sm-bottom: 0 0.125rem 0.25rem -0.0625rem rgb(3 3 3 / 64%);
+    --pf-v5-global--BoxShadow--sm-left: -0.125rem 0 0.25rem -0.0625rem rgb(3 3 3 / 64%);
     --pf-v5-global--BoxShadow--md:
-        0 0.25rem 0.5rem 0rem rgba(3, 3, 3, 0.48), 0 0 0.25rem 0 rgba(3, 3, 3, 0.24);
-    --pf-v5-global--BoxShadow--md-top: 0 -0.5rem 0.5rem -0.375rem rgba(3, 3, 3, 0.72);
-    --pf-v5-global--BoxShadow--md-right: 0.5rem 0 0.5rem -0.375rem rgba(3, 3, 3, 0.72);
-    --pf-v5-global--BoxShadow--md-bottom: 0 0.5rem 0.5rem -0.375rem rgba(3, 3, 3, 0.72);
-    --pf-v5-global--BoxShadow--md-left: -0.5rem 0 0.5rem -0.375rem rgba(3, 3, 3, 0.72);
+        0 0.25rem 0.5rem 0rem rgb(3 3 3 / 48%), 0 0 0.25rem 0 rgb(3 3 3 / 24%);
+    --pf-v5-global--BoxShadow--md-top: 0 -0.5rem 0.5rem -0.375rem rgb(3 3 3 / 72%);
+    --pf-v5-global--BoxShadow--md-right: 0.5rem 0 0.5rem -0.375rem rgb(3 3 3 / 72%);
+    --pf-v5-global--BoxShadow--md-bottom: 0 0.5rem 0.5rem -0.375rem rgb(3 3 3 / 72%);
+    --pf-v5-global--BoxShadow--md-left: -0.5rem 0 0.5rem -0.375rem rgb(3 3 3 / 72%);
     --pf-v5-global--BoxShadow--lg:
-        0 0.5rem 1rem 0 rgba(3, 3, 3, 0.64), 0 0 0.375rem 0 rgba(3, 3, 3, 0.32);
-    --pf-v5-global--BoxShadow--lg-top: 0 -0.75rem 0.75rem -0.5rem rgba(3, 3, 3, 0.72);
-    --pf-v5-global--BoxShadow--lg-right: 0.75rem 0 0.75rem -0.5rem rgba(3, 3, 3, 0.72);
-    --pf-v5-global--BoxShadow--lg-bottom: 0 0.75rem 0.75rem -0.5rem rgba(3, 3, 3, 0.72);
-    --pf-v5-global--BoxShadow--lg-left: -0.75rem 0 0.75rem -0.5rem rgba(3, 3, 3, 0.72);
-    --pf-v5-global--BoxShadow--xl:
-        0 1rem 2rem 0 rgba(3, 3, 3, 0.64), 0 0 0.5rem 0 rgba(3, 3, 3, 0.4);
-    --pf-v5-global--BoxShadow--xl-top: 0 -1rem 1rem -0.5rem rgba(3, 3, 3, 0.8);
-    --pf-v5-global--BoxShadow--xl-right: 1rem 0 1rem -0.5rem rgba(3, 3, 3, 0.8);
-    --pf-v5-global--BoxShadow--xl-bottom: 0 1rem 1rem -0.5rem rgba(3, 3, 3, 0.8);
-    --pf-v5-global--BoxShadow--xl-left: -1rem 0 1rem -0.5rem rgba(3, 3, 3, 0.8);
+        0 0.5rem 1rem 0 rgb(3 3 3 / 64%), 0 0 0.375rem 0 rgb(3 3 3 / 32%);
+    --pf-v5-global--BoxShadow--lg-top: 0 -0.75rem 0.75rem -0.5rem rgb(3 3 3 / 72%);
+    --pf-v5-global--BoxShadow--lg-right: 0.75rem 0 0.75rem -0.5rem rgb(3 3 3 / 72%);
+    --pf-v5-global--BoxShadow--lg-bottom: 0 0.75rem 0.75rem -0.5rem rgb(3 3 3 / 72%);
+    --pf-v5-global--BoxShadow--lg-left: -0.75rem 0 0.75rem -0.5rem rgb(3 3 3 / 72%);
+    --pf-v5-global--BoxShadow--xl: 0 1rem 2rem 0 rgb(3 3 3 / 64%), 0 0 0.5rem 0 rgb(3 3 3 / 40%);
+    --pf-v5-global--BoxShadow--xl-top: 0 -1rem 1rem -0.5rem rgb(3 3 3 / 80%);
+    --pf-v5-global--BoxShadow--xl-right: 1rem 0 1rem -0.5rem rgb(3 3 3 / 80%);
+    --pf-v5-global--BoxShadow--xl-bottom: 0 1rem 1rem -0.5rem rgb(3 3 3 / 80%);
+    --pf-v5-global--BoxShadow--xl-left: -1rem 0 1rem -0.5rem rgb(3 3 3 / 80%);
     --pf-v5-global--BoxShadow--inset: inset 0 0 0.625rem 0 #030303;
 }
