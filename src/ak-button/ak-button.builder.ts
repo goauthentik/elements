@@ -1,3 +1,4 @@
+import type { ElementRest } from "../types.js";
 import { Button, ButtonSeverity, ButtonSize } from "./ak-button.component.js";
 
 import { spread } from "@open-wc/lit-helpers";
@@ -8,13 +9,12 @@ import { ifDefined } from "lit/directives/if-defined.js";
 /**
  * Configuration options for the akButton helper function
  */
-export type ButtonProps = Partial<HTMLElement> &
+export type ButtonProps = ElementRest &
     Partial<Pick<Button, "type" | "variant" | "label" | "value" | "href" | "target" | "name">> & {
-        content?: string | TemplateResult | typeof nothing;
+        content?: string | TemplateResult | TemplateResult[] | typeof nothing;
         disabled?: boolean;
         severity?: ButtonSeverity;
         size?: ButtonSize;
-        theme?: "light" | "dark";
         block?: boolean;
         inline?: boolean;
         active?: boolean;
@@ -35,7 +35,6 @@ export function akButton(options: ButtonProps = {}) {
         severity,
         size,
         label,
-        theme,
         value,
         href,
         target,
@@ -57,7 +56,6 @@ export function akButton(options: ButtonProps = {}) {
             severity=${ifDefined(severity)}
             size=${ifDefined(size)}
             label=${ifDefined(label)}
-            theme=${ifDefined(theme)}
             value=${ifDefined(value)}
             href=${ifDefined(href)}
             target=${ifDefined(target)}

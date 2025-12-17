@@ -399,6 +399,10 @@
         --pf-v5-c-button--m-link--m-display-lg--FontSize,
         1.125rem
     );
+    --button--m-narrow--PaddingTop: var(--pf-v5-c-button--m-narrow--PaddingTop, 0.375rem);
+    --button--m-narrow--PaddingRight: var(--pf-v5-c-button--m-narrow--PaddingRight, 0.5);
+    --button--m-narrow--PaddingBottom: var(--pf-v5-c-button--m-narrow--PaddingBottom, 0.375rem);
+    --button--m-narrow--PaddingLeft: var(--pf-v5-c-button--m-narrow--PaddingLeft, 0.5);
     --button__icon--m-start--MarginRight: var(
         --pf-v5-c-button__icon--m-start--MarginRight,
         0.25rem
@@ -543,6 +547,13 @@
 
 :host([small]) {
     --button--FontSize: var(--button--m-small--FontSize);
+}
+
+:host([narrow]) {
+    --button--PaddingTop: var(--button--m-narrow--PaddingTop);
+    --button--PaddingRight: var(--button--m-narrow--PaddingRight);
+    --button--PaddingBottom: var(--button--m-narrow--PaddingBottom);
+    --button--PaddingLeft: var(--button--m-narrow--PaddingLeft);
 }
 
 :host([size="sm"]) {

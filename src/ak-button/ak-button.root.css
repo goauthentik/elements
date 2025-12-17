@@ -179,6 +179,10 @@
         --pf-v5-global--active-color--100
     );
     --pf-v5-c-button--m-small--FontSize: var(--pf-v5-global--FontSize--sm);
+    --pf-v5-c-button--m-narrow--PaddingTop: var(--pf-v5-global--spacer--form-element);
+    --pf-v5-c-button--m-narrow--PaddingRight: var(--pf-v5-global--spacer--sm);
+    --pf-v5-c-button--m-narrow--PaddingBottom: var(--pf-v5-global--spacer--form-element);
+    --pf-v5-c-button--m-narrow--PaddingLeft: var(--pf-v5-global--spacer--sm);
     --pf-v5-c-button--m-display-lg--PaddingTop: var(--pf-v5-global--spacer--md);
     --pf-v5-c-button--m-display-lg--PaddingRight: var(--pf-v5-global--spacer--xl);
     --pf-v5-c-button--m-display-lg--PaddingBottom: var(--pf-v5-global--spacer--md);

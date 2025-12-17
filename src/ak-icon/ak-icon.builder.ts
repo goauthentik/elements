@@ -1,5 +1,6 @@
 import "./ak-icon.component.js";
 
+import type { ElementRest } from "../types.js";
 import { Icon } from "./ak-icon.component.js";
 
 import { spread } from "@open-wc/lit-helpers";
@@ -9,7 +10,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 
 /* The `pick`ed fields here correspond to their types in the Icon class above. */
 
-export type IconProps = Partial<HTMLElement> &
+export type IconProps = ElementRest &
     Partial<Pick<Icon, "icon" | "family" | "fallback">> & {
         size?: string;
         variant?: string;
