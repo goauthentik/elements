@@ -23,7 +23,7 @@ export function akSkipToContent(options: SkipToContentProps = {}) {
     return html`
         <ak-skip-to-content
             ${spread(rest)}
-            .targetElement=${targetElement}
+            .targetElement=${targetElement ?? null}
             label=${ifDefined(label)}
         >
             ${content ? content : ""}

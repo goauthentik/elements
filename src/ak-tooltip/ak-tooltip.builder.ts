@@ -1,3 +1,4 @@
+import type { ElementRest } from "../types.js";
 import { Tooltip, type Trigger } from "./ak-tooltip.component.js";
 
 import { spread } from "@open-wc/lit-helpers";
@@ -5,11 +6,12 @@ import { spread } from "@open-wc/lit-helpers";
 import { html, TemplateResult } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
-export type TooltipProps = Partial<Pick<Tooltip, "htmlFor" | "placement">> & {
-    content: string | TemplateResult;
-    trigger: Trigger;
-    noArrow?: boolean;
-};
+export type TooltipProps = ElementRest &
+    Partial<Pick<Tooltip, "htmlFor" | "placement">> & {
+        content: string | TemplateResult;
+        trigger?: Trigger;
+        noArrow?: boolean;
+    };
 
 /**
  * @summary Helper function to create a Tooltip component programmatically

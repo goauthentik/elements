@@ -1,4 +1,5 @@
 import { getDeepActiveElement } from "../utils/getDeepActiveElement.js";
+import { findNearestSibling } from "../utils/nearestSibling.js";
 import { parseLength } from "../utils/parseSize.js";
 import { TooltipInitialState, type TooltipState } from "./ak-tooltip-state-machine.js";
 import styles from "./ak-tooltip.css";
@@ -34,14 +35,16 @@ function parseDelay(delay: string) {
  *
  * @description
  * A tooltip displays additional information when users hover over or focus on an anchor element
- * in order to provide context or to provide a textual label for icons and pictograms.
+ * in order to provide context or to provide a textual label for icons and pictograms. 
  *
  * ## Attributes
  *
  * - @attr {string} for - ID or CSS selector of the anchor element. Must be in the same context as
  *   the tooltip
  * - @attr {HTMLElement} target - Direct reference to the anchor element. Takes precedence over
- *   "for" attribute. The anchor must be in same or a sibling context of the tooltip.
+ *   "for" attribute. The anchor must be in same or a sibling context of the tooltip.  The order
+ *   of "search" is: ID, nearest sibling of parent HTMLElement, first match in parent context.
+ *
  * - @attr {"hover"|"focus"} trigger - Event type that triggers tooltip display (default: "hover")
  *   - "hover": Shows on mouseenter/mouseleave events
  *   - "focus": Shows on focus/blur events
@@ -208,8 +211,10 @@ export class Tooltip extends LitElement {
 
         // Fallback to search based on selector, even if we're pretty sure it's an ID.
         const anchor = validHtmlId.test(this.htmlFor)
-            ? parent.querySelector(`#${this.htmlFor}`) || parent.querySelector(this.htmlFor)
-            : parent.querySelector(this.htmlFor);
+            ? parent.querySelector(`#${this.htmlFor}`) ||
+              findNearestSibling(this, this.htmlFor) ||
+              parent.querySelector(this.htmlFor)
+            : findNearestSibling(this, this.htmlFor) || parent.querySelector(this.htmlFor);
 
         if (!anchor) {
             console.warn("ak-tooltip: could not find anchor");
@@ -257,7 +262,12 @@ export class Tooltip extends LitElement {
 
     public override connectedCallback() {
         super.connectedCallback();
-        this.attachToAnchor();
+
+        // `connectedCallback()` is run when the *opening* tag is parsed, not the entire component.
+        // Calling `attachToAnchor` at the end of the current task queue allows the browser to
+        // finishing parsing the tooltip and its anchor, which in turns allows the tooltip to find
+        // its anchor even if the anchor is a later sibling.
+        requestAnimationFrame(() => this.attachToAnchor());
     }
 
     public override disconnectedCallback() {

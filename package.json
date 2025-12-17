@@ -39,6 +39,9 @@
         "test:unit": "wdio run ./config/wdio.conf.mjs --logLevel=warn"
     },
     "type": "module",
+    "exports": {
+        "./*": "./dist/*"
+    },
     "dependencies": {
         "@floating-ui/dom": "^1.7.4",
         "@floating-ui/utils": "^0.2.10",
