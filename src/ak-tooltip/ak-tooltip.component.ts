@@ -262,6 +262,11 @@ export class Tooltip extends LitElement {
 
     public override connectedCallback() {
         super.connectedCallback();
+
+        // `connectedCallback()` is run when the *opening* tag is parsed, not the entire component.
+        // Calling `attachToAnchor` at the end of the current task queue allows the browser to
+        // finishing parsing the tooltip and its anchor, which in turns allows the tooltip to find
+        // its anchor even if the anchor is a later sibling.
         requestAnimationFrame(() => this.attachToAnchor());
     }
 
