@@ -2,12 +2,14 @@ import "../ak-icon/ak-icon.js";
 
 import { AkLitElement } from "../component-base.js";
 import styles from "./ak-progress.css";
+import indeterminateAnimation from "./indeterminate-animation.css";
 
 import { html, nothing } from "lit";
 import { property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import { styleMap } from "lit/directives/style-map.js";
 
-export const progressBarVariants = ["none", "top", "inside", "outside"] as const;
+export const progressBarVariants = ["none", "top", "inside", "outside", "indeterminate"] as const;
 export type ProgressBarVariant = (typeof progressBarVariants)[number];
 
 export const progressBarSize = ["sm", "lg"] as const;
@@ -82,9 +84,12 @@ const SEVERITY_ICONS = new Map<ProgressBarSeverity, string>([
  * @cssprop --pf-v5-c-progress--m-outside__measure--FontSize - Font size for outside variant measure
  * @cssprop --pf-v5-c-progress--m-sm__bar--Height - Height for small size variant
  * @cssprop --pf-v5-c-progress--m-lg__bar--Height - Height for large size variant
+ * @cssprop --pf-v5-c-progress--m-lg__bar--Height - Height for large size variant
+ * @cssprop --ak-v1-c-progress--m-xs__bar--Height - Height for xs size variant
+ * @cssprop --ak-v1-c-progress--m-indeterminate--GridGap - Collapsed gap size for indeterminate variant
  */
 export class Progress extends AkLitElement implements IProgress {
-    static readonly styles = [styles];
+    static readonly styles = [styles, indeterminateAnimation];
 
     @property({ type: String })
     public variant: ProgressBarVariant = "top";
@@ -146,7 +151,10 @@ export class Progress extends AkLitElement implements IProgress {
     }
 
     public override render() {
-        const width = styleMap({ width: `${this.percentage}%` });
+        const width =
+            this.variant !== "indeterminate"
+                ? styleMap({ width: `${this.percentage}%` })
+                : undefined;
         const showIcon = this.hasSlotted("icon") || (this.severity !== undefined && this.showIcon);
         const showStatus = this.variant !== "none" || showIcon;
 
@@ -176,7 +184,7 @@ export class Progress extends AkLitElement implements IProgress {
             <!-- -->
             ${status}
             <div part="bar">
-                <div part="indicator" style=${width}>
+                <div part="indicator" style=${ifDefined(width)}>
                     ${this.variant === "inside"
                         ? html`<span part="measure">${this.renderedValue}</span>`
                         : nothing}

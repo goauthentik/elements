@@ -13,7 +13,7 @@
     --progress__status--Gap: var(--pf-v5-c-progress__status--Gap, 0.5rem);
     --progress__status-icon--Color: var(--pf-v5-c-progress__status-icon--Color, #151515);
     --progress__bar--before--Opacity: var(--pf-v5-c-progress__bar--before--Opacity, 0.2);
-    --progress__indicator--Height: var(--pf-v5-c-progress__indicator--Height, 1rem);
+    --progress__indicator--Height: var(--progress__bar--Height);
     --progress__indicator--BackgroundColor: var(
         --pf-v5-c-progress__indicator--BackgroundColor,
         #06c
@@ -74,12 +74,12 @@
     );
     --progress--m-sm__measure--FontSize: var(--pf-v5-c-progress--m-sm__measure--FontSize, 0.875rem);
     --progress--m-lg__bar--Height: var(--pf-v5-c-progress--m-lg__bar--Height, 1.5rem);
+    --progress--m-xs__bar--Height: var(--ak-v1-c-progress--m-xs__bar--Height, 2px);
+    --progress--m-indeterminate--GridGap: var(--ak-v1-c-progress--m-indeterminate--GridGap, 0);
 }
 
 :host(:not([hidden])) {
     display: block;
-
-    --progress__indicator--Height: var(--progress__bar--Height);
 }
 
 [part="main"] {
@@ -98,14 +98,6 @@
     --progress__bar--Height: var(--progress--m-lg__bar--Height);
 }
 
-:host([size="sm"]) [part="measure"] {
-    font-size: var(--progress--m-sm__measure--FontSize);
-}
-
-:host([size="sm"]) [part="description"] {
-    font-size: var(--progress--m-sm__description--FontSize);
-}
-
 :host([variant="inside"]) [part="indicator"] {
     display: flex;
     align-items: center;
@@ -117,6 +109,14 @@
     font-size: var(--progress--m-inside__measure--FontSize);
     color: var(--progress--m-inside__measure--Color);
     text-align: center;
+}
+
+:host([size="sm"]) [part="measure"] {
+    font-size: var(--progress--m-sm__measure--FontSize);
+}
+
+:host([size="sm"]) [part="description"] {
+    font-size: var(--progress--m-sm__description--FontSize);
 }
 
 :host([variant="outside"]) [part="description"] {
@@ -159,6 +159,12 @@
     color: var(--progress__status-icon--Color);
 }
 
+[part="indicator"] {
+    position: absolute;
+    height: var(--progress__indicator--Height);
+    background-color: var(--progress__indicator--BackgroundColor);
+}
+
 [part="bar"] {
     position: relative;
     grid-row: 2/3;
@@ -166,12 +172,7 @@
     align-self: center;
     height: var(--progress__bar--Height);
     background-color: var(--progress__bar--BackgroundColor);
-}
-
-[part="indicator"] {
-    position: absolute;
-    height: var(--progress__indicator--Height);
-    background-color: var(--progress__indicator--BackgroundColor);
+    overflow: hidden;
 }
 
 [part="status"] {
@@ -194,4 +195,23 @@
     content: "";
     background-color: var(--progress__bar--before--BackgroundColor);
     opacity: var(--progress__bar--before--Opacity);
+}
+
+:host([size="xs"]) {
+    --progress__bar--Height: var(--progress--m-xs__bar--Height);
+}
+
+:host([variant="indeterminate"]) {
+    --progress--GridGap: var(--progress--m-indeterminate--GridGap);
+
+    margin-bottom: calc(var(--progress__bar--Height) * -1);
+    z-index: 1;
+    position: relative;
+}
+
+:host([variant="indeterminate"]) [part="indicator"] {
+    width: 100%;
+    height: 100%;
+    animation: indeterminate-animation 1s infinite linear;
+    transform-origin: 0% 50%;
 }

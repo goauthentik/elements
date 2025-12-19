@@ -122,6 +122,10 @@ export const Variants: Story = {
                     ><span slot="label">Uploading...</span></ak-progress
                 >
             </div>
+            <div>
+                <h4>Indeterminate And Tiny</h4>
+                <ak-progress variant="indeterminate" size="xs"></ak-progress>
+            </div>
         </div>
     `,
 };
