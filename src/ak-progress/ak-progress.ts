@@ -1,4 +1,3 @@
-import { customElement } from "../utils/customElement.js";
 import { akProgress, type ProgressProps } from "./ak-progress.builder.js";
 import {
     type IProgress,
@@ -18,7 +17,7 @@ export {
     type ProgressProps,
 };
 
-customElement("ak-progress", Progress);
+window.customElements.define("ak-progress", Progress);
 
 declare global {
     interface HTMLElementTagNameMap {

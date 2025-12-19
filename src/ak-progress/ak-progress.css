@@ -78,6 +78,7 @@
 
 :host(:not([hidden])) {
     display: block;
+
     --progress__indicator--Height: var(--progress__bar--Height);
 }
 
@@ -85,7 +86,7 @@
     display: grid;
     grid-template-rows: 1fr auto;
     grid-template-columns: auto auto;
-    grid-gap: var(--progress--GridGap);
+    gap: var(--progress--GridGap);
     align-items: end;
 }
 
@@ -97,12 +98,12 @@
     --progress__bar--Height: var(--progress--m-lg__bar--Height);
 }
 
-:host([size="sm"]) [part="description"] {
-    font-size: var(--progress--m-sm__description--FontSize);
-}
-
 :host([size="sm"]) [part="measure"] {
     font-size: var(--progress--m-sm__measure--FontSize);
+}
+
+:host([size="sm"]) [part="description"] {
+    font-size: var(--progress--m-sm__description--FontSize);
 }
 
 :host([variant="inside"]) [part="indicator"] {
@@ -127,6 +128,12 @@
     font-size: var(--progress--m-outside__measure--FontSize);
 }
 
+:host([variant="outside"]) [part="status"] {
+    grid-row: 2/3;
+    grid-column: 2/3;
+    align-self: center;
+}
+
 :host([variant="outside"]) [part="bar"] {
     grid-column: 1/2;
 }
@@ -148,17 +155,6 @@
     --progress__status-icon--Color: var(--progress--m-danger__status-icon--Color);
 }
 
-[part="status"] {
-    display: flex;
-    grid-row: 1/2;
-    grid-column: 2/3;
-    gap: var(--progress__status--Gap);
-    align-items: flex-start;
-    justify-content: flex-end;
-    text-align: end;
-    word-break: break-word;
-}
-
 [part="status-icon"] {
     color: var(--progress__status-icon--Color);
 }
@@ -176,6 +172,17 @@
     position: absolute;
     height: var(--progress__indicator--Height);
     background-color: var(--progress__indicator--BackgroundColor);
+}
+
+[part="status"] {
+    display: flex;
+    grid-row: 1/2;
+    grid-column: 2/3;
+    gap: var(--progress__status--Gap);
+    align-items: flex-start;
+    justify-content: flex-end;
+    text-align: end;
+    overflow-wrap: anywhere;
 }
 
 [part="bar"]::before {

@@ -147,12 +147,12 @@ export class Button extends LitElement implements IButton {
     @property()
     public download?: string;
 
-    @property({ reflect: true, type: Boolean, attribute: "disabled" })
-    protected _disabled = false;
-
     #internals = InternalsController.of(this, { role: "button" });
 
-    protected get disabled() {
+    @property({ reflect: true, type: Boolean, attribute: "disabled" })
+    public _disabled = false;
+
+    public get disabled() {
         return this._disabled || this.#internals.formDisabled;
     }
 
