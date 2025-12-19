@@ -12,7 +12,7 @@ import { styleMap } from "lit/directives/style-map.js";
 export const progressBarVariants = ["none", "top", "inside", "outside", "indeterminate"] as const;
 export type ProgressBarVariant = (typeof progressBarVariants)[number];
 
-export const progressBarSize = ["sm", "lg"] as const;
+export const progressBarSize = ["xs", "sm", "lg"] as const;
 export type ProgressBarSize = (typeof progressBarSize)[number];
 
 export const progressBarSeverity = ["success", "danger", "warning"] as const;
