@@ -21,7 +21,7 @@ export function linkTemplate(props: ButtonLinkProps) {
     const { href, target, disabled, download, rel, onClick, onKeydown } = props;
     return html`<a
         id="main"
-        href=${href}
+        href=${ifDefined(disabled ? null : href)}
         part="anchor"
         target="${ifDefined(target)}"
         ?disabled=${disabled}
