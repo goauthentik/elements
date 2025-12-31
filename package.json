@@ -36,7 +36,7 @@
         "storybook:build": "storybook build",
         "storybook:main": "storybook dev -p 6006",
         "test": "run-s clean analyze build test:unit",
-        "test:unit": "wdio run ./config/wdio.conf.mjs --logLevel=warn"
+        "test:unit": "vitest -c ./vitest.config.js --test-timeout=1000"
     },
     "type": "module",
     "exports": {
@@ -73,6 +73,7 @@
         "@types/mocha": "^10.0.10",
         "@types/parsimmon": "^1.10.9",
         "@types/source-map": "^0.5.2",
+        "@vitest/browser-playwright": "^4.0.16",
         "@wc-toolkit/storybook-helpers": "^9.0.1",
         "@wdio/browser-runner": "^9.19.2",
         "@wdio/cli": "^9.19.2",
@@ -104,9 +105,11 @@
         "syncpack": "^13.0.4",
         "ts-lit-plugin": "^2.0.2",
         "typescript": "^5.9.2",
-        "vite": "^7.1.3",
+        "vite": "^7.3.0",
         "vite-plugin-lit-css": "^2.2.1",
         "vite-tsconfig-paths": "^5.1.4",
+        "vitest": "^4.0.16",
+        "vitest-browser-lit": "^1.0.1",
         "wdio-wait-for": "^3.1.0",
         "yaml": "^2.8.1"
     },
