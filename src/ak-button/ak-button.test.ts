@@ -2,20 +2,13 @@
 import "./ak-button.js";
 
 import { spread } from "@open-wc/lit-helpers";
-import { beforeEach, describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-lit";
-import { commands } from "vitest/browser";
+import { page } from "vitest/browser";
 
 import { html, type TemplateResult } from "lit";
 
-// @ts-expect-error Typescript can't read from the source correctly.
-const { $ } = commands;
-
 describe("ak-button component", () => {
-    beforeEach(() => {
-        document.body.innerHTML = "";
-    });
-
     /**
      * Helper function to render an ak-button component
      *
@@ -28,12 +21,12 @@ describe("ak-button component", () => {
 
     it("renders as a button by default", async () => {
         const { getByRole, getByText } = renderComponent("Click here");
-        const button = getByRole("button");
-        expect(button).toBeTruthy();
-        expect(button.getByText("Click here")).toBeTruthy();
+        const button = await getByRole("button");
+        expect(await button.getByText("Click here")).toBeTruthy();
+        const element = await button.element();
+        expect(element.tagName).toBe("BUTTON");
     });
 
-    /*
     it("renders as a link when specified", async () => {
         const { getByRole, getByText } = renderComponent("Click to leave", {
             variant: "link",
@@ -41,87 +34,73 @@ describe("ak-button component", () => {
         });
 
         // When variant="link", renders <a> tag instead of <button>
-        const link = getByText("Click to leave");
-        expect(link).toBeTruthy();
-        expect(link).toHaveAttribute("href", "https://example.com");
+        const link = await getByText("Click to leave");
+        await expect.element(link).toBeTruthy();
+        await expect.element(link).toHaveAttribute("href", "https://example.com");
+        const element = await getByRole("link").element();
+        expect(element.tagName).toBe("A");
 
         // Verify slotted text content
         const component = document.querySelector("ak-button");
-        expect(component?.textContent?.trim()).toBe("Click to leave");
-    });
-
-    it("applies primary variant styles by default", async () => {
-        const { getByRole } = renderComponent("Click me", { variant: "primary" });
-
-        // Verify button exists in shadow DOM
-        const button = getByRole("button");
-        expect(button).toBeTruthy();
-
-        // Component uses :host([variant="primary"]) attribute selectors for styling
-        const component = document.querySelector("ak-button");
-        expect(component).toHaveAttribute("variant", "primary");
-    });
-
-    it("applies severity styles when specified", async () => {
-        const { getByRole } = renderComponent("Click me", { severity: "danger" });
-
-        const button = getByRole("button");
-        expect(button).toBeTruthy();
-
-        // Component uses :host([severity="danger"]) attribute selectors for styling
-        const component = document.querySelector("ak-button");
-        expect(component).toHaveAttribute("severity", "danger");
+        await expect(component?.textContent?.trim()).toBe("Click to leave");
     });
 
     it("applies disabled state when specified", async () => {
-        // The "?disabled" syntax from @open-wc/lit-helpers sets a boolean property
-        const { getByRole } = renderComponent("Click me", { "?disabled": true });
-        const button = getByRole("button");
-        expect.element(button).toHaveAttribute(button?.disabled).toBe(true);
+        const { getByRole, getByText } = renderComponent("Click here", { "?disabled": true });
+        const button = await getByRole("button");
+        expect(await button.getByText("Click here")).toBeTruthy();
+        const element = await button.element();
+        expect(element.tagName).toBe("BUTTON");
+        await expect.element(button).toHaveAttribute("disabled");
     });
 
     it("triggers click events", async () => {
-        renderComponent("Click me");
-
-        // Track whether click event fired
-        let buttonClicked = false;
-
+        const { getByRole } = renderComponent("Click here");
         const component = document.querySelector("ak-button");
-        expect(component).toBeTruthy();
+        await expect(component).toBeTruthy();
 
-        // Events bubble up from shadow DOM to the host element
+        let buttonClicked = false;
         component!.addEventListener("click", () => {
             buttonClicked = true;
         });
 
-        // page.getByRole queries through accessibility tree across shadow DOM
-        await page.getByRole("button", { name: "Click me" }).click();
-
+        const button = await getByRole("button");
+        await expect((await button.element()).tagName).toBe("BUTTON");
+        await button.click();
         expect(buttonClicked).toBe(true);
     });
 
-    it("disabled buttons do not trigger click events", async () => {
-        renderComponent("Click me", { "?disabled": true });
+    it("does not trigger click events when disabled", async () => {
+        const { getByRole } = renderComponent("Click here", { "?disabled": true });
+        const component = document.querySelector("ak-button");
+        await expect(component).toBeTruthy();
 
         let buttonClicked = false;
-
-        const component = document.querySelector("ak-button");
-        expect(component).toBeTruthy();
-
         component!.addEventListener("click", () => {
             buttonClicked = true;
         });
 
-        // Verify button is disabled in shadow DOM
-        const button = await getShadowElement<HTMLButtonElement>("button");
-        expect(button?.disabled).toBe(true);
-
-        // Try clicking the disabled button directly (simulates real user interaction)
-        // In a real browser, clicking a disabled button element doesn't fire click events
-        button?.click();
-
-        // Verify click was NOT propagated to the component
+        const button = await getByRole("button");
+        await expect((await button.element()).tagName).toBe("BUTTON");
+        // Playwright will normally avoid clicking a button that is marked "disabled." We want it to
+        // try anyway.
+        await button.click({ force: true });
         expect(buttonClicked).toBe(false);
     });
-     */
+
+    it("when a link, it does not have an href when disabled", async () => {
+        const { getByRole, getByText } = renderComponent("Click to leave", {
+            "variant": "link",
+            "href": "https://example.com",
+            "?disabled": true,
+        });
+
+        const component = document.querySelector("ak-button");
+        const anchor = await vi.waitUntil(() => component?.shadowRoot?.querySelector("a"));
+        expect(anchor).not.toBeNull();
+        const element = await page.elementLocator(anchor!);
+        await expect(element).toBeVisible();
+        await expect(element).toHaveAttribute("id", "main");
+        await expect(element).not.toHaveAttribute("href");
+    });
 });

@@ -36,7 +36,9 @@
         "storybook:build": "storybook build",
         "storybook:main": "storybook dev -p 6006",
         "test": "run-s clean analyze build test:unit",
-        "test:unit": "vitest -c ./vitest.config.js --test-timeout=1000"
+        "test:ci": "run-s build test:unit",
+        "test:unit": "CI=TRUE vitest -c ./vitest.config.js --test-timeout=1000",
+        "test:watch": "vitest -c ./vitest.config.js --test-timeout=1000"
     },
     "type": "module",
     "exports": {

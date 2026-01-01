@@ -24,6 +24,7 @@ export default defineConfig(({ mode }) => ({
             enabled: true,
             instances: [{ browser: "chromium" }],
             provider: playwright(),
+            headless: "CI" in process.env,
             locators: {
                 testIdAttribute: "data-ouia-component-type",
             },
@@ -31,5 +32,9 @@ export default defineConfig(({ mode }) => ({
                 $: $,
             },
         },
+        css: {
+            include: true,
+        },
+        setupFiles: ["./config/vitest.setup.js"],
     },
 }));
