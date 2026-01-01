@@ -14,6 +14,18 @@ const $ = ({ page, provider }, selector) => {
 };
 
 export default defineConfig(({ mode }) => ({
+    optimizeDeps: {
+        include: [
+            "@open-wc/lit-helpers",
+            "vitest-browser-lit",
+            "lit",
+            "lit/directives/if-defined.js",
+            "lit/decorators.js",
+            "@patternfly/pfe-core/controllers/internals-controller.js",
+            "ts-pattern",
+            "lit/decorators/property.js",
+        ],
+    },
     test: {
         alias: {
             "@goauthentik/elements": path.resolve(__dirname, "./dist"),
