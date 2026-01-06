@@ -53,7 +53,6 @@
         "@open-wc/lit-helpers": "^0.7.0",
         "@patternfly/patternfly": "^5.4.2",
         "@patternfly/pfe-core": "^5.0.3",
-        "@types/source-map": "^0.5.2",
         "date-fns": "^4.1.0",
         "lit": "^3.3.1",
         "ts-pattern": "^5.8.0"
@@ -76,6 +75,7 @@
         "@types/css": "^0.0.38",
         "@types/mocha": "^10.0.10",
         "@types/parsimmon": "^1.10.9",
+        "@types/source-map": "^0.5.2",
         "@vitest/browser-playwright": "^4.0.16",
         "@wc-toolkit/storybook-helpers": "^9.0.1",
         "@wdio/browser-runner": "^9.19.2",
