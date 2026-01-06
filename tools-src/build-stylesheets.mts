@@ -10,7 +10,6 @@ import {
     writeFile,
 } from "./lib/utilities.mjs";
 
-// @ts-expect-error no types provided
 import prettierConfig from "@goauthentik/prettier-config";
 
 import * as prettier from "prettier";

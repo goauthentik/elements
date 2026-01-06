@@ -14,7 +14,6 @@ import {
     writeFile,
 } from "./lib/utilities.mjs";
 
-// @ts-expect-error no types provided
 import authentikPrettierConfig from "@goauthentik/prettier-config";
 
 import css, { Declaration, Rule } from "css";
