@@ -1,6 +1,6 @@
 {
     "name": "@goauthentik/elements",
-    "version": "0.0.3",
+    "version": "0.0.5",
     "description": "The Authentik open-source elements library",
     "license": "MIT",
     "author": "Authentik Security, Inc. <https://goauthentik.io>",
