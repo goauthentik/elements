@@ -48,5 +48,6 @@ export default defineConfig(({ mode }) => ({
             include: true,
         },
         setupFiles: ["./config/vitest.setup.js"],
+        reporters: process.env.GITHUB_ACTIONS ? ["github-actions", "default"] : ["default"],
     },
 }));
