@@ -38,7 +38,8 @@
         "test": "run-s clean analyze build test:unit",
         "test:ci": "run-s build:tools build:extract-css build:styles build:unit build:types build:copy-assets test:unit",
         "test:unit": "CI=TRUE vitest -c ./vitest.config.js --test-timeout=1000",
-        "test:watch": "vitest -c ./vitest.config.js --test-timeout=1000"
+        "test:unit-watch": "vitest -c ./vitest.config.js --test-timeout=1000",
+        "test:watch": "run-s clean analyze build test:unit-watch"
     },
     "type": "module",
     "exports": {

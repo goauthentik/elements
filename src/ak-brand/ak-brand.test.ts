@@ -34,8 +34,8 @@ describe("ak-brand component", () => {
             alt: "Test Logo",
         });
 
-        const brand = await page.getBrand();
-        const img = await page.getBrandImage();
+        const brand = page.getBrand();
+        const img = page.getBrandImage();
 
         await expect.element(brand).toBeVisible();
         await expect.element(img).toBeVisible();
@@ -49,8 +49,8 @@ describe("ak-brand component", () => {
             alt: "Test Logo",
         });
 
-        const brand = await page.getBrand();
-        const img = await page.getBrandImage();
+        const brand = page.getBrand();
+        const img = page.getBrandImage();
         await expect.element(brand).toBeVisible();
         await expect.element(img).toBeVisible();
         await expect.element(img).not.toHaveAttribute("src");

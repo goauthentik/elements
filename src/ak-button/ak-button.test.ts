@@ -20,10 +20,10 @@ describe("ak-button component", () => {
     };
 
     it("renders as a button by default", async () => {
-        const { getByRole, getByText } = renderComponent("Click here");
+        const { getByRole } = renderComponent("Click here");
         const button = await getByRole("button");
-        expect(await button.getByText("Click here")).toBeTruthy();
-        const element = await button.element();
+        expect(button.getByText("Click here")).toBeTruthy();
+        const element = button.element();
         expect(element.tagName).toBe("BUTTON");
     });
 
@@ -34,22 +34,22 @@ describe("ak-button component", () => {
         });
 
         // When variant="link", renders <a> tag instead of <button>
-        const link = await getByText("Click to leave");
+        const link = getByText("Click to leave");
         await expect.element(link).toBeTruthy();
         await expect.element(link).toHaveAttribute("href", "https://example.com");
-        const element = await getByRole("link").element();
+        const element = getByRole("link").element();
         expect(element.tagName).toBe("A");
 
         // Verify slotted text content
         const component = document.querySelector("ak-button");
-        await expect(component?.textContent?.trim()).toBe("Click to leave");
+        expect(component?.textContent?.trim()).toBe("Click to leave");
     });
 
     it("applies disabled state when specified", async () => {
-        const { getByRole, getByText } = renderComponent("Click here", { "?disabled": true });
+        const { getByRole } = renderComponent("Click here", { "?disabled": true });
         const button = await getByRole("button");
-        expect(await button.getByText("Click here")).toBeTruthy();
-        const element = await button.element();
+        expect(button.getByText("Click here")).toBeTruthy();
+        const element = button.element();
         expect(element.tagName).toBe("BUTTON");
         await expect.element(button).toHaveAttribute("disabled");
     });
@@ -57,7 +57,7 @@ describe("ak-button component", () => {
     it("triggers click events", async () => {
         const { getByRole } = renderComponent("Click here");
         const component = document.querySelector("ak-button");
-        await expect(component).toBeTruthy();
+        await expect.element(component).toBeTruthy();
 
         let buttonClicked = false;
         component!.addEventListener("click", () => {
@@ -65,7 +65,7 @@ describe("ak-button component", () => {
         });
 
         const button = await getByRole("button");
-        await expect((await button.element()).tagName).toBe("BUTTON");
+        expect(button.element().tagName).toBe("BUTTON");
         await button.click();
         expect(buttonClicked).toBe(true);
     });
@@ -73,7 +73,7 @@ describe("ak-button component", () => {
     it("does not trigger click events when disabled", async () => {
         const { getByRole } = renderComponent("Click here", { "?disabled": true });
         const component = document.querySelector("ak-button");
-        await expect(component).toBeTruthy();
+        expect(component).toBeTruthy();
 
         let buttonClicked = false;
         component!.addEventListener("click", () => {
@@ -81,7 +81,7 @@ describe("ak-button component", () => {
         });
 
         const button = await getByRole("button");
-        await expect((await button.element()).tagName).toBe("BUTTON");
+        expect(button.element().tagName).toBe("BUTTON");
         // Playwright will normally avoid clicking a button that is marked "disabled." We want it to
         // try anyway.
         await button.click({ force: true });
@@ -89,7 +89,7 @@ describe("ak-button component", () => {
     });
 
     it("when a link, it does not have an href when disabled", async () => {
-        const { getByRole, getByText } = renderComponent("Click to leave", {
+        renderComponent("Click to leave", {
             "variant": "link",
             "href": "https://example.com",
             "?disabled": true,
@@ -98,9 +98,9 @@ describe("ak-button component", () => {
         const component = document.querySelector("ak-button");
         const anchor = await vi.waitUntil(() => component?.shadowRoot?.querySelector("a"));
         expect(anchor).not.toBeNull();
-        const element = await page.elementLocator(anchor!);
-        await expect(element).toBeVisible();
-        await expect(element).toHaveAttribute("id", "main");
-        await expect(element).not.toHaveAttribute("href");
+        const element = page.elementLocator(anchor!);
+        await expect.element(element).toBeVisible();
+        await expect.element(element).toHaveAttribute("id", "main");
+        await expect.element(element).not.toHaveAttribute("href");
     });
 });
