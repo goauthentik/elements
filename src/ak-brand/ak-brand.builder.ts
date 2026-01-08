@@ -1,9 +1,11 @@
 import { Brand } from "./ak-brand.component.js";
 
+import { spread } from "@open-wc/lit-helpers";
+
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
-export type BrandProps = Partial<Pick<Brand, "src" | "alt">>;
+export type BrandProps = Partial<HTMLElement> & Partial<Pick<Brand, "src" | "alt">>;
 
 /**
  * @summary Helper function to create a Brand component programmatically
@@ -13,6 +15,8 @@ export type BrandProps = Partial<Pick<Brand, "src" | "alt">>;
  * @see {@link Brand} - The underlying web component
  */
 export function akBrand(options: BrandProps = {}) {
-    const { src, alt } = options;
-    return html` <ak-brand src=${ifDefined(src)} alt=${ifDefined(alt)}></ak-brand> `;
+    const { src, alt, ...rest } = options;
+    return html`
+        <ak-brand ${spread(rest)} src=${ifDefined(src)} alt=${ifDefined(alt)}></ak-brand>
+    `;
 }
