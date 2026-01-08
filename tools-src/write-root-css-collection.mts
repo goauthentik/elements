@@ -2,7 +2,6 @@ import path from "node:path";
 
 import { checkIsInPackageRoot, globSrc, SOURCE_DIR, writeFile } from "./lib/utilities.mjs";
 
-// @ts-expect-error no types provided
 import authentikPrettierConfig from "@goauthentik/prettier-config";
 
 import * as prettier from "prettier";

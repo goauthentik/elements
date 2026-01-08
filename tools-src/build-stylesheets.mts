@@ -10,7 +10,6 @@ import {
     writeFile,
 } from "./lib/utilities.mjs";
 
-// @ts-expect-error no types provided
 import prettierConfig from "@goauthentik/prettier-config";
 
 import * as prettier from "prettier";
@@ -59,6 +58,7 @@ async function transformSrc(source: string) {
         destPath,
         isProduction ? css : await prettier.format(css, { ...prettierConfig, parser: "css" }),
     );
+    // @ts-expect-error There's a type-disconnect between verions of source-map.
     writeSourceMap(destMapPath, sourceMap);
 }
 
