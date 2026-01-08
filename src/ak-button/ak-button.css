@@ -834,16 +834,6 @@
     margin-inline-start: var(--button__icon--m-end--MarginLeft);
 }
 
-:host:disabled {
-    pointer-events: none;
-    color: var(--button--disabled--Color);
-    background-color: var(--button--disabled--BackgroundColor);
-}
-
-:host:disabled #main::after {
-    border-color: var(--button--disabled--after--BorderColor);
-}
-
 :host([variant="link"]:not[inline]):hover #main {
     --button--m-link--Color: var(--button--m-link--hover--Color);
     --button--m-link--BackgroundColor: var(--button--m-link--hover--BackgroundColor);
@@ -880,4 +870,18 @@
 :host([variant="link"][severity="danger"]) #main {
     --button--m-danger--Color: var(--button--m-link--m-danger--Color);
     --button--m-danger--BackgroundColor: var(--button--m-link--m-danger--BackgroundColor);
+}
+
+:is(:host:disabled, :host([disabled])) #main {
+    pointer-events: none;
+    color: var(--button--disabled--Color);
+    background-color: var(--button--disabled--BackgroundColor);
+}
+
+:is(:host:disabled, :host([disabled])) #main::after {
+    border-color: var(--button--disabled--after--BorderColor);
+}
+
+:is(:host:disabled, :host([disabled])) [part="anchor"] {
+    text-decoration: underline;
 }
