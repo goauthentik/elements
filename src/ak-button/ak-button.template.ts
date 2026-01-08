@@ -19,10 +19,14 @@ type ButtonLinkProps = Pick<ButtonProps, "disabled" | "onClick" | "onKeydown"> &
 
 export function linkTemplate(props: ButtonLinkProps) {
     const { href, target, disabled, download, rel, onClick, onKeydown } = props;
-
-    // The ARIA rules for disabled links specifies that "to communicate a link as ‘disabled,’ remove
-    // the `href` attribute and style accordingly." Hence the `href=${ifDefined(...)}`. See:
-    // https://www.w3.org/TR/html-aria/#example-communicate-a-disabled-link-with-aria
+/**
+ * @remarks
+ * The ARIA rules for disabled links specifies that "to communicate a link as ‘disabled,’ remove
+ * the `href` attribute and style accordingly." Hence the `href=${ifDefined(...)}`.
+ * 
+ * @see {@link https://www.w3.org/TR/html-aria/#example-communicate-a-disabled-link-with-aria | ARIA Disabled Link Rules}
+ */
+export function linkTemplate(props: ButtonLinkProps) {
     return html`<a
         id="main"
         href=${ifDefined(disabled ? null : href)}
