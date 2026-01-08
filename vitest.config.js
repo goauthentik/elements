@@ -1,4 +1,4 @@
-import path, { dirname } from "node:path";
+import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { playwright } from "@vitest/browser-playwright";
@@ -28,7 +28,7 @@ export default defineConfig(({ mode }) => ({
     },
     test: {
         alias: {
-            "@goauthentik/elements": path.resolve(__dirname, "./dist"),
+            "@goauthentik/elements": resolve(__dirname, "./dist"),
         },
         dir: "./dist",
         include: ["**/*.test.js"],
