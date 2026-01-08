@@ -255,6 +255,17 @@ export const Link: Story = {
     },
 };
 
+export const DisabledLink: Story = {
+    ...template,
+    args: {
+        variant: "link",
+        href: "https://goauthentik.io",
+        target: "_blank",
+        disabled: true,
+        content: "Gerudo!",
+    },
+};
+
 export const InlineLink: Story = {
     args: {
         variant: "link",

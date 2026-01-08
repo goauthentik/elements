@@ -147,13 +147,13 @@ export class Button extends LitElement implements IButton {
     @property()
     public download?: string;
 
-    @property({ reflect: true, type: Boolean, attribute: "disabled" })
-    protected _disabled = false;
-
     #internals = InternalsController.of(this, { role: "button" });
 
-    protected get disabled() {
-        return this._disabled || this.#internals.formDisabled;
+    @property({ reflect: true, type: Boolean })
+    disabled = false;
+
+    get #disabled() {
+        return this.matches(":disabled") || this.disabled;
     }
 
     private onClick = (event: MouseEvent) => {
@@ -196,7 +196,7 @@ export class Button extends LitElement implements IButton {
     public willUpdate(changed: PropertyValues<this>): void {
         super.willUpdate(changed);
         this.#internals.ariaLabel = this.label || null;
-        this.#internals.ariaDisabled = String(!!this._disabled);
+        this.#internals.ariaDisabled = String(!!this.#disabled);
         if (this.variant === "link" && this.href) {
             this.tabIndex = -1;
         } else {
@@ -205,8 +205,8 @@ export class Button extends LitElement implements IButton {
     }
 
     public override render() {
-        const { href, type, target, name, value, disabled, rel, download, onClick, onKeydown } =
-            this;
+        const { href, type, target, name, value, rel, download, onClick, onKeydown } = this;
+        const disabled = this.#disabled;
 
         return this.variant === "link" && typeof href === "string"
             ? linkTemplate({ href, target, disabled, rel, download, onClick, onKeydown })

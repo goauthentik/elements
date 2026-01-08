@@ -32,3 +32,12 @@ custom-elements.json
 tsconfig.tsbuildinfo
 tsconfig.tools.tsbuildinfo
 /tools/
+
+# AI
+.claude
+.codex
+.gemini
+.cursor
+AGENTS.md
+CLAUDE.md
+QWEN.md

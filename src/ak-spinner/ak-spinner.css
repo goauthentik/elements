@@ -6,14 +6,9 @@
     --spinner--m-lg--diameter: var(--pf-v5-c-spinner--m-lg--diameter, 1.5rem);
     --spinner--m-xl--diameter: var(--pf-v5-c-spinner--m-xl--diameter, 3.375rem);
     --spinner--m-inline--diameter: var(--pf-v5-c-spinner--m-inline--diameter, 1em);
-    --spinner--diameter: var(--pf-v5-global--icon--FontSize--xl);
     --spinner__path--Stroke: var(--spinner--Color);
     --spinner__path--StrokeWidth: var(--spinner--stroke-width);
     --spinner__path--AnimationTimingFunction: ease-in-out;
-    --spinner--m-sm--diameter: var(--pf-v5-global--icon--FontSize--sm);
-    --spinner--m-md--diameter: var(--pf-v5-global--icon--FontSize--md);
-    --spinner--m-lg--diameter: var(--pf-v5-global--icon--FontSize--lg);
-    --spinner--m-xl--diameter: var(--pf-v5-global--icon--FontSize--xl);
 
     /*
      * These next lines are either not supplied by default in the root file or are read incorrectly
