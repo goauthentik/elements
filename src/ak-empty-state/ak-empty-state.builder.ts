@@ -7,8 +7,9 @@ import { ifDefined } from "lit/directives/if-defined.js";
 
 /* The `pick`ed fields here correspond to their types in the EmptyState class above. */
 
-export interface AkEmptyStateProps
-    extends Partial<Pick<EmptyState, "size" | "loading" | "noIcon" | "noLoadingMessage">> {
+export interface AkEmptyStateProps extends Partial<
+    Pick<EmptyState, "size" | "loading" | "noIcon" | "noLoadingMessage">
+> {
     fullHeight?: boolean;
     icon?: string | TemplateResult;
     title?: string | TemplateResult;
