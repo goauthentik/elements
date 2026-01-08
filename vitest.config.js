@@ -8,7 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const $ = ({ page, provider }, selector) => {
     if (provider.name !== "playwright") {
-        throw new Error(`provider ${provider.name} is not supported`);
+        throw new Error(`Provider "${provider.name}" is not supported`);
     }
     return page.locator(selector);
 };
