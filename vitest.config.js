@@ -21,6 +21,7 @@ export default defineConfig(({ mode }) => ({
             "@lit/localize",
             "lit",
             "lit/directives/if-defined.js",
+            "lit/decorators/property.js",
             "lit/decorators.js",
             "@patternfly/pfe-core/controllers/internals-controller.js",
             "ts-pattern",
