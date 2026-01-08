@@ -150,7 +150,7 @@ export class Button extends LitElement implements IButton {
     #internals = InternalsController.of(this, { role: "button" });
 
     @property({ reflect: true, type: Boolean })
-    disabled = false;
+    public disabled = false;
 
     get #disabled() {
         return this.matches(":disabled") || this.disabled;
