@@ -7,20 +7,12 @@ import { ifDefined } from "lit/directives/if-defined.js";
 
 /* The `pick`ed fields here correspond to their types in the Progress class above. */
 
-export interface ProgressProps
-    extends Partial<
-        Pick<
-            Progress,
-            | "variant"
-            | "severity"
-            | "min"
-            | "max"
-            | "value"
-            | "showIcon"
-            | "oneWay"
-            | "displayValue"
-        >
-    > {
+export interface ProgressProps extends Partial<
+    Pick<
+        Progress,
+        "variant" | "severity" | "min" | "max" | "value" | "showIcon" | "oneWay" | "displayValue"
+    >
+> {
     size?: ProgressBarSize;
     label?: string | TemplateResult;
     icon?: string | TemplateResult;
