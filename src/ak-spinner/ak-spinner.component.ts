@@ -7,14 +7,6 @@ import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 
 /**
- * Spinner size variants. Prefer T-shirt sizes when possible.
- */
-export type SpinnerSize = "sm" | "md" | "lg" | "xl";
-
-export interface ISpinner {
-    label?: string;
-}
-/**
  * @element ak-spinner
  *
  * A **spinner** is a visual element used to communicate that an underlying task is in progress.

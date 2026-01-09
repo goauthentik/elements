@@ -81,9 +81,9 @@ describe("ak-empty-state component", () => {
         await expect.element(body).toHaveTextContent("Loading...");
     });
 
-    it("should not render an icon when no-icon is true", async () => {
+    it("should not render an icon when text-only is true", async () => {
         render(
-            html`<ak-empty-state no-icon>
+            html`<ak-empty-state text-only>
                 <h2 slot="title">${msg("No results found")}</h2>
             </ak-empty-state>`,
         );

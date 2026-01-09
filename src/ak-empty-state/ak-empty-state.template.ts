@@ -75,7 +75,7 @@ interface EmptyStateTemplateProps {
     hasFooterContent: boolean;
     useIconSlot: boolean;
     icon: string | undefined;
-    noIcon: boolean;
+    textOnly: boolean;
     size: EmptyStateSize;
     loading: boolean;
     showLoading: boolean;
@@ -91,7 +91,7 @@ export function template(props: EmptyStateTemplateProps) {
         hasFooterContent,
         useIconSlot,
         icon,
-        noIcon,
+        textOnly,
         size,
         loading,
         showLoading,
@@ -100,7 +100,7 @@ export function template(props: EmptyStateTemplateProps) {
     return html`
         <div part="empty-state">
             <div part="content">
-                ${iconTemplate(useIconSlot, icon, noIcon, loading, size)}
+                ${iconTemplate(useIconSlot, icon, textOnly, loading, size)}
                 ${hasTitle
                     ? html`<div part="title">
                           <slot name="title"></slot>

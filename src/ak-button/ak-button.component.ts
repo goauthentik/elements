@@ -29,7 +29,7 @@ export type ButtonSeverity = (typeof buttonSeverity)[number];
 /**
  * Optional button sizes
  */
-export const buttonSize = ["sm", "lg"] as const;
+export const buttonSize = ["sm", "md", "lg"] as const;
 export type ButtonSize = (typeof buttonSize)[number];
 
 /**
@@ -37,18 +37,6 @@ export type ButtonSize = (typeof buttonSize)[number];
  */
 export const buttonType = ["button", "submit", "reset"] as const;
 export type ButtonType = (typeof buttonType)[number];
-
-export interface IButton {
-    download?: string;
-    href?: string;
-    label?: string;
-    name?: string;
-    rel?: string;
-    target?: string;
-    type?: ButtonType;
-    value?: string;
-    variant?: ButtonVariant;
-}
 
 /**
  * @element ak-button
@@ -67,8 +55,9 @@ export interface IButton {
  *   - "danger": Red styling for destructive actions
  *   - "warning": Yellow styling for cautionary actions
  * @attr {ButtonSize} size - Button size: "sm", "lg"
- *   - "small": Smaller than default. Used for compact settings.
- *   - "large": Larger than default. Used for CTAs.
+ *   - "sm": Smaller than default. Used for compact settings.
+ *   - "md": Medium (the default)
+ *   - "lg": Larger than default. Used for CTAs.
  * @attr {string} name - Name attribute for the button
  * @attr {string} value - Value attribute when button is part of a form
  * @attr {string} label - Aria-accessible label for the button
@@ -115,7 +104,7 @@ export interface IButton {
  * @cssprop --pf-v5-c-button--m-warning--BackgroundColor - Warning severity background color
  * @cssprop --pf-v5-c-button--m-warning--Color - Warning severity text color
  */
-export class Button extends LitElement implements IButton {
+export class Button extends LitElement {
     static readonly styles = [styles];
 
     static readonly formAssociated = true;

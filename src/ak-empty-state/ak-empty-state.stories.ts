@@ -8,7 +8,7 @@ import { Meta, StoryObj } from "@storybook/web-components";
 import { html, nothing, TemplateResult } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
-type StoryProps = Pick<Partial<EmptyState>, "noIcon" | "noLoadingMessage" | "loading" | "size"> & {
+type StoryProps = Pick<Partial<EmptyState>, "textOnly" | "spinnerOnly" | "loading" | "size"> & {
     fullHeight: boolean;
     icon: TemplateResult;
     iconClass: string;
@@ -40,7 +40,7 @@ icon is a question mark in a circle.
 For the loading attributes:
 
 - The attribute \`loading\` will show the spinner and the default (localized) title of "Loading".
-  - Add \`no-loading-message\` to show only the spinner (in which case, why aren't you using the spinner component)?
+  - Add \`spinner-only\` to show only the spinner (in which case, why aren't you using the spinner component)?
 
 ### Attributes:
 
@@ -65,12 +65,12 @@ slots, the slotted content takes precendence.
             control: "boolean",
             description: "When true, allows the empty state to fill the available vertical space",
         },
-        noIcon: {
+        textOnly: {
             control: "boolean",
             description:
                 "When true, prevents the default icon from showing when no icon is provided",
         },
-        noLoadingMessage: {
+        spinnerOnly: {
             control: "boolean",
             description: "When loading and true, do not show the default label.",
         },
@@ -109,18 +109,18 @@ const Template: Story = {
         iconClass: "far fa-folder-open",
         size: "lg",
         loading: false,
-        noLoadingMessage: false,
+        spinnerOnly: false,
         fullHeight: false,
-        noIcon: false,
+        textOnly: false,
     },
     render: (args) => html`
         <ak-empty-state
             icon=${ifDefined(args.iconClass)}
             size=${ifDefined(args.size)}
             ?loading=${args.loading}
-            ?no-loading-message=${args.noLoadingMessage}
+            ?spinner-only=${args.spinnerOnly}
             ?full-height=${args.fullHeight}
-            ?no-icon=${ifDefined(args.noIcon)}
+            ?text-only=${ifDefined(args.textOnly)}
         >
             ${args.icon ? html`<div slot="icon">${args.icon}</div>` : nothing}
             ${args.titleText ? html`<span slot="title">${args.titleText}</span>` : nothing}
@@ -161,7 +161,7 @@ export const LoadingWithNoMessage: Story = {
     args: {
         size: "lg",
         loading: true,
-        noLoadingMessage: true,
+        spinnerOnly: true,
     },
 };
 
@@ -170,7 +170,7 @@ export const LoadingWithCustomMessage: Story = {
     args: {
         size: "lg",
         loading: true,
-        noLoadingMessage: true,
+        spinnerOnly: true,
         titleText: html`I <em>know</em> it's around here somewhere!`,
     },
 };
@@ -191,7 +191,7 @@ export const WithCustomIcon: Story = {
 
 export const WithRawSvgIcon: Story = {
     render: () => html`
-        <ak-empty-state no-icon>
+        <ak-empty-state text-only>
             <div slot="icon">
                 <svg viewBox="0 0 24 24">
                     <path d="M12 2L1 21h22L12 2z" />
@@ -212,12 +212,12 @@ export const WithRawSvgIcon: Story = {
 export const NoIcon: Story = {
     ...Template,
     args: {
-        noIcon: true,
+        textOnly: true,
         titleText: "No result found",
         bodyText: "No results match the filter criteria",
         primaryAction: html`<button>Clear filters</button>`,
     },
-    ...describe("Empty State without any icon, using the no-icon attribute."),
+    ...describe("Empty State without any icon, using the text-only attribute."),
 };
 
 // Complete Empty State with all elements
@@ -316,16 +316,16 @@ export const HelperFunction: Story = {
             })}
             ${akEmptyState({
                 size: "sm",
-                noIcon: true,
+                textOnly: true,
                 title: html`<h3>Without Icon</h3>`,
-                body: html`<p>Created using the helper function with noIcon=true</p>`,
+                body: html`<p>Created using the helper function with textOnly=true</p>`,
                 actions: html`<button>Action Button</button>`,
             })}
             ${akEmptyState({
                 size: "lg",
                 fullHeight: false,
                 title: html`<h2>Default Icon</h2>`,
-                body: html`<p>Using the default icon since none provided and noIcon=false</p>`,
+                body: html`<p>Using the default icon since none provided and textOnly=false</p>`,
                 actions: html`<button>Primary Action</button><button>Secondary Action</button>`,
                 footer: html`<a href="#">Learn more about this state</a>`,
             })}

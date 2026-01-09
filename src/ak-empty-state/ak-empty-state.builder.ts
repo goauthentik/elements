@@ -7,8 +7,8 @@ import { ifDefined } from "lit/directives/if-defined.js";
 
 /* The `pick`ed fields here correspond to their types in the EmptyState class above. */
 
-export interface AkEmptyStateProps extends Partial<
-    Pick<EmptyState, "size" | "loading" | "noIcon" | "noLoadingMessage">
+export interface EmptyStateProps extends Partial<
+    Pick<EmptyState, "size" | "loading" | "textOnly" | "spinnerOnly">
 > {
     fullHeight?: boolean;
     icon?: string | TemplateResult;
@@ -26,12 +26,12 @@ export interface AkEmptyStateProps extends Partial<
  *
  * @see {@link EmptyState} - The underlying web component
  */
-export function akEmptyState(options: AkEmptyStateProps) {
+export function akEmptyState(options: EmptyStateProps) {
     const {
         size,
         fullHeight,
-        noLoadingMessage,
-        noIcon,
+        spinnerOnly,
+        textOnly,
         loading,
         icon,
         title,
@@ -44,8 +44,8 @@ export function akEmptyState(options: AkEmptyStateProps) {
         <ak-empty-state
             ?loading=${loading}
             ?full-height=${fullHeight}
-            ?no-icon=${noIcon}
-            ?no-loading-message=${noLoadingMessage}
+            ?text-only=${textOnly}
+            ?spinner-only=${spinnerOnly}
             size=${ifDefined(String(size))}
         >
             ${icon ? html`<div slot="icon">${icon}</div>` : ""}

@@ -10,24 +10,14 @@ import { LitElement } from "lit";
 import { property } from "lit/decorators.js";
 
 /**
- * Size variants for the Empty State component
- */
-
-export interface IEmptyState {
-    size?: string;
-    loading?: boolean;
-    noIcon?: boolean;
-}
-
-/**
  * @element ak-empty-state
  *
  * @summary A placeholder component displayed when no data is available or data is being loaded
  *
  * @attr {string} size - Size variant: "xs", "sm", "lg", "xl"
  * @attr {boolean} loading - Shows spinner and loading text when true
- * @attr {boolean} no-loading-message - Do not shows the (localized) text "Loading..." when `loading` is true
- * @attr {boolean} no-icon - Hides the default icon when true
+ * @attr {boolean} spinner-only - Shows only the spinner, not the (localized) text "Loading..." when `loading` is true
+ * @attr {boolean} text-only - Hides the default icon when true
  * @attr {boolean} full-height - Makes component take full height of container
  *
  * @slot icon - Icon displayed at the top of the empty state
@@ -63,17 +53,17 @@ export interface IEmptyState {
  * @cssprop --pf-v5-c-empty-state__actions--ColumnGap - Column gap between action elements
  */
 
-export class EmptyState extends LitElement implements IEmptyState {
+export class EmptyState extends LitElement {
     static override readonly styles = [styles];
 
     @property({ type: String })
     public icon?: string;
 
-    @property({ type: Boolean, attribute: "no-icon" })
-    public noIcon = false;
+    @property({ type: Boolean, attribute: "text-only" })
+    public textOnly = false;
 
-    @property({ type: Boolean, reflect: true, attribute: "no-loading-message" })
-    public noLoadingMessage = false;
+    @property({ type: Boolean, reflect: true, attribute: "spinner-only" })
+    public spinnerOnly = false;
 
     @property({ type: Boolean })
     public loading = false;
@@ -97,7 +87,7 @@ export class EmptyState extends LitElement implements IEmptyState {
         ].map((name) => this.#slotsController.has(name));
 
         const hasFooter = hasActions || hasSecondaryActions || hasFooterContent;
-        const { icon, noIcon, size, loading, noLoadingMessage } = this;
+        const { icon, textOnly, size, loading, spinnerOnly } = this;
 
         return template({
             hasTitle,
@@ -108,10 +98,10 @@ export class EmptyState extends LitElement implements IEmptyState {
             hasFooterContent,
             useIconSlot: this.#slotsController.has("icon"),
             icon,
-            noIcon,
+            textOnly,
             size,
             loading,
-            showLoading: loading && !noLoadingMessage,
+            showLoading: loading && !spinnerOnly,
         });
     }
 

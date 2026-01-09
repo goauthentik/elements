@@ -1,7 +1,7 @@
-import { akEmptyState } from "./ak-empty-state.builder.js";
-import { EmptyState, type IEmptyState } from "./ak-empty-state.component.js";
+import { akEmptyState, EmptyStateProps } from "./ak-empty-state.builder.js";
+import { EmptyState } from "./ak-empty-state.component.js";
 
-export { akEmptyState, EmptyState, IEmptyState };
+export { akEmptyState, EmptyState, type EmptyStateProps };
 
 window.customElements.define("ak-empty-state", EmptyState);
 
