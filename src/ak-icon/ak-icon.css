@@ -25,12 +25,14 @@
     --icon--m-lg__content--FontSize: var(--pf-v5-c-icon--m-lg__content--FontSize, 1.5rem);
     --icon--m-xl__content--FontSize: var(--pf-v5-c-icon--m-xl__content--FontSize, 3.375rem);
     --icon--m-inline__content--FontSize: var(--pf-v5-c-icon--m-inline__content--FontSize, 1em);
+
     position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: var(--icon--Width);
     height: var(--icon--Height);
+
     --icon--m-inline__content--Opacity: var(--pf-v5-c-icon--m-inline__content--Opacity, inherit);
 }
 

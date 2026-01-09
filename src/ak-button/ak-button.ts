@@ -1,10 +1,9 @@
-import { customElement } from "../utils/customElement.js";
-import { akButton } from "./ak-button.builder.js";
+import { akButton, type ButtonProps } from "./ak-button.builder.js";
 import { Button } from "./ak-button.component.js";
 
-export { akButton, Button };
+export { akButton, Button, type ButtonProps };
 
-customElement("ak-button", Button);
+window.customElements.define("ak-button", Button);
 
 declare global {
     interface HTMLElementTagNameMap {

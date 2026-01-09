@@ -38,7 +38,9 @@
         --pf-v5-c-timestamp--m-help-text--focus--TextDecorationColor,
         #151515
     );
+
     display: inline-block;
+
     --timestamp--Gap: var(--pf-v5-c-timestamp--Gap, 0.5rem);
 }
 

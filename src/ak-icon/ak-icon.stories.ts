@@ -45,10 +45,12 @@ type IconEffect =
     | "flip-both"
     | "rotate-by";
 
+type IconEffects = IconEffect | `${IconEffect} ${IconEffect}`;
+
 type StoryProps = IIcon & {
     size?: IconSize;
     variant?: IconVariant;
-    effect?: IconEffect;
+    effect?: IconEffects;
 };
 
 const metadata: Meta<Partial<StoryProps>> = {
