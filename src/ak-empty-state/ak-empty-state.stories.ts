@@ -309,25 +309,28 @@ export const HelperFunction: Story = {
     render: () => html`
         <div style="display: flex; flex-direction: column; gap: 2rem;">
             ${akEmptyState({
-                icon: html`<ak-icon icon="fa fa-beer"></ak-icon>`,
+                icon: html`<ak-icon slot="icon" icon="fa fa-beer"></ak-icon>`,
                 title: "Hold My Beer",
                 body: "I saw this in a cartoon once. I'm sure I can pull it off.",
-                actions: html`<button>Leave The Scene Immediately</button>`,
+                actions: html`<button slot="actions">Leave The Scene Immediately</button>`,
             })}
             ${akEmptyState({
                 size: "sm",
                 textOnly: true,
-                title: html`<h3>Without Icon</h3>`,
-                body: html`<p>Created using the helper function with textOnly=true</p>`,
-                actions: html`<button>Action Button</button>`,
+                title: html`<h3 slot="title">Without Icon</h3>`,
+                body: html`<p slot="body">Created using the helper function with textOnly=true</p>`,
+                actions: html`<button slot="actions">Action Button</button>`,
             })}
             ${akEmptyState({
                 size: "lg",
                 fullHeight: false,
-                title: html`<h2>Default Icon</h2>`,
-                body: html`<p>Using the default icon since none provided and textOnly=false</p>`,
-                actions: html`<button>Primary Action</button><button>Secondary Action</button>`,
-                footer: html`<a href="#">Learn more about this state</a>`,
+                title: html`<h2 slot="title">Default Icon</h2>`,
+                body: html`<p slot="body">
+                    Using the default icon since none provided and textOnly=false
+                </p>`,
+                actions: html`<button slot="actions">Primary Action</button
+                    ><button>Secondary Action</button>`,
+                footer: html`<a href="#" slot="footer">Learn more about this state</a>`,
             })}
         </div>
     `,

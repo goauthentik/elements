@@ -26,11 +26,11 @@ export class Brand extends LitElement {
     static readonly styles = [styles];
 
     /** @attr {string} src - The URL for the image source */
-    @property({ type: String, reflect: true })
+    @property({ type: String })
     src?: string;
 
     /** @attr {string} alt - The alt text for the image (for accessibility) */
-    @property({ type: String, reflect: true })
+    @property({ type: String })
     alt?: string;
 
     render() {

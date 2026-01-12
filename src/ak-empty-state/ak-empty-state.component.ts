@@ -62,13 +62,14 @@ export class EmptyState extends LitElement {
     @property({ type: Boolean, attribute: "text-only" })
     public textOnly = false;
 
-    @property({ type: Boolean, reflect: true, attribute: "spinner-only" })
+    @property({ type: Boolean, attribute: "spinner-only" })
     public spinnerOnly = false;
 
     @property({ type: Boolean })
     public loading = false;
 
-    @property({ type: String })
+    // A case where external manipulation of must be reflected to trigger CSS effects.
+    @property({ type: String, reflect: true })
     public size: EmptyStateSize = "lg";
 
     #onSlotChange = () => {

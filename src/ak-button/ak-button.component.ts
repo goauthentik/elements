@@ -109,6 +109,9 @@ export class Button extends LitElement {
 
     static readonly formAssociated = true;
 
+    // While it's unlikely that client code will modify these by manipulating `type` and `variant`
+    // fields directly, it's still possible. Their presence triggers corresponding CSS effects, so
+    // they must be monitored and reflected.
     @property({ reflect: true })
     public type?: ButtonType = "button";
 

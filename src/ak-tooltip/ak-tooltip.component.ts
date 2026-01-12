@@ -144,7 +144,7 @@ export class Tooltip extends LitElement {
      * @attr {object} target: A reference to the target. Must be in the same or in a sibling context
        of the tooltip.  `.target` takes precedence over `for`
      */
-    @property({ type: Object, attribute: "target" })
+    @property({ type: Object })
     public target?: HTMLElement;
 
     /**
