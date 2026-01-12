@@ -1,4 +1,7 @@
+import type { ElementRest } from "../types.js";
 import { SwitchInput } from "./ak-switch.js";
+
+import { spread } from "@open-wc/lit-helpers";
 
 import { html, TemplateResult } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -6,24 +9,25 @@ import { ifDefined } from "lit/directives/if-defined.js";
 /**
  * Configuration options for the akSwitch helper function
  */
-export type SwitchProps = Partial<
-    Pick<
-        SwitchInput,
-        | "name"
-        | "checked"
-        | "required"
-        | "disabled"
-        | "value"
-        | "useCheck"
-        | "showLabel"
-        | "ariaLabel"
-    >
-> & {
-    label?: TemplateResult | string;
-    labelOn?: TemplateResult | string;
-    icon?: TemplateResult | string;
-    reverse?: boolean;
-};
+export type SwitchProps = ElementRest &
+    Partial<
+        Pick<
+            SwitchInput,
+            | "name"
+            | "checked"
+            | "required"
+            | "disabled"
+            | "value"
+            | "useCheck"
+            | "showLabel"
+            | "ariaLabel"
+        >
+    > & {
+        label?: TemplateResult | string;
+        labelOn?: TemplateResult | string;
+        icon?: TemplateResult | string;
+        reverse?: boolean;
+    };
 
 /**
  * @summary Helper function to create a Switch component programmatically
@@ -46,6 +50,7 @@ export function akSwitch(options: SwitchProps = {}): TemplateResult {
         label,
         labelOn,
         icon,
+        ...rest
     } = options;
 
     const intoSlot = (slot: string, s?: TemplateResult | string) =>
@@ -60,6 +65,7 @@ export function akSwitch(options: SwitchProps = {}): TemplateResult {
     //
     return html`
         <ak-switch
+            ${spread(rest)}
             name=${ifDefined(name)}
             ?checked=${Boolean(checked)}
             ?required=${Boolean(required)}
