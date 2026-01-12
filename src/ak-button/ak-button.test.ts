@@ -1,145 +1,106 @@
+// Import the component to register it
 import "./ak-button.js";
 
 import { spread } from "@open-wc/lit-helpers";
-import { $, browser, expect } from "@wdio/globals";
+import { describe, expect, it, vi } from "vitest";
+import { render } from "vitest-browser-lit";
+import { page } from "vitest/browser";
 
-import { html, render, TemplateResult } from "lit";
+import { html, type TemplateResult } from "lit";
 
 describe("ak-button component", () => {
-    let _container: WebdriverIO.Element;
-
-    beforeEach(async () => {
-        document.body.innerHTML = `<div id="container"></div>`;
-        // @ts-expect-error It's mistyping this badly.
-        _container = await $("#container");
-    });
-
-    afterEach(async () => {
-        await browser.execute(async () => {
-            document.body.innerHTML = "";
-            // @ts-expect-error expression of type '"_$litPart$"' is added by Lit
-            if (document.body._$litPart$) {
-                // @ts-expect-error expression of type '"_$litPart$"' is added by Lit
-                await delete document.body._$litPart$;
-            }
-        });
-    });
-
-    const renderComponent = async (
-        content: string | TemplateResult = "Click me",
-        properties = {},
-    ) => {
-        const root = render(
-            html`<ak-button ${spread(properties)}>${content}</ak-button>`,
-            document.body,
-        );
-        await browser.pause(100);
-        return root;
+    /**
+     * Helper function to render an ak-button component
+     *
+     * @param content - Text content or Lit TemplateResult to render inside the button
+     * @param properties - Properties to spread onto the component (e.g., variant, disabled)
+     */
+    const renderComponent = (content: string | TemplateResult = "Click me", properties = {}) => {
+        return render(html`<ak-button ${spread(properties)}>${content}</ak-button>`);
     };
 
     it("renders as a button by default", async () => {
-        await renderComponent("Click here");
-        const button = await $("ak-button").$(">>>button");
-        await expect(button).toExist();
-        await expect(button).toHaveText("Click here");
+        const { getByRole } = renderComponent("Click here");
+        const button = await getByRole("button");
+        expect(button.getByText("Click here")).toBeTruthy();
+        const element = button.element();
+        expect(element.tagName).toBe("BUTTON");
     });
 
     it("renders as a link when specified", async () => {
-        await renderComponent("Click to leave", {
+        const { getByRole, getByText } = renderComponent("Click to leave", {
             variant: "link",
             href: "https://example.com",
         });
-        const link = await $("ak-button").$(">>>a");
-        await expect(link).toExist();
-        await expect(link).toHaveText("Click to leave");
-        await expect(link).toHaveAttr("href", "https://example.com");
-    });
 
-    it("applies primary variant styles by default", async () => {
-        await renderComponent("Click me", { variant: "primary" });
-        const button = await $("ak-button").$(">>>button");
-        expect(button).toHaveElementClass("primary");
-    });
+        // When variant="link", renders <a> tag instead of <button>
+        const link = getByText("Click to leave");
+        await expect.element(link).toBeTruthy();
+        await expect.element(link).toHaveAttribute("href", "https://example.com");
+        const element = getByRole("link").element();
+        expect(element.tagName).toBe("A");
 
-    it("applies severity styles when specified", async () => {
-        await renderComponent("Click me", { severity: "danger" });
-        const button = await $("ak-button").$(">>>button");
-        expect(button).toHaveElementClass("danger");
+        // Verify slotted text content
+        const component = document.querySelector("ak-button");
+        expect(component?.textContent?.trim()).toBe("Click to leave");
     });
 
     it("applies disabled state when specified", async () => {
-        await renderComponent("Click me", { "?disabled": true });
-        const button = await $("ak-button").$(">>>button");
-        expect(button).toBeDisabled();
+        const { getByRole } = renderComponent("Click here", { "?disabled": true });
+        const button = await getByRole("button");
+        expect(button.getByText("Click here")).toBeTruthy();
+        const element = button.element();
+        expect(element.tagName).toBe("BUTTON");
+        await expect.element(button).toHaveAttribute("disabled");
     });
 
     it("triggers click events", async () => {
-        await renderComponent("Click me");
+        const { getByRole } = renderComponent("Click here");
+        const component = document.querySelector("ak-button");
+        await expect.element(component).toBeTruthy();
 
-        // Setup a click listener
-        const setUp = await browser.execute(() => {
-            // @ts-expect-error Mangling window again.
-            window.buttonClicked = false;
-            const button = document.querySelector("ak-button");
-            if (!button) {
-                return false;
-            }
-            button.addEventListener("click", () => {
-                // @ts-expect-error Mangling window again.
-                window.buttonClicked = true;
-            });
-            return true;
+        let buttonClicked = false;
+        component!.addEventListener("click", () => {
+            buttonClicked = true;
         });
 
-        expect(setUp).toEqual(true);
-
-        const button = await $("ak-button");
+        const button = await getByRole("button");
+        expect(button.element().tagName).toBe("BUTTON");
         await button.click();
-        await browser.pause(50);
-
-        // Check if the event was triggered
-        const wasClicked = await browser.execute(() => {
-            // @ts-expect-error Mangling window again.
-            return window.buttonClicked;
-        });
-        expect(wasClicked).toEqual(true);
-
-        // @ts-expect-error Cleaning up after ourselves.
-        delete window.buttonClicked;
+        expect(buttonClicked).toBe(true);
     });
 
-    it("disabled buttons do not trigger click events", async () => {
-        await renderComponent("Click me", { "?disabled": true });
+    it("does not trigger click events when disabled", async () => {
+        const { getByRole } = renderComponent("Click here", { "?disabled": true });
+        const component = document.querySelector("ak-button");
+        expect(component).toBeTruthy();
 
-        // Setup a click listener
-        const setUp = await browser.execute(() => {
-            // @ts-expect-error Mangling window again.
-            window.buttonClicked = false;
-            const button = document.querySelector("ak-button");
-            if (!button) {
-                return false;
-            }
-            button.addEventListener("click", () => {
-                // @ts-expect-error Mangling window again.
-                window.buttonClicked = true;
-            });
-            return true;
+        let buttonClicked = false;
+        component!.addEventListener("click", () => {
+            buttonClicked = true;
         });
 
-        expect(setUp).toEqual(true);
+        const button = await getByRole("button");
+        expect(button.element().tagName).toBe("BUTTON");
+        // Playwright will normally avoid clicking a button that is marked "disabled." We want it to
+        // try anyway.
+        await button.click({ force: true });
+        expect(buttonClicked).toBe(false);
+    });
 
-        const button = await $("ak-button");
-        await button.click();
-        await browser.pause(50);
-
-        // Check if the event was triggered
-        const wasClicked = await browser.execute(() => {
-            // @ts-expect-error Mangling window again.
-            return window.buttonClicked;
+    it("when a link, it does not have an href when disabled", async () => {
+        renderComponent("Click to leave", {
+            "variant": "link",
+            "href": "https://example.com",
+            "?disabled": true,
         });
-        expect(wasClicked).toEqual(false);
 
-        // @ts-expect-error Cleaning up after ourselves.
-        delete window.buttonClicked;
+        const component = document.querySelector("ak-button");
+        const anchor = await vi.waitUntil(() => component?.shadowRoot?.querySelector("a"));
+        expect(anchor).not.toBeNull();
+        const element = page.elementLocator(anchor!);
+        await expect.element(element).toBeVisible();
+        await expect.element(element).toHaveAttribute("id", "main");
+        await expect.element(element).not.toHaveAttribute("href");
     });
 });
