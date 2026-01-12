@@ -52,3 +52,15 @@
     );
     --pf-v5-c-switch__label--Color: var(--pf-v5-global--Color--dark-100);
 }
+
+.pf-v5-theme-dark,
+html[theme="dark"],
+html[data-theme="dark"] {
+    --pf-v5-c-switch__toggle-icon--Color: var(--pf-v5-global--BackgroundColor--100);
+    --pf-v5-c-switch__input--not-checked__label--Color: var(--pf-v5-global--Color--100);
+    --pf-v5-c-switch__input--disabled__toggle--before--BackgroundColor: var(
+        --pf-v5-global--disabled-color--100
+    );
+    --pf-v5-c-switch__toggle--before--BoxShadow: none;
+    --pf-v5-c-switch__input--disabled__toggle-icon--Color: var(--pf-v5-global--disabled-color--100);
+}
