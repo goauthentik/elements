@@ -8,8 +8,9 @@ visible and can be activated to scroll to the designated target element.
 ### Usage
 
 Due to the way browsers work, you must set the `targetElement` property after the target element
-becomes available. The usual way to do this is in your routing code or as a JavaScript expression
-run after the page is fully loaded and parsed.
+becomes available. This could come quite late, as the entire page may need to be parsed before this
+is possible. The usual way to do this is in your routing code or as a JavaScript expression run
+after the page is fully loaded and parsed.
 
 ### Attributes
 
