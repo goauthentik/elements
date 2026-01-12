@@ -10,17 +10,6 @@ import { html, nothing, PropertyValues, TemplateResult } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 
-export interface ISwitchInput {
-    name?: string;
-    checked: boolean;
-    required: boolean;
-    disabled: boolean;
-    value?: string | null;
-    useCheck: boolean;
-    showLabel: boolean;
-    ariaLabel: string | null;
-}
-
 const CHECK_ICON = "fas fa-check";
 
 /**
@@ -63,7 +52,7 @@ const CHECK_ICON = "fas fa-check";
  * @cssprop --pf-v5-c-switch__icon--FontSize - Font size of the check icon
  * @cssprop --pf-v5-c-switch__icon--Color - Color of the check icon
  */
-export class SwitchInput extends FormAssociatedBooleanMixin(AkLitElement) implements ISwitchInput {
+export class SwitchInput extends FormAssociatedBooleanMixin(AkLitElement) {
     static readonly styles = [styles];
 
     @property({ type: Boolean, attribute: "use-check" })
