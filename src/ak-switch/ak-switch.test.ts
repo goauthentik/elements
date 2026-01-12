@@ -36,7 +36,7 @@ declare module "vitest/browser" {
 }
 
 const getSwitchStatus = async () => {
-    const component = await page.getElement();
+    const component = await page.getComponent();
     const element = await component.element();
     return (element as HTMLInputElement).checked;
 };
@@ -69,13 +69,11 @@ describe("ak-switch component", () => {
             expect(await getSwitchStatus()).toBeFalsy();
 
             await component.click();
-            await browser.pause(50);
 
             expect(await getSwitchStatus()).toBeTruthy();
             await expect.element(component).toHaveAttribute("aria-checked", "true");
 
             await component.click();
-            await browser.pause(50);
 
             expect(await getSwitchStatus()).toBeFalsy();
             await expect.element(component).toHaveAttribute("aria-checked", "false");
@@ -95,8 +93,7 @@ describe("ak-switch component", () => {
             render(html`<ak-switch disabled></ak-switch>`);
 
             const component = await page.getComponent();
-            await component.click();
-            await browser.pause(50);
+            await component.click({ force: true });
 
             expect(await getSwitchStatus()).toBeFalsy();
         });

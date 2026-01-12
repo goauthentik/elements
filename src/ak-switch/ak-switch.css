@@ -84,8 +84,8 @@
     );
     --switch__toggle--before--BoxShadow: var(
         --pf-v5-c-switch__toggle--before--BoxShadow,
-        0 0.25rem 0.5rem 0rem rgba(3, 3, 3, 0.12),
-        0 0 0.25rem 0 rgba(3, 3, 3, 0.06)
+        0 0.25rem 0.5rem 0rem rgb(3 3 3 / 12%),
+        0 0 0.25rem 0 rgb(3 3 3 / 6%)
     );
     --switch__toggle--before--Transition: var(
         --pf-v5-c-switch__toggle--before--Transition,
@@ -96,6 +96,7 @@
         calc(calc(1rem * 1.5) + 0.125rem + calc(1rem - 0.125rem))
     );
     --switch__label--Color: var(--pf-v5-c-switch__label--Color, #151515);
+
     position: relative;
     display: inline-grid;
 }
@@ -149,6 +150,7 @@
 :host(:disabled) [part="toggle"],
 :host([disabled]) [part="toggle"] {
     --switch__toggle-icon--Color: var(--switch__input--disabled__toggle-icon--Color);
+
     cursor: not-allowed;
     background-color: var(--switch__input--disabled__toggle--BackgroundColor);
 }
