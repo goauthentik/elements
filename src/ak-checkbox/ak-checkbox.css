@@ -5,10 +5,9 @@
     --checkbox__label--PaddingLeft: var(--pf-v5-c-checkbox__label--PaddingLeft, 1rem);
     --checkbox--ColumnGap: var(--checkbox__label--PaddingLeft);
     --checkbox--LineHeight: var(--pf-v5-c-checkbox--LineHeight, 1.5);
-
     --checkbox--Height: calc(var(--checkbox--FontSize) * var(--checkbox--LineHeight));
-    --checkbox--Width: auto
-        --checkbox__toggle--Color: var(--pf-v5-c-checkbox__toggle--Color, #151515);
+    --checkbox--Width: auto;
+    --checkbox__toggle--Color: var(--pf-v5-c-checkbox__toggle--Color, #151515);
     --checkbox__toggle--BorderRadius: var(--pf-v5-c-checkbox__toggle--BorderRadius, 3px);
     --checkbox__toggle--BorderColor: var(--checkbox__toggle--Color);
     --checkbox__toggle--BorderWidth: var(--pf-v5-c-checkbox__toggle--BorderWidth, 2px);
@@ -16,7 +15,6 @@
     --checkbox__toggle--Width: var(--checkbox__toggle--Height);
     --checkbox__toggle--BackgroundColor: inherit;
     --checkbox__toggle--Padding: 1px;
-
     --checkbox--disabled__toggle--Color: var(--pf-v5-c-checkbox--disabled__toggle--Color, #6a6e73);
     --checkbox--disabled__toggle--BorderColor: var(
         --pf-v5-c-checkbox--disabled__toggle--BorderColor,
@@ -27,7 +25,6 @@
         #f5f5f5
     );
     --checkbox--disabled__label--Color: var(--pf-v5-c-checkbox--disabled__label--Color, #6a6e73);
-
     --checkbox--focus__toggle--OutlineWidth: var(
         --pf-v5-c-checkbox--focus__toggle--OutlineWidth,
         2px
@@ -40,13 +37,13 @@
         --pf-v5-c-checkbox--focus__toggle--OutlineColor,
         #06c
     );
-
     --checkbox__input--checked__label--Color: var(--pf-v5-c-checkbox__toggle--Color);
     --checkbox__input--not-checked__label--Color: var(
         --pf-v5-c-checkbox__input--not-checked__label--Color,
         #6a6e73
     );
     --checkbox__label--Color: var(--pf-v5-c-checkbox__label--Color, #151515);
+
     position: relative;
     display: inline;
 }
@@ -120,6 +117,7 @@
 :host(:disabled) [part="toggle"],
 :host([disabled]) [part="toggle"] {
     --checkbox__toggle--BorderColor: var(--checkbox--disabled__toggle--BorderColor);
+
     cursor: not-allowed;
     background-color: var(--checkbox--disabled__toggle--BackgroundColor);
 }

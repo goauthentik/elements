@@ -1,7 +1,7 @@
 import { akCheckbox, type CheckboxProps } from "./ak-checkbox.builder.js";
-import { CheckboxInput, type ICheckboxInput } from "./ak-checkbox.component.js";
+import { CheckboxInput } from "./ak-checkbox.component.js";
 
-export { akCheckbox, CheckboxInput, type CheckboxProps, type ICheckboxInput };
+export { akCheckbox, CheckboxInput, type CheckboxProps };
 
 window.customElements.define("ak-checkbox", CheckboxInput);
 

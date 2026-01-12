@@ -9,17 +9,6 @@ import { match, P } from "ts-pattern";
 import { html, nothing, PropertyValues } from "lit";
 import { property } from "lit/decorators.js";
 
-export interface ICheckboxInput {
-    name?: string;
-    checked: boolean;
-    required: boolean;
-    disabled: boolean;
-    indeterminate: boolean;
-    value?: string | null;
-    showLabel: boolean;
-    ariaLabel: string | null;
-}
-
 const CHECK_ICON = () =>
     html`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
         <path fill="currentColor" d="M21 7L9 19l-5.5-5.5l1.41-1.41L9 16.17L19.59 5.59z" />
@@ -72,10 +61,7 @@ const DOT_ICON = () => html`
  * @cssprop --pf-v5-c-checkbox--disabled__label--Color - Label color when disabled
  * @cssprop --pf-v5-c-checkbox__label--Color - Default label color
  */
-export class CheckboxInput
-    extends FormAssociatedBooleanMixin(AkLitElement)
-    implements ICheckboxInput
-{
+export class CheckboxInput extends FormAssociatedBooleanMixin(AkLitElement) {
     static readonly styles = [styles];
 
     @property({ type: Boolean, attribute: "label" })
