@@ -5,9 +5,13 @@ import { html, nothing } from "lit";
 
 export const emptyStateSizes = ["xs", "sm", "md", "lg", "xl"] as const;
 export type EmptyStateSize = (typeof emptyStateSizes)[number];
-const DEFAULT_SIZE_INDEX = emptyStateSizes.indexOf("md");
+const DEFAULT_SIZE_INDEX = emptyStateSizes.indexOf("lg");
 const isEmptyStateSize = (s?: string): s is EmptyStateSize =>
     typeof s === "string" && s.trim() !== "" && emptyStateSizes.includes(s as EmptyStateSize);
+
+// The size of the spinner and the icon do not automatically scale with the size of the EmptyState
+// object itself. After much experimentation, the design team has settled on the pattern below as
+// having the best aesthetics.
 
 const spinnerSizes = ["md", "lg", "lg", "xl", "xl"];
 const iconSizes = ["sm", "md", "lg", "xl", "6x"];
@@ -17,7 +21,7 @@ function iconTemplate(
     icon: string | undefined,
     skipIcon: boolean,
     isLoading: boolean,
-    size: EmptyStateSize,
+    size: EmptyStateSize
 ) {
     if (useSlot) {
         return html`<div part="icon"><slot name="icon"></slot></div>`;
@@ -63,8 +67,7 @@ const secondaryActionsTemplate = (has: boolean) =>
           </div>`
         : nothing;
 
-const footerTemplate = (has: boolean) =>
-    has ? html`<div part="footer"><slot name="footer"></slot></div>` : nothing;
+const footerTemplate = (has: boolean) => (has ? html`<div part="footer"><slot name="footer"></slot></div>` : nothing);
 
 interface EmptyStateTemplateProps {
     hasTitle: boolean;
@@ -109,8 +112,7 @@ export function template(props: EmptyStateTemplateProps) {
                 ${bodyTemplate(hasBody, showLoading)}
                 ${hasFooter
                     ? html` <div part="footer">
-                          ${actionsTemplate(hasActions)}
-                          ${secondaryActionsTemplate(hasSecondaryActions)}
+                          ${actionsTemplate(hasActions)} ${secondaryActionsTemplate(hasSecondaryActions)}
                           ${footerTemplate(hasFooterContent)}
                       </div>`
                     : nothing}

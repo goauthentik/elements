@@ -113,15 +113,15 @@ describe("ak-empty-state component", () => {
         await expect.element(iconSlot).toBeInTheDocument();
     });
 
-    it("should render custom icon even when no-icon is true", async () => {
+    it("should render custom icon even when text-only is true", async () => {
         render(
-            html`<ak-empty-state no-icon>
+            html`<ak-empty-state text-only>
                 <div slot="icon">
                     <svg viewBox="0 0 24 24">
                         <path d="M12 2L1 21h22L12 2z" />
                     </svg>
                 </div>
-                <h2 slot="title">Custom icon with no-icon</h2>
+                <h2 slot="title">Custom icon with text-only setting</h2>
             </ak-empty-state>`,
         );
 

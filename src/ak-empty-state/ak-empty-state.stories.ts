@@ -262,8 +262,8 @@ export const SizeVariants: Story = {
             </div>
 
             <div>
-                <h3>Default (large)</h3>
-                <ak-empty-state>
+                <h3>Medium</h3>
+                <ak-empty-state size="md">
                     <h2 slot="title">No results found</h2>
                     <p slot="body">
                         No results match the filter criteria. Clear all filters and try again.
@@ -275,8 +275,8 @@ export const SizeVariants: Story = {
             </div>
 
             <div>
-                <h3>Large</h3>
-                <ak-empty-state size="lg">
+                <h3>Large (Default)</h3>
+                <ak-empty-state>
                     <h2 slot="title">No results found</h2>
                     <p slot="body">
                         No results match the filter criteria. Clear all filters and try again.
@@ -331,6 +331,30 @@ export const HelperFunction: Story = {
                 actions: html`<button slot="actions">Primary Action</button
                     ><button>Secondary Action</button>`,
                 footer: html`<a href="#" slot="footer">Learn more about this state</a>`,
+            })}
+            ${akEmptyState({
+                size: "lg",
+                fullHeight: false,
+                title: html`<h2 slot="title">AKIcon Token Usage</h2>`,
+                icon: "fas fa-face-dizzy",
+                body: html`<p slot="body">
+                    What the empty state looks like if you pass an ak-icon token to ak-empty-state's
+                    builder's
+                    <kbd>icon</kbd> field.
+                </p>`,
+                actions: html`<button slot="actions">Primary Action</button
+                    ><button>Secondary Action</button>`,
+                footer: html`<a href="#" slot="footer">Learn more about this state</a>`,
+            })}
+            ${akEmptyState({
+                size: "lg",
+                fullHeight: false,
+                title: "Just With Strings",
+                icon: "fas fa-meteor",
+                body: "Using the sweet meteor of doom to demonstrate what this looks like using mostly string arguments to the builder.",
+                actions: html`<button slot="actions">Primary Action</button
+                    ><button>Secondary Action</button>`,
+                footer: "Nothing more need be said.",
             })}
         </div>
     `,

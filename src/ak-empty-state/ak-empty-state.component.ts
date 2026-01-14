@@ -19,6 +19,7 @@ import { property } from "lit/decorators.js";
  * @attr {boolean} spinner-only - Shows only the spinner, not the (localized) text "Loading..." when `loading` is true
  * @attr {boolean} text-only - Hides the default icon when true
  * @attr {boolean} full-height - Makes component take full height of container
+ * @attr {string} icon - The name of an icon, as understood by ak-icon. NOTE: if both this attribute and the `icon` slot are used, the slot takes priority.
  *
  * @slot icon - Icon displayed at the top of the empty state
  * @slot title - Title describing the empty state
