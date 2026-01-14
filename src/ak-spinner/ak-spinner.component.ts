@@ -7,13 +7,11 @@ import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 
 /**
- * Spinner size variants. Prefer T-shirt sizes when possible.
+ * Spinner size variants. Prefer T-shirt sizes when possible. Because these have no behavioral
+ * consquences, they're not actually used here, but we document them here for the `.builder`.
  */
 export type SpinnerSize = "sm" | "md" | "lg" | "xl";
 
-export interface ISpinner {
-    label?: string;
-}
 /**
  * @element ak-spinner
  *
