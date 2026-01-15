@@ -457,7 +457,8 @@ async function buildStylesheets(transformationFiles: string[]) {
 
         const transformationsToPerform = Object.entries(transformation.host ?? {});
 
-        transrule: for (const [transSelector, transRequest] of transformationsToPerform) {
+        transrule: for (const [rawTransSelector, transRequest] of transformationsToPerform) {
+            const transSelector = rawTransSelector.replace(/%\d+$/, "");
             const selectorHasSubstitutions = /\\\d+/.test(transSelector);
             const customDeclarations = getCustomDeclarations(transRequest);
 
@@ -465,7 +466,7 @@ async function buildStylesheets(transformationFiles: string[]) {
             if (!("$from" in transRequest)) {
                 if (derivedFromTokens(selectorHasSubstitutions, transRequest)) {
                     throw new Error(
-                        "A rule with no $from may not have substitutions or inclusion rules",
+                        `${transSelector} rule has no $from and may not have substitutions or inclusion rules`,
                     );
                 }
                 hostRules.add(makeRule(transSelector, customDeclarations));
