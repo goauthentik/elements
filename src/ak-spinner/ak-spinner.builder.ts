@@ -1,6 +1,6 @@
 import "./ak-spinner.js";
 
-import { type Spinner } from "./ak-spinner.js";
+import { type Spinner, type SpinnerSize } from "./ak-spinner.component.js";
 
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
