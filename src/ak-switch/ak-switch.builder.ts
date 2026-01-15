@@ -74,7 +74,7 @@ export function akSwitch(options: SwitchProps = {}): TemplateResult {
             check-icon=${ifDefined(typeof icon === "string" ? icon : undefined)}
             value=${ifDefined(value ?? undefined)}
             ?use-check=${Boolean(useCheck)}
-            ?label=${Boolean(showLabel)}
+            ?show-label=${Boolean(showLabel)}
             aria-label=${ifDefined(ariaLabel ?? undefined)}
         >
             ${intoSlot("label", label)} ${intoSlot("label-on", labelOn)}

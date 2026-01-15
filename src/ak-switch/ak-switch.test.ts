@@ -86,7 +86,7 @@ describe("ak-switch component", () => {
 
             const component = await page.getComponent();
             await expect.element(component).toHaveAttribute("disabled");
-            await expect(await page.getSwitch()).toHaveAttribute("tabindex", "-1");
+            await expect.element(component).toHaveAttribute("tabindex", "-1");
         });
 
         it("should not toggle when clicked while disabled", async () => {

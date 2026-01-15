@@ -166,7 +166,7 @@ export const WithOnOffTextReversed: Story = {
 export const FormIntegration: Story = {
     args: {
         name: "switchOption",
-        value: "optionValue",
+        value: "if-you-can-see-this-it-worked",
         required: true,
     },
     render: (args) => html`

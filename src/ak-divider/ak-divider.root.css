@@ -1,0 +1,20 @@
+:root {
+    --pf-v5-c-divider--line-thickness: 1px;
+    --pf-v5-c-divider--color: var(--pf-v5-global--BorderColor--100, #d2d2d2);
+    --pf-v5-c-divider--strong-color: var(--pf-v5-global--BorderColor--light-100, #8a8d90);
+    --pf-v5-c-divider--subtle-color: var(--pf-v5-global--BorderColor--300, #ededed);
+    --pf-v5-c-divider--display: flex;
+    --pf-v5-c-divider--flex-direction: row;
+    --pf-v5-c-divider--content-spacing: 0.35rem;
+    --pf-v5-c-divider--height: auto;
+    --pf-v5-c-divider__line--before--top: 50%;
+    --pf-v5-c-divider__line--before--left: 0;
+    --pf-v5-c-divider__line--before--width: 100%;
+    --pf-v5-c-divider__line--before--height: var(--pf-v5-c-divider--line-thickness);
+}
+
+html[theme="dark"] {
+    --pf-v5-c-divider--color: var(--pf-v5-global--BorderColor--100, #444548);
+    --pf-v5-c-divider--strong-color: var(--pf-v5-global--BorderColor--light-100, #1b1d21);
+    --pf-v5-c-divider--subtle-color: var(--pf-v5-global--BorderColor--300, #26292d);
+}
