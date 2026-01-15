@@ -6,7 +6,7 @@ import styles from "./ak-switch.scss";
 
 import { match, P } from "ts-pattern";
 
-import { html, nothing, PropertyValues, TemplateResult } from "lit";
+import { html, nothing, TemplateResult } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 
@@ -22,10 +22,10 @@ const CHECK_ICON = "fas fa-check";
  * @attr {boolean} required - Whether the input is required in a form
  * @attr {boolean} disabled - Whether the switch is disabled
  * @attr {string} value - Value attribute for the input element
- * @attr {boolean} show-text - Whether to show on/off text
- * @attr {string} text-on - Text to show when switch is on
- * @attr {string} text-off - Text to show when switch is off
+ * @attr {boolean} show-label - Whether to show on/off text
  * @attr {string} aria-label - Aria label for the switch
+ * @attr {boolean} reverse - Put the label to the *left* of the switch (To the right by default, if shown at all)
+ * @attr {boolean} use-check - when true, adds an icon to the switch body when checked
  *
  * @fires change - Fired when the switch is toggled, contains detail with checked state and value
  *
@@ -51,6 +51,11 @@ const CHECK_ICON = "fas fa-check";
  * @cssprop --pf-v5-c-switch__text--Color - Color of on/off text
  * @cssprop --pf-v5-c-switch__icon--FontSize - Font size of the check icon
  * @cssprop --pf-v5-c-switch__icon--Color - Color of the check icon
+ *
+ * ## Slots
+ * @slot label - The label to show next to switch (optional)
+ * @slot label-on - An alternative label to show next to the switch when it is checked (optional)
+ * @slot icon - Use an alternative icon for the checkmark
  */
 export class SwitchInput extends FormAssociatedBooleanMixin(AkLitElement) {
     static readonly styles = [styles];
@@ -58,11 +63,18 @@ export class SwitchInput extends FormAssociatedBooleanMixin(AkLitElement) {
     @property({ type: Boolean, attribute: "use-check" })
     public useCheck = false;
 
-    @property({ type: Object, attribute: "check-icon" })
+    @property({ type: Object })
     public checkIcon?: TemplateResult | string = CHECK_ICON;
 
-    @property({ type: Boolean, attribute: "label" })
+    @property({ type: Boolean, attribute: "show-label" })
     public showLabel = false;
+
+    connectedCallback() {
+        super.connectedCallback();
+        if (!this.hasAttribute("role")) {
+            this.setAttribute("role", "switch");
+        }
+    }
 
     protected renderIcon() {
         const useSlot = this.hasSlotted("icon");
@@ -88,8 +100,7 @@ export class SwitchInput extends FormAssociatedBooleanMixin(AkLitElement) {
     }
 
     private renderSwitch() {
-        return html`<div part="toggle">${this.renderIcon()}</div>
-        </div>`;
+        return html`<div part="toggle">${this.renderIcon()}</div>`;
     }
 
     private renderWithLabels() {
@@ -99,16 +110,9 @@ export class SwitchInput extends FormAssociatedBooleanMixin(AkLitElement) {
 
     public override render() {
         return html`
-            <div part="switch" tabindex="${this.disabled ? -1 : 0}">
+            <div part="switch">
                 ${this.hasSlotted("label") ? this.renderWithLabels() : this.renderSwitch()}
             </div>
         `;
-    }
-
-    public override updated(changed: PropertyValues<this>) {
-        super.updated(changed);
-        if (!this.hasAttribute("role")) {
-            this.setAttribute("role", "switch");
-        }
     }
 }

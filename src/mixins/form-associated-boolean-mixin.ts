@@ -120,6 +120,8 @@ export function FormAssociatedBooleanMixin<Base extends LitConstructor>(Supercla
         connectedCallback() {
             super.connectedCallback();
             this.defaultValue = Boolean(this.hasAttribute("checked"));
+            this.updateFormValue();
+            this.validateRequired();
         }
 
         // Inform the form that either the name or the value has changed. */
@@ -240,6 +242,7 @@ export function FormAssociatedBooleanMixin<Base extends LitConstructor>(Supercla
         public override updated(changed: PropertyValues<this>) {
             super.updated(changed);
             this.setAriaLabels();
+            this.setAttribute("tabIndex", this.disabled ? "-1" : "0");
             this.setAriaAttribute("aria-checked", this.checked ? "true" : "false");
             this.setAriaAttribute("aria-disabled", this.disabled ? "true" : null);
 
