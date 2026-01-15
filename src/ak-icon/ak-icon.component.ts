@@ -10,12 +10,6 @@ import { property } from "lit/decorators.js";
 const iconFamilies = ["fa", "fas", "fab", "pf"] as const;
 type IconFamily = (typeof iconFamilies)[number];
 
-export interface IIcon {
-    icon?: string;
-    family?: IconFamily;
-    fallback?: string;
-}
-
 /**
  * @element ak-icon
  *
@@ -60,7 +54,7 @@ export interface IIcon {
  * @cssprop --fa-flip-z - Z-axis flip coordinate for flip effect
  * @cssprop --fa-flip-angle - Flip angle for flip effect
  */
-export class Icon extends LitElement implements IIcon {
+export class Icon extends LitElement {
     static override readonly styles = [styles, effects, faicons, pficons];
 
     @property()

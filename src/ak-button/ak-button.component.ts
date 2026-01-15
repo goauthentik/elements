@@ -29,7 +29,7 @@ export type ButtonSeverity = (typeof buttonSeverity)[number];
 /**
  * Optional button sizes
  */
-export const buttonSize = ["sm", "lg"] as const;
+export const buttonSize = ["sm", "md", "lg"] as const;
 export type ButtonSize = (typeof buttonSize)[number];
 
 /**
@@ -55,8 +55,9 @@ export type ButtonType = (typeof buttonType)[number];
  *   - "danger": Red styling for destructive actions
  *   - "warning": Yellow styling for cautionary actions
  * @attr {ButtonSize} size - Button size: "sm", "lg"
- *   - "small": Smaller than default. Used for compact settings.
- *   - "large": Larger than default. Used for CTAs.
+ *   - "sm": Smaller than default. Used for compact settings.
+ *   - "md": Medium (the default)
+ *   - "lg": Larger than default. Used for CTAs.
  * @attr {string} name - Name attribute for the button
  * @attr {string} value - Value attribute when button is part of a form
  * @attr {string} label - Aria-accessible label for the button
@@ -108,6 +109,9 @@ export class Button extends LitElement {
 
     static readonly formAssociated = true;
 
+    // While it's unlikely that client code will modify these by manipulating `type` and `variant`
+    // fields directly, it's still possible. Their presence triggers corresponding CSS effects, so
+    // they must be monitored and reflected.
     @property({ reflect: true })
     public type?: ButtonType = "button";
 
