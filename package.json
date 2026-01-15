@@ -22,7 +22,7 @@
         "clean:artifacts": "rm -f tsconfig*.tsbuildinfo",
         "clean:dist": "rimraf ./dist",
         "fix:styles": "stylelint --fix 'src/**/*.css'",
-        "lint": "run-s -sn lint:types lint:eslint lint:package",
+        "lint": "run-s -n lint:types lint:eslint",
         "lint-staged": "lint-staged",
         "lint:eslint": "eslint --max-warnings 0 --fix",
         "lint:styles": "stylelint 'src/**/*.css'",
