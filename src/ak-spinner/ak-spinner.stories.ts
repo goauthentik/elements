@@ -1,12 +1,12 @@
 import "./ak-spinner.js";
 
-import { akSpinner, AkSpinnerProps } from "./ak-spinner.builder.js";
+import { akSpinner, SpinnerProps } from "./ak-spinner.builder.js";
 
 import { Meta, StoryObj } from "@storybook/web-components";
 
 import { html } from "lit";
 
-const metadata: Meta<AkSpinnerProps> = {
+const metadata: Meta<SpinnerProps> = {
     title: "Elements/Spinner",
     component: "ak-spinner",
     tags: ["autodocs"],

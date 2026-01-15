@@ -5,7 +5,7 @@ import { type Spinner, type SpinnerSize } from "./ak-spinner.component.js";
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
-export type AkSpinnerProps = Partial<Pick<Spinner, "label">> & {
+export type SpinnerProps = Partial<Pick<Spinner, "label">> & {
     inline?: boolean;
     size?: SpinnerSize;
 };
@@ -17,7 +17,7 @@ export type AkSpinnerProps = Partial<Pick<Spinner, "label">> & {
  *
  * @see {@link Spinner} - The underlying web component
  */
-export function akSpinner(options: AkSpinnerProps = { inline: false }) {
+export function akSpinner(options: SpinnerProps = { inline: false }) {
     const { size, label, inline } = options;
 
     return html`<ak-spinner
