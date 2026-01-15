@@ -467,7 +467,7 @@ async function buildStylesheets(transformationFiles: string[]) {
             if (!("$from" in transRequest)) {
                 if (derivedFromTokens(selectorHasSubstitutions, transRequest)) {
                     throw new Error(
-                        "A rule with no $from may not have substitutions or inclusion rules",
+                        `${transSelector} rule has no $from and may not have substitutions or inclusion rules`,
                     );
                 }
                 hostRules.add(makeRule(safeSelector, customDeclarations));

@@ -4,11 +4,6 @@ import { html, LitElement } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 
-export interface IBrand {
-    src?: string;
-    alt?: string;
-}
-
 /**
  * @summary A **brand** is an image used to identify an organization, corporation or project.
  *
@@ -27,15 +22,15 @@ export interface IBrand {
  * @cssprop --ak-v1-c-brand--Height-on-xl - Height on extra large screens (≥1200px)
  * @cssprop --ak-v1-c-brand--Height-on-2xl - Height on 2x large screens (≥1450px)
  */
-export class Brand extends LitElement implements IBrand {
+export class Brand extends LitElement {
     static readonly styles = [styles];
 
     /** @attr {string} src - The URL for the image source */
-    @property({ type: String, reflect: true })
+    @property({ type: String })
     src?: string;
 
     /** @attr {string} alt - The alt text for the image (for accessibility) */
-    @property({ type: String, reflect: true })
+    @property({ type: String })
     alt?: string;
 
     render() {

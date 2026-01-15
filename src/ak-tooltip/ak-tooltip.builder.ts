@@ -10,7 +10,7 @@ export type TooltipProps = ElementRest &
     Partial<Pick<Tooltip, "htmlFor" | "placement">> & {
         content: string | TemplateResult;
         trigger?: Trigger;
-        noArrow?: boolean;
+        hideArrow?: boolean;
     };
 
 /**
@@ -21,7 +21,7 @@ export type TooltipProps = ElementRest &
  * @see {@link Tooltip} - The underlying web component
  */
 export function akTooltip(options: TooltipProps) {
-    const { content, htmlFor, trigger, placement, noArrow, ...rest } = options;
+    const { content, htmlFor, trigger, placement, hideArrow, ...rest } = options;
 
     return html`
         <ak-tooltip
@@ -29,7 +29,7 @@ export function akTooltip(options: TooltipProps) {
             for=${ifDefined(htmlFor)}
             trigger=${ifDefined(trigger)}
             placement=${ifDefined(placement)}
-            ?no-arrow=${!!noArrow}
+            ?hide-arrow=${!!hideArrow}
             >${content}</ak-tooltip
         >
     `;

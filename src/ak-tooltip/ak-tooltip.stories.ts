@@ -54,7 +54,7 @@ const metadata: Meta<Tooltip> = {
             control: "number",
             description: "Delay in ms before hiding tooltip",
         },
-        noArrow: {
+        hideArrow: {
             control: "boolean",
             description: "Hide the arrow pointing to the anchor",
         },
@@ -80,7 +80,7 @@ const Template: Story = {
                 trigger=${ifDefined(args.trigger)}
                 show-delay=${ifDefined(args.showDelay)}
                 hide-delay=${ifDefined(args.hideDelay)}
-                ?no-arrow=${!!args.noArrow}
+                ?hide-arrow=${!!args.hideArrow}
                 >${args.content}
             </ak-tooltip>
         </div>
@@ -97,7 +97,7 @@ export const Default: Story = {
         trigger: "hover",
         showDelay: 500,
         hideDelay: 100,
-        noArrow: false,
+        hideArrow: false,
     },
 };
 

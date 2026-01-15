@@ -36,9 +36,9 @@ The following files will be found in almost all components:
 
 The following files can be found with most components:
 
-- `ak-component.test.ts`: A WebdriverIO test file. Not always present; WebdriverIO, the shadowDOM,
-  and events like mouse-in/mouse-out or timing-based components should have strong storybook demos
-  instead so developers can affirm that a component behaves as expected.
+- `ak-component.test.ts`: A Vitest-and-Playwright test file. Not always present; Playwright, the
+  shadowDOM, and events like mouse-in/mouse-out or timing-based components should have strong
+  storybook demos instead so developers can affirm that a component behaves as expected.
 - `ak-component.wcc.yaml`: A WCCSS file. These files document _what_ we did to convert Patternfly-5
   to a shadowDOM-friendly format. The WCCSS program in the `./tools-src` folder automatically:
     - splits a component's React-oriented CSS into a file defining component-namespaced CSS custom
