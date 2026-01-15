@@ -101,7 +101,7 @@ describe("ak-checkbox component", () => {
             const element = component.element() as HTMLInputElement;
 
             await expect.element(component).toHaveAttribute("disabled");
-            await expect.element(await page.getCheckbox()).toHaveAttribute("tabindex", "-1");
+            await expect.element(component).toHaveAttribute("tabindex", "-1");
             expect(element.disabled).toBeTruthy();
         });
 

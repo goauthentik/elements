@@ -1,4 +1,7 @@
+import type { ElementRest } from "../types.js";
 import { CheckboxInput } from "./ak-checkbox.js";
+
+import { spread } from "@open-wc/lit-helpers";
 
 import { html, TemplateResult } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -6,25 +9,26 @@ import { ifDefined } from "lit/directives/if-defined.js";
 /**
  * Configuration options for the akCheckbox helper function
  */
-export type CheckboxProps = Partial<
-    Pick<
-        CheckboxInput,
-        | "name"
-        | "checked"
-        | "indeterminate"
-        | "required"
-        | "disabled"
-        | "value"
-        | "showLabel"
-        | "ariaLabel"
-    >
-> & {
-    label?: TemplateResult | string;
-    labelOn?: TemplateResult | string;
-    icon?: TemplateResult | string;
-    indeterminateIcon?: TemplateResult | string;
-    reverse?: boolean;
-};
+export type CheckboxProps = ElementRest &
+    Partial<
+        Pick<
+            CheckboxInput,
+            | "name"
+            | "checked"
+            | "indeterminate"
+            | "required"
+            | "disabled"
+            | "value"
+            | "showLabel"
+            | "ariaLabel"
+        >
+    > & {
+        label?: TemplateResult | string;
+        labelOn?: TemplateResult | string;
+        icon?: TemplateResult | string;
+        indeterminateIcon?: TemplateResult | string;
+        reverse?: boolean;
+    };
 
 /**
  * @summary Helper function to create a Checkbox component programmatically
@@ -48,6 +52,7 @@ export function akCheckbox(options: CheckboxProps = {}): TemplateResult {
         labelOn,
         icon,
         indeterminateIcon,
+        ...rest
     } = options;
 
     const intoSlot = (slot: string, s?: TemplateResult | string) =>
@@ -62,6 +67,7 @@ export function akCheckbox(options: CheckboxProps = {}): TemplateResult {
     //
     return html`
         <ak-checkbox
+            ${spread(rest)}
             name=${ifDefined(name)}
             ?checked=${Boolean(checked)}
             ?indeterminate=${Boolean(indeterminate)}

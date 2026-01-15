@@ -357,7 +357,7 @@ export const EventHandling: Story = {
                     }
                 }}
             >
-                Toggle me to see events
+                <span slot="label">Toggle me to see events</span>
             </ak-checkbox>
         </div>
     `,
@@ -418,7 +418,7 @@ export const SizeVariants: Story = {
 
             <div>
                 <h4 style="margin: 0 0 0.5rem 0;">Default</h4>
-                <ak-checkbox checked> Default size checkbox </ak-checkbox>
+                <ak-checkbox checked> <span slot="label">Default size checkbox</span> </ak-checkbox>
             </div>
 
             <div>

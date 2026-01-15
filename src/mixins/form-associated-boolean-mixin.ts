@@ -28,6 +28,7 @@ export interface IFormAssociatedBoolean {
     onBlur(): void;
     onInvalid(ev: Event): void;
     onFocus(): void;
+    setAriaChecked(): void;
     setAriaAttribute(name: string, value: string | null): void;
 }
 
@@ -239,11 +240,15 @@ export function FormAssociatedBooleanMixin<Base extends LitConstructor>(Supercla
             return this.setAttribute(name, value);
         }
 
+        public setAriaChecked() {
+            this.setAriaAttribute("aria-checked", this.checked ? "true" : "false");
+        }
+
         public override updated(changed: PropertyValues<this>) {
             super.updated(changed);
             this.setAriaLabels();
             this.setAttribute("tabIndex", this.disabled ? "-1" : "0");
-            this.setAriaAttribute("aria-checked", this.checked ? "true" : "false");
+            this.setAriaChecked();
             this.setAriaAttribute("aria-disabled", this.disabled ? "true" : null);
 
             if (changed.has("checked")) {

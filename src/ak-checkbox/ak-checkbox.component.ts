@@ -6,7 +6,7 @@ import styles from "./ak-checkbox.scss";
 
 import { match, P } from "ts-pattern";
 
-import { html, nothing, PropertyValues } from "lit";
+import { html, nothing } from "lit";
 import { property } from "lit/decorators.js";
 
 const CHECK_ICON = () =>
@@ -64,11 +64,18 @@ const DOT_ICON = () => html`
 export class CheckboxInput extends FormAssociatedBooleanMixin(AkLitElement) {
     static readonly styles = [styles];
 
-    @property({ type: Boolean, attribute: "label" })
+    @property({ type: Boolean, attribute: "show-label" })
     public showLabel = false;
 
     @property({ type: Boolean })
     public indeterminate = false;
+
+    connectedCallback() {
+        super.connectedCallback();
+        if (!this.hasAttribute("role")) {
+            this.setAttribute("role", "checkbox");
+        }
+    }
 
     protected renderIcon() {
         const [hasIndeterminate, hasIcon] = [
@@ -101,17 +108,13 @@ export class CheckboxInput extends FormAssociatedBooleanMixin(AkLitElement) {
 
     public override render() {
         return html`
-            <div part="checkbox" tabindex="${this.disabled ? -1 : 0}">
+            <div part="checkbox">
                 ${this.hasSlotted("label") ? this.renderWithLabels() : this.renderCheckbox()}
             </div>
         `;
     }
 
-    public override updated(changed: PropertyValues<this>) {
-        super.updated(changed);
-        if (!this.hasAttribute("role")) {
-            this.setAttribute("role", "checkbox");
-        }
+    public override setAriaChecked() {
         this.setAriaAttribute(
             "aria-checked",
             match([this.indeterminate, this.checked])
