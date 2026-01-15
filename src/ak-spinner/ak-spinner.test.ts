@@ -1,7 +1,6 @@
 // Import the component to register it
 import "./ak-spinner.js";
 
-import { spread } from "@open-wc/lit-helpers";
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-lit";
 import { Locator, locators, page } from "vitest/browser";
@@ -29,12 +28,8 @@ declare module "vitest/browser" {
 }
 
 describe("ak-spinner component", function () {
-    const renderComponent = async (properties = {}) => {
-        render(html`<ak-spinner ${spread(properties)}></ak-spinner>`);
-    };
-
     it("renders basic spinner", async () => {
-        renderComponent();
+        render(html`<ak-spinner></ak-spinner>`);
 
         const spinner = await page.getElement();
         const svg = await page.getSpinner();
@@ -44,13 +39,14 @@ describe("ak-spinner component", function () {
     });
 
     it("forwards custom label", async () => {
-        renderComponent({ label: "Custom loading message" });
+        render(html`<ak-spinner label="Custom loading message"></ak-spinner>`);
         const svg = await page.getSpinner();
         await expect.element(svg).toHaveAttribute("aria-label", "Custom loading message");
     });
 
     it("uses default label when not specified", async () => {
-        renderComponent();
+        render(html`<ak-spinner></ak-spinner>`);
+
         const svg = await page.getSpinner();
         const ariaLabel = await svg.element().getAttribute("aria-label");
         expect(ariaLabel).not.toBeNull();
