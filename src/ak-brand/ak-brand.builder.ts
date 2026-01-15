@@ -1,3 +1,4 @@
+import type { ElementRest } from "../types.js";
 import { Brand } from "./ak-brand.component.js";
 
 import { spread } from "@open-wc/lit-helpers";
@@ -5,7 +6,7 @@ import { spread } from "@open-wc/lit-helpers";
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
-export type BrandProps = Partial<HTMLElement> & Partial<Pick<Brand, "src" | "alt">>;
+export type BrandProps = ElementRest & Partial<Pick<Brand, "src" | "alt">>;
 
 /**
  * @summary Helper function to create a Brand component programmatically

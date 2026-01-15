@@ -27,7 +27,7 @@ const meta: Meta<Progress> = {
             options: ["none", "top", "inside", "outside"],
             description: "Position of the progress value display",
         },
-        _size: {
+        size: {
             control: { type: "select" },
             options: ["sm", "lg"],
             description: "Size variant of the progress bar",
@@ -566,7 +566,7 @@ export const BuilderCustomFormatting: Story = {
                 value: 387,
                 displayValue: (value: number) => `${value} MB / 500 MB`,
                 label: "Memory usage",
-                severity: (value) => (value > 400 ? "danger" : value > 300 ? "warning" : undefined),
+                severity: "warning",
             })}
             ${akProgress({
                 min: -10,

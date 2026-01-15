@@ -1,6 +1,5 @@
 import { akProgress, type ProgressProps } from "./ak-progress.builder.js";
 import {
-    type IProgress,
     Progress,
     type ProgressBarSeverity,
     type ProgressBarSize,
@@ -9,7 +8,6 @@ import {
 
 export {
     akProgress,
-    type IProgress,
     Progress,
     type ProgressBarSeverity,
     type ProgressBarSize,

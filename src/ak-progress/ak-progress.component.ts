@@ -12,23 +12,11 @@ import { styleMap } from "lit/directives/style-map.js";
 export const progressBarVariants = ["none", "top", "inside", "outside", "indeterminate"] as const;
 export type ProgressBarVariant = (typeof progressBarVariants)[number];
 
-export const progressBarSize = ["xs", "sm", "lg"] as const;
+export const progressBarSize = ["xs", "sm", "md", "lg"] as const;
 export type ProgressBarSize = (typeof progressBarSize)[number];
 
 export const progressBarSeverity = ["success", "danger", "warning"] as const;
 export type ProgressBarSeverity = (typeof progressBarSeverity)[number];
-
-export interface IProgress {
-    variant?: ProgressBarVariant;
-    _size?: ProgressBarSize;
-    severity?: ProgressBarSeverity;
-    min?: number;
-    max?: number;
-    value?: number;
-    showIcon?: boolean;
-    oneWay?: boolean;
-    displayValue?: (_: number) => string;
-}
 
 const SEVERITY_ICONS = new Map<ProgressBarSeverity, string>([
     ["danger", "fa-times"],
@@ -88,10 +76,10 @@ const SEVERITY_ICONS = new Map<ProgressBarSeverity, string>([
  * @cssprop --ak-v1-c-progress--m-xs__bar--Height - Height for xs size variant
  * @cssprop --ak-v1-c-progress--m-indeterminate--GridGap - Collapsed gap size for indeterminate variant
  */
-export class Progress extends AkLitElement implements IProgress {
+export class Progress extends AkLitElement {
     static readonly styles = [styles, indeterminateAnimation];
 
-    @property({ type: String })
+    @property({ type: String, reflect: true })
     public variant: ProgressBarVariant = "top";
 
     @property({ reflect: true })

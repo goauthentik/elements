@@ -1,22 +1,33 @@
 import "./ak-progress.component.js";
 
+import type { ElementRest } from "../types.js";
 import { Progress, ProgressBarSize } from "./ak-progress.component.js";
+
+import { spread } from "@open-wc/lit-helpers";
 
 import { html, nothing, TemplateResult } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
 /* The `pick`ed fields here correspond to their types in the Progress class above. */
 
-export interface ProgressProps extends Partial<
-    Pick<
-        Progress,
-        "variant" | "severity" | "min" | "max" | "value" | "showIcon" | "oneWay" | "displayValue"
-    >
-> {
-    size?: ProgressBarSize;
-    label?: string | TemplateResult;
-    icon?: string | TemplateResult;
-}
+export type ProgressProps = ElementRest &
+    Partial<
+        Pick<
+            Progress,
+            | "variant"
+            | "severity"
+            | "min"
+            | "max"
+            | "value"
+            | "showIcon"
+            | "oneWay"
+            | "displayValue"
+        >
+    > & {
+        size?: ProgressBarSize;
+        label?: string | TemplateResult;
+        icon?: string | TemplateResult;
+    };
 
 /**
  * @summary Helper function to create a Progress component programmatically
@@ -38,10 +49,12 @@ export function akProgress(options: ProgressProps) {
         displayValue,
         label,
         icon,
+        ...rest
     } = options;
 
     return html`
         <ak-progress
+            ${spread(rest)}
             variant=${ifDefined(variant)}
             size=${ifDefined(size)}
             severity=${ifDefined(severity)}
