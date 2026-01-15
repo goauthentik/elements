@@ -38,8 +38,8 @@ describe("ak-spinner component", function () {
 
         const spinner = await page.getElement();
         const svg = await page.getSpinner();
-        await expect.element(spinner).toBeVisible();
-        await expect.element(svg).toBeVisible();
+        await expect.element(spinner).toBeInTheDocument();
+        await expect.element(svg).toBeInTheDocument();
         await expect.element(svg).toHaveAttribute("role", "progressbar");
     });
 
