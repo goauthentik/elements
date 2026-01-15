@@ -18,12 +18,15 @@ export default defineConfig(({ mode }) => ({
         include: [
             "@open-wc/lit-helpers",
             "vitest-browser-lit",
+            "@lit/localize",
             "lit",
+            "date-fns",
             "lit/directives/if-defined.js",
+            "lit/decorators/property.js",
             "lit/decorators.js",
             "@patternfly/pfe-core/controllers/internals-controller.js",
+            "@patternfly/pfe-core/decorators/observed.js",
             "ts-pattern",
-            "lit/decorators/property.js",
         ],
     },
     test: {
