@@ -1,7 +1,7 @@
 :host {
     --divider--line-thickness: var(--pf-v5-c-divider--line-thickness, 1px);
     --divider--color: var(--pf-v5-c-divider--color, #d2d2d2);
-    --divider--strong--color: var(--pf-v5-c-divider--strong-color, #8a8d90);
+    --divider--strong-color: var(--pf-v5-c-divider--strong-color, #8a8d90);
     --divider--subtle-color: var(--pf-v5-c-divider--subtle-color, #ededed);
     --divider--display: var(--pf-v5-c-divider--display, flex);
     --divider--flex-direction: var(--pf-v5-c-divider--flex-direction, row);

@@ -2,51 +2,115 @@ import "./ak-divider.js";
 
 import { akDivider } from "./ak-divider.js";
 
-import { $, browser, expect } from "@wdio/globals";
+import { spread } from "@open-wc/lit-helpers";
+import { describe, expect, it } from "vitest";
+import { render } from "vitest-browser-lit";
+import { Locator, locators, page } from "vitest/browser";
 
-import { html, nothing, render, TemplateResult } from "lit";
+import { html, nothing, type TemplateResult } from "lit";
 
-type Renderable = TemplateResult | string | typeof nothing;
+locators.extend({
+    getDivider() {
+        return "ak-divider";
+    },
+    getDividerContainer() {
+        return 'ak-divider >> [part="divider"]';
+    },
+    getDividerLine() {
+        return 'ak-divider >> [part="line"]';
+    },
+    getDividerContent() {
+        return 'ak-divider >> [part="content"]';
+    },
+});
+
+declare module "vitest/browser" {
+    interface LocatorSelectors {
+        getDivider(): Locator;
+        getDividerContainer(): Locator;
+        getDividerLine(): Locator;
+        getDividerContent(): Locator;
+    }
+}
+
+type Content = string | TemplateResult | typeof nothing;
 
 describe("ak-divider component", () => {
-    afterEach(async () => {
-        await browser.execute(async () => {
-            await document.body.querySelector("ak-divider")?.remove();
-            // @ts-expect-error expression of type '"_$litPart$"' is added by Lit
-            if (document.body._$litPart$) {
-                // @ts-expect-error expression of type '"_$litPart$"' is added by Lit
-                await delete document.body._$litPart$;
-            }
-        });
-    });
-
-    const renderDivider = async (message: Renderable = "") => {
-        await render(html`<ak-divider>${message}</ak-divider>`, document.body);
-        return await $("ak-divider");
+    const renderComponent = (content: Content = "", properties = {}) => {
+        return render(html`<ak-divider ${spread(properties)}>${content}</ak-divider>`);
     };
 
     it("should render the divider", async () => {
-        const divider = await renderDivider();
-        await expect(divider).toExist();
+        render(html`<ak-divider></ak-divider>`);
+        const divider = await page.getDivider();
+        await expect.element(divider).toBeInTheDocument();
+    });
+
+    it("should render the divider with a single line when no content", async () => {
+        render(html`<ak-divider></ak-divider>`);
+        const line = await page.getDividerLine();
+        await expect.element(line).toBeInTheDocument();
+        await expect.element(line).toHaveAttribute("part", "line");
     });
 
     it("should render the divider with the specified text", async () => {
-        const divider = await renderDivider(html`<span>Your Message Here</span>`);
-        const span = await divider.$(">>>span");
-        await expect(span).toExist();
-        await expect(span).toHaveText("Your Message Here");
+        render(html`<ak-divider><span>Your Message Here</span></ak-divider>`);
+        const divider = await page.getDivider();
+        const content = await page.getDividerContent();
+
+        await expect.element(divider).toBeInTheDocument();
+        await expect.element(content).toBeInTheDocument();
+        await expect.element(divider).toHaveTextContent("Your Message Here");
     });
 
-    it("should render the divider as a function with the specified text", async () => {
-        await render(akDivider({ content: "Your Message As A Function" }), document.body);
-        const divider = $("ak-divider");
-        await expect(divider).toExist();
-        await expect(await divider.$(">>>span")).toHaveText("Your Message As A Function");
+    it("should render three parts when content is present", async () => {
+        renderComponent(html`<span>Message</span>`);
+        const component = await page.getDivider().element();
+        const shadowRoot = component.shadowRoot!;
+
+        const lineStart = shadowRoot.querySelector('[part="line start"]');
+        const lineEnd = shadowRoot.querySelector('[part="line end"]');
+        const content = shadowRoot.querySelector('[part="content"]');
+
+        expect(lineStart).not.toBeNull();
+        expect(lineEnd).not.toBeNull();
+        expect(content).not.toBeNull();
     });
 
-    it("should render the divider as a function", async () => {
-        await render(akDivider(), document.body);
-        const divider = $("ak-divider");
-        await expect(divider).toExist();
+    it("should render the divider using builder function with text", async () => {
+        render(akDivider({ content: "Your Message As A Function" }));
+        const divider = await page.getDivider();
+        const content = await page.getDividerContent();
+
+        await expect.element(divider).toBeVisible();
+        await expect.element(content).toBeVisible();
+        await expect.element(divider).toHaveTextContent("Your Message As A Function");
+    });
+
+    it("should render the divider using builder function with no content", async () => {
+        render(akDivider());
+        const divider = await page.getDivider();
+        await expect.element(divider).toBeInTheDocument();
+    });
+
+    it("should apply variant attribute", async () => {
+        renderComponent(undefined, { variant: "strong" });
+        const divider = await page.getDivider();
+        await expect.element(divider).toHaveAttribute("variant", "strong");
+    });
+
+    it("should apply orientation attribute", async () => {
+        renderComponent(undefined, { orientation: "vertical" });
+        const divider = await page.getDivider();
+        await expect.element(divider).toHaveAttribute("orientation", "vertical");
+    });
+
+    it("should render using builder with variant and orientation", async () => {
+        render(akDivider({ variant: "subtle", orientation: "vertical", content: "Vertical" }));
+        const divider = await page.getDivider();
+
+        await expect.element(divider).toBeVisible();
+        await expect.element(divider).toHaveAttribute("variant", "subtle");
+        await expect.element(divider).toHaveAttribute("orientation", "vertical");
     });
 });

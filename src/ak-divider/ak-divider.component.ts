@@ -3,18 +3,14 @@ import styles from "./ak-divider.css";
 
 import { html } from "lit";
 
+// These are documented here because they are used by the builder as type constraints. They have
+// only visual consequences, so there's no need for them in the component's codebase.
+
 export const dividerVariant = ["default", "strong", "subtle"] as const;
 export type DividerVariant = (typeof dividerVariant)[number];
 
 export const dividerOrientation = ["horizontal", "vertical"] as const;
 export type DividerOrientation = (typeof dividerOrientation)[number];
-
-// Not included in the `implements` belowe because these attribute fields are 100% controlling the
-// CSS, with no actual effect on the Javascript behavior of the component.
-export interface IDivider {
-    variant?: DividerVariant;
-    orientation?: DividerOrientation;
-}
 
 /**
  * @element ak-divider

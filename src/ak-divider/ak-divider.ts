@@ -1,7 +1,7 @@
 import { akDivider, type DividerProps } from "./ak-divider.builder.js";
-import { Divider, type IDivider } from "./ak-divider.component.js";
+import { Divider } from "./ak-divider.component.js";
 
-export { akDivider, Divider, type DividerProps, type IDivider };
+export { akDivider, Divider, type DividerProps };
 
 window.customElements.define("ak-divider", Divider);
 

@@ -38,18 +38,6 @@ export type ButtonSize = (typeof buttonSize)[number];
 export const buttonType = ["button", "submit", "reset"] as const;
 export type ButtonType = (typeof buttonType)[number];
 
-export interface IButton {
-    download?: string;
-    href?: string;
-    label?: string;
-    name?: string;
-    rel?: string;
-    target?: string;
-    type?: ButtonType;
-    value?: string;
-    variant?: ButtonVariant;
-}
-
 /**
  * @element ak-button
  *
@@ -115,7 +103,7 @@ export interface IButton {
  * @cssprop --pf-v5-c-button--m-warning--BackgroundColor - Warning severity background color
  * @cssprop --pf-v5-c-button--m-warning--Color - Warning severity text color
  */
-export class Button extends LitElement implements IButton {
+export class Button extends LitElement {
     static readonly styles = [styles];
 
     static readonly formAssociated = true;

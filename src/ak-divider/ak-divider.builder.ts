@@ -1,9 +1,11 @@
-import { IDivider } from "./ak-divider.component.js";
+import { type DividerOrientation, type DividerVariant } from "./ak-divider.component.js";
 
 import { html, TemplateResult } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
-export type DividerProps = IDivider & {
+export type DividerProps = {
+    variant?: DividerVariant;
+    orientation?: DividerOrientation;
     content?: string | TemplateResult;
 };
 
