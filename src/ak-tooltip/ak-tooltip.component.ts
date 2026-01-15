@@ -35,15 +35,27 @@ function parseDelay(delay: string) {
  *
  * @description
  * A tooltip displays additional information when users hover over or focus on an anchor element
- * in order to provide context or to provide a textual label for icons and pictograms. 
+ * in order to provide context or to provide a textual label for icons and pictograms. Think
+ * of a tooltip as an extra label that can be made to appear near an HTMLElement that may require
+ * additional clarification.
  *
  * ## Attributes
  *
- * - @attr {string} for - ID or CSS selector of the anchor element. Must be in the same context as
- *   the tooltip
- * - @attr {HTMLElement} target - Direct reference to the anchor element. Takes precedence over
- *   "for" attribute. The anchor must be in same or a sibling context of the tooltip.  The order
- *   of "search" is: ID, nearest sibling of parent HTMLElement, first match in parent context.
+ * Just like a `label`, there are two ways to specify the component with which a tooltip will be
+ * associated. Unlike HTMLLabelElement, you can set these to any HTMLElement, not just
+ * HTMLFormElement controls.
+ *  
+ * - @attr {string} for - Like a `<label>`, the ID (or selector) of a sibling element which the
+ *   tooltip will appear nearby.
+ *
+ * or:
+ *
+ * - @property {HTMLElement} target - A direct reference to the anchor element. Takes precedence over
+ *   "for" attribute. Unlike HTMLLabelElement.control, this property is read/write.
+ *
+ * If both are set, `target` takes precendence.
+ *
+ * Other attributes:
  *
  * - @attr {"hover"|"focus"} trigger - Event type that triggers tooltip display (default: "hover")
  *   - "hover": Shows on mouseenter/mouseleave events
@@ -51,7 +63,7 @@ function parseDelay(delay: string) {
  * - @attr {Placement} placement - Positioning relative to anchor: "top", "top-start", "top-end",
  *   "right", "right-start", "right-end", "bottom", "bottom-start", "bottom-end", "left",
  *   "left-start", "left-end" (default: "top")
- * - @attr {boolean} no-arrow - Don't show the arrow
+ * - @attr {boolean} hide-arrow - Don't show the arrow
  *
  * ### Deprecated attributes (try not to use these):
  *
@@ -93,7 +105,7 @@ function parseDelay(delay: string) {
  *
  * ## Arrow Look and Feel.  Change these carefully.
  *
- * Don't try to disable the arrow from here. If you don't want an arrow, there is a `no-arrow`
+ * Don't try to disable the arrow from here. If you don't want an arrow, there is a `hide-arrow`
  * attribute for that.
  *
  * - @cssprop --pf-v5-c-tooltip__arrow--Width - Width of the arrow element (default: 0.9375rem)
@@ -116,10 +128,10 @@ export class Tooltip extends LitElement {
     public content = "";
 
     /**
-     * @attr {boolean} noArrow: Don't show an arrow pointing toward the tooltip.
+     * @attr {boolean} hideArrow: Don't show an arrow pointing toward the tooltip.
      */
-    @property({ type: Boolean, attribute: "no-arrow" })
-    public noArrow = false;
+    @property({ type: Boolean, attribute: "hide-arrow" })
+    public hideArrow = false;
 
     /**
      * @attr {string} for: The id or selector for the target. Must be in the same context as the
@@ -132,7 +144,7 @@ export class Tooltip extends LitElement {
      * @attr {object} target: A reference to the target. Must be in the same or in a sibling context
        of the tooltip.  `.target` takes precedence over `for`
      */
-    @property({ type: Object, attribute: "target" })
+    @property({ type: Object })
     public target?: HTMLElement;
 
     /**
@@ -295,7 +307,7 @@ export class Tooltip extends LitElement {
             tabindex="-1"
             aria-live="polite"
         >
-            ${this.noArrow ? nothing : html`<div part="arrow"></div>`}
+            ${this.hideArrow ? nothing : html`<div part="arrow"></div>`}
             <div part="content">${content}</div>
         </dialog>`;
     }
@@ -307,7 +319,7 @@ export class Tooltip extends LitElement {
 
         const signal = { signal: this.#tooltipAbortController.signal };
         this.dialog.value?.addEventListener("focus", this.#onTooltipEnter, signal);
-        this.dialog.value?.addEventListener("blue", this.#onTooltipLeave, signal);
+        this.dialog.value?.addEventListener("blur", this.#onTooltipLeave, signal);
         if (this.trigger === "hover") {
             this.dialog.value?.addEventListener("mouseenter", this.#onTooltipEnter, signal);
             this.dialog.value?.addEventListener("mouseleave", this.#onTooltipLeave, signal);
@@ -343,7 +355,7 @@ export class Tooltip extends LitElement {
             top: `${y}px`,
         });
 
-        if (this.arrow && !this.noArrow) {
+        if (this.arrow && !this.hideArrow) {
             this.arrow.classList.remove(...this.arrow.classList);
             this.arrow.classList.add(`m-${placement}`);
         }

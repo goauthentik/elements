@@ -1,0 +1,28 @@
+import "./ak-spinner.js";
+
+import { type Spinner, type SpinnerSize } from "./ak-spinner.component.js";
+
+import { html } from "lit";
+import { ifDefined } from "lit/directives/if-defined.js";
+
+export type SpinnerProps = Partial<Pick<Spinner, "label">> & {
+    inline?: boolean;
+    size?: SpinnerSize;
+};
+
+/**
+ * @summary Helper function to create a Spinner component programmatically
+ *
+ * @returns {TemplateResult} A Lit template result containing the configured ak-spinner element
+ *
+ * @see {@link Spinner} - The underlying web component
+ */
+export function akSpinner(options: SpinnerProps = { inline: false }) {
+    const { size, label, inline } = options;
+
+    return html`<ak-spinner
+        size=${ifDefined(size)}
+        label=${ifDefined(label)}
+        ?inline=${!!inline}
+    ></ak-spinner>`;
+}
