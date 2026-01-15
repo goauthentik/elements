@@ -40,20 +40,6 @@ const mapHas = (
 ) => (Array.isArray(keys) ? [...keys, ...rest] : [keys, ...rest]).some((key) => changed.has(key));
 
 /**
- * Interface for TimestampOptions
- */
-export interface ITimestamp {
-    date?: string;
-    raw?: Date;
-    dateFormat?: TimestampFormat;
-    timeFormat?: TimestampFormat;
-    displaySuffix?: string;
-    is12Hour?: boolean;
-    locale?: string;
-    displayUTC?: boolean;
-}
-
-/**
  * @element ak-timestamp
  * @class Timestamp
  *
@@ -83,10 +69,17 @@ export interface ITimestamp {
  *
  * ## Styling Hooks
  *
- * @csspart time - The time element that displays the formatted date. Use this to customize the appearance of the timestamp.
+ * @csspart timestamp - The time element that displays the formatted date.
+ * @csspart elapsed - If using the elapsed feature, the display of the "time since..." string.
+ * @csspart warning - A message displayed if the time passed in is unparsable.
  *
+ * ## ARIA Note
+ *
+ * @internal
+ * This component honors `prefers-reduced-motion` when `show-elapsed=true` by only updating the
+ * component every minute, not every second.
  */
-export class Timestamp extends LitElement implements ITimestamp {
+export class Timestamp extends LitElement {
     public static readonly styles = [styles];
 
     /**
@@ -171,6 +164,7 @@ export class Timestamp extends LitElement implements ITimestamp {
 
     #interval = -1;
 
+    // Triggered by the `@observed` decorator.
     protected _rawChanged() {
         const checkedDate = checkAndValidate(this.raw);
         if (checkedDate) {
@@ -179,6 +173,7 @@ export class Timestamp extends LitElement implements ITimestamp {
         }
     }
 
+    // Triggered by the `@observed` decorator.
     protected _dateChanged() {
         this.#date = match(this.date)
             .when(
