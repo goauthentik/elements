@@ -1,0 +1,76 @@
+:host {
+    --divider--line-thickness: var(--pf-v5-c-divider--line-thickness, 1px);
+    --divider--color: var(--pf-v5-c-divider--color, #d2d2d2);
+    --divider--strong-color: var(--pf-v5-c-divider--strong-color, #8a8d90);
+    --divider--subtle-color: var(--pf-v5-c-divider--subtle-color, #ededed);
+    --divider--display: var(--pf-v5-c-divider--display, flex);
+    --divider--flex-direction: var(--pf-v5-c-divider--flex-direction, row);
+    --divider--content-spacing: var(--pf-v5-c-divider--content-spacing, 0.35rem);
+    --divider--height: var(--pf-v5-c-divider--height, auto);
+    --divider__line--before--top: var(--pf-v5-c-divider__line--before--top, 50%);
+    --divider__line--before--left: var(--pf-v5-c-divider__line--before--left, 0);
+    --divider__line--before--width: var(--pf-v5-c-divider__line--before--width, 100%);
+    --divider--margin: var(--divider--content-spacing) 0;
+    --divider__line--before--height: var(--divider--line-thickness);
+}
+
+:host([orientation="vertical"]) {
+    --divider--display: inline-flex;
+    --divider--flex-direction: column;
+    --divider--content-spacing: 0.2rem;
+    --divider--height: 100%;
+    --divider--margin: 0 var(--divider--content-spacing);
+    --divider__line--before--top: 0;
+    --divider__line--before--left: 50%;
+    --divider__line--before--width: var(--divider--line-thickness);
+    --divider__line--before--height: 100%;
+}
+
+:host {
+    display: var(--divider--display);
+    height: var(--divider--height);
+    margin: var(--divider--margin);
+}
+
+/* Base divider container styles */
+[part="divider"] {
+    align-items: center;
+    display: flex;
+    flex-direction: var(--divider--flex-direction);
+    width: 100%;
+    height: var(--divider--height);
+}
+
+[part*="line"] {
+    flex-grow: 1;
+    position: relative;
+}
+
+[part*="line"]::before {
+    content: "";
+    position: absolute;
+    background-color: var(--divider--color);
+    left: var(--divider__line--before--left);
+    top: var(--divider__line--before--top);
+    width: var(--divider__line--before--width);
+    height: var(--divider__line--before--height);
+}
+
+[part="content"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 var(--divider--content-spacing);
+}
+
+::slotted(*) {
+    color: var(--divider--color);
+}
+
+:host([variant="strong"]) {
+    --divider--color: var(--divider--strong-color);
+}
+
+:host([variant="subtle"]) {
+    --divider--color: var(--divider--subtle-color);
+}

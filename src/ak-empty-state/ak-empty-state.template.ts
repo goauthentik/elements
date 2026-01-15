@@ -21,7 +21,7 @@ function iconTemplate(
     icon: string | undefined,
     skipIcon: boolean,
     isLoading: boolean,
-    size: EmptyStateSize
+    size: EmptyStateSize,
 ) {
     if (useSlot) {
         return html`<div part="icon"><slot name="icon"></slot></div>`;
@@ -67,7 +67,8 @@ const secondaryActionsTemplate = (has: boolean) =>
           </div>`
         : nothing;
 
-const footerTemplate = (has: boolean) => (has ? html`<div part="footer"><slot name="footer"></slot></div>` : nothing);
+const footerTemplate = (has: boolean) =>
+    has ? html`<div part="footer"><slot name="footer"></slot></div>` : nothing;
 
 interface EmptyStateTemplateProps {
     hasTitle: boolean;
@@ -112,7 +113,8 @@ export function template(props: EmptyStateTemplateProps) {
                 ${bodyTemplate(hasBody, showLoading)}
                 ${hasFooter
                     ? html` <div part="footer">
-                          ${actionsTemplate(hasActions)} ${secondaryActionsTemplate(hasSecondaryActions)}
+                          ${actionsTemplate(hasActions)}
+                          ${secondaryActionsTemplate(hasSecondaryActions)}
                           ${footerTemplate(hasFooterContent)}
                       </div>`
                     : nothing}

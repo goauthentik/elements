@@ -319,7 +319,7 @@ export class Tooltip extends LitElement {
 
         const signal = { signal: this.#tooltipAbortController.signal };
         this.dialog.value?.addEventListener("focus", this.#onTooltipEnter, signal);
-        this.dialog.value?.addEventListener("blue", this.#onTooltipLeave, signal);
+        this.dialog.value?.addEventListener("blur", this.#onTooltipLeave, signal);
         if (this.trigger === "hover") {
             this.dialog.value?.addEventListener("mouseenter", this.#onTooltipEnter, signal);
             this.dialog.value?.addEventListener("mouseleave", this.#onTooltipLeave, signal);
