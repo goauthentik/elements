@@ -6,9 +6,9 @@ import styles from "./ak-switch.scss";
 
 import { match, P } from "ts-pattern";
 
+import { msg } from "@lit/localize";
 import { html, nothing, TemplateResult } from "lit";
 import { property } from "lit/decorators.js";
-import { ifDefined } from "lit/directives/if-defined.js";
 
 const CHECK_ICON = "fas fa-check";
 
@@ -56,6 +56,8 @@ const CHECK_ICON = "fas fa-check";
  * @slot label - The label to show next to switch (optional)
  * @slot label-on - An alternative label to show next to the switch when it is checked (optional)
  * @slot icon - Use an alternative icon for the checkmark
+ *
+ * NOTE: If you do not supply a `slot=label`, `slot=label-on` will also be ignored.
  */
 export class SwitchInput extends FormAssociatedBooleanMixin(AkLitElement) {
     static readonly styles = [styles];
@@ -78,40 +80,44 @@ export class SwitchInput extends FormAssociatedBooleanMixin(AkLitElement) {
 
     protected renderIcon() {
         const useSlot = this.hasSlotted("icon");
-        const [noIcon, useIcon] = [!(this.useCheck || useSlot), typeof this.checkIcon === "string"];
+        const noIcon = !this.useCheck && !useSlot;
 
-        // prettier-ignore
-        const icon = match([noIcon, useSlot, useIcon])
-            .with([true, P._, P._], () => nothing)
-            .with([false, true, P._], () => html`<slot name="icon"></slot>`)
-            .with([false, false, true],
-                () => html`<ak-icon size="sm" icon=${ifDefined(this.checkIcon)}></ak-icon>`)
-            .otherwise(() => this.checkIcon);
+        if (noIcon) {
+            return nothing;
+        }
 
-        return icon === nothing
-            ? nothing
-            : html`<div part="toggle-icon" aria-hidden="true">${icon}</slot></div>`;
+        const fallback =
+            typeof this.checkIcon === "string"
+                ? html`<ak-icon size="sm" icon=${this.checkIcon}></ak-icon>`
+                : this.checkIcon;
+
+        return html`<div part="toggle-icon" aria-hidden="true">
+            <slot name="icon">${fallback}</slot>
+        </div>`;
     }
 
     protected renderLabel() {
-        return this.hasSlotted("label-on") && this.checked
-            ? html`<slot name="label-on"></slot>`
-            : html`<slot name="label"></slot>`;
-    }
+        const dontShow = !this.showLabel && !this.hasSlotted("label");
+        const showOnLabel = (this.showLabel || this.hasSlotted("label-on")) && this.checked;
 
-    private renderSwitch() {
-        return html`<div part="toggle">${this.renderIcon()}</div>`;
-    }
-
-    private renderWithLabels() {
-        return html`<div part="toggle">${this.renderIcon()}</div>
-            <span part="label"> ${this.renderLabel()} </span>`;
+        return match([dontShow, showOnLabel])
+            .with([true, P._], () => nothing)
+            .with(
+                [false, true],
+                () => html`<span part="label"><slot name="label-on">${msg("On")}</slot></span>`,
+            )
+            .with(
+                [false, false],
+                () => html`<span part="label"><slot name="label">${msg("Off")}</slot></span>`,
+            )
+            .exhaustive();
     }
 
     public override render() {
         return html`
             <div part="switch">
-                ${this.hasSlotted("label") ? this.renderWithLabels() : this.renderSwitch()}
+                <div part="toggle">${this.renderIcon()}</div>
+                ${this.renderLabel()}
             </div>
         `;
     }
