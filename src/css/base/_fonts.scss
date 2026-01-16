@@ -38,6 +38,38 @@
 }
 
 @font-face {
+    font-family: RedHatDisplay;
+    font-style: normal;
+    font-weight: 400;
+    src: url("../fonts/RedHatDisplay/RedHatDisplay-Regular.woff2") format("woff2");
+    font-display: fallback;
+}
+
+@font-face {
+    font-family: RedHatDisplay;
+    font-style: italic;
+    font-weight: 400;
+    src: url("../fonts/RedHatDisplay/RedHatDisplay-Italic.woff2") format("woff2");
+    font-display: fallback;
+}
+
+@font-face {
+    font-family: RedHatDisplay;
+    font-style: normal;
+    font-weight: 700;
+    src: url("../fonts/RedHatDisplay/RedHatDisplay-Medium.woff2") format("woff2");
+    font-display: fallback;
+}
+
+@font-face {
+    font-family: RedHatDisplay;
+    font-style: italic;
+    font-weight: 700;
+    src: url("../fonts/RedHatDisplay/RedHatDisplay-MediumItalic.woff2") format("woff2");
+    font-display: fallback;
+}
+
+@font-face {
     font-family: pficon;
     src:
         url("../fonts/pficon/pficon.woff2") format("woff2"),
