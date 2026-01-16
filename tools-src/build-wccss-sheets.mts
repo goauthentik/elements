@@ -14,7 +14,6 @@ import {
     writeFile,
 } from "./lib/utilities.mjs";
 
-// @ts-expect-error no types provided
 import authentikPrettierConfig from "@goauthentik/prettier-config";
 
 import css, { Declaration, Rule } from "css";
@@ -458,9 +457,10 @@ async function buildStylesheets(transformationFiles: string[]) {
 
         const transformationsToPerform = Object.entries(transformation.host ?? {});
 
-        transrule: for (const [rawTransSelector, transRequest] of transformationsToPerform) {
-            const transSelector = rawTransSelector.replace(/%\d+$/, "");
-            const selectorHasSubstitutions = /\\\d+/.test(transSelector);
+        transrule: for (const [transSelector, transRequest] of transformationsToPerform) {
+            const safeSelector = transSelector.replace(/%.*/, "");
+
+            const selectorHasSubstitutions = /\\\d+/.test(safeSelector);
             const customDeclarations = getCustomDeclarations(transRequest);
 
             // New rule not derived from the source material.
@@ -470,7 +470,7 @@ async function buildStylesheets(transformationFiles: string[]) {
                         `${transSelector} rule has no $from and may not have substitutions or inclusion rules`,
                     );
                 }
-                hostRules.add(makeRule(transSelector, customDeclarations));
+                hostRules.add(makeRule(safeSelector, customDeclarations));
                 continue transrule;
             }
 
@@ -485,7 +485,7 @@ async function buildStylesheets(transformationFiles: string[]) {
                     declarationFilter,
                 );
                 hostRules.add(
-                    makeRule(transSelector, [...foundDeclarations, ...customDeclarations]),
+                    makeRule(safeSelector, [...foundDeclarations, ...customDeclarations]),
                 );
                 continue;
             }
@@ -494,7 +494,7 @@ async function buildStylesheets(transformationFiles: string[]) {
                 transRequest.$from,
                 cleanSourceRules,
                 componentMatcher,
-                transSelector,
+                safeSelector,
                 declarationFilter,
             ).forEach(([newSelector, newDeclarations]) =>
                 hostRules.add(makeRule(newSelector, [...newDeclarations, ...customDeclarations])),

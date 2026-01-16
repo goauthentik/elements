@@ -29,7 +29,7 @@ export type ButtonSeverity = (typeof buttonSeverity)[number];
 /**
  * Optional button sizes
  */
-export const buttonSize = ["sm", "lg"] as const;
+export const buttonSize = ["sm", "md", "lg"] as const;
 export type ButtonSize = (typeof buttonSize)[number];
 
 /**
@@ -37,18 +37,6 @@ export type ButtonSize = (typeof buttonSize)[number];
  */
 export const buttonType = ["button", "submit", "reset"] as const;
 export type ButtonType = (typeof buttonType)[number];
-
-export interface IButton {
-    download?: string;
-    href?: string;
-    label?: string;
-    name?: string;
-    rel?: string;
-    target?: string;
-    type?: ButtonType;
-    value?: string;
-    variant?: ButtonVariant;
-}
 
 /**
  * @element ak-button
@@ -67,8 +55,9 @@ export interface IButton {
  *   - "danger": Red styling for destructive actions
  *   - "warning": Yellow styling for cautionary actions
  * @attr {ButtonSize} size - Button size: "sm", "lg"
- *   - "small": Smaller than default. Used for compact settings.
- *   - "large": Larger than default. Used for CTAs.
+ *   - "sm": Smaller than default. Used for compact settings.
+ *   - "md": Medium (the default)
+ *   - "lg": Larger than default. Used for CTAs.
  * @attr {string} name - Name attribute for the button
  * @attr {string} value - Value attribute when button is part of a form
  * @attr {string} label - Aria-accessible label for the button
@@ -115,11 +104,14 @@ export interface IButton {
  * @cssprop --pf-v5-c-button--m-warning--BackgroundColor - Warning severity background color
  * @cssprop --pf-v5-c-button--m-warning--Color - Warning severity text color
  */
-export class Button extends LitElement implements IButton {
+export class Button extends LitElement {
     static readonly styles = [styles];
 
     static readonly formAssociated = true;
 
+    // While it's unlikely that client code will modify these by manipulating `type` and `variant`
+    // fields directly, it's still possible. Their presence triggers corresponding CSS effects, so
+    // they must be monitored and reflected.
     @property({ reflect: true })
     public type?: ButtonType = "button";
 
@@ -147,13 +139,13 @@ export class Button extends LitElement implements IButton {
     @property()
     public download?: string;
 
-    @property({ reflect: true, type: Boolean, attribute: "disabled" })
-    protected _disabled = false;
-
     #internals = InternalsController.of(this, { role: "button" });
 
-    protected get disabled() {
-        return this._disabled || this.#internals.formDisabled;
+    @property({ reflect: true, type: Boolean })
+    public disabled = false;
+
+    get #disabled() {
+        return this.matches(":disabled") || this.disabled;
     }
 
     private onClick = (event: MouseEvent) => {
@@ -196,7 +188,7 @@ export class Button extends LitElement implements IButton {
     public willUpdate(changed: PropertyValues<this>): void {
         super.willUpdate(changed);
         this.#internals.ariaLabel = this.label || null;
-        this.#internals.ariaDisabled = String(!!this._disabled);
+        this.#internals.ariaDisabled = String(!!this.#disabled);
         if (this.variant === "link" && this.href) {
             this.tabIndex = -1;
         } else {
@@ -205,8 +197,8 @@ export class Button extends LitElement implements IButton {
     }
 
     public override render() {
-        const { href, type, target, name, value, disabled, rel, download, onClick, onKeydown } =
-            this;
+        const { href, type, target, name, value, rel, download, onClick, onKeydown } = this;
+        const disabled = this.#disabled;
 
         return this.variant === "link" && typeof href === "string"
             ? linkTemplate({ href, target, disabled, rel, download, onClick, onKeydown })
