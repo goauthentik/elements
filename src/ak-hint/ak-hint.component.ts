@@ -8,6 +8,8 @@ import { html, nothing } from "lit";
  *
  * @summary A container for displaying informative content with optional title and footer sections
  *
+ * @attr {string} variant - Visual theme variant: "info" (default), "success", "warning", "danger"
+ *
  * @slot - Main content body of the hint
  * @slot title - Optional title header for the hint
  * @slot footer - Optional footer content with additional information or actions
@@ -41,9 +43,7 @@ export class Hint extends AkLitElement {
 
         return html`
             <div part="hint">
-                ${hasTitle
-                    ? html`<div part="title" class="title"><slot name="title"></slot></div>`
-                    : nothing}
+                ${hasTitle ? html`<div part="title"><slot name="title"></slot></div>` : nothing}
                 ${hasBody ? html`<div part="body"><slot></slot></div>` : nothing}
                 ${hasFooter ? html`<div part="footer"><slot name="footer"></slot></div>` : nothing}
             </div>

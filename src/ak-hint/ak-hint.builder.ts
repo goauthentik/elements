@@ -1,9 +1,12 @@
+import type { ElementRest } from "../types.js";
 import { Hint } from "./ak-hint.component.js";
+
+import { spread } from "@open-wc/lit-helpers";
 
 import { html, TemplateResult } from "lit";
 
-export type HintProps = {
-    title?: string | TemplateResult;
+export type HintProps = ElementRest & {
+    hint?: string | TemplateResult;
     footer?: string | TemplateResult;
     body?: string | TemplateResult;
 };
@@ -17,13 +20,13 @@ export type HintProps = {
  */
 
 export function akHint(options: HintProps = {}) {
-    const { title, body, footer } = options;
+    const { hint, body, footer, ...rest } = options;
 
     return html`
-        <ak-hint>
-            ${title ? html`<div slot="title">${title}</div>` : ""}
+        <ak-hint ${spread(rest)}>
+            ${hint ? html`<h3 slot="title">${hint}</h3>` : ""}
             ${body ? html`<span>${body}</span>` : ""}
-            ${footer ? html`<div slot="footer">${footer}</div>` : ""}
+            ${footer ? html`<footer slot="footer">${footer}</footer>` : ""}
         </ak-hint>
     `;
 }

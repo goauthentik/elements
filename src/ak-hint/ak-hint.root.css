@@ -12,8 +12,17 @@
     --pf-v5-c-hint__title--FontSize: var(--pf-v5-global--FontSize--lg);
     --pf-v5-c-hint__body--FontSize: var(--pf-v5-global--FontSize--md);
     --pf-v5-c-hint__footer--child--MarginRight: var(--pf-v5-global--spacer--md);
+
+    /* TODO: Incorporate the "actions" block. */
     --pf-v5-c-hint__actions--MarginLeft: var(--pf-v5-global--spacer--2xl);
-    --pf-v5-c-hint__actions--c-dropdown--MarginTop: var(
-        calc(--pf-v5-global--spacer--form-element * -1)
+    --pf-v5-c-hint__actions--c-dropdown--MarginTop: calc(
+        var(--pf-v5-global--spacer--form-element) * -1
     );
+}
+
+.pf-v5-theme-dark,
+html[theme="dark"],
+html[data-theme="dark"] {
+    --pf-v5-c-hint--BackgroundColor: var(--pf-v5-global--BackgroundColor--400);
+    --pf-v5-c-hint--BorderColor: var(--pf-v5-global--BorderColor--300);
 }

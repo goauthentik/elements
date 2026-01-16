@@ -160,7 +160,7 @@ export const UsingBuilderFunction: Story = {
                     body: html`<p>
                         This demonstrates the full capabilities of the builder function.
                     </p>`,
-                    title: "Builder Function Demo",
+                    hint: "Builder Function Demo",
                     footer: html`<em>Created programmatically</em>`,
                 })}
             </div>

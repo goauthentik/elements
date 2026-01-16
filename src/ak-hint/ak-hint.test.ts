@@ -275,7 +275,7 @@ describe("akHint helper function", () => {
         render(
             akHint({
                 body: html`<p>HTML <strong>content</strong> in body</p>`,
-                title: html`<h3>HTML Title</h3>`,
+                hint: html`<h3>HTML Title</h3>`,
                 footer: html`<div>Footer with <a href="#">link</a></div>`,
             }),
             document.body,
