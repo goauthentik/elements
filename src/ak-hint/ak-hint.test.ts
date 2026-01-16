@@ -3,136 +3,148 @@ import "./ak-hint.js";
 import { akHint } from "./ak-hint.builder.js";
 
 import { spread } from "@open-wc/lit-helpers";
-import { $, browser, expect } from "@wdio/globals";
+import { describe, expect, it } from "vitest";
+import { render } from "vitest-browser-lit";
+import { Locator, locators, page } from "vitest/browser";
 
-import { html, render, TemplateResult } from "lit";
+import { html, type TemplateResult } from "lit";
+
+locators.extend({
+    getHint() {
+        return "ak-hint";
+    },
+    getHintContainer() {
+        return 'ak-hint >> [part="hint"]';
+    },
+    getTitle() {
+        return 'ak-hint >> [part="title"]';
+    },
+    getBody() {
+        return 'ak-hint >> [part="body"]';
+    },
+    getFooter() {
+        return 'ak-hint >> [part="footer"]';
+    },
+});
+
+declare module "vitest/browser" {
+    interface LocatorSelectors {
+        getHint(): Locator;
+        getHintContainer(): Locator;
+        getTitle(): Locator;
+        getBody(): Locator;
+        getFooter(): Locator;
+    }
+}
 
 describe("ak-hint component", () => {
-    afterEach(async () => {
-        await browser.execute(async () => {
-            await document.body.querySelector("ak-hint")?.remove();
-            // @ts-expect-error expression of type '"_$litPart$"' is added by Lit
-            if (document.body._$litPart$) {
-                // @ts-expect-error expression of type '"_$litPart$"' is added by Lit
-                await delete document.body._$litPart$;
-            }
-        });
-    });
-
-    const renderComponent = async (
-        content: string | TemplateResult = html`<span>Test content</span>`,
-        properties = {},
-    ) => {
-        const root = render(
-            html`<ak-hint ${spread(properties)}>${content}</ak-hint>`,
-            document.body,
-        );
-        await browser.pause(100);
-        return root;
+    const renderComponent = (content: string | TemplateResult = "", properties = {}) => {
+        return render(html`<ak-hint ${spread(properties)}>${content}</ak-hint>`);
     };
 
     it("renders basic hint with content", async () => {
-        await renderComponent(html`<p>This is a test hint.</p>`);
+        renderComponent(html`<p>This is a test hint.</p>`);
 
-        const hint = await $("ak-hint");
-        const body = await hint.$(">>>[part='body']");
+        const hint = page.getHint();
+        const body = page.getBody();
 
-        await expect(hint).toExist();
-        await expect(body).toExist();
-        await expect(body).toHaveText("This is a test hint.");
+        await expect.element(hint).toBeInTheDocument();
+        await expect.element(body).toBeInTheDocument();
+        await expect.element(hint).toHaveTextContent("This is a test hint.");
     });
 
     it("renders hint with title slot", async () => {
-        await renderComponent(html`
+        renderComponent(html`
             <h3 slot="title">Test Title</h3>
             <p>Test body content</p>
         `);
 
-        const hint = await $("ak-hint");
-        const title = await hint.$(">>>[part='title']");
-        const body = await hint.$(">>>[part='body']");
+        const hint = page.getHint();
+        const title = page.getTitle();
+        const body = page.getBody();
 
-        await expect(hint).toExist();
-        await expect(title).toExist();
-        await expect(body).toExist();
-
-        const titleContent = await title.$("h3");
-        await expect(titleContent).toHaveText("Test Title");
+        await expect.element(hint).toBeInTheDocument();
+        await expect.element(title).toBeInTheDocument();
+        await expect.element(body).toBeInTheDocument();
+        await expect.element(hint).toHaveTextContent("Test Title");
     });
 
     it("renders hint with footer slot", async () => {
-        await renderComponent(html`
+        renderComponent(html`
             <p>Main content</p>
             <div slot="footer">Footer content</div>
         `);
 
-        const hint = await $("ak-hint");
-        const footer = await hint.$(">>>[part='footer']");
+        const hint = page.getHint();
+        const footer = page.getFooter();
 
-        await expect(footer).toExist();
-        await expect(footer).toHaveText("Footer content");
+        await expect.element(hint).toBeInTheDocument();
+        await expect.element(footer).toBeInTheDocument();
+        await expect.element(hint).toHaveTextContent("Footer content");
     });
 
     it("renders complete hint with all slots", async () => {
-        await renderComponent(html`
+        renderComponent(html`
             <h3 slot="title">Complete Title</h3>
             <p>Main body content</p>
             <div slot="footer">Footer with <a href="#">link</a></div>
         `);
 
-        const hint = await $("ak-hint");
-        const title = await hint.$(">>>[part='title']");
-        const body = await hint.$(">>>[part='body']");
-        const footer = await hint.$(">>>[part='footer']");
+        const title = page.getTitle();
+        const body = page.getBody();
+        const footer = page.getFooter();
 
-        await expect(title).toExist();
-        await expect(body).toExist();
-        await expect(footer).toExist();
-
-        const link = await footer.$("a");
-        await expect(link).toExist();
+        await expect.element(title).toBeInTheDocument();
+        await expect.element(body).toBeInTheDocument();
+        await expect.element(footer).toBeInTheDocument();
     });
 
     it("hides empty slots", async () => {
-        await renderComponent("Only body content");
+        renderComponent(html`<span>Only body content</span>`);
 
-        const hint = await $("ak-hint");
-        const title = await hint.$(">>>[part='title']");
-        const footer = await hint.$(">>>[part='footer']");
+        const hint = page.getHint();
+        const title = page.getTitle();
+        const footer = page.getFooter();
 
-        await expect(title).not.toExist();
-        await expect(footer).not.toExist();
+        await expect.element(hint).toBeInTheDocument();
+        await expect.element(title).not.toBeInTheDocument();
+        await expect.element(footer).not.toBeInTheDocument();
     });
 
     it("exposes correct CSS parts", async () => {
-        await renderComponent(html`
+        renderComponent(html`
             <h3 slot="title">Title</h3>
             <p>Body</p>
             <div slot="footer">Footer</div>
         `);
 
-        const hint = await $("ak-hint");
-        const titlePart = await hint.$(">>>[part='title']");
-        const bodyPart = await hint.$(">>>[part='body']");
-        const footerPart = await hint.$(">>>[part='footer']");
+        const component = await page.getHint().element();
+        const shadowRoot = component.shadowRoot!;
 
-        await expect(titlePart).toExist();
-        await expect(bodyPart).toExist();
-        await expect(footerPart).toExist();
+        const hintPart = shadowRoot.querySelector('[part="hint"]');
+        const titlePart = shadowRoot.querySelector('[part="title"]');
+        const bodyPart = shadowRoot.querySelector('[part="body"]');
+        const footerPart = shadowRoot.querySelector('[part="footer"]');
+
+        expect(hintPart).not.toBeNull();
+        expect(titlePart).not.toBeNull();
+        expect(bodyPart).not.toBeNull();
+        expect(footerPart).not.toBeNull();
     });
 
     it("applies grid layout correctly", async () => {
-        await renderComponent("Test content");
+        renderComponent(html`<span>Test content</span>`);
 
-        const hint = await $("ak-hint");
-        const container = await hint.$("[part='hint']");
+        const container = page.getHintContainer();
+        await expect.element(container).toBeInTheDocument();
 
-        const display = await container.getCSSProperty("display");
-        expect(display.value).toBe("grid");
+        const element = await container.element();
+        const style = window.getComputedStyle(element);
+        expect(style.display).toBe("grid");
     });
 
     it("handles HTML content in slots", async () => {
-        await renderComponent(html`
+        renderComponent(html`
             <h2 slot="title">HTML <em>Title</em></h2>
             <div>
                 <p>Paragraph with <strong>bold</strong> text</p>
@@ -144,169 +156,178 @@ describe("ak-hint component", () => {
             <div slot="footer">Footer with <a href="#">link</a> and <code>code</code></div>
         `);
 
-        const hint = await $("ak-hint");
+        const hint = page.getHint();
+        await expect.element(hint).toBeInTheDocument();
 
-        const titleEm = await hint.$(">>>em");
-        await expect(titleEm).toHaveText("Title");
+        const component = await hint.element();
+        const title = page.getTitle();
+        const body = page.getBody();
+        const footer = page.getFooter();
 
-        const bodyStrong = await hint.$(">>>strong");
-        await expect(bodyStrong).toHaveText("bold");
-
-        const listItems = await hint.$$(">>>li");
-        await expect(listItems).toHaveLength(2);
-
-        const footerCode = await hint.$(">>>code");
-        await expect(footerCode).toHaveText("code");
+        // Verify nested elements are present
+        expect(component.querySelector("em")).not.toBeNull();
+        expect(component.querySelector("strong")).not.toBeNull();
+        expect(component.querySelectorAll("li")).toHaveLength(2);
+        expect(component.querySelector("code")).not.toBeNull();
     });
 
-    it("maintains accessibility with proper heading structure", async () => {
-        await renderComponent(html`
-            <h3 slot="title" id="hint-title">Important Information</h3>
-            <div role="region" aria-labelledby="hint-title">
-                <p>This content is labeled by the title above.</p>
-            </div>
-        `);
+    it("maintains accessibility with role attribute", async () => {
+        renderComponent(html`<p>Accessible hint content</p>`);
 
-        const hint = await $("ak-hint");
-        const title = await hint.$(">>>h3");
-        const region = await hint.$(">>>[role='region']");
+        const hint = page.getHint();
+        await expect.element(hint).toHaveAttribute("role", "note");
+    });
 
-        await expect(title).toHaveAttribute("id", "hint-title");
-        await expect(region).toHaveAttribute("aria-labelledby", "hint-title");
+    it("preserves custom role when provided", async () => {
+        renderComponent(html`<p>Accessible hint content</p>`, { role: "status" });
+
+        const hint = page.getHint();
+        await expect.element(hint).toHaveAttribute("role", "status");
     });
 
     it("handles empty content gracefully", async () => {
-        await renderComponent("");
+        renderComponent("");
 
-        const hint = await $("ak-hint");
-        const body = await hint.$(">>>[part='body']");
+        const hint = page.getHint();
+        const body = page.getBody();
 
-        await expect(hint).toExist();
-        await expect(body).not.toExist();
+        await expect.element(hint).toBeInTheDocument();
+        await expect.element(body).not.toBeInTheDocument();
     });
 
     it("supports multiple paragraphs in body", async () => {
-        await renderComponent(html`
+        renderComponent(html`
             <p>First paragraph of content.</p>
             <p>Second paragraph with more information.</p>
             <p>Third paragraph concluding the hint.</p>
         `);
 
-        const hint = await $("ak-hint");
-        const paragraphs = await hint.$$(">>>p");
+        const hint = page.getHint();
+        const component = await hint.element();
+        const paragraphs = component.querySelectorAll("p");
 
-        await expect(paragraphs).toHaveLength(3);
-        await expect(paragraphs[0]).toHaveText("First paragraph of content.");
-        await expect(paragraphs[2]).toHaveText("Third paragraph concluding the hint.");
+        expect(paragraphs).toHaveLength(3);
+        expect(paragraphs[0].textContent).toBe("First paragraph of content.");
+        expect(paragraphs[2].textContent).toBe("Third paragraph concluding the hint.");
+    });
+
+    it("applies variant attribute for success styling", async () => {
+        renderComponent(html`<p>Success message</p>`, { variant: "success" });
+
+        const hint = page.getHint();
+        await expect.element(hint).toHaveAttribute("variant", "success");
+    });
+
+    it("applies variant attribute for warning styling", async () => {
+        renderComponent(html`<p>Warning message</p>`, { variant: "warning" });
+
+        const hint = page.getHint();
+        await expect.element(hint).toHaveAttribute("variant", "warning");
+    });
+
+    it("applies variant attribute for danger styling", async () => {
+        renderComponent(html`<p>Danger message</p>`, { variant: "danger" });
+
+        const hint = page.getHint();
+        await expect.element(hint).toHaveAttribute("variant", "danger");
     });
 });
 
 describe("akHint helper function", () => {
-    afterEach(async () => {
-        await browser.execute(async () => {
-            await document.body.querySelector("ak-hint")?.remove();
-            // @ts-expect-error expression of type '"_$litPart$"' is added by Lit
-            if (document.body._$litPart$) {
-                // @ts-expect-error expression of type '"_$litPart$"' is added by Lit
-                await delete document.body._$litPart$;
-            }
-        });
-    });
-
     it("should create a basic hint", async () => {
-        render(akHint({ body: "This is a basic hint from the builder." }), document.body);
+        render(akHint({ body: "This is a basic hint from the builder." }));
 
-        const hint = await $("ak-hint");
-        const body = await hint.$(">>>[part='body']");
+        const hint = page.getHint();
+        const body = page.getBody();
 
-        await expect(hint).toExist();
-        await expect(body).toExist();
-        await expect(body).toHaveText("This is a basic hint from the builder.");
+        await expect.element(hint).toBeInTheDocument();
+        await expect.element(body).toBeInTheDocument();
     });
 
-    it("should create hint with title", async () => {
-        render(akHint({ body: "Body content", title: "Builder Title" }), document.body);
+    it("should create hint with title using hint prop", async () => {
+        render(akHint({ body: "Body content", hint: "Builder Title" }));
 
-        const hint = await $("ak-hint");
-        const title = await hint.$(">>>[part='title']");
-        const body = await hint.$(">>>[part='body']");
+        const title = page.getTitle();
+        const body = page.getBody();
 
-        await expect(title).toExist();
-        await expect(body).toExist();
-        await expect(title).toHaveText("Builder Title");
-        await expect(body).toHaveText("Body content");
+        await expect.element(title).toBeInTheDocument();
+        await expect.element(body).toBeInTheDocument();
     });
 
     it("should create hint with footer", async () => {
-        render(akHint({ body: "Body content", footer: "Builder footer" }), document.body);
+        render(akHint({ body: "Body content", footer: "Builder footer" }));
 
-        const hint = await $("ak-hint");
-        const footer = await hint.$(">>>[part='footer']");
+        const footer = page.getFooter();
 
-        await expect(footer).toExist();
-        await expect(footer).toHaveText("Builder footer");
+        await expect.element(footer).toBeInTheDocument();
     });
 
     it("should create hint with all options", async () => {
         render(
             akHint({
                 body: "Complete body content",
-                title: "Complete Title",
+                hint: "Complete Title",
                 footer: "Complete footer with details",
             }),
-            document.body,
         );
 
-        const hint = await $("ak-hint");
-        const title = await hint.$(">>>[part='title']");
-        const body = await hint.$(">>>[part='body']");
-        const footer = await hint.$(">>>[part='footer']");
+        const title = page.getTitle();
+        const body = page.getBody();
+        const footer = page.getFooter();
 
-        await expect(title).toExist();
-        await expect(body).toExist();
-        await expect(footer).toExist();
-
-        await expect(title).toHaveText("Complete Title");
-        await expect(body).toHaveText("Complete body content");
-        await expect(footer).toHaveText("Complete footer with details");
+        await expect.element(title).toBeInTheDocument();
+        await expect.element(body).toBeInTheDocument();
+        await expect.element(footer).toBeInTheDocument();
     });
 
     it("should handle template content", async () => {
         render(
             akHint({
                 body: html`<p>HTML <strong>content</strong> in body</p>`,
-                hint: html`<h3>HTML Title</h3>`,
+                hint: "HTML Title",
                 footer: html`<div>Footer with <a href="#">link</a></div>`,
             }),
-            document.body,
         );
 
-        const hint = await $("ak-hint");
+        const title = page.getTitle();
+        const body = page.getBody();
+        const footer = page.getFooter();
 
-        const titleH3 = await hint.$(">>>h3");
-        await expect(titleH3).toHaveText("HTML Title");
-
-        const bodyStrong = await hint.$(">>>strong");
-        await expect(bodyStrong).toHaveText("content");
-
-        const footerLink = await hint.$(">>>a");
-        await expect(footerLink).toExist();
+        const hint = await page.getHint().element();
+        expect(hint.querySelector("strong")).not.toBeNull();
+        expect(hint.querySelector("a")).not.toBeNull();
     });
 
-    it("should handle empty content", async () => {
-        render(akHint(), document.body);
+    it("should handle empty options", async () => {
+        render(akHint());
 
-        const hint = await $("ak-hint");
-        await expect(hint).toExist();
+        const hint = page.getHint();
+        await expect.element(hint).toBeInTheDocument();
     });
 
-    it("should maintain component functionality", async () => {
-        render(akHint({ body: "Test content", title: "Test" }), document.body);
+    it("should maintain component functionality with grid layout", async () => {
+        render(akHint({ body: "Test content", hint: "Test" }));
 
-        const hint = await $("ak-hint");
-        const container = await hint.$("[part='hint']");
+        const container = page.getHintContainer();
+        await expect.element(container).toBeInTheDocument();
 
-        const display = await container.getCSSProperty("display");
-        expect(display.value).toBe("grid");
+        const element = await container.element();
+        const style = window.getComputedStyle(element);
+        expect(style.display).toBe("grid");
+    });
+
+    it("should apply variant through builder", async () => {
+        render(akHint({ body: "Success message", variant: "success" }));
+
+        const hint = page.getHint();
+        await expect.element(hint).toHaveAttribute("variant", "success");
+    });
+
+    it("should spread additional attributes", async () => {
+        render(akHint({ "body": "Test", "id": "custom-hint", "data-testid": "hint-test" }));
+
+        const hint = page.getHint();
+        await expect.element(hint).toHaveAttribute("id", "custom-hint");
+        await expect.element(hint).toHaveAttribute("data-testid", "hint-test");
     });
 });

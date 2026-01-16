@@ -1,11 +1,15 @@
 import type { ElementRest } from "../types.js";
-import { Hint } from "./ak-hint.component.js";
+import { Hint, type HintVariant } from "./ak-hint.component.js";
 
 import { spread } from "@open-wc/lit-helpers";
 
-import { html, TemplateResult } from "lit";
+import { html, nothing, TemplateResult } from "lit";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 export type HintProps = ElementRest & {
+    variant?: HintVariant;
+    // Must be named "hint"; although it's called "title" everywhere else, "title" as a field name
+    // conflicts with HTMLElement.title by type.
     hint?: string | TemplateResult;
     footer?: string | TemplateResult;
     body?: string | TemplateResult;
@@ -20,13 +24,13 @@ export type HintProps = ElementRest & {
  */
 
 export function akHint(options: HintProps = {}) {
-    const { hint, body, footer, ...rest } = options;
+    const { hint, body, footer, variant, ...rest } = options;
 
     return html`
-        <ak-hint ${spread(rest)}>
-            ${hint ? html`<h3 slot="title">${hint}</h3>` : ""}
-            ${body ? html`<span>${body}</span>` : ""}
-            ${footer ? html`<footer slot="footer">${footer}</footer>` : ""}
+        <ak-hint ${spread(rest)} variant=${ifDefined(variant)}>
+            ${hint ? html`<h3 slot="title">${hint}</h3>` : nothing}
+            ${body ? html`<span>${body}</span>` : nothing}
+            ${footer ? html`<footer slot="footer">${footer}</footer>` : nothing}
         </ak-hint>
     `;
 }

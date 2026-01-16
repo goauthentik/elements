@@ -18,6 +18,16 @@
     --pf-v5-c-hint__actions--c-dropdown--MarginTop: calc(
         var(--pf-v5-global--spacer--form-element) * -1
     );
+    --ak-v1-c-hint__title--Color: var(--pf-v5-global--Color--100);
+    --ak-v1-c-hint--m-success--BackgroundColor: var(--pf-v5-global--palette--green-50);
+    --ak-v1-c-hint--m-success--BorderColor: var(--pf-v5-global--success-color--100);
+    --ak-v1-c-hint--m-success__title--Color: var(--pf-v5-global--success-color--100);
+    --ak-v1-c-hint--m-warning--BackgroundColor: var(--pf-v5-global--palette--gold-50);
+    --ak-v1-c-hint--m-warning--BorderColor: var(--pf-v5-global--warning-color--100);
+    --ak-v1-c-hint--m-warning__title--Color: var(--pf-v5-global--warning-color--200);
+    --ak-v1-c-hint--m-danger--BackgroundColor: var(--pf-v5-global--palette--red-50);
+    --ak-v1-c-hint--m-danger--BorderColor: var(--pf-v5-global--danger-color--100);
+    --ak-v1-c-hint--m-danger__title--Color: var(--pf-v5-global--danger-color--300);
 }
 
 .pf-v5-theme-dark,

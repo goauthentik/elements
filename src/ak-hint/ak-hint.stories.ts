@@ -396,97 +396,31 @@ export const ThemeVariants: Story = {
     parameters: {
         docs: {
             description: {
-                story: "Practical theme variants using CSS parts that could be part of a design system.",
+                story: "Theme variants",
             },
         },
     },
     render: () => html`
-        <style>
-            /* Success theme */
-            .hint-success::part(hint) {
-                background: #f0fdf4;
-                border-color: #22c55e;
-                border-left: 4px solid #22c55e;
-                border-radius: 0 6px 6px 0;
-            }
-
-            .hint-success::part(title) {
-                color: #15803d;
-            }
-
-            .hint-success::part(body) {
-                color: #166534;
-            }
-
-            /* Warning theme */
-            .hint-warning::part(hint) {
-                background: #fefce8;
-                border-color: #eab308;
-                border-left: 4px solid #eab308;
-                border-radius: 0 6px 6px 0;
-            }
-
-            .hint-warning::part(title) {
-                color: #a16207;
-            }
-
-            .hint-warning::part(body) {
-                color: #854d0e;
-            }
-
-            /* Info theme */
-            .hint-info::part(hint) {
-                background: #f0f9ff;
-                border-color: #3b82f6;
-                border-left: 4px solid #3b82f6;
-                border-radius: 0 6px 6px 0;
-            }
-
-            .hint-info::part(title) {
-                color: #1d4ed8;
-            }
-
-            .hint-info::part(body) {
-                color: #1e40af;
-            }
-
-            /* Danger theme */
-            .hint-danger::part(hint) {
-                background: #fef2f2;
-                border-color: #ef4444;
-                border-left: 4px solid #ef4444;
-                border-radius: 0 6px 6px 0;
-            }
-
-            .hint-danger::part(title) {
-                color: #dc2626;
-            }
-
-            .hint-danger::part(body) {
-                color: #b91c1c;
-            }
-        </style>
-
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-            <ak-hint class="hint-success">
+            <ak-hint variant="success">
                 <div slot="title">✅ Success</div>
                 <p>I am fully operational!</p>
                 <div slot="footer">Everything is going according to plan.</div>
             </ak-hint>
 
-            <ak-hint class="hint-warning">
+            <ak-hint variant="warning">
                 <div slot="title">⚠️ Warning</div>
                 <p>I'm sorry, Dave</p>
                 <div slot="footer">I'm afraid I can't do that.</div>
             </ak-hint>
 
-            <ak-hint class="hint-info">
-                <div slot="title">ℹ️ Information</div>
+            <ak-hint>
+                <div slot="title">ℹ️ Information (default)</div>
                 <p>Here's some helpful information about this feature.</p>
                 <div slot="footer">Knowing more won't save you...</div>
             </ak-hint>
 
-            <ak-hint class="hint-danger">
+            <ak-hint variant="danger">
                 <div slot="title">🚨 Important</div>
                 <p>This action cannot be undone. Please be careful.</p>
                 <div slot="footer">

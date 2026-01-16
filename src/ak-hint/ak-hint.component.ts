@@ -3,6 +3,10 @@ import styles from "./ak-hint.css";
 
 import { html, nothing } from "lit";
 
+// Used only by the builder, as these have only visual effects
+export const hintVariant = ["info", "success", "warning", "danger"] as const;
+export type HintVariant = (typeof hintVariant)[number];
+
 /**
  * @element ak-hint
  *
@@ -14,6 +18,7 @@ import { html, nothing } from "lit";
  * @slot title - Optional title header for the hint
  * @slot footer - Optional footer content with additional information or actions
  *
+ * @csspart hint - The hint component as a whole
  * @csspart title - The title section container
  * @csspart body - The main content body container
  * @csspart footer - The footer section container
@@ -32,9 +37,32 @@ import { html, nothing } from "lit";
  * @cssprop --pf-v5-c-hint__body--FontSize - Font size of the body text
  * @cssprop --pf-v5-c-hint__footer--child--MarginRight - Right margin of footer child elements
  * @cssprop --pf-v5-c-hint__actions--MarginLeft - Left margin of action elements
+ * @cssprop --pf-v5-c-hint__actions--MarginLeft - Left margin of action elements
+ * @cssprop --pf-v5-c-hint__actions--MarginLeft - Left margin of action elements
+ * @cssprop --pf-v5-c-hint__actions--MarginLeft - Left margin of action elements
+ * @cssprop --pf-v5-c-hint__actions--MarginLeft - Left margin of action elements
+ * @cssprop --pf-v5-c-hint__actions--MarginLeft - Left margin of action elements
+ * @cssprop --pf-v5-c-hint__actions--MarginLeft - Left margin of action elements
+ * @cssprop --ak-v1-c-hint--m-success--BackgroundColor - Background color for "success" variant
+ * @cssprop --ak-v1-c-hint--m-success--BorderColor - Border color for "success" variant
+ * @cssprop --ak-v1-c-hint--m-success__title--Color - Title color for "success" variant
+ * @cssprop --ak-v1-c-hint--m-warning--BackgroundColor - Background color for "warning" variant
+ * @cssprop --ak-v1-c-hint--m-warning--BorderColor - Border color for "warning" variant
+ * @cssprop --ak-v1-c-hint--m-warning__title--Color - Title color for "warning" variant
+ * @cssprop --ak-v1-c-hint--m-danger--BackgroundColor - Background color for "danger" variant
+ * @cssprop --ak-v1-c-hint--m-danger--BorderColor - Border color for "danger" variant
+ * @cssprop --ak-v1-c-hint--m-danger__title--Color - Title color for "danger" variant
+ * @cssprop
  */
 export class Hint extends AkLitElement {
     static override readonly styles = [styles];
+
+    public override connectedCallback() {
+        super.connectedCallback();
+        if (!this.hasAttribute("role")) {
+            this.setAttribute("role", "note");
+        }
+    }
 
     public override render() {
         const [hasTitle, hasBody, hasFooter] = ["title", null, "footer"].map((item) =>
