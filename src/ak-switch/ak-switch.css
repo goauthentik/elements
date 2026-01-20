@@ -1,0 +1,202 @@
+:host {
+    --switch--FontSize: var(--pf-v5-c-switch--FontSize, 1rem);
+    --switch__label--PaddingLeft: var(--pf-v5-c-switch__label--PaddingLeft, 1rem);
+    --switch--ColumnGap: var(--pf-v5-c-switch--ColumnGap, 1rem);
+    --switch__toggle-icon--FontSize: var(
+        --pf-v5-c-switch__toggle-icon--FontSize,
+        calc(1rem * 0.625)
+    );
+    --switch__toggle-icon--Color: var(--pf-v5-c-switch__toggle-icon--Color, #fff);
+    --switch__toggle-icon--Left: var(--pf-v5-c-switch__toggle-icon--Left, calc(1rem * 0.375));
+    --switch__toggle-icon--Offset: var(--pf-v5-c-switch__toggle-icon--Offset, 0.125rem);
+    --switch__input--disabled__toggle-icon--Color: var(
+        --pf-v5-c-switch__input--disabled__toggle-icon--Color,
+        #f5f5f5
+    );
+    --switch--LineHeight: var(--pf-v5-c-switch--LineHeight, 1.5);
+    --switch--Height: var(--pf-v5-c-switch--Height, auto);
+    --switch__input--checked__toggle--BackgroundColor: var(
+        --pf-v5-c-switch__input--checked__toggle--BackgroundColor,
+        #06c
+    );
+    --switch__input--checked__toggle--before--TranslateX: var(
+        --pf-v5-c-switch__input--checked__toggle--before--TranslateX,
+        calc(100% + 0.125rem)
+    );
+    --switch__input--checked__label--Color: var(
+        --pf-v5-c-switch__input--checked__label--Color,
+        #151515
+    );
+    --switch__input--not-checked__label--Color: var(
+        --pf-v5-c-switch__input--not-checked__label--Color,
+        #6a6e73
+    );
+    --switch__input--disabled__label--Color: var(
+        --pf-v5-c-switch__input--disabled__label--Color,
+        #6a6e73
+    );
+    --switch__input--disabled__toggle--BackgroundColor: var(
+        --pf-v5-c-switch__input--disabled__toggle--BackgroundColor,
+        #d2d2d2
+    );
+    --switch__input--disabled__toggle--before--BackgroundColor: var(
+        --pf-v5-c-switch__input--disabled__toggle--before--BackgroundColor,
+        #f5f5f5
+    );
+    --switch__input--focus__toggle--OutlineWidth: var(
+        --pf-v5-c-switch__input--focus__toggle--OutlineWidth,
+        2px
+    );
+    --switch__input--focus__toggle--OutlineOffset: var(
+        --pf-v5-c-switch__input--focus__toggle--OutlineOffset,
+        0.5rem
+    );
+    --switch__input--focus__toggle--OutlineColor: var(
+        --pf-v5-c-switch__input--focus__toggle--OutlineColor,
+        #06c
+    );
+    --switch__toggle--Height: var(--pf-v5-c-switch__toggle--Height, calc(1rem * 1.5));
+    --switch__toggle--BackgroundColor: var(--pf-v5-c-switch__toggle--BackgroundColor, #8a8d90);
+    --switch__toggle--BorderRadius: var(--pf-v5-c-switch__toggle--BorderRadius, calc(1rem * 1.5));
+    --switch__toggle--before--Width: var(
+        --pf-v5-c-switch__toggle--before--Width,
+        calc(1rem - 0.125rem)
+    );
+    --switch__toggle--before--Height: var(
+        --pf-v5-c-switch__toggle--before--Height,
+        calc(1rem - 0.125rem)
+    );
+    --switch__toggle--before--Top: var(
+        --pf-v5-c-switch__toggle--before--Top,
+        calc((calc(1rem * 1.5) - calc(1rem - 0.125rem)) / 2)
+    );
+    --switch__toggle--before--Left: var(
+        --pf-v5-c-switch__toggle--before--Left,
+        calc((calc(1rem * 1.5) - calc(1rem - 0.125rem)) / 2)
+    );
+    --switch__toggle--before--BackgroundColor: var(
+        --pf-v5-c-switch__toggle--before--BackgroundColor,
+        #fff
+    );
+    --switch__toggle--before--BorderRadius: var(
+        --pf-v5-c-switch__toggle--before--BorderRadius,
+        30em
+    );
+    --switch__toggle--before--BoxShadow: var(
+        --pf-v5-c-switch__toggle--before--BoxShadow,
+        0 0.25rem 0.5rem 0rem rgb(3 3 3 / 12%),
+        0 0 0.25rem 0 rgb(3 3 3 / 6%)
+    );
+    --switch__toggle--before--Transition: var(
+        --pf-v5-c-switch__toggle--before--Transition,
+        transform 0.25s ease 0s
+    );
+    --switch__toggle--Width: var(
+        --pf-v5-c-switch__toggle--Width,
+        calc(calc(1rem * 1.5) + 0.125rem + calc(1rem - 0.125rem))
+    );
+    --switch__label--Color: var(--pf-v5-c-switch__label--Color, #151515);
+
+    position: relative;
+    display: inline-grid;
+}
+
+[part="switch"] {
+    position: relative;
+    grid-template-columns: auto;
+    grid-auto-columns: 1fr;
+    column-gap: var(--switch--ColumnGap);
+    height: var(--switch--Height);
+    font-size: var(--switch--FontSize);
+    line-height: var(--switch--LineHeight);
+    vertical-align: middle;
+    cursor: pointer;
+    display: grid;
+}
+
+:host([reverse]) [part="label"] {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+:host([reverse]) [part="toggle"] {
+    grid-column: 2;
+}
+
+:host([checked]) [part="label"] {
+    color: var(--switch__input--checked__label--Color);
+}
+
+:host([checked]) [part="toggle"] {
+    background-color: var(--switch__input--checked__toggle--BackgroundColor);
+}
+
+:host([checked]) [part="toggle"]::before {
+    transform: translateX(var(--switch__input--checked__toggle--before--TranslateX));
+}
+
+:host(:focus-visible) [part="toggle"] {
+    outline: var(--switch__input--focus__toggle--OutlineWidth) solid
+        var(--switch__input--focus__toggle--OutlineColor);
+    outline-offset: var(--switch__input--focus__toggle--OutlineOffset);
+}
+
+:host(:disabled) [part="label"],
+:host([disabled]) [part="label"] {
+    color: var(--switch__input--disabled__label--Color);
+    cursor: not-allowed;
+}
+
+:host(:disabled) [part="toggle"],
+:host([disabled]) [part="toggle"] {
+    --switch__toggle-icon--Color: var(--switch__input--disabled__toggle-icon--Color);
+
+    cursor: not-allowed;
+    background-color: var(--switch__input--disabled__toggle--BackgroundColor);
+}
+
+:host(:disabled) [part="toggle"]::before,
+:host([disabled]) [part="toggle"]::before {
+    background-color: var(--switch__input--disabled__toggle--before--BackgroundColor);
+}
+
+[part="toggle"] {
+    position: relative;
+    display: inline-block;
+    width: var(--switch__toggle--Width);
+    height: var(--switch__toggle--Height);
+    background-color: var(--switch__toggle--BackgroundColor);
+    border-radius: var(--switch__toggle--BorderRadius);
+}
+
+[part="toggle"]::before {
+    position: absolute;
+    inset-block-start: var(--switch__toggle--before--Top);
+    inset-inline-start: var(--switch__toggle--before--Left);
+    display: block;
+    width: var(--switch__toggle--before--Width);
+    height: var(--switch__toggle--before--Height);
+    content: "";
+    background-color: var(--switch__toggle--before--BackgroundColor);
+    border-radius: var(--switch__toggle--before--BorderRadius);
+    box-shadow: var(--switch__toggle--before--BoxShadow);
+    transition: var(--switch__toggle--before--Transition);
+}
+
+[part="toggle-icon"] {
+    position: absolute;
+    inset-block-start: 0;
+    inset-block-end: 0;
+    inset-inline-start: var(--switch__toggle-icon--Left);
+    display: flex;
+    align-items: center;
+    font-size: var(--switch__toggle-icon--FontSize);
+    color: var(--switch__toggle-icon--Color);
+}
+
+[part="label"] {
+    display: inline-block;
+    grid-column: 2;
+    color: var(--switch__label--Color);
+    vertical-align: top;
+}
