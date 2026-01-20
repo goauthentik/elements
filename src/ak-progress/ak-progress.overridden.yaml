@@ -1,0 +1,52 @@
+import: progress.css
+base: .pf-v5-c-progress
+host:
+    :host(:not([hidden])):
+        $from: $base
+        $exclude: /./
+        display: block
+        --progress__indicator--Height: var(--progress__bar--Height);
+        --progress--m-xs__bar--Height: var(--ak-v1-c-progress--m-xs__bar--Height, 2px);
+        --progress--m-indeterminate--GridGap: var(--ak-v1-c-progress--m-indeterminate--GridGap, 0);
+    '[part="main"]':
+        $from: $base
+        $exclude: /^--/
+    :host([size="\1"]):
+        $from: /\.pf-m-(sm|lg)/
+    :host([size="\1"]) [part="measure"]:
+        $from: /\.pf-m-(sm) .pf-v5-c-progress__measure/
+        $exclude: word-break
+    :host([size="\1"]) [part="description"]:
+        $from: /\.pf-m-(sm) .pf-v5-c-progress__description/
+        $exclude: word-break
+    :host([variant="\1"]) [part="\2"]:
+        $from: /\.pf-m-(inside|outside) \.pf-v5-c-progress__(indicator|measure|description)/
+    :host([variant="\1"]) [part="status"]:
+        $from: /\.pf-m-(outside) \.pf-v5-c-progress__status/
+    ':host([variant="\1"]) [part="\2"]%2':
+        $from: /\.pf-m-(outside) \.pf-v5-c-progress__(bar|indicator)/
+    :host([severity="\1"]):
+        $from: /\.pf-m-(success|warning|danger)/
+    '[part="\1"]':
+        $from: /__(indicator|status-icon)/
+    '[part="bar"]':
+        $from: /__bar/
+        overflow: hidden;
+    '[part="status"]':
+        $from: /__status/
+        $exclude: /word-break/
+        overflow-wrap: anywhere
+    '[part="\1"]::\2':
+        $from: /__(bar)::(before)/
+    :host([size="xs"]):
+        --progress__bar--Height: var(--progress--m-xs__bar--Height);
+    :host([variant="indeterminate"]):
+        --progress--GridGap: var(--progress--m-indeterminate--GridGap);
+        margin-bottom: calc(var(--progress__bar--Height) * -1);
+        z-index: 1;
+        position: relative;
+    :host([variant="indeterminate"]) [part="indicator"]:
+        width: 100%;
+        height: 100%;
+        animation: indeterminate-animation 1s infinite linear;
+        transform-origin: 0% 50%;
