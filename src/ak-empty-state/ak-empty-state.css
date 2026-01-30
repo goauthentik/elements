@@ -34,7 +34,10 @@
     --empty-state--m-xl__icon--FontSize: var(--pf-v5-c-empty-state--m-xl__icon--FontSize, 6.25rem);
     --empty-state__title-text--FontFamily: var(
         --pf-v5-c-empty-state__title-text--FontFamily,
-        '"RedHatDisplay", helvetica, arial, sans-serif'
+        "RedHatDisplay",
+        helvetica,
+        arial,
+        sans-serif
     );
     --empty-state__title-text--FontSize: var(--pf-v5-c-empty-state__title-text--FontSize, 1.25rem);
     --empty-state__title-text--FontWeight: var(--pf-v5-c-empty-state__title-text--FontWeight, 400);

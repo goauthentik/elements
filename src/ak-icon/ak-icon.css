@@ -57,7 +57,6 @@
 }
 
 [part="content"] {
-    font-size: var(--icon__content--FontSize);
     color: var(--icon__content--Color, inherit);
     opacity: var(--icon__content--Opacity, 1);
 }
