@@ -1,8 +1,12 @@
 import path from "node:path";
 
 import parseCludes from "./lib/cludeRuleParser.mjs";
-import { TokenDeclarations, TokenRules } from "./lib/generateTokens.mjs";
-import { type ComponentFiles, PatternflySources } from "./lib/patternflySource.mjs";
+import {
+    type ComponentDeclarations,
+    type ComponentFiles,
+    type ComponentRules,
+    PatternflySources,
+} from "./lib/patternflySource.mjs";
 import {
     checkIsInPackageRoot,
     globSrc,
@@ -125,14 +129,14 @@ type CleanDeclaration = [string, string];
 
 type CleanRule = [string, CleanDeclaration[]];
 
-function cleanRules(componentRules: TokenRules, className: string): CleanRule[] {
-    const cleanDeclarations = (decl: TokenDeclarations, regex: RegExp): CleanDeclaration[] =>
+function cleanRules(componentRules: ComponentRules, className: string): CleanRule[] {
+    const cleanDeclarations = (decl: ComponentDeclarations, regex: RegExp): CleanDeclaration[] =>
         Object.entries(decl).map(([property, entry]) => [
             property.replace(regex, "--"),
             varWrap(
                 (entry.values ?? []).length > 0
                     ? entry.values[0].replaceAll(regex, "--")
-                    : entry.value.replaceAll(regex, "--")
+                    : entry.value.replaceAll(regex, "--"),
             ),
         ]);
 
@@ -281,7 +285,7 @@ class HostRules {
 
     add(rule: HardRule) {
         const foundRule = this.hostRules.find(
-            (r: HardRule) => r.selectors.at(0) === rule.selectors.at(0)
+            (r: HardRule) => r.selectors.at(0) === rule.selectors.at(0),
         );
         if (!foundRule) {
             this.hostRules.push(rule);
@@ -308,13 +312,13 @@ type GetHostRulesReturn = {
     rootRules: HostRules;
 };
 
-function getHostRules(sourceDeclarations: TokenDeclarations, base: string): GetHostRulesReturn {
-    const hostDeclarations = Object.keys(sourceDeclarations).filter((h) => h.startsWith(base));
+function extractHostInternalRules(hostLightRule: ComponentDeclarations, prefix: string) {
+    const hostDeclarations = Object.keys(hostLightRule).filter((h) => h.startsWith(prefix));
 
     // CORE functionality: turn a component-defining rule (a rule that sets a component's CSS Custom
     // Property from the global variables) into a `:host`-style defining rule
-    const foundHostDeclarations = hostDeclarations.map((declarationName: string) => {
-        const { property, value } = sourceDeclarations[declarationName];
+    return hostDeclarations.map((declarationName: string) => {
+        const { property, value } = hostLightRule[declarationName];
         // Assume we start with `--pf-v5-c-button--PaddingRight: var(--pf-v5-global--spacer--md);`
         // Represented in the declarations as:
         //    `{ "--pf-v5-c-button--PaddingRight": "var(--pf-v5-global--spacer--md);" `
@@ -328,24 +332,49 @@ function getHostRules(sourceDeclarations: TokenDeclarations, base: string): GetH
         // Turn that into a declaration.
         return makeDeclaration(shortName, hostValue);
     });
+}
+
+function extractRootRule(hostRule: ComponentDeclarations, prefix: string) {
+    const hostDeclarations = Object.keys(hostRule).filter((h) => h.startsWith(prefix));
+    return hostDeclarations
+        .map((declarationName: string) => {
+            const declaration = hostRule[declarationName];
+            const { property, value, values } = declaration;
+            return makeDeclaration(
+                property,
+                !(values && values.length > 1) ? value : `var(${values[0]})`,
+            );
+        })
+        .filter((declaration) => declaration !== null);
+}
+
+function getHostRules(selector: string, rules: ComponentRules, base: string): GetHostRulesReturn {
+    const hostLightRule = rules[selector];
+    const hostDarkRule = rules[`:where(.pf-v5-theme-dark) ${selector}`];
+
+    const hostRules = new HostRules([
+        makeRule(":host", extractHostInternalRules(hostLightRule, base)),
+    ]);
+
+    const rootDeclarations = [makeRule(":root", extractRootRule(hostLightRule, base))];
+    if (hostDarkRule) {
+        rootDeclarations.push(
+            makeRule(
+                '.pf-v5-theme-dark, html[theme="dark"], html[data-theme="dark"]',
+                extractRootRule(hostDarkRule, base),
+            ),
+        );
+    }
+
+    const rootRules = new HostRules(rootDeclarations);
 
     // CORE functionality: extract a component-defining rule (a rule that sets a component's CSS
     // Custom Property from the global variables) into one suitable for being included in the
     // `:root` collection.
-    const foundRootDeclarations = hostDeclarations
-        .map((declarationName: string) => {
-            const declaration = sourceDeclarations[declarationName];
-            const { property, value, values } = declaration;
-            return makeDeclaration(
-                property,
-                !(values && values.length > 1) ? value : `var(${values[0]})`
-            );
-        })
-        .filter((declaration) => declaration !== null);
 
     return {
-        hostRules: new HostRules([makeRule(":host", foundHostDeclarations)]),
-        rootRules: new HostRules([makeRule(":root", foundRootDeclarations)]),
+        hostRules,
+        rootRules,
     };
 }
 
@@ -376,16 +405,16 @@ type ComponentMatcher = ReturnType<typeof makeSelectorMatcher>;
 function getComponentDeclarations(
     cleanRules: CleanRule[],
     componentMatcher: ComponentMatcher,
-    declarationFilter: DeclarationFilter
+    declarationFilter: DeclarationFilter,
 ) {
     const matchingRules = cleanRules.filter(([cleanSelector]) => componentMatcher(cleanSelector));
 
     const allMatchingDeclarations: CleanDeclaration[] = matchingRules.flatMap(
-        ([_cleanRules, cleanDeclarations]) => cleanDeclarations
+        ([_cleanRules, cleanDeclarations]) => cleanDeclarations,
     );
 
     return declarationFilter(allMatchingDeclarations).map((declaration) =>
-        makeDeclaration(...declaration)
+        makeDeclaration(...declaration),
     );
 }
 
@@ -404,7 +433,7 @@ function buildSubstitutedRules(
     cleanRules: CleanRule[],
     componentMatcher: ComponentMatcher,
     transSelector: string,
-    declarationFilter: DeclarationFilter
+    declarationFilter: DeclarationFilter,
 ): SubstitutedRule[] {
     const transformationRegex = makeAnchoredRegexp(from);
     return cleanRules
@@ -413,12 +442,12 @@ function buildSubstitutedRules(
             const newSelector = doSelectorSubstitution(
                 transformationRegex,
                 transSelector,
-                cleanSelector
+                cleanSelector,
             );
 
             const includedCleanDeclarations = declarationFilter(cleanDeclarations);
             const includedDeclarations: HardDeclaration[] = includedCleanDeclarations.map(
-                (declaration) => makeDeclaration(...declaration)
+                (declaration) => makeDeclaration(...declaration),
             );
 
             return [newSelector, includedDeclarations];
@@ -430,10 +459,11 @@ async function buildStylesheets(transformationFiles: string[]) {
 
     for (const transformationFile of transformationFiles) {
         const transformation: WccssInstructions = yaml.parse(
-            readFile(path.join(SOURCE_DIR, transformationFile))
+            readFile(path.join(SOURCE_DIR, transformationFile)),
         );
 
-        const componentRules: TokenRules = sourceStylesheet[path.basename(transformation.import)];
+        const componentRules: ComponentRules =
+            sourceStylesheet[path.basename(transformation.import)];
 
         // ".pf-v5-c-component"
         const baseComponentClassname = transformation.base;
@@ -450,8 +480,9 @@ async function buildStylesheets(transformationFiles: string[]) {
         // (Block-Element-Modifier-Property) Value for any given Property.
 
         const { rootRules, hostRules } = getHostRules(
-            componentRules[transformation.base],
-            baseComponentProperty
+            transformation.base,
+            componentRules,
+            baseComponentProperty,
         );
 
         const cleanSourceRules = cleanRules(componentRules, transformation.base);
@@ -477,7 +508,7 @@ async function buildStylesheets(transformationFiles: string[]) {
             if (!("$from" in transRequest)) {
                 if (derivedFromTokens(selectorHasSubstitutions, transRequest)) {
                     throw new Error(
-                        `${transSelector} rule has no $from and may not have substitutions or inclusion rules`
+                        `${transSelector} rule has no $from and may not have substitutions or inclusion rules`,
                     );
                 }
                 hostRules.add(makeRule(safeSelector, customDeclarations));
@@ -492,10 +523,10 @@ async function buildStylesheets(transformationFiles: string[]) {
                 const foundDeclarations = getComponentDeclarations(
                     cleanSourceRules,
                     componentMatcher,
-                    declarationFilter
+                    declarationFilter,
                 );
                 hostRules.add(
-                    makeRule(safeSelector, [...foundDeclarations, ...customDeclarations])
+                    makeRule(safeSelector, [...foundDeclarations, ...customDeclarations]),
                 );
                 continue;
             }
@@ -505,15 +536,15 @@ async function buildStylesheets(transformationFiles: string[]) {
                 cleanSourceRules,
                 componentMatcher,
                 safeSelector,
-                declarationFilter
+                declarationFilter,
             ).forEach(([newSelector, newDeclarations]) =>
-                hostRules.add(makeRule(newSelector, [...newDeclarations, ...customDeclarations]))
+                hostRules.add(makeRule(newSelector, [...newDeclarations, ...customDeclarations])),
             );
         }
 
         const newHostPath = path.join(
             SOURCE_DIR,
-            transformationFile.replace(/\.wcc\.\w+$/, ".css")
+            transformationFile.replace(/\.wcc\.\w+$/, ".css"),
         );
 
         const hostContent = await prettier.format(
@@ -523,14 +554,14 @@ async function buildStylesheets(transformationFiles: string[]) {
                     rules: hostRules.rules,
                 },
             }),
-            prettierConfig
+            prettierConfig,
         );
 
         writeFile(newHostPath, hostContent);
 
         const newRootPath = path.join(
             SOURCE_DIR,
-            transformationFile.replace(/\.wcc\.\w+$/, ".root.css")
+            transformationFile.replace(/\.wcc\.\w+$/, ".root.css"),
         );
 
         const rootContent = await prettier.format(
@@ -540,7 +571,7 @@ async function buildStylesheets(transformationFiles: string[]) {
                     rules: rootRules.rules,
                 },
             }),
-            prettierConfig
+            prettierConfig,
         );
 
         writeFile(newRootPath, rootContent);

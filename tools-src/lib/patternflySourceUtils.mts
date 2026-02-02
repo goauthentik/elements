@@ -71,7 +71,7 @@ export function getGlobalDeclarations() {
     const darkRule = rules.find(isDarkGlobalSelector);
     if (!(lightRule && isRule(lightRule)) || !(darkRule && isRule(darkRule))) {
         throw new Error(
-            "Could not find the light global rule or dark global rule. Please check your sources"
+            "Could not find the light global rule or dark global rule. Please check your sources",
         );
     }
 
@@ -113,15 +113,17 @@ const processDeclarations = (declarations: CSSDeclaration[], selector: Selector)
                     selector,
                     dark: selector.includes(".pf-v5-theme-dark"),
                 },
-            ])
+            ]),
     );
 
+// For every file, create the map:
+// ComponentFile ->* ComponentRules ->* Property -> Value
 export function getComponentDeclarations() {
     const cssFiles = globSync(cssFileGlobs, cssFileGlobOpts)
         // Sort to put variables and charts at END of list so our lookups return correct values. It
         // is a fragile coincidence that this works, but... it does work. So far.
         .sort((a: string, b: string) =>
-            a.split(path.sep).length < b.split(path.sep).length ? 1 : -1
+            a.split(path.sep).length < b.split(path.sep).length ? 1 : -1,
         );
 
     const componentFiles: ComponentFiles = {};
@@ -143,7 +145,7 @@ export function getComponentDeclarations() {
             const selector = (rule.selectors ?? [])[0];
             componentRules[selector] = processDeclarations(
                 (rule.declarations ?? []).filter(isDeclaration),
-                selector
+                selector,
             );
         }
         componentFiles[componentFileName] = componentRules;
@@ -152,10 +154,8 @@ export function getComponentDeclarations() {
     return componentFiles;
 }
 
-// In order to chase CSS Custom Properties down to their concrete values, we need to be able to,
-// given a property and its selector, find the value associated with it. This function builds a
-// reverse lookup from a property to selectors to values.
-//
+// Given the map: ComponentFile ->* ComponentRules ->* Property -> Value,
+// Add the values chain to the Value object.
 export function makeReverseLookup(components: ComponentFiles) {
     const lookups: Record<Property, Record<Selector, Value>> = {};
     const rules = Object.values(components);

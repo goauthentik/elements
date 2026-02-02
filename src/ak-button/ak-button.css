@@ -3,10 +3,6 @@
     --button--PaddingRight: var(--pf-v5-c-button--PaddingRight, 1rem);
     --button--PaddingBottom: var(--pf-v5-c-button--PaddingBottom, 0.375rem);
     --button--PaddingLeft: var(--pf-v5-c-button--PaddingLeft, 1rem);
-
-    /* FontFamily and fallback added manually */
-    --button-_FontFamily--fallback: redhattext, helvetica, arial, sans-serif;
-    --button--FontFamily: var(--pf-v5-c-button--FontFamily, var(--button-_FontFamily--fallback));
     --button--LineHeight: var(--pf-v5-c-button--LineHeight, 1.5);
     --button--FontWeight: var(--pf-v5-c-button--FontWeight, 400);
     --button--FontSize: var(--pf-v5-c-button--FontSize, 1rem);
@@ -399,10 +395,6 @@
         --pf-v5-c-button--m-link--m-display-lg--FontSize,
         1.125rem
     );
-    --button--m-narrow--PaddingTop: var(--pf-v5-c-button--m-narrow--PaddingTop, 0.375rem);
-    --button--m-narrow--PaddingRight: var(--pf-v5-c-button--m-narrow--PaddingRight, 0.5);
-    --button--m-narrow--PaddingBottom: var(--pf-v5-c-button--m-narrow--PaddingBottom, 0.375rem);
-    --button--m-narrow--PaddingLeft: var(--pf-v5-c-button--m-narrow--PaddingLeft, 0.5);
     --button__icon--m-start--MarginRight: var(
         --pf-v5-c-button__icon--m-start--MarginRight,
         0.25rem
@@ -464,6 +456,13 @@
 
     position: relative;
     display: inline-block;
+
+    --button-_FontFamily--fallback: redhattext, helvetica, arial, sans-serif;
+    --button--FontFamily: var(--pf-v5-c-button--FontFamily, var(--button-_FontFamily--fallback));
+    --button--m-narrow--PaddingTop: var(--pf-v5-c-button--m-narrow--PaddingTop, 0.375rem);
+    --button--m-narrow--PaddingRight: var(--pf-v5-c-button--m-narrow--PaddingRight, 0.5);
+    --button--m-narrow--PaddingBottom: var(--pf-v5-c-button--m-narrow--PaddingBottom, 0.375rem);
+    --button--m-narrow--PaddingLeft: var(--pf-v5-c-button--m-narrow--PaddingLeft, 0.5);
 }
 
 [part="button"] {
@@ -471,9 +470,6 @@
     padding-block-end: var(--button--PaddingBottom);
     padding-inline-start: var(--button--PaddingLeft);
     padding-inline-end: var(--button--PaddingRight);
-
-    /* font-family added manually */
-    font-family: var(--button--FontFamily);
     font-size: var(--button--FontSize);
     font-weight: var(--button--FontWeight);
     line-height: var(--button--LineHeight);
@@ -483,6 +479,7 @@
     border: 0;
     border-radius: var(--button--BorderRadius);
     position: relative;
+    font-family: var(--button--FontFamily);
 }
 
 [part="button"]::after {
@@ -549,15 +546,15 @@
     --button--FontSize: var(--button--m-small--FontSize);
 }
 
+:host([size="sm"]) {
+    --button--FontSize: var(--button--m-small--FontSize);
+}
+
 :host([narrow]) {
     --button--PaddingTop: var(--button--m-narrow--PaddingTop);
     --button--PaddingRight: var(--button--m-narrow--PaddingRight);
     --button--PaddingBottom: var(--button--m-narrow--PaddingBottom);
     --button--PaddingLeft: var(--button--m-narrow--PaddingLeft);
-}
-
-:host([size="sm"]) {
-    --button--FontSize: var(--button--m-small--FontSize);
 }
 
 :host([size="lg"]) {
@@ -832,6 +829,64 @@
 
 :host([icon-position="end"]) #main {
     margin-inline-start: var(--button__icon--m-end--MarginLeft);
+}
+
+:host([theme="dark"]) {
+    --button--disabled--Color: var(--pf-v5-global--disabled-color--300);
+    --button--m-primary--BackgroundColor: var(--pf-v5-global--primary-color--300);
+    --button--m-primary--Color: var(--pf-v5-global--primary-color--400);
+    --button--m-tertiary--after--BorderColor: var(--pf-v5-global--BorderColor--100);
+    --button--m-tertiary--Color: var(--pf-v5-global--palette--black-100);
+    --button--m-tertiary--hover--after--BorderColor: var(--pf-v5-global--BorderColor--100);
+    --button--m-tertiary--hover--Color: var(--pf-v5-global--palette--black-100);
+    --button--m-tertiary--focus--after--BorderColor: var(--pf-v5-global--BorderColor--100);
+    --button--m-tertiary--focus--Color: var(--pf-v5-global--palette--black-100);
+    --button--m-tertiary--active--after--BorderColor: var(--pf-v5-global--BorderColor--100);
+    --button--m-tertiary--active--Color: var(--pf-v5-global--palette--black-100);
+    --button--m-warning--Color: var(--pf-v5-global--palette--black-900);
+    --button--m-warning--hover--Color: var(--pf-v5-global--palette--black-900);
+    --button--m-warning--focus--Color: var(--pf-v5-global--palette--black-900);
+    --button--m-warning--active--Color: var(--pf-v5-global--palette--black-900);
+    --button--m-warning--hover--BackgroundColor: var(--pf-v5-global--warning-color--200);
+    --button--m-warning--focus--BackgroundColor: var(--pf-v5-global--warning-color--200);
+    --button--m-warning--active--BackgroundColor: var(--pf-v5-global--warning-color--200);
+    --button--m-danger--Color: var(--pf-v5-global--palette--black-900);
+    --button--m-danger--hover--Color: var(--pf-v5-global--palette--black-900);
+    --button--m-danger--focus--Color: var(--pf-v5-global--palette--black-900);
+    --button--m-danger--active--Color: var(--pf-v5-global--palette--black-900);
+    --button--m-link--disabled--Color: var(--pf-v5-global--disabled-color--100);
+    --button--m-control--BackgroundColor: var(--pf-v5-global--BackgroundColor--400);
+    --button--m-control--hover--BackgroundColor: var(--pf-v5-global--BackgroundColor--400);
+    --button--m-control--active--BackgroundColor: var(--pf-v5-global--BackgroundColor--400);
+    --button--m-control--focus--BackgroundColor: var(--pf-v5-global--BackgroundColor--400);
+    --button--m-control--m-expanded--BackgroundColor: var(--pf-v5-global--BackgroundColor--400);
+    --button--m-control--after--BorderTopColor: transparent;
+    --button--m-control--after--BorderRightColor: transparent;
+    --button--m-control--after--BorderBottomColor: var(--pf-v5-global--BorderColor--400);
+    --button--m-control--after--BorderLeftColor: transparent;
+    --button--m-control--hover--after--BorderBottomColor: var(--pf-v5-global--primary-color--100);
+    --button--m-control--active--after--BorderBottomColor: var(--pf-v5-global--primary-color--100);
+    --button--m-control--focus--after--BorderBottomColor: var(--pf-v5-global--primary-color--100);
+    --button--m-control--m-expanded--after--BorderBottomColor: var(
+        --pf-v5-global--primary-color--100
+    );
+    --button--m-control--disabled--BackgroundColor: var(--pf-v5-global--disabled-color--200);
+    --button--m-primary__c-badge--BorderColor: var(--pf-v5-global--Color--100);
+}
+
+:host([theme="dark"][variant="control"][disabled]) #main::after {
+    border: 0;
+    border-block-end: var(--pf-v5-global--BorderWidth--sm) solid
+        var(--pf-v5-global--palette--black-700);
+}
+
+:host:disabled {
+    color: var(--button--disabled--Color);
+    background-color: var(--button--disabled--BackgroundColor);
+}
+
+:host:disabled #main::after {
+    border-color: var(--button--disabled--after--BorderColor);
 }
 
 :host([variant="link"]:not[inline]):hover #main {

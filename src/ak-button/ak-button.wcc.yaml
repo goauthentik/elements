@@ -7,10 +7,17 @@ host:
     ":host":
         $from: $base
         $include: position, display
+        --button-_FontFamily--fallback: redhattext, helvetica, arial, sans-serif
+        --button--FontFamily: var(--pf-v5-c-button--FontFamily, var(--button-_FontFamily--fallback))
+        --button--m-narrow--PaddingTop: var(--pf-v5-c-button--m-narrow--PaddingTop, 0.375rem)
+        --button--m-narrow--PaddingRight: var(--pf-v5-c-button--m-narrow--PaddingRight, 0.5)
+        --button--m-narrow--PaddingBottom: var(--pf-v5-c-button--m-narrow--PaddingBottom, 0.375rem)
+        --button--m-narrow--PaddingLeft: var(--pf-v5-c-button--m-narrow--PaddingLeft, 0.5)
     '[part="button"]':
         $from: $base
         $exclude: /^--/, position, display
         position: relative;
+        "font-family": "var(--button--FontFamily)"
     '[part="button"]::after':
         $from: "::after"
     '[part="anchor"]':
@@ -24,6 +31,11 @@ host:
         $from: /\.pf-m-(active|small|block)/
     ':host([size="sm"])':
         $from: /\.pf-m-small/
+    ":host([narrow])":
+        "--button--PaddingTop": "var(--button--m-narrow--PaddingTop)"
+        "--button--PaddingRight": "var(--button--m-narrow--PaddingRight)"
+        "--button--PaddingBottom": "var(--button--m-narrow--PaddingBottom)"
+        "--button--PaddingLeft": "var(--button--m-narrow--PaddingLeft)"
     ':host([size="lg"])':
         $from: /\.pf-m-(primary|secondary|tertiary|link)\.pf-m-display-lg/
     ':host([variant="\1"]) #main':
@@ -81,3 +93,11 @@ host:
         $from: /\.pf-m-link\.pf-m-inline/
     ':host([variant="\2"][severity="\1"]) #main':
         $from: /\.pf-m-(danger)\.pf-m-(link)/
+    ":is(:host:disabled, :host([disabled])) #main":
+        pointer-events: none
+        color: var(--button--disabled--Color)
+        background-color: var(--button--disabled--BackgroundColor)
+    ":is(:host:disabled, :host([disabled])) #main::after":
+        border-color: var(--button--disabled--after--BorderColor);
+    ':is(:host:disabled, :host([disabled])) [part="anchor"]':
+        text-decoration: underline;

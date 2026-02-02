@@ -1,5 +1,7 @@
 import {
+    type ComponentDeclarations,
     type ComponentFiles,
+    type ComponentRules,
     type CSSDeclaration,
     getComponentDeclarations,
     getGlobalDeclarations,
@@ -9,7 +11,15 @@ import {
     type Value,
 } from "./patternflySourceUtils.mjs";
 
-export type { ComponentFiles, CSSDeclaration, Property, Selector, Value };
+export type {
+    ComponentDeclarations,
+    ComponentFiles,
+    ComponentRules,
+    CSSDeclaration,
+    Property,
+    Selector,
+    Value,
+};
 
 // WHAT THIS DOES
 //
@@ -116,6 +126,9 @@ export class PatternflySources {
         });
         return found === TOMBSTONE ? null : found;
     }
+
+    // Given the mapping ComponentFile ->* ComponentRules ->* Property -> Value, amend the Value
+    // object to have the complete chain of values from initial declaration to final value.
 
     findFullValueList(value: Value, selector: string) {
         const dark = selector.includes(".pf-v5-theme-dark");
