@@ -1,11 +1,12 @@
 import path from "node:path";
 
 import parseCludes from "./lib/cludeRuleParser.mjs";
-import generateTokens, {
-    TokenComponents,
-    TokenDeclarations,
-    TokenRules,
-} from "./lib/generateTokens.mjs";
+import {
+    type ComponentDeclarations,
+    type ComponentFiles,
+    type ComponentRules,
+    PatternflySources,
+} from "./lib/patternflySource.mjs";
 import {
     checkIsInPackageRoot,
     globSrc,
@@ -128,8 +129,8 @@ type CleanDeclaration = [string, string];
 
 type CleanRule = [string, CleanDeclaration[]];
 
-function cleanRules(componentRules: TokenRules, className: string): CleanRule[] {
-    const cleanDeclarations = (decl: TokenDeclarations, regex: RegExp): CleanDeclaration[] =>
+function cleanRules(componentRules: ComponentRules, className: string): CleanRule[] {
+    const cleanDeclarations = (decl: ComponentDeclarations, regex: RegExp): CleanDeclaration[] =>
         Object.entries(decl).map(([property, entry]) => [
             property.replace(regex, "--"),
             varWrap(
@@ -311,19 +312,33 @@ type GetHostRulesReturn = {
     rootRules: HostRules;
 };
 
-function getHostRules(sourceDeclarations: TokenDeclarations, base: string): GetHostRulesReturn {
-    const hostDeclarations = Object.keys(sourceDeclarations).filter((h) => h.startsWith(base));
+function extractHostInternalRules(hostLightRule: ComponentDeclarations, prefix: string) {
+    const hostDeclarations = Object.keys(hostLightRule).filter((h) => h.startsWith(prefix));
 
-    const foundHostDeclarations = hostDeclarations.map((declarationName: string) => {
-        const { property, value } = sourceDeclarations[declarationName];
-        const shortName = property.replace(COMPONENT_PREFIX, "--");
+    // CORE functionality: turn a component-defining rule (a rule that sets a component's CSS Custom
+    // Property from the global variables) into a `:host`-style defining rule
+    return hostDeclarations.map((declarationName: string) => {
+        const { property, value } = hostLightRule[declarationName];
+        // Assume we start with `--pf-v5-c-button--PaddingRight: var(--pf-v5-global--spacer--md);`
+        // Represented in the declarations as:
+        //    `{ "--pf-v5-c-button--PaddingRight": "var(--pf-v5-global--spacer--md);" `
+
+        // Convert `var(--pf-v5-global--spacer--md)` into `var(--pf-v5-global--spacer--md, 1rem`)
         const hostValue = `var(${property}, ${value})`;
+
+        // Convert --pf-v5-c-button--PaddingRight to '--button--PaddingRight'
+        const shortName = property.replace(COMPONENT_PREFIX, "--");
+
+        // Turn that into a declaration.
         return makeDeclaration(shortName, hostValue);
     });
+}
 
-    const foundRootDeclarations = hostDeclarations
+function extractRootRule(hostRule: ComponentDeclarations, prefix: string) {
+    const hostDeclarations = Object.keys(hostRule).filter((h) => h.startsWith(prefix));
+    return hostDeclarations
         .map((declarationName: string) => {
-            const declaration = sourceDeclarations[declarationName];
+            const declaration = hostRule[declarationName];
             const { property, value, values } = declaration;
             return makeDeclaration(
                 property,
@@ -331,18 +346,43 @@ function getHostRules(sourceDeclarations: TokenDeclarations, base: string): GetH
             );
         })
         .filter((declaration) => declaration !== null);
+}
+
+function getHostRules(selector: string, rules: ComponentRules, base: string): GetHostRulesReturn {
+    const hostLightRule = rules[selector];
+    const hostDarkRule = rules[`:where(.pf-v5-theme-dark) ${selector}`];
+
+    const hostRules = new HostRules([
+        makeRule(":host", extractHostInternalRules(hostLightRule, base)),
+    ]);
+
+    const rootDeclarations = [makeRule(":root", extractRootRule(hostLightRule, base))];
+    if (hostDarkRule) {
+        rootDeclarations.push(
+            makeRule(
+                '.pf-v5-theme-dark, html[theme="dark"], html[data-theme="dark"]',
+                extractRootRule(hostDarkRule, base),
+            ),
+        );
+    }
+
+    const rootRules = new HostRules(rootDeclarations);
+
+    // CORE functionality: extract a component-defining rule (a rule that sets a component's CSS
+    // Custom Property from the global variables) into one suitable for being included in the
+    // `:root` collection.
 
     return {
-        hostRules: new HostRules([makeRule(":host", foundHostDeclarations)]),
-        rootRules: new HostRules([makeRule(":root", foundRootDeclarations)]),
+        hostRules,
+        rootRules,
     };
 }
 
 /**
  * @function
  *
- * If we get a transformation with no $from, we have to check that it has no
- * features that might hint that it should.
+ * If we get a transformation with no $from, we have to check that it has no `$include` or
+ * `$exclude` instructions, because those suggest that there should be a `$from` instruction.
  */
 const derivedFromTokens = (hasSubstitutions: boolean, request: Record<string, string>) =>
     hasSubstitutions || ["$include", "$exclude"].some((key) => key in request);
@@ -415,14 +455,15 @@ function buildSubstitutedRules(
 }
 
 async function buildStylesheets(transformationFiles: string[]) {
-    const sourceStylesheet: TokenComponents = generateTokens();
+    const sourceStylesheet: ComponentFiles = new PatternflySources().components;
 
     for (const transformationFile of transformationFiles) {
         const transformation: WccssInstructions = yaml.parse(
             readFile(path.join(SOURCE_DIR, transformationFile)),
         );
 
-        const componentRules: TokenRules = sourceStylesheet[path.basename(transformation.import)];
+        const componentRules: ComponentRules =
+            sourceStylesheet[path.basename(transformation.import)];
 
         // ".pf-v5-c-component"
         const baseComponentClassname = transformation.base;
@@ -439,7 +480,8 @@ async function buildStylesheets(transformationFiles: string[]) {
         // (Block-Element-Modifier-Property) Value for any given Property.
 
         const { rootRules, hostRules } = getHostRules(
-            componentRules[transformation.base],
+            transformation.base,
+            componentRules,
             baseComponentProperty,
         );
 
@@ -459,7 +501,6 @@ async function buildStylesheets(transformationFiles: string[]) {
 
         transrule: for (const [transSelector, transRequest] of transformationsToPerform) {
             const safeSelector = transSelector.replace(/%.*/, "");
-
             const selectorHasSubstitutions = /\\\d+/.test(safeSelector);
             const customDeclarations = getCustomDeclarations(transRequest);
 

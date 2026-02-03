@@ -55,6 +55,7 @@
         "@patternfly/pfe-core": "^5.0.3",
         "date-fns": "^4.1.0",
         "lit": "^3.3.1",
+        "ts-brand": "^0.2.0",
         "ts-pattern": "^5.8.0"
     },
     "devDependencies": {
