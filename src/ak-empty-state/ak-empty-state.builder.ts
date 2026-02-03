@@ -1,7 +1,9 @@
 import "./ak-empty-state.component.js";
 
+import type { ElementRest } from "../types.js";
 import { EmptyState } from "./ak-empty-state.component.js";
 
+import { spread } from "@open-wc/lit-helpers";
 import { match, P } from "ts-pattern";
 
 import { html, TemplateResult } from "lit";
@@ -18,9 +20,8 @@ export interface EmptyStateSlots {
     secondaryActions?: string | TemplateResult;
 }
 
-export type EmptyStateProps = Partial<
-    Pick<EmptyState, "size" | "loading" | "textOnly" | "spinnerOnly">
-> &
+export type EmptyStateProps = ElementRest &
+    Partial<Pick<EmptyState, "size" | "loading" | "textOnly" | "spinnerOnly">> &
     EmptyStateSlots & { fullHeight?: boolean };
 
 const SLOTNAMES: (keyof EmptyStateSlots)[] = [
@@ -46,7 +47,7 @@ type SlotContent = string | TemplateResult | undefined;
  *
  * @see {@link EmptyState} - The underlying web component
  */
-export function akEmptyState(options: EmptyStateProps) {
+export function akEmptyState(options: EmptyStateProps = {}) {
     const slots = SLOTNAMES.filter((s) => !!options[s]);
 
     const slotRenderer = (s: string, c: string | TemplateResult) => html`<div slot=${s}>${c}</div>`;
@@ -68,10 +69,11 @@ export function akEmptyState(options: EmptyStateProps) {
         ...Object.fromEntries(slots.map((s) => [s, slotHandler(s)])),
     };
 
-    const { size, fullHeight, spinnerOnly, textOnly, loading } = opts;
+    const { size, fullHeight, spinnerOnly, textOnly, loading, ...rest } = opts;
 
     return html`
         <ak-empty-state
+            ${spread(rest)}
             ?loading=${loading}
             ?full-height=${fullHeight}
             ?text-only=${textOnly}

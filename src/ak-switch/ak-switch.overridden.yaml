@@ -1,0 +1,42 @@
+import: switch.css
+base: .pf-v5-c-switch
+host:
+    :host:
+        $from: $base
+        $include: position, display
+    '[part="switch"]':
+        $from: $base
+        $include: position, grid-template-columns, grid-auto-columns, column-gap, height, font-size, line-height, vertical-align, cursor
+        display: grid
+    ':host([reverse]) [part="label"], :host([reverse]) [part="toggle"]':
+        $from: .pf-m-reverse .pf-v5-c-switch__toggle
+    ':host([reverse]) [part="label"]':
+        $from: .pf-m-reverse .pf-v5-c-switch__label
+    ':host([reverse]) [part="toggle"]':
+        grid-column: 2;
+    ':host([checked]) [part="label"]':
+        $from: __input:checked ~ .pf-v5-c-switch__label
+    ':host([checked]) [part="toggle"]':
+        $from: __input:checked ~ .pf-v5-c-switch__toggle
+    ':host([checked]) [part="toggle"]::before':
+        $from: __input:checked ~ .pf-v5-c-switch__toggle::before
+    ':host(:focus-visible) [part="toggle"]':
+        $from: "__input:focus-visible ~ .pf-v5-c-switch__toggle"
+    ":host(:disabled), :host([disabled])":
+        $from: __input:disabled}
+    ':host(:disabled) [part="label"], :host([disabled]) [part="label"]':
+        $from: __input:disabled ~ .pf-v5-c-switch__label
+    ':host(:disabled) [part="toggle"], :host([disabled]) [part="toggle"]':
+        $from: __input:disabled ~ .pf-v5-c-switch__toggle
+    ':host(:disabled) [part="toggle"]::before, :host([disabled]) [part="toggle"]::before':
+        $from: __input:disabled ~ .pf-v5-c-switch__toggle::before
+    '[part="toggle"]':
+        $from: __toggle
+    '[part="toggle"]::before':
+        $from: __toggle::before
+    '[part="toggle-icon"]':
+        $from: __toggle-icon
+    '[part="label"]':
+        $from: __label
+    :host([theme="dark"]):
+        $from: :where(.pf-v5-theme-dark) .pf-v5-c-switch

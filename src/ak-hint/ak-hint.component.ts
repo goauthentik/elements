@@ -1,0 +1,80 @@
+import { AkLitElement } from "../component-base.js";
+import styles from "./ak-hint.css";
+
+import { html, nothing } from "lit";
+
+// Used only by the builder, as these have only visual effects
+export const hintVariant = ["info", "success", "warning", "danger"] as const;
+export type HintVariant = (typeof hintVariant)[number];
+
+/**
+ * @element ak-hint
+ *
+ * @summary A container for displaying informative content with optional title and footer sections
+ *
+ * @attr {string} variant - Visual theme variant: "info" (default), "success", "warning", "danger"
+ *
+ * @slot - Main content body of the hint
+ * @slot title - Optional title header for the hint
+ * @slot footer - Optional footer content with additional information or actions
+ *
+ * @csspart hint - The hint component as a whole
+ * @csspart title - The title section container
+ * @csspart body - The main content body container
+ * @csspart footer - The footer section container
+ *
+ * @cssprop --pf-v5-c-hint--GridRowGap - Gap between grid rows
+ * @cssprop --pf-v5-c-hint--PaddingTop - Top padding of the hint container
+ * @cssprop --pf-v5-c-hint--PaddingRight - Right padding of the hint container
+ * @cssprop --pf-v5-c-hint--PaddingBottom - Bottom padding of the hint container
+ * @cssprop --pf-v5-c-hint--PaddingLeft - Left padding of the hint container
+ * @cssprop --pf-v5-c-hint--BackgroundColor - Background color of the hint
+ * @cssprop --pf-v5-c-hint--BorderColor - Border color of the hint
+ * @cssprop --pf-v5-c-hint--BorderWidth - Border width of the hint
+ * @cssprop --pf-v5-c-hint--BoxShadow - Box shadow of the hint container
+ * @cssprop --pf-v5-c-hint--Color - Text color of the hint content
+ * @cssprop --pf-v5-c-hint__title--FontSize - Font size of the title text
+ * @cssprop --pf-v5-c-hint__body--FontSize - Font size of the body text
+ * @cssprop --pf-v5-c-hint__footer--child--MarginRight - Right margin of footer child elements
+ * @cssprop --pf-v5-c-hint__actions--MarginLeft - Left margin of action elements
+ * @cssprop --pf-v5-c-hint__actions--MarginLeft - Left margin of action elements
+ * @cssprop --pf-v5-c-hint__actions--MarginLeft - Left margin of action elements
+ * @cssprop --pf-v5-c-hint__actions--MarginLeft - Left margin of action elements
+ * @cssprop --pf-v5-c-hint__actions--MarginLeft - Left margin of action elements
+ * @cssprop --pf-v5-c-hint__actions--MarginLeft - Left margin of action elements
+ * @cssprop --pf-v5-c-hint__actions--MarginLeft - Left margin of action elements
+ * @cssprop --ak-v1-c-hint--m-success--BackgroundColor - Background color for "success" variant
+ * @cssprop --ak-v1-c-hint--m-success--BorderColor - Border color for "success" variant
+ * @cssprop --ak-v1-c-hint--m-success__title--Color - Title color for "success" variant
+ * @cssprop --ak-v1-c-hint--m-warning--BackgroundColor - Background color for "warning" variant
+ * @cssprop --ak-v1-c-hint--m-warning--BorderColor - Border color for "warning" variant
+ * @cssprop --ak-v1-c-hint--m-warning__title--Color - Title color for "warning" variant
+ * @cssprop --ak-v1-c-hint--m-danger--BackgroundColor - Background color for "danger" variant
+ * @cssprop --ak-v1-c-hint--m-danger--BorderColor - Border color for "danger" variant
+ * @cssprop --ak-v1-c-hint--m-danger__title--Color - Title color for "danger" variant
+ * @cssprop
+ */
+export class Hint extends AkLitElement {
+    static override readonly styles = [styles];
+
+    public override connectedCallback() {
+        super.connectedCallback();
+        if (!this.hasAttribute("role")) {
+            this.setAttribute("role", "note");
+        }
+    }
+
+    public override render() {
+        const [hasTitle, hasBody, hasFooter] = ["title", null, "footer"].map((item) =>
+            this.hasSlotted(item),
+        );
+
+        return html`
+            <div part="hint">
+                ${hasTitle ? html`<div part="title"><slot name="title"></slot></div>` : nothing}
+                ${hasBody ? html`<div part="body"><slot></slot></div>` : nothing}
+                ${hasFooter ? html`<div part="footer"><slot name="footer"></slot></div>` : nothing}
+            </div>
+        `;
+    }
+}

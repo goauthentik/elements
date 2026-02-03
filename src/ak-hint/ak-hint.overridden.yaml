@@ -1,0 +1,15 @@
+import: hint.css
+base: .pf-v5-c-hint
+host:
+    '[part="hint"]':
+        $from: $base
+        $include: display, grid-template-columns, grid-row-gap, color, background-color, border, box-shadow, padding-block-start, padding-block-end, padding-inline-start, padding-inline-end
+
+    '[part="title"] ::slotted(*)':
+        font-size: var(--pf-v5-c-hint__title--FontSize) !important;
+    '[part="body"] ::slotted(*)':
+        font-size: var(--pf-v5-c-hint__body--FontSize) !important;
+    '[name="footer"] ::slotted(*)':
+        font-size: var(--pf-v5-c-hint__footer--FontSize) !important;
+    '[part="title"], [part="body"], [part="footer"]':
+        $from: __footer
